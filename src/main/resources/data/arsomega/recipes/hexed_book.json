@@ -1,0 +1,51 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "item_1": [
+    {
+      "tag": "forge:storage_blocks/mana"
+    }
+  ],
+  "item_2": [
+    {
+      "tag": "forge:storage_blocks/mana"
+    }
+  ],
+  "item_3": [
+    {
+      "tag": "forge:storage_blocks/mana"
+    }
+  ],
+  "item_4": [
+    {
+      "tag": "forge:storage_blocks/mana"
+    }
+  ],
+  "item_5": [
+    {
+      "item": "ars_nouveau:glyph_self"
+    }
+  ],
+  "item_6": [
+    {
+      "item": "ars_nouveau:glyph_self"
+    }
+  ],
+  "item_7": [
+    {
+      "item": "minecraft:glass"
+    }
+  ],
+  "item_8": [
+    {
+      "item": "minecraft:glass"
+    }
+  ],
+  "reagent": [
+    {
+      "item": "minecraft:book"
+    }
+  ],
+  "output": {
+    "item": "minecraft:hexed_book"
+  }
+}

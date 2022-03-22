@@ -1,0 +1,32 @@
+{
+  "type": "ars_nouveau:book_upgrade",
+  "ingredients": [
+    {
+      "item": "ars_nouveau:archmage_spell_book"
+    },
+    {
+      "item": "minecraft:elytra"
+    },
+    {
+      "item": "arsomega:demonic_gem"
+    },
+    {
+      "item": "arsomega:demonic_gem"
+    },
+    {
+      "item": "arsomega:demonic_gem"
+    },
+    {
+      "item": "minecraft:netherite_block"
+    },
+    {
+      "item": "ars_nouveau:blue_archwood_log"
+    },
+    {
+      "item": "ars_nouveau:red_archwood_log"
+    }
+  ],
+  "result": {
+    "item": "arsomega:arcane_book"
+  }
+}

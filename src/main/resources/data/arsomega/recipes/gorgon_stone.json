@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#G#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:stone"
+    },
+    "G": {
+      "item": "arsomega:gorgon_gem"
+    }
+  },
+  "result": {
+    "item": "arsomega:gorgon_stone",
+    "count": 8
+  }
+}

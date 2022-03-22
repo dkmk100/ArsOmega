@@ -1,0 +1,51 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "item_1": [
+    {
+      "item": "arsomega:enchanted_rope"
+    }
+  ],
+  "item_2": [
+    {
+      "item": "arsomega:enchanted_rope"
+    }
+  ],
+  "item_3": [
+    {
+      "item": "arsomega:enchanted_rope"
+    }
+  ],
+  "item_4": [
+    {
+      "item": "arsomega:enchanted_rope"
+    }
+  ],
+  "item_5": [
+    {
+      "item": "arsomega:enchanted_rope"
+    }
+  ],
+  "item_6": [
+    {
+      "item": "arsomega:enchanted_rope"
+    }
+  ],
+  "item_7": [
+    {
+      "item": "arsomega:enchanted_rope"
+    }
+  ],
+  "item_8": [
+    {
+      "item": "arsomega:enchanted_rope"
+    }
+  ],
+  "reagent": [
+    {
+      "item": "minecraft:netherite_ingot"
+    }
+  ],
+  "output": {
+    "item": "arsomega:enchanters_wool"
+  }
+}

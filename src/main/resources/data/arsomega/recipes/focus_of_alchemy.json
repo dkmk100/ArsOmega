@@ -1,0 +1,51 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "item_1": [
+    {
+      "tag": "forge:storage_blocks/gold"
+    }
+  ],
+  "item_2": [
+    {
+      "tag": "forge:storage_blocks/iron"
+    }
+  ],
+  "item_3": [
+    {
+      "tag": "forge:storage_blocks/gold"
+    }
+  ],
+  "item_4": [
+    {
+      "tag": "forge:storage_blocks/iron"
+    }
+  ],
+  "item_5": [
+    {
+      "tag": "forge:storage_blocks/iron"
+    }
+  ],
+  "item_6": [
+    {
+      "tag": "forge:storage_blocks/mana"
+    }
+  ],
+  "item_7": [
+    {
+      "tag": "forge:storage_blocks/iron"
+    }
+  ],
+  "item_8": [
+    {
+      "tag": "forge:storage_blocks/mana"
+    }
+  ],
+  "reagent": [
+    {
+      "item": "ars_nouveau:focus_of_mana"
+    }
+  ],
+  "output": {
+    "item": "ars_nouveau:focus_of_alchemy"
+  }
+}

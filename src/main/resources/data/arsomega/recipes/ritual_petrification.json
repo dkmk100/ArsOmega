@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ars_nouveau:purple_archwood_log"
+    },
+    {
+      "item": "arsomega:gorgon_gem"
+    },
+    {
+      "item": "minecraft:stone"
+    },
+    {
+      "item": "minecraft:obsidian"
+    },
+    {
+      "item": "ars_nouveau:glyph_snare"
+    },
+    {
+      "item": "ars_nouveau:glyph_advanced_amplify"
+    }
+  ],
+  "result": {
+    "item": "ars_nouveau:ritual_petrification"
+  }
+}

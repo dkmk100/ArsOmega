@@ -1,0 +1,20 @@
+{
+  "name": "Demonic Gem",
+  "icon": "arsomega:demonic_gem",
+  "category": "demon_realm",
+  "pages": [
+    {
+      "type": "text",
+      "text": "Demonic glowstone is used as a crafting ingredient in some recipes, and can be used "
+    },
+    {
+      "type": "spotlight",
+      "item": "arsomega:demonic_gem",
+      "link_recipe": "true"
+    },
+    {
+      "type": "crafting",
+      "item": "arsomega:demonic_glowstone_dust"
+    }
+  ]
+}

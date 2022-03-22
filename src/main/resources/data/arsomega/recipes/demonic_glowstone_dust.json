@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#G#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "G": {
+      "item": "arsomega:demonic_gem"
+    }
+  },
+  "result": {
+    "item": "arsomega:demonic_glowstone_dust",
+    "count": 8
+  }
+}

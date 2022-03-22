@@ -1,0 +1,51 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "item_1": [
+    {
+      "tag": "forge:storage_blocks/mana"
+    }
+  ],
+  "item_2": [
+    {
+      "item":  "ars_nouveau:wilden_tribute"
+    }
+  ],
+  "item_3": [
+    {
+      "tag": "forge:logs/archwood"
+    }
+  ],
+  "item_4": [
+    {
+      "tag": "forge:logs/archwood"
+    }
+  ],
+  "item_5": [
+    {
+      "tag": "forge:storage_blocks/gold"
+    }
+  ],
+  "item_6": [
+    {
+      "tag": "forge:storage_blocks/gold"
+    }
+  ],
+  "item_7": [
+    {
+      "item": "ars_nouveau:glyph_advanced_amplify"
+    }
+  ],
+  "item_8": [
+    {
+      "item": "ars_nouveau:glyph_advanced_amplify"
+    }
+  ],
+  "reagent": [
+    {
+      "item": "arsomega:staff"
+    }
+  ],
+  "output": {
+    "item": "arsomega:archmage_staff"
+  }
+}

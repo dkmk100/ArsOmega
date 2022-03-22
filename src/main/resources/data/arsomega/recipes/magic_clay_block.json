@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "ars_nouveau:magic_clay"
+    }
+  },
+  "result": {
+    "item": "arsomega:magic_clay_block"
+  }
+}

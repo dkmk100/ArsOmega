@@ -1,0 +1,54 @@
+modLoader="javafml" #mandatory
+loaderVersion="[34,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+# The license for your mod. This is mandatory and allows for easier comprehension of your redistributive properties.
+# Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
+license="All Rights Reserved"
+issueTrackerURL="http://my.issue.tracker/" #optional
+# A list of mods - how many allowed here is determined by the individual mod loader
+[[mods]] #mandatory
+# The modid of the mod
+modId="arsomega" #mandatory
+# The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
+version="1.16.5-1.0.0" #mandatory
+ # A display name for the mod
+displayName="Ars Omega" #mandatory
+# A URL to query for updates for this mod. See the JSON update specification <here>
+updateJSONURL="http://myurl.me/" #optional
+# A URL for the "homepage" for this mod, displayed in the mod UI
+displayURL="" #optional
+# A file name (in the root of the mod JAR) containing a logo for display
+logoFile="logo.png" #optional
+# A text field displayed in the mod UI
+credits="Credits Test" #optional
+# A text field displayed in the mod UI
+authors="DKMK100, Matt the Banana" #optional
+# The description text for the mod (multi line!) (#mandatory)
+description='''
+A mod that adds a new dimension to the game.
+'''
+# A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
+[[dependencies.arsomega]] #optional
+    # the modid of the dependency
+    modId="forge" #mandatory
+    # Does this dependency have to exist - if not, ordering below must be specified
+    mandatory=true #mandatory
+    # The version range of the dependency
+    versionRange="[31,)" #mandatory
+    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
+    ordering="NONE"
+    # Side this dependency is applied on - BOTH, CLIENT or SERVER
+    side="BOTH"
+# Here's another dependency
+[[dependencies.arsomega]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.4,1.16.5]"
+    ordering="NONE"
+    side="BOTH"
+    # Here's another dependency
+    [[dependencies.arsomega]]
+        modId="ars_nouveau"
+        mandatory=true
+        versionRange="[1.24.1,]"
+        ordering="NONE"
+        side="BOTH"

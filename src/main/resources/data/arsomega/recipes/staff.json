@@ -1,0 +1,51 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "item_1": [
+    {
+      "tag": "forge:storage_blocks/mana"
+    }
+  ],
+  "item_2": [
+    {
+      "item": "minecraft:diamond_sword"
+    }
+  ],
+  "item_3": [
+    {
+      "tag": "forge:logs/archwood"
+    }
+  ],
+  "item_4": [
+    {
+      "tag": "forge:logs/archwood"
+    }
+  ],
+  "item_5": [
+    {
+      "tag": "forge:storage_blocks/gold"
+    }
+  ],
+  "item_6": [
+    {
+      "tag": "forge:ingots/gold"
+    }
+  ],
+  "item_7": [
+    {
+      "item": "ars_nouveau:glyph_amplify"
+    }
+  ],
+  "item_8": [
+    {
+      "item": "ars_nouveau:glyph_amplify"
+    }
+  ],
+  "reagent": [
+    {
+      "item": "ars_nouveau:wand"
+    }
+  ],
+  "output": {
+    "item": "arsomega:staff"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "item_1": [
+    {
+      "item": "ars_nouveau:mana_gem_block"
+    }
+  ],
+  "item_2": [
+    {
+      "item": "arsomega:arcane_fiber"
+    }
+  ],
+  "item_3": [
+    {
+      "item": "ars_nouveau:mana_gem_block"
+    }
+  ],
+  "item_4": [
+    {
+      "item": "arsomega:arcane_fiber"
+    }
+  ],
+  "item_5": [
+    {
+      "item": "arsomega:arcane_fiber"
+    }
+  ],
+  "item_6": [
+    {
+      "item": "ars_nouveau:mana_gem_block"
+    }
+  ],
+  "item_7": [
+    {
+      "item": "arsomega:arcane_fiber"
+    }
+  ],
+  "item_8": [
+    {
+      "item": "ars_nouveau:mana_gem_block"
+    }
+  ],
+  "reagent": [
+    {
+      "item": "minecraft:netherite_ingot"
+    }
+  ],
+  "output": {
+    "item": "arsomega:arcane_cloth"
+  }
+}

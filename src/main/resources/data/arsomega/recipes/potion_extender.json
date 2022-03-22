@@ -1,0 +1,51 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "item_1": [
+    {
+      "item": "ars_nouveau:glyph_extend_time"
+    }
+  ],
+  "item_2": [
+    {
+      "item": "ars_nouveau:glyph_extend_time"
+    }
+  ],
+  "item_3": [
+    {
+      "tag": "forge:storage_blocks/gold"
+    }
+  ],
+  "item_4": [
+    {
+      "tag": "forge:storage_blocks/gold"
+    }
+  ],
+  "item_5": [
+    {
+      "item": "minecraft:blaze_rod"
+    }
+  ],
+  "item_6": [
+    {
+      "item": "minecraft:blaze_rod"
+    }
+  ],
+  "item_7": [
+    {
+      "item": "minecraft:blaze_rod"
+    }
+  ],
+  "item_8": [
+    {
+      "item": "minecraft:blaze_rod"
+    }
+  ],
+  "reagent": [
+    {
+      "item": "ars_nouveau:potion_jar"
+    }
+  ],
+  "output": {
+    "item": "arsomega:potion_extender"
+  }
+}

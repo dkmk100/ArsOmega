@@ -1,0 +1,6 @@
+{
+  "type": "ars_nouveau:glyph_recipe",
+  "tier": "THREE",
+  "input": "minecraft:pufferfish_bucket",
+  "output": "ars_nouveau:glyph_drown"
+}

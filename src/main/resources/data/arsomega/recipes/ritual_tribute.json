@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ars_nouveau:wilden_tribute"
+    },
+    {
+      "item": "ars_nouveau:wilden_tribute"
+    },
+    {
+      "tag": "forge:storage_blocks/diamond"
+    },
+    {
+      "tag": "forge:storage_blocks/mana"
+    },
+    {
+      "tag": "forge:storage_blocks/gold"
+    },
+    {
+      "item": "ars_nouveau:glyph_pickup"
+    }
+  ],
+  "result": {
+    "item": "ars_nouveau:ritual_tribute"
+  }
+}

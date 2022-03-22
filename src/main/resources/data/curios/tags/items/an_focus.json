@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "ars_nouveau:focus_of_mana",
+    "ars_nouveau:focus_of_alchemy",
+    "ars_nouveau:focus_of_advanced_alchemy",
+    "ars_nouveau:focus_of_regen"
+  ]
+}

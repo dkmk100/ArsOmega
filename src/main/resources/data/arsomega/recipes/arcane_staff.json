@@ -1,0 +1,51 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "item_1": [
+    {
+      "tag": "forge:storage_blocks/mana"
+    }
+  ],
+  "item_2": [
+    {
+      "item":  "minecraft:nether_star"
+    }
+  ],
+  "item_3": [
+    {
+      "item": "arsomega:demonic_gem"
+    }
+  ],
+  "item_4": [
+    {
+      "item": "arsomega:demonic_gem"
+    }
+  ],
+  "item_5": [
+    {
+      "item": "minecraft:netherite_ingot"
+    }
+  ],
+  "item_6": [
+    {
+      "item": "minecraft:netherite_ingot"
+    }
+  ],
+  "item_7": [
+    {
+      "item": "ars_nouveau:glyph_advanced_amplify"
+    }
+  ],
+  "item_8": [
+    {
+      "item": "ars_nouveau:glyph_advanced_amplify"
+    }
+  ],
+  "reagent": [
+    {
+      "item": "arsomega:archmage_staff"
+    }
+  ],
+  "output": {
+    "item": "arsomega:arcane_staff"
+  }
+}

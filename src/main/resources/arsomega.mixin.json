@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "com.dkmk100.arsomega.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "arsomega.refmap.json",
+  "mixins": [
+    "AugmentCompat",
+    "TierFour",
+    "KeyPressed",
+    "BlockUtilMixin",
+    "CustomFire"
+  ],
+  "client": [
+  ],
+  "minVersion": "0.8"
+}

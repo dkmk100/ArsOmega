@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:demonic_glowstone"
+    }
+  ],
+  "result": {
+    "item": "arsomega:demonic_glowstone_dust",
+    "count": 4
+  }
+}

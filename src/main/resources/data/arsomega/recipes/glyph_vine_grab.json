@@ -1,0 +1,6 @@
+{
+  "type": "ars_nouveau:glyph_recipe",
+  "tier": "TWO",
+  "input": "minecraft:vine",
+  "output": "ars_nouveau:glyph_vine_grab"
+}

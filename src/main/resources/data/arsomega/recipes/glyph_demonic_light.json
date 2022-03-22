@@ -1,0 +1,6 @@
+{
+  "type": "ars_nouveau:glyph_recipe",
+  "tier": "THREE",
+  "input": "arsomega:demonic_glowstone",
+  "output": "ars_nouveau:glyph_demonic_light"
+}

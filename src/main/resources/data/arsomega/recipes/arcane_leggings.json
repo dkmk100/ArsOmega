@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "ars_nouveau:archmage_leggings"
+  },
+  "addition": {
+    "item": "arsomega:arcane_cloth"
+  },
+  "result": {
+    "item": "arsomega:arcane_leggings"
+  }
+}

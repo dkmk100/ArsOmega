@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_fire_up",
+  "textures": {
+    "fire": "arsomega:blocks/gorgon_fire_1"
+  }
+}

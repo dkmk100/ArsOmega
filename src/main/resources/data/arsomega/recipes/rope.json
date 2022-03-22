@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sss",
+    "www",
+    "sss"
+  ],
+  "key": {
+    "s": {
+      "item": "minecraft:string"
+    },
+    "w": {
+      "item": "minecraft:white_wool"
+    }
+  },
+  "result": {
+    "item": "arsomega:rope"
+  }
+}

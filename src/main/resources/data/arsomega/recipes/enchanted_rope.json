@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sss",
+    "grg",
+    "sss"
+  ],
+  "key": {
+    "s": {
+      "item": "ars_nouveau:mana_gem"
+    },
+    "g": {
+      "item": "minecraft:golden_apple"
+    },
+    "r": {
+      "item": "arsomega:magic_rope"
+    }
+  },
+  "result": {
+    "item": "arsomega:enchanted_rope"
+  }
+}

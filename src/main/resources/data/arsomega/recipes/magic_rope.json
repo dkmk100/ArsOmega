@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "fff",
+    "rrr",
+    "fff"
+  ],
+  "key": {
+    "f": {
+      "item": "ars_nouveau:end_fiber"
+    },
+    "r": {
+      "item": "arsomega:rope"
+    }
+  },
+  "result": {
+    "item": "arsomega:magic_rope"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:shulker_shell"
+    },
+    {
+      "item": "minecraft:magma_block"
+    },
+    {
+      "tag": "forge:storage_blocks/diamond"
+    },
+    {
+      "tag": "forge:storage_blocks/mana"
+    },
+    {
+      "tag": "forge:storage_blocks/gold"
+    },
+    {
+      "item": "ars_nouveau:glyph_blink"
+    }
+  ],
+  "result": {
+    "item": "ars_nouveau:ritual_banishment"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "bedrock_roof_position": -10,
+  "bedrock_floor_position": 0,
+  "sea_level": 50,
+  "disable_mob_generation": false,
+  "structures": {
+    "structures": {
+      "minecraft:buried_treasure": {
+        "spacing": 12,
+        "separation": 10,
+        "salt": 0
+      }
+    }
+  },
+  "noise": {
+    "random_density_offset": true,
+    "density_factor": 1.0,
+    "density_offset": -0.46875,
+    "simplex_surface_noise": true,
+    "bottom_slide": {
+      "target": -30,
+      "size": 0,
+      "offset": 0
+    },
+    "size_horizontal": 1,
+    "size_vertical": 2,
+    "height": 256,
+    "sampling": {
+      "xz_scale": 0.9999999814507745,
+      "y_scale": 0.9999999814507745,
+      "xz_factor": 82.0,
+      "y_factor": 162.0
+    },
+    "top_slide": {
+      "target": -10,
+      "size": 4,
+      "offset": 2
+    }
+  },
+  "default_block": {
+    "Name": "arsomega:demonic_stone"
+  },
+  "default_fluid": {
+    "Properties": {
+      "level": "0"
+    },
+    "Name": "minecraft:lava"
+  }
+}

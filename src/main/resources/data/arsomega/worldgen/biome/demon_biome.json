@@ -1,0 +1,47 @@
+{
+  "surface_builder": "arsomega:demonic",
+  "depth": 0.128,
+  "scale": 0.2,
+  "temperature": 0.8,
+  "downfall": 0,
+  "precipitation": "none",
+  "temperature_modifier": "none",
+  "category": "nether",
+  "effects": {
+    "sky_color": 8602086,
+    "fog_color": 7016621,
+    "water_color": 4587640,
+    "water_fog_color": 4587640,
+    "grass_color": 10373874,
+    "foliage_color": 10373874
+  },
+  "carvers": {
+    "air": [
+      "arsomega:cave"
+    ]
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    ["arsomega:demonic_ore","arsomega:demonic_rift"],
+    [],
+    [],
+    []
+  ],
+  "starts": [],
+  "spawners": {
+    "monster": [
+      {
+        "type": "minecraft:zombie",
+        "weight": 10,
+        "minCount": 1,
+        "maxCount": 1
+      }
+    ]
+  },
+  "spawn_costs": {}
+}

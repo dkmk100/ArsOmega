@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "minecraft:block/gold_block",
+    "side": "arsomega:blocks/potion_extender"
+  }
+}

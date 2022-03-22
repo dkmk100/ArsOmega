@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ars_nouveau:ritual_flight"
+    },
+    {
+      "item": "minecraft:feather"
+    },
+    {
+      "item": "minecraft:feather"
+    },
+    {
+      "item": "minecraft:feather"
+    },
+    {
+      "item": "ars_nouveau:glyph_leap"
+    },
+    {
+      "item": "ars_nouveau:glyph_gust"
+    }
+  ],
+  "result": {
+    "item": "ars_nouveau:ritual_perma_flight"
+  }
+}

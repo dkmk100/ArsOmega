@@ -1,0 +1,7 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "block/crop",
+  "textures": {
+    "crop" :"arsomega:blocks/arcane_bloom/stage2"
+  }
+}

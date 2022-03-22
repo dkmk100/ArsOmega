@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ars_nouveau:blue_archwood_log"
+    },
+    {
+      "item": "minecraft:iron_block"
+    },
+    {
+      "item": "minecraft:leather"
+    },
+    {
+      "item": "minecraft:obsidian"
+    },
+    {
+      "tag": "forge:storage_blocks/mana"
+    },
+    {
+      "item": "ars_nouveau:glyph_shield"
+    }
+  ],
+  "result": {
+    "item": "ars_nouveau:ritual_protection"
+  }
+}
