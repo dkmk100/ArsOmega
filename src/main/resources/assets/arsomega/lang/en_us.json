@@ -155,6 +155,9 @@
   "death.attack.scald.player": "%1$s was scalded by hot water by %2$s",
   "death.attack.hellfire": "%1$s was burned by hellfire",
   "death.attack.hellfire.player": "%1$s was burned by hellfire by %2$s",
+  "entity.arsomega.demon_basic": "Demon (normal)",
+  "entity.arsomega.demon_strong": "Demon (strong)",
+  "entity.arsomega.boss_demon_king": "The Demon King",
   "ars_nouveau.school.nature": "Elemental Nature",
   "ars_nouveau.school.life": "Elemental Life",
   "ars_nouveau.school.demonic": "Demonic",
@@ -176,6 +179,7 @@
   "item.ars_nouveau.ritual_cleansing": "Tablet of Cleansing",
   "item.ars_nouveau.ritual_summoning": "Tablet of Summoning",
   "item.ars_nouveau.ritual_fatigue": "Tablet of Fatigue",
+  "item.ars_nouveau.ritual_aura": "Tablet of Aura",
   "item.minecraft.hexed_book": "Suspicious Book",
   "item.minecraft.hexed_written_book": "Written Book",
   "item.minecraft.hexed_writable_book": "Book and Quill"

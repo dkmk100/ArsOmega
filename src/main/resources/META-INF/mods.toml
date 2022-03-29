@@ -9,7 +9,7 @@ issueTrackerURL="http://my.issue.tracker/" #optional
 # The modid of the mod
 modId="arsomega" #mandatory
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-version="1.16.5-1.0.0" #mandatory
+version="1.16.5-1.1.0" #mandatory
  # A display name for the mod
 displayName="Ars Omega" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification <here>
@@ -21,10 +21,10 @@ logoFile="logo.png" #optional
 # A text field displayed in the mod UI
 credits="Credits Test" #optional
 # A text field displayed in the mod UI
-authors="DKMK100, Matt the Banana" #optional
+authors="DKMK100" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-A mod that adds a new dimension to the game.
+A an addon for Ars Nouveau that adds many new glyphs
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.arsomega]] #optional

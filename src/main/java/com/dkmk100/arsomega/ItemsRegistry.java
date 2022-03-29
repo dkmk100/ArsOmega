@@ -11,4 +11,6 @@ public class ItemsRegistry {
     public static Item ARCANE_BLOOM_CROP;
     @ObjectHolder("cleansing_gem")
     public static Item CLEANSING_GEM;
+    @ObjectHolder("demonic_crystal")
+    public static Item DEMON_CRYSTAL;
 }

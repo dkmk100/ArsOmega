@@ -36,8 +36,14 @@
   "spawners": {
     "monster": [
       {
-        "type": "minecraft:zombie",
+        "type": "arsomega:demon_basic",
         "weight": 10,
+        "minCount": 1,
+        "maxCount": 1
+      },
+      {
+        "type": "arsomega:demon_strong",
+        "weight": 5,
         "minCount": 1,
         "maxCount": 1
       }

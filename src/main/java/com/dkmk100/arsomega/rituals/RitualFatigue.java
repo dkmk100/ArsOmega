@@ -32,7 +32,7 @@ public class RitualFatigue extends AbstractRitual {
             }
         }
 
-        if (!world.isClientSide && world.getGameTime() % 20L == 0L) {
+        if (!world.isClientSide && world.getGameTime() % 40L == 0L) {
             if(this.needsManaNow()){
                 return;
             }

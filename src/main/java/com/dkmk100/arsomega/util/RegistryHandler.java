@@ -5,7 +5,12 @@ import com.dkmk100.arsomega.armors.BasicArmorMaterial;
 import com.dkmk100.arsomega.base_blocks.BlockPropertiesCreator;
 import com.dkmk100.arsomega.blocks.*;
 import com.dkmk100.arsomega.books.CustomSpellBook;
+import com.dkmk100.arsomega.entities.EntityBossDemonKing;
+import com.dkmk100.arsomega.entities.EntityDemonBasic;
+import com.dkmk100.arsomega.entities.EntityDemonStrong;
 import com.dkmk100.arsomega.glyphs.*;
+import com.dkmk100.arsomega.init.ExperimentalStructureInit;
+import com.dkmk100.arsomega.init.StructureInit;
 import com.dkmk100.arsomega.items.*;
 import com.dkmk100.arsomega.rituals.*;
 import com.dkmk100.arsomega.tools.BasicItemTier;
@@ -17,7 +22,10 @@ import com.hollingsworth.arsnouveau.client.renderer.item.SpellBookRenderer;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.potion.Effects;
@@ -39,7 +47,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 
-public class RegistryHandler {
+public class RegistryHandler{
     public static final ResourceLocation DIMTYPE = new ResourceLocation(ArsOmega.MOD_ID, "demon_realm");
 
     public static List<AbstractSpellPart> registeredSpells = new ArrayList<>();
@@ -49,6 +57,7 @@ public class RegistryHandler {
 
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES,ArsOmega.MOD_ID);
 
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, ArsOmega.MOD_ID);
 
 
     public static final ITag.INamedTag<Block> GORGON_FIRE_BURNABLES = BlockTags.bind("arsomega:gorgon_fire_burnables");
@@ -57,6 +66,9 @@ public class RegistryHandler {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         BLOCKS.register(bus);
         TILE_ENTITIES.register(bus);
+        ENTITIES.register(bus);
+        //StructureInit.RegisterStructures(bus);
+        ExperimentalStructureInit.RegisterStructures(bus);
     }
 
     public static void registerGlyphs(){
@@ -108,6 +120,7 @@ public class RegistryHandler {
         register(new RitualCleansing());
         register(new RitualSummoning());
         register(new RitualFatigue());
+        register(new RitualAura());
     }
 
     public static void register(AbstractSpellPart spellPart) {
@@ -170,7 +183,7 @@ public class RegistryHandler {
         final Item HEXED_WRITTEN_BOOK = new HexedItem(UNSTACKABLE_FIRE,"hexed_written_book",true);
         final Item POTION_EXTENDER_ITEM = new BlockItem(POTION_EXTENDER.get(),ITEM_PROPERTIES).setRegistryName("potion_extender");
         final Item POTION_AMPLIFIER_ITEM = new BlockItem(POTION_AMPLIFIER.get(),ITEM_PROPERTIES).setRegistryName("potion_amplifier");
-
+        final Item DEMON_STAFF = new DemonStaff(UNSTACKABLE_FIRE,"demon_staff");
 
         final Item ARCANE_HELMET = new EnchantedArmor("arcane_helmet",EquipmentSlotType.HEAD,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
         final Item ARCANE_CHEST = new EnchantedArmor("arcane_chestplate",EquipmentSlotType.CHEST,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
@@ -222,6 +235,7 @@ public class RegistryHandler {
         ITEMS.add(HEXED_WRITTEN_BOOK);
         ITEMS.add(POTION_EXTENDER_ITEM);
         ITEMS.add(POTION_AMPLIFIER_ITEM);
+        ITEMS.add(DEMON_STAFF);
 
         ITEMS.add(ARCANE_HELMET);
         ITEMS.add(ARCANE_CHEST);
@@ -280,13 +294,12 @@ public class RegistryHandler {
     public static RegistryObject<TileEntityType<PotionExtenderTile>> PotionExtenderType = TILE_ENTITIES.register("potion_extender_tile",() -> TileEntityType.Builder.of(PotionExtenderTile::new,POTION_EXTENDER.get()).build(null));
     public static RegistryObject<TileEntityType<PotionAmplifierTile>> PotionAmplifierType = TILE_ENTITIES.register("potion_amplifier_tile",() -> TileEntityType.Builder.of(PotionAmplifierTile::new,POTION_AMPLIFIER.get()).build(null));
 
+
+    public static final RegistryObject<EntityType<? extends MobEntity>> BASIC_DEMON = ENTITIES.register("demon_basic", () -> EntityType.Builder.of(EntityDemonBasic::new, EntityClassification.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_basic").toString()));
+    public static final RegistryObject<EntityType<? extends MobEntity>> STRONG_DEMON = ENTITIES.register("demon_strong", () -> EntityType.Builder.of(EntityDemonStrong::new, EntityClassification.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_strong").toString()));
+    public static final RegistryObject<EntityType<? extends MobEntity>> BOSS_DEMON_KING = ENTITIES.register("boss_demon_king", () -> EntityType.Builder.of(EntityBossDemonKing::new, EntityClassification.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "boss_demon_king").toString()));
+
     /*
-    //Blocks
-    public static final RegistryObject<Block> VOIDSTONE = BLOCKS.register("voidstone", () -> new BasicBlock(STONE_PROPERTIES));
-
-    //Block Items
-    public static final RegistryObject<Item> VOIDSTONE_ITEM = ITEMS.register("voidstone", () -> new BasicBlockItem(ITEM_PROPERTIES,VOIDSTONE.get()));
-
     //Entities
     public static final RegistryObject<EntityType<VoidBossEntity>> VOID_BOSS = ENTITIES.register("void_boss", () -> EntityType.Builder.of(VoidBossEntity::new, EntityClassification.MONSTER).sized(0.7F, 1.9F).build(new ResourceLocation(ArsOmega.MOD_ID, "void_boss").toString()));
     public static final RegistryObject<EntityType<VoidBeastEntity>> VOID_BEAST = ENTITIES.register("void_beast", () -> EntityType.Builder.of(VoidBeastEntity::new, EntityClassification.MONSTER).sized(1.1F, 0.85F).build(new ResourceLocation(ArsOmega.MOD_ID, "void_beast").toString()));
@@ -295,17 +308,4 @@ public class RegistryHandler {
     public static final RegistryObject<ModSpawnEggItem> VOID_BOSS_SPAWN_EGG = ITEMS.register("void_boss_spawn_egg", () -> new ModSpawnEggItem(VOID_BOSS,0x000000,0x000000,ITEM_PROPERTIES));
     public static final RegistryObject<ModSpawnEggItem> VOID_BEAST_SPAWN_EGG = ITEMS.register("void_beast_spawn_egg", () -> new ModSpawnEggItem(VOID_BEAST,0x000000,0x000000,ITEM_PROPERTIES));
     //*/
-    /*
-    --------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    Everything below this line is completely broken and needs to be remade to work with 1.16.5 systems
-    -------------------------------------------------------------------------------------------------------------------------------------------------------------
-     //*/
-
-    //Biomes
-    /*
-    public static final RegistryObject<Biome> LUSH_VOID_BIOME = BIOMES.register("lush_void_biome", () -> new LushVoidBiome());
-    public static final RegistryObject<Biome> VOIDSHROOM_BIOME = BIOMES.register("voidshroom_biome", () -> new VoidShroomBiome());
-    public static final RegistryObject<Biome> VOIDDESERT_BIOME = BIOMES.register("voiddesert_biome", () -> new VoidDesertBiome());
-     */
-
 }

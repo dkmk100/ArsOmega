@@ -9,6 +9,7 @@ import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import com.hollingsworth.arsnouveau.common.block.tile.RitualTile;
 import com.hollingsworth.arsnouveau.common.ritual.RitualFlight;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -52,6 +53,11 @@ public class RitualBanishment  extends AbstractRitual {
                 for (LivingEntity entity : entities) {
                     RegistryKey<World> registrykey = RegistryKey.create(Registry.DIMENSION_REGISTRY, RegistryHandler.DIMTYPE);
                     ServerWorld dest = world.getServer().getLevel(registrykey);
+                    BlockPos pos = entity.blockPosition();
+                    dest.setBlockAndUpdate(pos,Blocks.AIR.defaultBlockState());
+                    dest.setBlockAndUpdate(pos.above(),Blocks.AIR.defaultBlockState());
+                    dest.setBlockAndUpdate(pos.above(2),Blocks.AIR.defaultBlockState());
+                    dest.setBlockAndUpdate(pos.below(),Blocks.OBSIDIAN.defaultBlockState());
                     CommonEvents.teleportEntity(entity, new BlockPos(entity.position()).above(), dest, (ServerWorld) world);
                 }
                 this.setFinished();
