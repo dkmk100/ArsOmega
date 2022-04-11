@@ -30,7 +30,7 @@ public class RitualProtection extends AbstractRitual {
             }
         }
 
-        if (!world.isClientSide && world.getGameTime() % 10L == 0L) {
+        if (!world.isClientSide && world.getGameTime() % 40L == 0L) {
             if(this.needsManaNow()){
                 return;
             }

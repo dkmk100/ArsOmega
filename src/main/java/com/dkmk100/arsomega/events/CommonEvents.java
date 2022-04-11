@@ -1,14 +1,18 @@
 package com.dkmk100.arsomega.events;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.init.ExperimentalStructureInit;
 import com.dkmk100.arsomega.items.ModSpawnEggItem;
 import com.dkmk100.arsomega.potions.ModPotions;
+import com.dkmk100.arsomega.structures.CustomStructure;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.TickEvent;
@@ -26,7 +30,6 @@ import java.util.function.Function;
 
 @Mod.EventBusSubscriber(modid = ArsOmega.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CommonEvents {
-
 
     @SubscribeEvent
     public static void onRegisterEntities(final RegistryEvent.Register<EntityType<?>> event) {
@@ -165,5 +168,6 @@ public class CommonEvents {
         entity.changeDimension(world);
         //entity.setPos(pos.getX(),pos.getY(),pos.getZ());
     }
-     */
+    //*/
+
 }

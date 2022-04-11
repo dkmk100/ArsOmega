@@ -15,4 +15,8 @@ public class ArsRegistry {
     public static Item ALCHEMY_FOCUS_ADVANCED;
     @ObjectHolder("glyph_aoe")
     public static Item GLYPH_AOE;
+    @ObjectHolder("glyph_sensitive")
+    public static Item GLYPH_SENSITIVE;
+    @ObjectHolder("glyph_extract")
+    public static Item GLYPH_EXTRACT;
 }

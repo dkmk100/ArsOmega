@@ -1,7 +1,0 @@
-{
-  "config": {
-    "start_pool": "beyondtheabyss:void_tower",
-    "size": 6
-  },
-  "type": "minecraft:village"
-}
