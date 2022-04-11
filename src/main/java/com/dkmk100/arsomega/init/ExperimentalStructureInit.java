@@ -64,12 +64,13 @@ public class ExperimentalStructureInit {
                 CustomStructure custom = (CustomStructure)structure.get();
                 StructureInit.setupMapSpacingAndLand(custom,
                         new StructureSeparationSettings(custom.maxSpacing,custom.minSpacing, 32131805 + 4327*amountRegistered),
-                        true);
+                        false);
             }
             else{
+                ArsOmega.LOGGER.error("non-custom structure found");
                 StructureInit.setupMapSpacingAndLand(structure.get(),
                         new StructureSeparationSettings(150,100, 30914807 + 5234*amountRegistered),
-                        true);
+                        false);
             }
             amountRegistered+=1;
         }

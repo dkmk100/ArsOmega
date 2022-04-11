@@ -29,10 +29,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = ArsOmega.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -43,11 +40,11 @@ public class FeatureGen {
         Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(key);
         List<Supplier<StructureFeature<?, ?>>> structures = event.getGeneration().getStructures();
         String[] allDemonBiomes = new String[]{"demon_biome"};
-        /*
-        if (isCorrectBiome(event, allDemonBiomes)) {
-            structures.add(() -> DelayedStructureInit.CONFIGURED_DEMON_DUNGEON);
-        }
-         */
+        ///*
+        //if (isCorrectBiome(event, allDemonBiomes)) {
+            //structures.add(() -> DelayedStructureInit.CONFIGURED_DEMON_DUNGEON);
+        //}
+        // */
 
         int id = 0;
         for (RegistryObject<Structure<?>> structure : ExperimentalStructureInit.STRUCTURES.getEntries()) {
@@ -61,8 +58,12 @@ public class FeatureGen {
                 } else if (custom.biomes.length > 0 && isCorrectBiome(event, custom.biomes)) {
                     //this is totally gonna crash someday lol
                     //I'm sorry
+                    ArsOmega.LOGGER.info("adding structure to biome: "+event.getName().toString());
                     structures.add(() -> ExperimentalStructureInit.features.get(finalId));
                 }
+            }
+            else{
+                ArsOmega.LOGGER.error("non-custom structure found...");
             }
             id += 1;
         }
@@ -105,10 +106,15 @@ public class FeatureGen {
             //tempMap.putIfAbsent(StructureInit.DEMON_DUNGEON.get(), DimensionStructuresSettings.DEFAULTS.get(StructureInit.DEMON_DUNGEON.get()));
 
             int id = 0;
-            for (RegistryObject<Structure<?>> structure : ExperimentalStructureInit.STRUCTURES.getEntries()) {
+            ArrayList<RegistryObject<Structure<?>>> list = new ArrayList<>(ExperimentalStructureInit.STRUCTURES.getEntries());
+            for (RegistryObject<Structure<?>> structure : list) {
                 int finalId = id;
                 if (structure.get() instanceof CustomStructure) {
-                    tempMap.putIfAbsent(structure.get(),DimensionStructuresSettings.DEFAULTS.get(ExperimentalStructureInit.features.get(finalId)));
+                    tempMap.putIfAbsent(structure.get(),DimensionStructuresSettings.DEFAULTS.get(list.get(finalId).get()));
+                    ArsOmega.LOGGER.info("added structure: "+structure.get().getFeatureName() + "to dim: " + ((ServerWorld) event.getWorld()).dimension().toString());
+                }
+                else{
+                    ArsOmega.LOGGER.info("non-custom structure: "+structure.get().getFeatureName());
                 }
                 id += 1;
             }

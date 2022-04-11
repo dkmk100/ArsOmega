@@ -1,6 +1,6 @@
 /*
-
 package com.dkmk100.arsomega.init;
+
 
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.util.ReflectionHandler;
@@ -31,4 +31,4 @@ public class DelayedStructureInit {
     }
 }
 
- */
+ //*/

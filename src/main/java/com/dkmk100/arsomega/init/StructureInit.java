@@ -34,7 +34,7 @@ public class StructureInit {
                 new StructureSeparationSettings(150,100, 30914807),
                 true);
     }
-    */
+    //*/
 
     public static <F extends Structure<?>> void setupMapSpacingAndLand(F structure, StructureSeparationSettings structureSeparationSettings,
                                                                        boolean transformSurroundingLand) {

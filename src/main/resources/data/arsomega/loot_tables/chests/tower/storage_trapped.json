@@ -1,0 +1,115 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ars_nouveau:mana_bloom_crop",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "ars_nouveau:mana_gem_block",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 3,
+                "max": 5
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:gold_block",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 3,
+                "max": 5
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ars_nouveau:glyph_evaporate"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "ars_nouveau:glyph_missile"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "ars_nouveau:glyph_melt"
+        }
+      ]
+    },
+    {
+      "rolls": 3,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "ars_nouveau:mana_jar"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "ars_nouveau:potion_jar"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "ars_nouveau:scribes_table"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "ars_nouveau:arcane_stone",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 40,
+                "max": 64
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:gold_ingot",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 8,
+                "max": 15
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -8,12 +8,12 @@
   "temperature_modifier": "none",
   "category": "nether",
   "effects": {
-    "sky_color": 8602086,
-    "fog_color": 7016621,
-    "water_color": 4587640,
-    "water_fog_color": 4587640,
-    "grass_color": 10373874,
-    "foliage_color": 10373874
+    "sky_color": 15870749,
+    "fog_color": 15870749,
+    "water_color": 1886605,
+    "water_fog_color": 1886605,
+    "grass_color": 13171235,
+    "foliage_color": 13171235
   },
   "carvers": {
     "air": [

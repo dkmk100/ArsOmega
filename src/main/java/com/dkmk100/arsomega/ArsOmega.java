@@ -11,6 +11,7 @@ import com.dkmk100.arsomega.init.ExperimentalStructureInit;
 import com.dkmk100.arsomega.init.StructureInit;
 import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
@@ -21,6 +22,8 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.item.Item;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -52,6 +55,7 @@ public class ArsOmega
         CustomBus.BUS.register(CustomEvents.class);
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Block.class,RegistryHandler::registerBlocks);
         // Register the doClientStuff method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::finalSetup);
@@ -85,7 +89,7 @@ public class ArsOmega
             DelayedStructureInit.RegisterConfiguredStructures();
         });
 
-         */
+         //*/
         ExperimentalStructureInit.Initialize(event);
 
         GlobalEntityTypeAttributes.put(RegistryHandler.BASIC_DEMON.get(), EntityDemonBasic.createAttributes().build());
@@ -101,6 +105,7 @@ public class ArsOmega
         RenderTypeLookup.setRenderLayer(RegistryHandler.BRAMBLE_3.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(RegistryHandler.BRAMBLE_4.get(), RenderType.cutout());
         RenderTypeLookup.setRenderLayer(RegistryHandler.GORGON_FIRE.get(), RenderType.cutoutMipped());
+        RenderTypeLookup.setRenderLayer(ItemsRegistry.INFINITY_JAR, RenderType.cutout());
 
         RegisterMobRenderer(RegistryHandler.BASIC_DEMON.get(),"demon_basic");
         RegisterMobRenderer(RegistryHandler.STRONG_DEMON.get(),"demon_strong");
@@ -108,6 +113,7 @@ public class ArsOmega
 
         //RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.VOID_BEAST.get(), VoidBeastRenderer::new);
     }
+    @OnlyIn(Dist.CLIENT)
     private void RegisterMobRenderer(EntityType<? extends MobEntity> entity, String registryName){
         RenderingRegistry.registerEntityRenderingHandler(entity, (EntityRendererManager managerIn) -> new GenericBipedRenderer(managerIn, registryName));
 

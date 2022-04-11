@@ -11,6 +11,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.RegistryEvent;
@@ -167,5 +168,6 @@ public class CommonEvents {
         entity.changeDimension(world);
         //entity.setPos(pos.getX(),pos.getY(),pos.getZ());
     }
-     */
+    //*/
+
 }
