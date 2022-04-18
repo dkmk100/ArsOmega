@@ -1,20 +1,17 @@
 package com.dkmk100.arsomega.blocks;
 
 import com.dkmk100.arsomega.events.CommonEvents;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.ForgeConfig;
-import net.minecraftforge.common.Tags;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 
 public class PortalBlock extends Block {
     int damage;
@@ -26,25 +23,25 @@ public class PortalBlock extends Block {
         this.damage=damage;
     }
     @Override
-    public VoxelShape getCollisionShape(BlockState p_220071_1_, IBlockReader p_220071_2_, BlockPos p_220071_3_, ISelectionContext p_220071_4_) {
+    public VoxelShape getCollisionShape(BlockState p_220071_1_, BlockGetter p_220071_2_, BlockPos p_220071_3_, CollisionContext p_220071_4_) {
         return COLLISION_SHAPE;
     }
     @Override
-    public VoxelShape getShape(BlockState p_220053_1_, IBlockReader p_220053_2_, BlockPos p_220053_3_, ISelectionContext p_220053_4_) {
+    public VoxelShape getShape(BlockState p_220053_1_, BlockGetter p_220053_2_, BlockPos p_220053_3_, CollisionContext p_220053_4_) {
         return OUTLINE_SHAPE;
     }
     @Override
-    public void entityInside(BlockState state, World world, BlockPos pos, Entity entity) {
-        if(world instanceof ServerWorld) {
-            RegistryKey<World> registrykey = ServerWorld.OVERWORLD;
-            ServerWorld dest = world.getServer().getLevel(registrykey);
-            teleportEntity(dest, entity, (ServerWorld) world);
+    public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
+        if(world instanceof ServerLevel) {
+            ResourceKey<Level> registrykey = ServerLevel.OVERWORLD;
+            ServerLevel dest = world.getServer().getLevel(registrykey);
+            teleportEntity(dest, entity, (ServerLevel) world);
         }
     }
 
-    void teleportEntity(ServerWorld dest, Entity target, ServerWorld oldWorld){
+    void teleportEntity(ServerLevel dest, Entity target, ServerLevel oldWorld){
         if(!(oldWorld.dimensionType()!=dest.dimensionType())) {
-            BlockPos pos = new BlockPos(target.getPosition(0).x, target.getPosition(0).y - 5, target.getPosition(0).z);
+            BlockPos pos = new BlockPos(target.getX(), target.getY() - 5, target.getZ());
             CommonEvents.teleportEntity(target, pos, dest, oldWorld);
             dest.setBlockAndUpdate(pos.below(),Blocks.OBSIDIAN.defaultBlockState());
             //dest.setBlockAndUpdate(pos.above(8),Blocks.OBSIDIAN.defaultBlockState()); //new portal?

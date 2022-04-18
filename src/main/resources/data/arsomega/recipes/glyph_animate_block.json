@@ -1,6 +1,0 @@
-{
-  "type": "ars_nouveau:glyph_recipe",
-  "tier": "TWO",
-  "input": "minecraft:painting",
-  "output": "ars_nouveau:glyph_animate_block"
-}

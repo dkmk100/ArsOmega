@@ -1,6 +1,6 @@
 package com.dkmk100.arsomega.util;
 
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.phys.Vec3;
 
 public class MathUtil {
     public static double Sigmoid (double x){
@@ -36,7 +36,7 @@ public class MathUtil {
        double f = (fx+fy+fxy)/3;
        return f;
    }
-   public static Vector3d GetVecDir(Vector3d input){
+   public static Vec3 GetVecDir(Vec3 input){
        double dx = input.x;
        double dy = input.y;
        double dz = input.z;
@@ -44,6 +44,6 @@ public class MathUtil {
        dx/=d;
        dy/=d;
        dz/=d;
-       return new Vector3d(dx,dy,dz);
+       return new Vec3(dx,dy,dz);
    }
 }

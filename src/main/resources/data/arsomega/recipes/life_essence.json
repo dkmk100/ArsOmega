@@ -1,0 +1,36 @@
+{
+  "type": "ars_nouveau:imbuement",
+  "input": {
+    "tag": "forge:gems/source"
+  },
+  "output": "arsomega:life_essence",
+  "count": 1,
+  "source": 2000,
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "ars_nouveau:wilden_horn"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:iron_sword"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:apple"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:spider_eye"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:rotten_flesh"
+      }
+    }
+  ]
+}

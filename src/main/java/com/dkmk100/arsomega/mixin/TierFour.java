@@ -1,14 +1,11 @@
 package com.dkmk100.arsomega.mixin;
 
-import com.dkmk100.arsomega.glyphs.ICustomTier;
 import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
 import com.hollingsworth.arsnouveau.api.spell.SpellValidationError;
 import com.hollingsworth.arsnouveau.common.spell.validation.BaseSpellValidationError;
 import com.hollingsworth.arsnouveau.common.spell.validation.GlyphMaxTierValidator;
 import net.minecraft.util.Unit;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -18,6 +15,7 @@ import java.util.List;
 
 @Mixin(GlyphMaxTierValidator.class)
 public class TierFour {
+    /*
     @Inject(at = @At("HEAD"), method = "Lcom/hollingsworth/arsnouveau/common/spell/validation/GlyphMaxTierValidator;digestSpellPart(Lnet/minecraft/util/Unit;ILcom/hollingsworth/arsnouveau/api/spell/AbstractSpellPart;Ljava/util/List;)V", cancellable = true, remap = false)
     protected void digestSpellPart(Unit context, int position, AbstractSpellPart spellPart, List<SpellValidationError> validationErrors, CallbackInfo ci) {
         try {
@@ -32,4 +30,6 @@ public class TierFour {
             validationErrors.add(new BaseSpellValidationError(position, spellPart, "error"));
         }
     }
+
+     */
 }

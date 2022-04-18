@@ -3,19 +3,18 @@ package com.dkmk100.arsomega.items;
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.ISpellCaster;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -29,20 +28,20 @@ public class DemonStaff extends BasicItem {
     }
 
     @Override
-    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
         ItemStack stack = playerIn.getItemInHand(handIn);
-        if(worldIn instanceof ServerWorld){
-            Entity ent = RegistryHandler.BOSS_DEMON_KING.get().spawn((ServerWorld)worldIn,stack,playerIn,playerIn.blockPosition(), SpawnReason.MOB_SUMMONED,true,false);
+        if(worldIn instanceof ServerLevel){
+            Entity ent = RegistryHandler.BOSS_DEMON_KING.get().spawn((ServerLevel)worldIn,stack,playerIn,playerIn.blockPosition(), MobSpawnType.MOB_SUMMONED,true,false);
             worldIn.addFreshEntity(ent);
         }
         stack.shrink(1);
-        return new ActionResult<>(ActionResultType.CONSUME,stack);
+        return new InteractionResultHolder<>(InteractionResult.CONSUME,stack);
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip2, ITooltipFlag flagIn) {
-        tooltip2.add(new StringTextComponent("Summons the Demon King on use"));
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip2, TooltipFlag flagIn) {
+        tooltip2.add(new TextComponent("Summons the Demon King on use"));
         super.appendHoverText(stack, worldIn, tooltip2, flagIn);
     }
 }

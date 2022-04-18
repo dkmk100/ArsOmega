@@ -1,0 +1,26 @@
+{
+  "type": "ars_nouveau:imbuement",
+  "input": {
+    "tag": "forge:gems/source"
+  },
+  "output": "arsomega:arcane_essence",
+  "count": 1,
+  "source": 5000,
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "minecraft:heart_of_the_sea"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:nether_star"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:netherite_block"
+      }
+    }
+  ]
+}

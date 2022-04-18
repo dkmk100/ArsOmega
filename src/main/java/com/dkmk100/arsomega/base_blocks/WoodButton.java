@@ -1,11 +1,11 @@
 package com.dkmk100.arsomega.base_blocks;
 
-import net.minecraft.block.AbstractButtonBlock;
-import net.minecraft.block.Block;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.world.level.block.ButtonBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 
-public class WoodButton extends AbstractButtonBlock {
+public class WoodButton extends ButtonBlock {
     public WoodButton(Block.Properties properties) {
         super(true, properties);
     }

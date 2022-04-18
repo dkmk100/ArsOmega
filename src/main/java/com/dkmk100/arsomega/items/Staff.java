@@ -1,36 +1,28 @@
 package com.dkmk100.arsomega.items;
 
 import com.dkmk100.arsomega.ArsOmega;
-import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.ArsNouveau;
 import com.hollingsworth.arsnouveau.api.item.ICasterTool;
-import com.hollingsworth.arsnouveau.api.item.IScribeable;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.client.renderer.item.WandRenderer;
-import com.hollingsworth.arsnouveau.common.items.ModItem;
-import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAccelerate;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
-import com.hollingsworth.arsnouveau.common.spell.effect.EffectHarm;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodProjectile;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentUtils;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.RegistryObject;
-import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -43,21 +35,19 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class Staff extends SwordItem implements IAnimatable, ICasterTool {
     public AnimationFactory factory = new AnimationFactory(this);
 
-    public Staff(IItemTier iItemTier, int baseDamage, float baseAttackSpeed) {
-        super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsNouveau.itemGroup).setISTER(() -> {
-            return WandRenderer::new;
-        }));
+    public Staff(Tier iItemTier, int baseDamage, float baseAttackSpeed) {
+        super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsNouveau.itemGroup));
         this.augmentAmount = 2;
         this.augmentAdded = AugmentAmplify.INSTANCE;
         this.amountEach = 2;
     }
-    public Staff(String name, IItemTier iItemTier, int baseDamage, float baseAttackSpeed) {
-        super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsNouveau.itemGroup).setISTER(() -> {
-            return WandRenderer::new;
-        }));
+    public Staff(String name, Tier iItemTier, int baseDamage, float baseAttackSpeed) {
+        super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsNouveau.itemGroup));
         this.setRegistryName(ArsOmega.MOD_ID, name);
         this.augmentAmount = 2;
         this.augmentAdded = AugmentAmplify.INSTANCE;
@@ -66,19 +56,15 @@ public class Staff extends SwordItem implements IAnimatable, ICasterTool {
     int augmentAmount;
     AbstractAugment augmentAdded;
     int amountEach;
-    public Staff(String name, IItemTier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach) {
-        super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsNouveau.itemGroup).setISTER(() -> {
-            return WandRenderer::new;
-        }));
+    public Staff(String name, Tier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach) {
+        super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsNouveau.itemGroup));
         this.setRegistryName(ArsOmega.MOD_ID, name);
         this.augmentAmount = augmentAmount;
         this.augmentAdded = augmentAdded;
         this.amountEach = amountEach;
     }
-    public Staff(String name, IItemTier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach, boolean fireResistant) {
-        super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsNouveau.itemGroup).setISTER(() -> {
-            return WandRenderer::new;
-        }).fireResistant());
+    public Staff(String name, Tier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach, boolean fireResistant) {
+        super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsNouveau.itemGroup).fireResistant());
         this.setRegistryName(ArsOmega.MOD_ID, name);
         this.augmentAmount = augmentAmount;
         this.augmentAdded = augmentAdded;
@@ -91,12 +77,12 @@ public class Staff extends SwordItem implements IAnimatable, ICasterTool {
     }
 
     @Override
-    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
         ItemStack stack = playerIn.getItemInHand(handIn);
         ISpellCaster caster = this.getSpellCaster(stack);
 
-        ActionResult<ItemStack> cast  = caster.castSpell(worldIn, playerIn, handIn, new TranslationTextComponent("ars_nouveau.wand.invalid"));
-        if(cast.getResult() == ActionResultType.CONSUME)//why you no work
+        InteractionResultHolder<ItemStack> cast  = caster.castSpell(worldIn, playerIn, handIn, new TranslatableComponent("ars_nouveau.wand.invalid"));
+        if(cast.getResult() == InteractionResult.CONSUME)//why you no work
         {
             //stack.setDamageValue(stack.getDamageValue() + 1);//damage staff
         }
@@ -115,19 +101,19 @@ public class Staff extends SwordItem implements IAnimatable, ICasterTool {
     }
 
     @Override
-    public boolean isScribedSpellValid(ISpellCaster caster, PlayerEntity player, Hand hand, ItemStack stack, Spell spell) {
+    public boolean isScribedSpellValid(ISpellCaster caster, Player player, InteractionHand hand, ItemStack stack, Spell spell) {
         return spell.recipe.stream().noneMatch((s) -> {
             return s instanceof AbstractCastMethod;
         });
     }
 
     @Override
-    public void sendInvalidMessage(PlayerEntity player) {
-        PortUtil.sendMessageNoSpam(player, new TranslationTextComponent("ars_nouveau.wand.invalid"));
+    public void sendInvalidMessage(Player player) {
+        PortUtil.sendMessageNoSpam(player, new TranslatableComponent("ars_nouveau.wand.invalid"));
     }
 
     @Override
-    public boolean setSpell(ISpellCaster caster, PlayerEntity player, Hand hand, ItemStack stack, Spell spell) {
+    public boolean setSpell(ISpellCaster caster, Player player, InteractionHand hand, ItemStack stack, Spell spell) {
         ArrayList<AbstractSpellPart> recipe = new ArrayList();
         recipe.add(MethodProjectile.INSTANCE);
         //recipe.add(AugmentAccelerate.INSTANCE);
@@ -170,7 +156,7 @@ public class Staff extends SwordItem implements IAnimatable, ICasterTool {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip2, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip2, TooltipFlag flagIn) {
         this.getInformation(stack, worldIn, tooltip2, flagIn);
         super.appendHoverText(stack, worldIn, tooltip2, flagIn);
     }

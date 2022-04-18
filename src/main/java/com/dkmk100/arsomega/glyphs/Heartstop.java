@@ -3,13 +3,13 @@ package com.dkmk100.arsomega.glyphs;
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -26,11 +26,11 @@ public class Heartstop extends AbstractEffect {
         }
 
     @Override
-    public int getManaCost() {
+    public int getDefaultManaCost() {
         return 550;
     }
     @Override
-    public void onResolveEntity(EntityRayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
@@ -56,20 +56,22 @@ public class Heartstop extends AbstractEffect {
             damage += add*0.85f;
 
             this.dealDamage(world,shooter,damage,spellStats,living, HEARTSTOP_DAMAGE);
-            living.addEffect(new EffectInstance(Effects.CONFUSION, 120));
+            living.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 120));
         }
     }
 
+    @Override
     @Nonnull
     public Set<AbstractAugment> getCompatibleAugments() {
         return this.augmentSetOf(new AbstractAugment[]{AugmentAmplify.INSTANCE, AugmentDampen.INSTANCE, AugmentFortune.INSTANCE});
     }
 
     @Override
-    public Tier getTier() {
-        return Tier.THREE;
+    public SpellTier getTier() {
+        return SpellTier.THREE;
     }
 
+    @Override
     @Nonnull
     public Set<SpellSchool> getSchools() {
         return this.setOf(new SpellSchool[]{Schools.LIFE});

@@ -1,17 +1,9 @@
 package com.dkmk100.arsomega.glyphs;
 
 import com.hollingsworth.arsnouveau.api.spell.*;
-import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDurationDown;
-import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtendTime;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeConfigSpec;
-
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.level.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -25,39 +17,38 @@ public class SwapTargetGlyph extends AbstractEffect {
     }
 
     @Override
-    public void onResolveEntity(EntityRayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         spellContext.setCanceled(true);
         if (rayTraceResult.getEntity() instanceof LivingEntity) {
             if (spellContext.getCurrentIndex() < spellContext.getSpell().recipe.size()) {
                 Spell newSpell = new Spell(new ArrayList(spellContext.getSpell().recipe.subList(spellContext.getCurrentIndex(), spellContext.getSpell().recipe.size())));
                 SpellContext newContext = (new SpellContext(newSpell, shooter)).withColors(spellContext.colors);
-                SpellResolver.resolveEffects(shooter.getCommandSenderWorld(), (LivingEntity) rayTraceResult.getEntity(), new EntityRayTraceResult(shooter), newSpell, newContext);
+                SpellResolver.resolveEffects(shooter.getCommandSenderWorld(), (LivingEntity) rayTraceResult.getEntity(), new EntityHitResult(shooter), newSpell, newContext);
             }
         }
     }
 
-    public int getManaCost() {
-        return 5;
+    public int getDefaultManaCost() {
+        return 500;
     }
 
+    @Override
     @Nonnull
     public Set<AbstractAugment> getCompatibleAugments() {
         return this.augmentSetOf(new AbstractAugment[]{});
     }
 
+    @Override
     public String getBookDescription() {
         return "Delays the resolution of effects placed to the right of this spell for a few moments. The delay may be increased with the Extend Time augment, or decreased with Duration Down.";
     }
 
-    public Tier getTier() {
-        return Tier.THREE;
+    @Override
+    public SpellTier getTier() {
+        return SpellTier.THREE;
     }
 
-    @Nullable
-    public Item getCraftingReagent() {
-        return Items.REPEATER;
-    }
-
+    @Override
     @Nonnull
     public Set<SpellSchool> getSchools() {
         return this.setOf(new SpellSchool[]{SpellSchools.MANIPULATION});

@@ -1,6 +1,0 @@
-{
-  "type": "ars_nouveau:glyph_recipe",
-  "tier": "ONE",
-  "input": "minecraft:soul_sand",
-  "output": "ars_nouveau:glyph_curse"
-}

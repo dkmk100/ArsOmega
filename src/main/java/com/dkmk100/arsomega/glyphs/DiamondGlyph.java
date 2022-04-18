@@ -5,14 +5,14 @@ import com.dkmk100.arsomega.ItemsRegistry;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.util.ISlotHelper;
 
@@ -30,9 +30,9 @@ public class DiamondGlyph extends TierFourEffect {
     }
 
     @Override
-    public void onResolve(RayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
-        if((world instanceof ServerWorld) && rayTraceResult instanceof BlockRayTraceResult) {
-            BlockPos pos = new BlockPos(((BlockRayTraceResult) rayTraceResult).getBlockPos());
+    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+        if((world instanceof ServerLevel) && rayTraceResult instanceof BlockHitResult) {
+            BlockPos pos = new BlockPos(((BlockHitResult) rayTraceResult).getBlockPos());
             double amp = spellStats.getAmpMultiplier();
 
             if(CuriosApi.getCuriosHelper().findEquippedCurio(ArsRegistry.ALCHEMY_FOCUS_ADVANCED,shooter).isPresent()){
@@ -75,8 +75,8 @@ public class DiamondGlyph extends TierFourEffect {
     }
 
     @Override
-    public int getManaCost() {
-        return 500;
+    public int getDefaultManaCost() {
+        return 1500;
     }
 
     @Override

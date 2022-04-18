@@ -1,51 +1,54 @@
 {
   "type": "ars_nouveau:enchanting_apparatus",
-  "item_1": [
-    {
-      "tag": "forge:storage_blocks/mana"
-    }
-  ],
-  "item_2": [
-    {
-      "item": "minecraft:diamond_sword"
-    }
-  ],
-  "item_3": [
-    {
-      "tag": "forge:logs/archwood"
-    }
-  ],
-  "item_4": [
-    {
-      "tag": "forge:logs/archwood"
-    }
-  ],
-  "item_5": [
-    {
-      "tag": "forge:storage_blocks/gold"
-    }
-  ],
-  "item_6": [
-    {
-      "tag": "forge:ingots/gold"
-    }
-  ],
-  "item_7": [
-    {
-      "item": "ars_nouveau:glyph_amplify"
-    }
-  ],
-  "item_8": [
-    {
-      "item": "ars_nouveau:glyph_amplify"
-    }
-  ],
   "reagent": [
     {
       "item": "ars_nouveau:wand"
     }
   ],
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "ars_nouveau:source_gem_block"
+      }
+    },
+    {
+      "item": {
+        "item":  "ars_nouveau:manipulation_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:diamond_sword"
+      }
+    },
+    {
+      "item": {
+        "tag": "forge:logs/archwood"
+      }
+    },
+    {
+      "item": {
+        "tag": "forge:storage_blocks/gold"
+      }
+    },
+    {
+      "item": {
+        "tag": "forge:ingots/gold"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:glyph_amplify"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:glyph_amplify"
+      }
+    }
+  ],
   "output": {
     "item": "arsomega:staff"
-  }
+  },
+  "sourceCost": 2000
 }

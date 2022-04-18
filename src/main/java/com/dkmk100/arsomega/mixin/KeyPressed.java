@@ -1,15 +1,13 @@
 package com.dkmk100.arsomega.mixin;
 
-import com.dkmk100.arsomega.books.CustomSpellBook;
 import com.hollingsworth.arsnouveau.api.util.StackUtil;
-import com.hollingsworth.arsnouveau.client.gui.GuiRadialMenu;
 import com.hollingsworth.arsnouveau.client.gui.book.GuiSpellBook;
 import com.hollingsworth.arsnouveau.client.keybindings.KeyHandler;
 import com.hollingsworth.arsnouveau.client.keybindings.ModKeyBindings;
 import com.hollingsworth.arsnouveau.common.items.SpellBook;
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,10 +19,11 @@ public class KeyPressed {
     private static final Minecraft MINECRAFT = Minecraft.getInstance();
 
     //@Overwrite
+    /*
     @Inject(at = @At("HEAD"), method = "Lcom/hollingsworth/arsnouveau/client/keybindings/KeyHandler;checkKeysPressed(I)V", cancellable = true, remap = false)
     private static void checkKeysPressed(int key, CallbackInfo ci) {
         ItemStack stack = StackUtil.getHeldSpellbook(MINECRAFT.player);
-        CompoundNBT tag;
+        CompoundTag tag;
         int newMode;
         if (key == ModKeyBindings.NEXT_SLOT.getKey().getValue() && stack.getItem() instanceof SpellBook) {
             if (stack.hasTag()) {
@@ -77,4 +76,6 @@ public class KeyPressed {
         }
         ci.cancel();
     }
+
+     */
 }

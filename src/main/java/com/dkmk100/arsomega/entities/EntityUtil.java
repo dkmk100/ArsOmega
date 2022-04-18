@@ -1,14 +1,14 @@
 package com.dkmk100.arsomega.entities;
 
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 
 public class EntityUtil {
     static class AttackGoal extends MeleeAttackGoal {
-        public AttackGoal(CreatureEntity monster) {
+        public AttackGoal(PathfinderMob monster) {
             super(monster, 1.0D, true);
         }
 
@@ -19,7 +19,7 @@ public class EntityUtil {
     }
 
     static class TargetGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T> {
-        public TargetGoal(MobEntity monster, Class<T> classTarget) {
+        public TargetGoal(Mob monster, Class<T> classTarget) {
             super(monster, classTarget, true);
         }
     }

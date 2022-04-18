@@ -5,17 +5,17 @@ import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.BlockUtil;
 import com.hollingsworth.arsnouveau.api.util.SpellUtil;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
-import net.minecraft.block.AbstractFireBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.block.BaseFireBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -33,20 +33,20 @@ public class Hellfire extends TierFourEffect {
     }
 
     @Override
-    public void onResolveEntity(EntityRayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         double amp = spellStats.getAmpMultiplier() + 4;
         int time = spellStats.getBuffCount(AugmentExtendTime.INSTANCE);
 
         if(rayTraceResult.getEntity() instanceof LivingEntity){
             LivingEntity living = (LivingEntity)rayTraceResult.getEntity();
             living.setRemainingFireTicks(living.getRemainingFireTicks()+20+10*time);
-            living.addEffect(new EffectInstance(ModPotions.BURNED,20));
+            living.addEffect(new MobEffectInstance(ModPotions.BURNED,20));
         }
         this.dealDamage(world,shooter,(float)amp*3f,spellStats,rayTraceResult.getEntity(),HELLFIRE);
     }
 
     @Override
-    public void onResolveBlock(BlockRayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         if (!spellStats.hasBuff(AugmentSensitive.INSTANCE)) {
             if (world.getBlockState(rayTraceResult.getBlockPos().above()).getMaterial().isReplaceable()) {
                 Direction face = rayTraceResult.getDirection();
@@ -56,8 +56,8 @@ public class Hellfire extends TierFourEffect {
                 while(var7.hasNext()) {
                     BlockPos pos = (BlockPos)var7.next();
                     BlockPos blockpos1 = pos.relative(face);
-                    if (AbstractFireBlock.canBePlacedAt(world, blockpos1, face) && BlockUtil.destroyRespectsClaim(this.getPlayer(shooter, (ServerWorld)world), world, blockpos1)) {
-                        BlockState blockstate1 = AbstractFireBlock.getState(world, blockpos1);
+                    if (BaseFireBlock.canBePlacedAt(world, blockpos1, face) && BlockUtil.destroyRespectsClaim(this.getPlayer(shooter, (ServerLevel)world), world, blockpos1)) {
+                        BlockState blockstate1 = BaseFireBlock.getState(world, blockpos1);
                         world.setBlock(blockpos1, blockstate1, 11);
                     }
                 }
@@ -67,7 +67,7 @@ public class Hellfire extends TierFourEffect {
     }
 
     @Override
-    public int getManaCost() {
+    public int getDefaultManaCost() {
         return 800;
     }
 

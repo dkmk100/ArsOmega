@@ -1,6 +1,0 @@
-{
-  "type": "ars_nouveau:glyph_recipe",
-  "tier": "ONE",
-  "input": "minecraft:lily_of_the_valley",
-  "output": "ars_nouveau:glyph_poison_flower"
-}

@@ -1,7 +1,7 @@
 package com.dkmk100.arsomega;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ObjectHolder;
 
 @ObjectHolder("arsomega")

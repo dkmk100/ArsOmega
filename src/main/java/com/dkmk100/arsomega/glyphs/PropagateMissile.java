@@ -1,19 +1,20 @@
+/*
 package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.entities.EntityMissileSpell;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 import javax.annotation.Nonnull;
@@ -23,6 +24,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.hollingsworth.arsnouveau.api.spell.ISpellTier.Tier;
+
 public class PropagateMissile extends AbstractEffect {
     public static PropagateMissile INSTANCE = new PropagateMissile("propagate_missile","Propagate Missile");
 
@@ -30,7 +33,7 @@ public class PropagateMissile extends AbstractEffect {
         super(tag,description);
     }
 
-    public void summonProjectiles(World world, Vector3d pos, LivingEntity shooter, List<AbstractAugment> augments, SpellResolver resolver) {
+    public void summonProjectiles(Level world, Vec3 pos, LivingEntity shooter, List<AbstractAugment> augments, SpellResolver resolver) {
         final boolean activate = true;
         ArrayList<EntityProjectileSpell> projectiles = new ArrayList();
         int duration = 50 + (10*getBuffCount(augments, AugmentExtendTime.class)) - (15*getBuffCount(augments, AugmentDurationDown.class));
@@ -57,10 +60,10 @@ public class PropagateMissile extends AbstractEffect {
 
         while(var14.hasNext()) {
             EntityMissileSpell proj = (EntityMissileSpell)var14.next();
-            Vector3d shooterPos = shooter.position();
-            Vector3d currentPos = new Vector3d(pos.x,pos.y,pos.z);
-            Vector3d direction = currentPos.subtract(shooterPos);
-            if(direction.distanceTo(Vector3d.ZERO)<0.25f){
+            Vec3 shooterPos = shooter.position();
+            Vec3 currentPos = new Vec3(pos.x,pos.y,pos.z);
+            Vec3 direction = currentPos.subtract(shooterPos);
+            if(direction.distanceTo(Vec3.ZERO)<0.25f){
                 proj.shoot(shooter, shooter.xRot, shooter.yRot, 0.0F, 1.0f, 0.8F);
             }
             else {
@@ -70,7 +73,7 @@ public class PropagateMissile extends AbstractEffect {
         }
     }
 
-    public void sendPacket(World world, RayTraceResult rayTraceResult, @Nullable LivingEntity shooter, SpellContext spellContext, SpellStats stats) {
+    public void sendPacket(Level world, HitResult rayTraceResult, @Nullable LivingEntity shooter, SpellContext spellContext, SpellStats stats) {
         spellContext.setCanceled(true);
         if (spellContext.getCurrentIndex() < spellContext.getSpell().recipe.size()) {
             Spell newSpell = new Spell(new ArrayList(spellContext.getSpell().recipe.subList(spellContext.getCurrentIndex(), spellContext.getSpell().recipe.size())));
@@ -82,11 +85,11 @@ public class PropagateMissile extends AbstractEffect {
         }
     }
 
-    public void onResolveBlock(BlockRayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         this.sendPacket(world, rayTraceResult, shooter, spellContext,spellStats);
     }
 
-    public void onResolveEntity(EntityRayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         this.sendPacket(world, rayTraceResult, shooter, spellContext,spellStats);
     }
 
@@ -124,3 +127,4 @@ public class PropagateMissile extends AbstractEffect {
         return this.setOf(new SpellSchool[]{SpellSchools.MANIPULATION});
     }
 }
+ */

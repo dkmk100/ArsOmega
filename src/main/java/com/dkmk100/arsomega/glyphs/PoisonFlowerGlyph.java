@@ -1,31 +1,27 @@
 package com.dkmk100.arsomega.glyphs;
 
-import com.dkmk100.arsomega.potions.ModPotions;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
-import com.hollingsworth.arsnouveau.api.util.SpellUtil;
-import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.IGrowable;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.loot.conditions.BlockStateProperty;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 public class PoisonFlowerGlyph extends AbstractEffect {
@@ -35,24 +31,24 @@ public class PoisonFlowerGlyph extends AbstractEffect {
     }
 
     @Override
-    public void onResolveEntity(EntityRayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
             float amp = (float) spellStats.getAmpMultiplier();
             float damage = (float)(2.0 + 0.5 * amp);
             this.dealDamage(world,shooter,damage,spellStats,living, DamageSource.CACTUS);
-            living.addEffect(new EffectInstance(Effects.POISON, 100 + 20*Math.round(amp)));
+            living.addEffect(new MobEffectInstance(MobEffects.POISON, 100 + 20*Math.round(amp)));
         }
     }
 
     @Override
-    public void onResolveBlock(BlockRayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
-        if (world instanceof ServerWorld) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+        if (world instanceof ServerLevel) {
             BlockPos pos = rayTraceResult.getBlockPos();
             float amp = (float) spellStats.getAmpMultiplier();
             Block block = world.getBlockState(pos).getBlock();
-            if (block == Blocks.GRASS_BLOCK || net.minecraftforge.common.Tags.Blocks.DIRT.contains(block)) {
+            if (block == Blocks.GRASS_BLOCK || ForgeRegistries.BLOCKS.tags().getTag(BlockTags.DIRT).contains(block)) {
                 BlockPos above = pos.above();
                 Block block2 = world.getBlockState(above).getBlock();
                 if (block2 == Blocks.AIR) {
@@ -63,7 +59,7 @@ public class PoisonFlowerGlyph extends AbstractEffect {
     }
 
     @Override
-    public int getManaCost() {
+    public int getDefaultManaCost() {
         return 80;
     }
 
@@ -74,10 +70,11 @@ public class PoisonFlowerGlyph extends AbstractEffect {
     }
 
     @Override
-    public Tier getTier() {
-        return Tier.ONE;
+    public SpellTier getTier() {
+        return SpellTier.ONE;
     }
 
+    @Override
     @Nonnull
     public Set<SpellSchool> getSchools() {
         return this.setOf(new SpellSchool[]{Schools.NATURE});

@@ -3,22 +3,20 @@ package com.dkmk100.arsomega.potions;
 import com.dkmk100.arsomega.ItemsRegistry;
 import com.hollingsworth.arsnouveau.common.network.Networking;
 import com.hollingsworth.arsnouveau.common.network.PacketUpdateFlight;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierManager;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectType;
-import org.spongepowered.asm.mixin.Overwrite;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PermaFlight extends Effect {
+public class PermaFlight extends MobEffect {
 
     protected PermaFlight() {
-        super(EffectType.BENEFICIAL, 2039587);
+        super(MobEffectCategory.BENEFICIAL, 2039587);
         this.setRegistryName("arsomega", "perma_flight");
     }
 
@@ -41,20 +39,20 @@ public class PermaFlight extends Effect {
     @Override
     public void applyEffectTick(LivingEntity entity, int p_76394_2_) {
         super.applyEffectTick(entity, p_76394_2_);
-        if (entity instanceof PlayerEntity) {
-            if(!((PlayerEntity)entity).hasEffect(com.hollingsworth.arsnouveau.common.potions.ModPotions.GRAVITY_EFFECT)) {
-                ((PlayerEntity) entity).abilities.mayfly = entity.getEffect(ModPotions.PERMA_FLIGHT).getDuration() > 2;
+        if (entity instanceof Player) {
+            if(!((Player)entity).hasEffect(com.hollingsworth.arsnouveau.common.potions.ModPotions.GRAVITY_EFFECT)) {
+                //((Player) entity).abilities.mayfly = entity.getEffect(ModPotions.PERMA_FLIGHT).getDuration() > 2;
             }
         }
 
     }
     @Override
-    public void removeAttributeModifiers(LivingEntity entity, AttributeModifierManager p_111187_2_, int p_111187_3_) {
+    public void removeAttributeModifiers(LivingEntity entity, AttributeMap p_111187_2_, int p_111187_3_) {
         super.removeAttributeModifiers(entity, p_111187_2_, p_111187_3_);
-        if (entity instanceof PlayerEntity) {
-            ((PlayerEntity)entity).abilities.mayfly = false;
-            ((PlayerEntity)entity).abilities.flying = false;
-            Networking.sendToPlayer(new PacketUpdateFlight(false, false), (PlayerEntity)entity);
+        if (entity instanceof Player) {
+            //((Player)entity).abilities.mayfly = false;
+            //((Player)entity).abilities.flying = false;
+            Networking.sendToPlayer(new PacketUpdateFlight(false, false), (Player)entity);
         }
 
     }

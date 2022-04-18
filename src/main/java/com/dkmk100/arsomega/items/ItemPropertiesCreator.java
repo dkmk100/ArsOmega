@@ -1,12 +1,11 @@
 package com.dkmk100.arsomega.items;
 
-import net.minecraft.item.Item.Properties;
-import net.minecraft.item.ItemGroup;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.world.item.Item.Properties;
+import net.minecraft.world.item.CreativeModeTab;
 
 public class ItemPropertiesCreator {
-    public Properties create(ItemGroup group, int maxStackSize, ToolType toolType, int harverstLevel){
-        Properties properties = new Properties().tab(group).stacksTo(maxStackSize).addToolType(toolType,harverstLevel);
+    public Properties create(CreativeModeTab group, int maxStackSize){
+        Properties properties = new Properties().tab(group).stacksTo(maxStackSize);
         return properties;
     }
 }

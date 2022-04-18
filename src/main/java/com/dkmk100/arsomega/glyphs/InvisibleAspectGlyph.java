@@ -1,3 +1,4 @@
+/*
 package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.potions.ModPotions;
@@ -7,17 +8,21 @@ import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentFortune;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Set;
+
+import DamageSource;
+
+import com.hollingsworth.arsnouveau.api.spell.ISpellTier.Tier;
 
 public class InvisibleAspectGlyph extends AbstractEffect {
 
@@ -35,7 +40,7 @@ public class InvisibleAspectGlyph extends AbstractEffect {
     }
 
     @Override
-    public void onResolve(RayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
 
     }
 
@@ -54,3 +59,4 @@ public class InvisibleAspectGlyph extends AbstractEffect {
         return this.setOf(new SpellSchool[]{Schools.LIFE});
     }
 }
+ */

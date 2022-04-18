@@ -1,23 +1,18 @@
 package com.dkmk100.arsomega.glyphs;
 
-import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
-import com.hollingsworth.arsnouveau.api.spell.AbstractEffect;
-import com.hollingsworth.arsnouveau.api.spell.SpellContext;
-import com.hollingsworth.arsnouveau.api.spell.SpellStats;
+import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.SpellUtil;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.IGrowable;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.IPlantable;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -32,8 +27,8 @@ public class Curse extends AbstractEffect {
     }
 
     @Override
-    public void onResolveBlock(BlockRayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
-        if (world instanceof ServerWorld) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+        if (world instanceof ServerLevel) {
             int aoeBuff = spellStats.getBuffCount(AugmentAOE.INSTANCE);
             BlockPos pos = rayTraceResult.getBlockPos();
             List<BlockPos> posList = SpellUtil.calcAOEBlocks(shooter, pos, rayTraceResult, aoeBuff, 0);
@@ -71,21 +66,21 @@ public class Curse extends AbstractEffect {
     }
 
     @Override
-    public void onResolveEntity(EntityRayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity) {
-            this.applyConfigPotion((LivingEntity)entity, Effects.UNLUCK, spellStats);
+            this.applyConfigPotion((LivingEntity)entity, MobEffects.UNLUCK, spellStats);
         }
     }
 
     @Override
-    public int getManaCost() {
+    public int getDefaultManaCost() {
         return 50;
     }
 
     @Override
-    public Tier getTier() {
-        return Tier.ONE;
+    public SpellTier getTier() {
+        return SpellTier.ONE;
     }
 
     @Override
@@ -95,7 +90,7 @@ public class Curse extends AbstractEffect {
     @Nonnull
     @Override
     public Set<AbstractAugment> getCompatibleAugments() {
-        Set potionAugments =  this.POTION_AUGMENTS;
+        Set potionAugments =  this.getPotionAugments();
         ArrayList<AbstractAugment> list = new ArrayList<AbstractAugment>(potionAugments);
         list.add(AugmentAOE.INSTANCE);
         return Collections.unmodifiableSet(new HashSet(list));

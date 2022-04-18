@@ -2,60 +2,68 @@ package com.dkmk100.arsomega.entities;
 
 import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.util.RegistryHandler;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.passive.IronGolemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.pathfinding.GroundPathNavigator;
-import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.BossInfo;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerBossInfo;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.BossEvent;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.server.level.ServerLevel;
 
 import javax.annotation.Nullable;
 
-public class EntityBossDemonKing extends MonsterEntity {
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+
+public class EntityBossDemonKing extends Monster {
     private int minionTimer = 100;
     private int rangedMinionTimer = 0;
     private int minionsSpawned;
-    private final ServerBossInfo bossInfo = (ServerBossInfo) (new ServerBossInfo(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.PROGRESS)).setDarkenScreen(true);
+    private final ServerBossEvent bossInfo = (ServerBossEvent) (new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS)).setDarkenScreen(true);
 
-    public EntityBossDemonKing(EntityType<? extends MonsterEntity> type, World worldIn) {
+    public EntityBossDemonKing(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
         this.xpReward = 125;
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new SwimGoal(this));
+        this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(4, new EntityUtil.AttackGoal(this));
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 0.8D));
-        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 24.0F));
-        this.goalSelector.addGoal(6, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.8D));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 24.0F));
+        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(2, new EntityUtil.TargetGoal<>(this, PlayerEntity.class));
-        this.targetSelector.addGoal(3, new EntityUtil.TargetGoal<>(this, IronGolemEntity.class));
+        this.targetSelector.addGoal(2, new EntityUtil.TargetGoal<>(this, Player.class));
+        this.targetSelector.addGoal(3, new EntityUtil.TargetGoal<>(this, IronGolem.class));
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT pCompound) {
+    public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         if (this.hasCustomName()) {
             this.bossInfo.setName(this.getDisplayName());
@@ -63,7 +71,7 @@ public class EntityBossDemonKing extends MonsterEntity {
 
     }
     @Override
-    public void setCustomName(@Nullable ITextComponent pName) {
+    public void setCustomName(@Nullable Component pName) {
         super.setCustomName(pName);
         this.bossInfo.setName(this.getDisplayName());
     }
@@ -78,8 +86,8 @@ public class EntityBossDemonKing extends MonsterEntity {
     }
 
     @Override
-    protected PathNavigator createNavigation(World worldIn) {
-        return new GroundPathNavigator(this, worldIn);
+    protected PathNavigation createNavigation(Level worldIn) {
+        return new GroundPathNavigation(this, worldIn);
     }
 
     @Override
@@ -88,8 +96,8 @@ public class EntityBossDemonKing extends MonsterEntity {
         super.tick();
     }
 
-    public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MonsterEntity.createMonsterAttributes()
+    public static AttributeSupplier.Builder createAttributes() {
+        return Monster.createMonsterAttributes()
                 .add(Attributes.MAX_HEALTH, 500.0D)
                 .add(Attributes.MOVEMENT_SPEED, (double)0.25F)
                 .add(Attributes.ATTACK_DAMAGE,22)
@@ -140,15 +148,15 @@ public class EntityBossDemonKing extends MonsterEntity {
         if (this.tickCount % 25 == 0) {
             this.heal(Math.round(0.4f * healthRatio*2f)/2f);
         }
-        Vector3d entityPos =this.getPosition(0);
+        Vec3 entityPos =this.getPosition(0);
         BlockPos pos = new BlockPos(entityPos.x,entityPos.y,entityPos.z);
         if(!this.level.isClientSide() && this.getHealth()!=this.getMaxHealth()){
             LivingEntity spawn = null;
             if (minionTimer >= (250 - ((this.getMaxHealth() - this.getHealth()) / 12))) {
                 if (minionsSpawned % 2 == 0) {
-                    spawn = (LivingEntity) RegistryHandler.BASIC_DEMON.get().spawn((ServerWorld) this.level, null, null, pos, SpawnReason.EVENT, true, false);
+                    spawn = (LivingEntity) RegistryHandler.BASIC_DEMON.get().spawn((ServerLevel) this.level, null, null, pos, MobSpawnType.EVENT, true, false);
                 } else {
-                    spawn = (LivingEntity) RegistryHandler.STRONG_DEMON.get().spawn((ServerWorld) this.level, null, null, pos, SpawnReason.EVENT, true, false);
+                    spawn = (LivingEntity) RegistryHandler.STRONG_DEMON.get().spawn((ServerLevel) this.level, null, null, pos, MobSpawnType.EVENT, true, false);
                 }
                 minionsSpawned += 1;
                 minionTimer = 0;
@@ -156,44 +164,45 @@ public class EntityBossDemonKing extends MonsterEntity {
             else {
                 rangedMinionTimer += 1;
                 if (rangedMinionTimer >= (350 - ((this.getMaxHealth() - this.getHealth()) / 12))) {
-                    spawn = (LivingEntity) EntityType.SKELETON.spawn((ServerWorld) this.level, null, null, pos, SpawnReason.EVENT, true, false);
+                    spawn = (LivingEntity) EntityType.SKELETON.spawn((ServerLevel) this.level, null, null, pos, MobSpawnType.EVENT, true, false);
                     rangedMinionTimer = 0;
                 }
             }
             if(spawn!=null){
-                spawn.addEffect(new EffectInstance(Effects.DAMAGE_BOOST,100000,3));
-                spawn.addEffect(new EffectInstance(Effects.MOVEMENT_SPEED,100000,2));
-                spawn.addEffect(new EffectInstance(Effects.REGENERATION,1200,0));
-                spawn.addEffect(new EffectInstance(Effects.DAMAGE_RESISTANCE,1200,0));
+                spawn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,100000,3));
+                spawn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,100000,2));
+                spawn.addEffect(new MobEffectInstance(MobEffects.REGENERATION,1200,0));
+                spawn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE,1200,0));
                 this.getCommandSenderWorld().addFreshEntity(spawn);
             }
         }
-        this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
+        this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
     }
 
 
     @Override
-    public void startSeenByPlayer(ServerPlayerEntity pPlayer) {
+    public void startSeenByPlayer(ServerPlayer pPlayer) {
         super.startSeenByPlayer(pPlayer);
         this.bossInfo.addPlayer(pPlayer);
     }
 
     @Override
-    public void stopSeenByPlayer(ServerPlayerEntity pPlayer) {
+    public void stopSeenByPlayer(ServerPlayer pPlayer) {
         super.stopSeenByPlayer(pPlayer);
         this.bossInfo.removePlayer(pPlayer);
     }
 
 
-    public boolean canBeAffected(EffectInstance effect) {
-        if (effect.getEffect() == Effects.POISON || effect.getEffect() == Effects.MOVEMENT_SLOWDOWN) {
+    @Override
+    public boolean canBeAffected(MobEffectInstance effect) {
+        if (effect.getEffect() == MobEffects.POISON || effect.getEffect() == MobEffects.MOVEMENT_SLOWDOWN) {
             return false;
         }
         return super.canBeAffected(effect);
     }
 
     @Override
-    protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
+    protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
         return 1.75F;
     }
 

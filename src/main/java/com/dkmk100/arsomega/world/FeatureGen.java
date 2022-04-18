@@ -1,30 +1,23 @@
 package com.dkmk100.arsomega.world;
 
 import com.dkmk100.arsomega.ArsOmega;
-import com.dkmk100.arsomega.init.ExperimentalStructureInit;
-import com.dkmk100.arsomega.init.StructureInit;
-import com.dkmk100.arsomega.structures.CustomStructure;
 import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.mojang.serialization.Codec;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.FlatChunkGenerator;
-import net.minecraft.world.gen.feature.StructureFeature;
-import net.minecraft.world.gen.feature.structure.Structure;
-import net.minecraft.world.gen.settings.DimensionStructuresSettings;
-import net.minecraft.world.gen.settings.StructureSeparationSettings;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.Registry;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.FlatLevelSource;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,18 +29,13 @@ import java.util.function.Supplier;
 public class FeatureGen {
     @SubscribeEvent
     public static void populateBiomes(BiomeLoadingEvent event) {
-        RegistryKey<Biome> key = RegistryKey.create(Registry.BIOME_REGISTRY, event.getName());
+        ResourceKey<Biome> key = ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
         Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(key);
-        List<Supplier<StructureFeature<?, ?>>> structures = event.getGeneration().getStructures();
-        String[] allDemonBiomes = new String[]{"demon_biome"};
-        ///*
-        //if (isCorrectBiome(event, allDemonBiomes)) {
-            //structures.add(() -> DelayedStructureInit.CONFIGURED_DEMON_DUNGEON);
-        //}
-        // */
+        /*
+        List<Supplier<ConfiguredStructureFeature<?, ?>>> structures = event.getGeneration().getStructures();
 
         int id = 0;
-        for (RegistryObject<Structure<?>> structure : ExperimentalStructureInit.STRUCTURES.getEntries()) {
+        for (RegistryObject<StructureFeature<?>> structure : ExperimentalStructureInit.STRUCTURES.getEntries()) {
             int finalId = id;
             if (structure.get() instanceof CustomStructure) {
                 CustomStructure custom = (CustomStructure) structure.get();
@@ -67,6 +55,7 @@ public class FeatureGen {
             }
             id += 1;
         }
+         */
     }
     private static boolean isCorrectBiome(BiomeLoadingEvent event, String biomeName){
         return event.getName().toString().equals(new ResourceLocation(ArsOmega.MOD_ID,biomeName).toString());
@@ -80,11 +69,12 @@ public class FeatureGen {
         return false;
     }
     private static Method GETCODEC_METHOD;
+    /*
     @SubscribeEvent
     public static void addDimensionalSpacing(WorldEvent.Load event){
-        if(event.getWorld() instanceof ServerWorld){
+        if(event.getWorld() instanceof ServerLevel){
             Logger LOGGER = LogManager.getLogger();
-            ServerWorld world = (ServerWorld) event.getWorld();
+            ServerLevel world = (ServerLevel) event.getWorld();
 
             try {
                 if(GETCODEC_METHOD == null) GETCODEC_METHOD = ObfuscationReflectionHelper.findMethod(ChunkGenerator.class, "func_230347_a_");
@@ -96,22 +86,22 @@ public class FeatureGen {
                 LOGGER.error("Was unable to check if " + world.dimension().location() + " is using Terraforged's ChunkGenerator.");
             }
 
-            if(world.getChunkSource().getGenerator() instanceof FlatChunkGenerator &&
-                    world.dimension().equals(World.OVERWORLD)){
+            if(world.getChunkSource().getGenerator() instanceof FlatLevelSource &&
+                    world.dimension().equals(Level.OVERWORLD)){
                 return;
             }
 
-            Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(world.getChunkSource().generator.getSettings().structureConfig());
+            Map<StructureFeature<?>, StructureFeatureConfiguration> tempMap = new HashMap<>(world.getChunkSource().generator.getSettings().structureConfig());
 
             //tempMap.putIfAbsent(StructureInit.DEMON_DUNGEON.get(), DimensionStructuresSettings.DEFAULTS.get(StructureInit.DEMON_DUNGEON.get()));
 
             int id = 0;
-            ArrayList<RegistryObject<Structure<?>>> list = new ArrayList<>(ExperimentalStructureInit.STRUCTURES.getEntries());
-            for (RegistryObject<Structure<?>> structure : list) {
+            ArrayList<RegistryObject<StructureFeature<?>>> list = new ArrayList<>(ExperimentalStructureInit.STRUCTURES.getEntries());
+            for (RegistryObject<StructureFeature<?>> structure : list) {
                 int finalId = id;
                 if (structure.get() instanceof CustomStructure) {
-                    tempMap.putIfAbsent(structure.get(),DimensionStructuresSettings.DEFAULTS.get(list.get(finalId).get()));
-                    ArsOmega.LOGGER.info("added structure: "+structure.get().getFeatureName() + "to dim: " + ((ServerWorld) event.getWorld()).dimension().toString());
+                    tempMap.putIfAbsent(structure.get(),StructureSettings.DEFAULTS.get(list.get(finalId).get()));
+                    ArsOmega.LOGGER.info("added structure: "+structure.get().getFeatureName() + "to dim: " + ((ServerLevel) event.getWorld()).dimension().toString());
                 }
                 else{
                     ArsOmega.LOGGER.info("non-custom structure: "+structure.get().getFeatureName());
@@ -126,5 +116,6 @@ public class FeatureGen {
             }
         }
     }
+     */
 
 }

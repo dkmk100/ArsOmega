@@ -1,30 +1,19 @@
 package com.dkmk100.arsomega.glyphs;
 
-import com.dkmk100.arsomega.potions.ModPotions;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.ANExplosion;
-import com.hollingsworth.arsnouveau.api.util.BlockUtil;
-import com.hollingsworth.arsnouveau.api.util.SpellUtil;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
-import net.minecraft.block.AbstractFireBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.play.server.SExplosionPacket;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.ExplosionContext;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.protocol.game.ClientboundExplodePacket;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.ExplosionDamageCalculator;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.event.ForgeEventFactory;
 
@@ -43,17 +32,18 @@ public class Fireball extends TierFourEffect {
         super(tag, description);
     }
 
-    public void onResolve(RayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
-        Vector3d vec = this.safelyGetHitPos(rayTraceResult);
+    @Override
+    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+        Vec3 vec = this.safelyGetHitPos(rayTraceResult);
         double intensity = (Double)this.BASE.get() + (Double)this.AMP_VALUE.get() * spellStats.getAmpMultiplier() + (Double)this.AOE_BONUS.get() * (double)spellStats.getBuffCount(AugmentAOE.INSTANCE);
         int dampen = spellStats.getBuffCount(AugmentDampen.INSTANCE);
         intensity -= 0.5D * (double)dampen;
-        Explosion.Mode mode = dampen > 0 ? Explosion.Mode.NONE : Explosion.Mode.DESTROY;
-        mode = spellStats.hasBuff(AugmentExtract.INSTANCE) ? Explosion.Mode.BREAK : mode;
-        this.explode(world, shooter, (DamageSource)null, (ExplosionContext)null, vec.x, vec.y, vec.z, (float)intensity, true, mode, spellStats.getAmpMultiplier());
+        Explosion.BlockInteraction mode = dampen > 0 ? Explosion.BlockInteraction.NONE : Explosion.BlockInteraction.DESTROY;
+        mode = spellStats.hasBuff(AugmentExtract.INSTANCE) ? Explosion.BlockInteraction.BREAK : mode;
+        this.explode(world, shooter, (DamageSource)null, (ExplosionDamageCalculator)null, vec.x, vec.y, vec.z, (float)intensity, true, mode, spellStats.getAmpMultiplier());
     }
 
-    public Explosion explode(World world, @Nullable Entity e, @Nullable DamageSource source, @Nullable ExplosionContext context, double x, double y, double z, float radius, boolean p_230546_11_, Explosion.Mode p_230546_12_, double amp) {
+    public Explosion explode(Level world, @Nullable Entity e, @Nullable DamageSource source, @Nullable ExplosionDamageCalculator context, double x, double y, double z, float radius, boolean p_230546_11_, Explosion.BlockInteraction p_230546_12_, double amp) {
         ANExplosion explosion = new ANExplosion(world, e, source, context, x, y, z, radius, p_230546_11_, p_230546_12_, amp);
         explosion.baseDamage = (Double)this.DAMAGE.get();
         explosion.ampDamageScalar = (Double)this.AMP_DAMAGE.get();
@@ -62,16 +52,16 @@ public class Fireball extends TierFourEffect {
         } else {
             explosion.explode();
             explosion.finalizeExplosion(false);
-            if (p_230546_12_ == Explosion.Mode.NONE) {
+            if (p_230546_12_ == Explosion.BlockInteraction.NONE) {
                 explosion.clearToBlow();
             }
 
             Iterator var17 = world.players().iterator();
 
             while(var17.hasNext()) {
-                PlayerEntity serverplayerentity = (PlayerEntity)var17.next();
+                Player serverplayerentity = (Player)var17.next();
                 if (serverplayerentity.distanceToSqr(x, y, z) < 4096.0D) {
-                    ((ServerPlayerEntity)serverplayerentity).connection.send(new SExplosionPacket(x, y, z, radius, explosion.getToBlow(), (Vector3d)explosion.getHitPlayers().get(serverplayerentity)));
+                    ((ServerPlayer)serverplayerentity).connection.send(new ClientboundExplodePacket(x, y, z, radius, explosion.getToBlow(), (Vec3)explosion.getHitPlayers().get(serverplayerentity)));
                 }
             }
 
@@ -79,6 +69,7 @@ public class Fireball extends TierFourEffect {
         }
     }
 
+    @Override
     public void buildConfig(ForgeConfigSpec.Builder builder) {
         super.buildConfig(builder);
         this.addAmpConfig(builder, 0.6D);
@@ -89,7 +80,7 @@ public class Fireball extends TierFourEffect {
     }
 
     @Override
-    public int getManaCost() {
+    public int getDefaultManaCost() {
         return 800;
     }
 

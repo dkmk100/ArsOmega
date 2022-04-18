@@ -17,7 +17,7 @@
       "tag": "forge:storage_blocks/mana"
     },
     {
-      "item": "ars_nouveau:glyph_shield"
+      "item": "minecraft:shield"
     }
   ],
   "result": {

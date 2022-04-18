@@ -1,6 +1,0 @@
-{
-  "type": "ars_nouveau:glyph_recipe",
-  "tier": "THREE",
-  "input": "ars_nouveau:glyph_soulfire",
-  "output": "ars_nouveau:glyph_hellfire"
-}

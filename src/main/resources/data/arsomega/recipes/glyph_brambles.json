@@ -1,6 +1,0 @@
-{
-  "type": "ars_nouveau:glyph_recipe",
-  "tier": "ONE",
-  "input": "minecraft:dead_bush",
-  "output": "ars_nouveau:glyph_brambles"
-}

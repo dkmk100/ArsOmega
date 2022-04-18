@@ -13,28 +13,7 @@ import java.util.*;
 
 @Mixin(AbstractSpellPart.class)
 public class AugmentCompat {
-    /*
-    @Redirect(at = @At(value = "INVOKE",
-                    target = "Lcom/hollingsworth/arsnouveau/api/spell/AbstractSpellPart;getCompatibleAugments()Ljava/util/Set;"),method = "getCompatibleAugments()Ljava/util/Set;",remap = false)
-    private static Set<AbstractAugment> getCompatibleAugments(AbstractSpellPart target)
-    {
-        System.out.println("redirect test");
-        Set<AbstractAugment> baseCompatibleAugments = target.getCompatibleAugments();
-        if (baseCompatibleAugments.contains(AugmentAmplify.INSTANCE)) {
-            HashSet<AbstractAugment> changed = new HashSet<>(baseCompatibleAugments);
-            changed.add(AdvancedAmplify.INSTANCE);
-            return Collections.unmodifiableSet(changed);
-        }
 
-        HashSet<AbstractAugment> changed = new HashSet<>(baseCompatibleAugments);
-        changed.add(AdvancedAmplify.INSTANCE);
-        return Collections.unmodifiableSet(changed);
-
-        //return baseCompatibleAugments;
-    }
-
-     //*/
-    ///*
     @Inject(at = @At("RETURN"), method = "Lcom/hollingsworth/arsnouveau/api/spell/AbstractSpellPart;augmentSetOf([Lcom/hollingsworth/arsnouveau/api/spell/AbstractAugment;)Ljava/util/Set;", cancellable = true, remap = false)
     protected <AbstractArgument> void argumentSetOf(AbstractAugment[] augments, CallbackInfoReturnable<Set<AbstractAugment>> cir) {
         if(augments!=null) {
@@ -45,25 +24,6 @@ public class AugmentCompat {
             }
         }
     }
-    //*/
-    /*
-    @Inject(at = @At("HEAD"), method = "Lcom/hollingsworth/arsnouveau/api/spell/AbstractSpellPart;getCompatibleAugments()Ljava/util/Set;", cancellable = true, remap = false)
-    public void getCompatibleAugments(CallbackInfoReturnable<Set<AbstractAugment>> cir) {
-        System.out.println("inject test");
-        Set<AbstractAugment> baseCompatibleAugments = cir.getReturnValue();
-        if (baseCompatibleAugments.contains(AugmentAmplify.INSTANCE)) {
-            HashSet<AbstractAugment> changed = new HashSet<>(baseCompatibleAugments);
-            changed.add(AdvancedAmplify.INSTANCE);
-            cir.setReturnValue(Collections.unmodifiableSet(changed));
-        }
-        else {
-            HashSet<AbstractAugment> changed = new HashSet<>(baseCompatibleAugments);
-            changed.add(AdvancedAmplify.INSTANCE);
-            cir.setReturnValue(Collections.unmodifiableSet(changed));
-            //cir.setReturnValue(baseCompatibleAugments);
-        }
-    }
-     //*/
 
 
 }

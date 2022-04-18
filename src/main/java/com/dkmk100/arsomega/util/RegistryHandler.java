@@ -5,13 +5,10 @@ import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.armors.BasicArmorMaterial;
 import com.dkmk100.arsomega.base_blocks.BlockPropertiesCreator;
 import com.dkmk100.arsomega.blocks.*;
-import com.dkmk100.arsomega.books.CustomSpellBook;
 import com.dkmk100.arsomega.entities.EntityBossDemonKing;
 import com.dkmk100.arsomega.entities.EntityDemonBasic;
 import com.dkmk100.arsomega.entities.EntityDemonStrong;
 import com.dkmk100.arsomega.glyphs.*;
-import com.dkmk100.arsomega.init.ExperimentalStructureInit;
-import com.dkmk100.arsomega.init.StructureInit;
 import com.dkmk100.arsomega.items.*;
 import com.dkmk100.arsomega.rituals.*;
 import com.dkmk100.arsomega.tools.BasicItemTier;
@@ -19,40 +16,39 @@ import com.hollingsworth.arsnouveau.ArsNouveau;
 import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
-import com.hollingsworth.arsnouveau.client.renderer.item.SpellBookRenderer;
-import com.hollingsworth.arsnouveau.common.block.CreativeManaJar;
-import com.hollingsworth.arsnouveau.common.block.ManaJar;
+import com.hollingsworth.arsnouveau.common.items.SpellBook;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.*;
-import net.minecraft.potion.Effects;
+import net.minecraft.core.Registry;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ITag;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.OreBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.RegistryObject;
 
 public class RegistryHandler{
     public static final ResourceLocation DIMTYPE = new ResourceLocation(ArsOmega.MOD_ID, "demon_realm");
@@ -60,14 +56,13 @@ public class RegistryHandler{
     public static List<AbstractSpellPart> registeredSpells = new ArrayList<>();
     public static List<AbstractRitual> registeredRituals = new ArrayList<>();
 
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Block.class, ArsOmega.MOD_ID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, ArsOmega.MOD_ID);
 
-    public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES,ArsOmega.MOD_ID);
+    public static final DeferredRegister<BlockEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES,ArsOmega.MOD_ID);
 
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, ArsOmega.MOD_ID);
 
-
-    public static final ITag.INamedTag<Block> GORGON_FIRE_BURNABLES = BlockTags.bind("arsomega:gorgon_fire_burnables");
+    public static final TagKey<Block> GORGON_FIRE_BURNABLES = BlockTags.create(new ResourceLocation("arsomega", "gorgon_fire_burnables"));
 
     public static void init (){
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -75,7 +70,7 @@ public class RegistryHandler{
         TILE_ENTITIES.register(bus);
         ENTITIES.register(bus);
         //StructureInit.RegisterStructures(bus);
-        ExperimentalStructureInit.RegisterStructures(bus);
+        //ExperimentalStructureInit.RegisterStructures(bus);
     }
 
     public static void registerBlocks(final RegistryEvent.Register<Block> event){
@@ -85,6 +80,7 @@ public class RegistryHandler{
     public static void registerGlyphs(){
         register(DiamondGlyph.INSTANCE);
         register(AdvancedAmplify.INSTANCE);
+        ///*
         register(WitherSummon.INSTANCE);
         register(Rot.INSTANCE);
         register(Curse.INSTANCE);
@@ -98,16 +94,16 @@ public class RegistryHandler{
         register(CarveGlyph.INSTANCE);
         register(AnimateGlyph.INSTANCE);
         register(TransmuteGlyph.INSTANCE);
-        register(OverheadGlyph.INSTANCE);
+        //register(OverheadGlyph.INSTANCE);
         register(PropagateProjectile.INSTANCE);
         register(PropagateSelf.INSTANCE);
         register(SwapTargetGlyph.INSTANCE);
         register(PropagateOrbit.INSTANCE);
         register(EnchantGlyph.INSTANCE);
-        register(FormMissile.INSTANCE);
+        //register(FormMissile.INSTANCE);
         register(DisenchantGlyph.INSTANCE);
-        register(PropagateMissile.INSTANCE);
-        register(PropagateOverhead.INSTANCE);
+        //register(PropagateMissile.INSTANCE);
+        //register(PropagateOverhead.INSTANCE);
         register(PropagateUnderfoot.INSTANCE);
         register(Melt.INSTANCE);
         register(AcidGlyph.INSTANCE);
@@ -119,6 +115,7 @@ public class RegistryHandler{
         register(DemonicLight.INSTANCE);
         register(Fireball.INSTANCE);
         register(HellFlare.INSTANCE);
+         //*/
     }
 
     public static void registerRituals()
@@ -135,7 +132,7 @@ public class RegistryHandler{
     }
 
     public static void register(AbstractSpellPart spellPart) {
-        ArsNouveauAPI.getInstance().registerSpell(spellPart.tag, spellPart);
+        ArsNouveauAPI.getInstance().registerSpell(spellPart.getId(), spellPart);
         registeredSpells.add(spellPart);
     }
     public static void register(AbstractRitual ritual) {
@@ -144,9 +141,9 @@ public class RegistryHandler{
     }
 
     static final ItemPropertiesCreator itemPropertiesCreator = new ItemPropertiesCreator();
-    static final Item.Properties ITEM_PROPERTIES = itemPropertiesCreator.create(ItemGroup.TAB_MISC,64,null,0);
-    static final Item.Properties ITEM_PROPERTIES_FIRE = itemPropertiesCreator.create(ItemGroup.TAB_MISC,64,null,0).fireResistant();
-    static final Item.Properties UNSTACKABLE_FIRE = itemPropertiesCreator.create(ItemGroup.TAB_COMBAT,1,null,0).fireResistant();
+    static final Item.Properties ITEM_PROPERTIES = itemPropertiesCreator.create(CreativeModeTab.TAB_MISC,64);
+    static final Item.Properties ITEM_PROPERTIES_FIRE = itemPropertiesCreator.create(CreativeModeTab.TAB_MISC,64).fireResistant();
+    static final Item.Properties UNSTACKABLE_FIRE = itemPropertiesCreator.create(CreativeModeTab.TAB_COMBAT,1).fireResistant();
 
 
     public static final List<Item> ITEMS = new ArrayList<>();
@@ -162,9 +159,7 @@ public class RegistryHandler{
         final Item STAFF = new Staff("staff", BasicItemTier.Staff,2,-2.5f,2, AugmentAmplify.INSTANCE,2);
         final Item STAFF_2 = new Staff("archmage_staff", BasicItemTier.Staff2,2,-2.5f,3, AdvancedAmplify.INSTANCE,2);
         final Item STAFF_3 = new Staff("arcane_staff", BasicItemTier.Staff3,2,-2.5f,3, AdvancedAmplify.INSTANCE,3,true);
-        final Item SPELLBOOK_FOUR = new CustomSpellBook("arcane_book",(new Item.Properties()).stacksTo(1).tab(ArsNouveau.itemGroup).setISTER(() -> {
-            return SpellBookRenderer::new;
-        }).fireResistant(),4,10);
+        final Item SPELLBOOK_FOUR = new SpellBook(TierFourEffect.FOUR).setRegistryName("arcane_book");
         final Item POISON_FLOWER_ITEM = new BlockItem(POISON_FLOWER.get(),ITEM_PROPERTIES).setRegistryName("poison_flower");
         final Item DEMONIC_STONE_ITEM = new BlockItem(DEMONIC_STONE.get(),ITEM_PROPERTIES).setRegistryName("demonic_stone");
         final Item DEMONIC_ORE_ITEM = new BlockItem(DEMONIC_ORE.get(),ITEM_PROPERTIES).setRegistryName("demonic_ore");
@@ -178,10 +173,21 @@ public class RegistryHandler{
         final Item ARCANE_BLOOM = new Item(ITEM_PROPERTIES).setRegistryName("arcane_bloom");
         final Item ARCANE_FIBER = new Item(ITEM_PROPERTIES).setRegistryName("arcane_fiber");
         final Item ARCANE_CLOTH = new Item(ITEM_PROPERTIES_FIRE).setRegistryName("arcane_cloth");
+        final Item MAGIC_CLAY = new Item(ITEM_PROPERTIES).setRegistryName("magic_clay");
+
 
         final Item ROPE = new Item(ITEM_PROPERTIES_FIRE).setRegistryName("rope");
         final Item MAGIC_ROPE = new Item(ITEM_PROPERTIES_FIRE).setRegistryName("magic_rope");
         final Item ENCHANTED_ROPE = new Item(ITEM_PROPERTIES_FIRE).setRegistryName("enchanted_rope");
+
+        final Item ESSENCE_ARCANE = new EssenceItem(ITEM_PROPERTIES,"arcane_essence");
+        final Item ESSENCE_LIFE = new EssenceItem(ITEM_PROPERTIES,"life_essence");
+        final Item ESSENCE_ALCHEMY = new EssenceItem(ITEM_PROPERTIES,"alchemy_essence");
+        final Item ESSENCE_NATURE = new EssenceItem(ITEM_PROPERTIES,"nature_essence");
+        final Item ESSENCE_DEMONIC = new EssenceItem(ITEM_PROPERTIES,"demonic_essence");
+        final Item ESSENCE_ELEMENTAL_BASIC = new EssenceItem(ITEM_PROPERTIES,"basic_elemental_essence");
+        final Item ESSENCE_ELEMENTAL_ADVANCED = new EssenceItem(ITEM_PROPERTIES,"advanced_elemental_essence");
+
 
         final Item INFINITY_CRYSTAL_BLOCK = new BlockItem(ItemsRegistry.INFINITY_JAR,ITEM_PROPERTIES).setRegistryName("infinity_crystal");
         final Item FLESH_BLOCK_ITEM = new BlockItem(FLESH_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("flesh_block");
@@ -201,15 +207,15 @@ public class RegistryHandler{
         final Item POTION_AMPLIFIER_ITEM = new BlockItem(POTION_AMPLIFIER.get(),ITEM_PROPERTIES).setRegistryName("potion_amplifier");
         final Item DEMON_STAFF = new DemonStaff(UNSTACKABLE_FIRE,"demon_staff");
 
-        final Item ARCANE_HELMET = new EnchantedArmor("arcane_helmet",EquipmentSlotType.HEAD,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
-        final Item ARCANE_CHEST = new EnchantedArmor("arcane_chestplate",EquipmentSlotType.CHEST,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
-        final Item ARCANE_LEGGINGS = new EnchantedArmor("arcane_leggings",EquipmentSlotType.LEGS,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
-        final Item ARCANE_BOOTS = new EnchantedArmor("arcane_boots",EquipmentSlotType.FEET,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
+        final Item ARCANE_HELMET = new EnchantedArmor("arcane_helmet",EquipmentSlot.HEAD,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
+        final Item ARCANE_CHEST = new EnchantedArmor("arcane_chestplate",EquipmentSlot.CHEST,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
+        final Item ARCANE_LEGGINGS = new EnchantedArmor("arcane_leggings",EquipmentSlot.LEGS,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
+        final Item ARCANE_BOOTS = new EnchantedArmor("arcane_boots",EquipmentSlot.FEET,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
 
-        final Item DEFENSE_HELMET = new EnchantedArmor("defense_helmet",EquipmentSlotType.HEAD,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
-        final Item DEFENSE_CHEST = new EnchantedArmor("defense_chestplate",EquipmentSlotType.CHEST,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
-        final Item DEFENSE_LEGGINGS = new EnchantedArmor("defense_leggings",EquipmentSlotType.LEGS,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
-        final Item DEFENSE_BOOTS = new EnchantedArmor("defense_boots",EquipmentSlotType.FEET,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
+        final Item DEFENSE_HELMET = new EnchantedArmor("defense_helmet",EquipmentSlot.HEAD,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
+        final Item DEFENSE_CHEST = new EnchantedArmor("defense_chestplate",EquipmentSlot.CHEST,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
+        final Item DEFENSE_LEGGINGS = new EnchantedArmor("defense_leggings",EquipmentSlot.LEGS,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
+        final Item DEFENSE_BOOTS = new EnchantedArmor("defense_boots",EquipmentSlot.FEET,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
 
         final Item DEMON_SPAWN_EGG = new ModSpawnEggItem(BASIC_DEMON,0x000000,0x000000,ITEM_PROPERTIES).setRegistryName("basic_demon_spawn_egg");
 
@@ -230,9 +236,18 @@ public class RegistryHandler{
         ITEMS.add(DEMONIC_STONE_ITEM);
         ITEMS.add(DEMONIC_ORE_ITEM);
         ITEMS.add(DEMON_GEM);
+        ITEMS.add(MAGIC_CLAY);
         ITEMS.add(CLEANSING_GEM);
         ITEMS.add(GORGON_GEM);
         ITEMS.add(DEMON_CRYSTAL);
+
+        ITEMS.add(ESSENCE_NATURE);
+        ITEMS.add(ESSENCE_ARCANE);
+        ITEMS.add(ESSENCE_DEMONIC);
+        ITEMS.add(ESSENCE_LIFE);
+        ITEMS.add(ESSENCE_ALCHEMY);
+        ITEMS.add(ESSENCE_ELEMENTAL_ADVANCED);
+        ITEMS.add(ESSENCE_ELEMENTAL_BASIC);
 
         ITEMS.add(ARCANE_BLOOM_CROP);
         ITEMS.add(ENCHANTERS_WOOL_ITEM);
@@ -279,24 +294,24 @@ public class RegistryHandler{
 
     //Block Properties
     static final BlockPropertiesCreator blockPropertiesCreator = new BlockPropertiesCreator();
-    static final Block.Properties STONE_PROPERTIES = blockPropertiesCreator.create(Material.STONE,3.5f,2f,0, SoundType.STONE, ToolType.PICKAXE);
-    static final Block.Properties FLOWER_PROPERTIES = blockPropertiesCreator.create(Material.PLANT,0.01f,0f,0, SoundType.CROP, null).noCollission().noOcclusion();
-    static final AbstractBlock.Properties BRAMBLE_PROPERTIES = blockPropertiesCreator.create(Material.PLANT, 2f, 0.5f, 0, SoundType.HARD_CROP, ToolType.AXE).noOcclusion();
-    static final AbstractBlock.Properties BRAMBLE_PROPERTIES_2 = blockPropertiesCreator.create(Material.PLANT, 4f, 1f, 0, SoundType.HARD_CROP, ToolType.AXE).noOcclusion();
-    static final AbstractBlock.Properties BRAMBLE_PROPERTIES_3 = blockPropertiesCreator.create(Material.PLANT, 6f, 2f, 1, SoundType.HARD_CROP, ToolType.AXE).noOcclusion();
-    static final AbstractBlock.Properties BRAMBLE_PROPERTIES_4 = blockPropertiesCreator.create(Material.PLANT, 10f, 4f, 2, SoundType.HARD_CROP, ToolType.AXE).noOcclusion();
-    static final AbstractBlock.Properties CLAY_PROPERTIES = blockPropertiesCreator.create(Material.CLAY, 3f, 1f, 2, SoundType.GRAVEL, ToolType.SHOVEL);
-    static final AbstractBlock.Properties WOOL_PROPERTIES = blockPropertiesCreator.create(Material.WOOL, 4f, 8f, 2, SoundType.WOOL, ToolType.AXE);
-    static final AbstractBlock.Properties FIRE_PROPERTIES = blockPropertiesCreator.create(Material.FIRE, 0, 0, 0, SoundType.SAND, null).noOcclusion().lightLevel((BlockState state) -> 15);
-    static final Block.Properties GLOW_PROPERTIES = blockPropertiesCreator.create(Material.STONE,1.5f,1f,0, SoundType.STONE, ToolType.PICKAXE).lightLevel((BlockState state) -> 15);
+    static final Block.Properties STONE_PROPERTIES = blockPropertiesCreator.create(Material.STONE,3.5f,2f, SoundType.STONE, true);
+    static final Block.Properties FLOWER_PROPERTIES = blockPropertiesCreator.create(Material.PLANT,0.01f,0f, SoundType.CROP, false).noCollission().noOcclusion();
+    static final BlockBehaviour.Properties BRAMBLE_PROPERTIES = blockPropertiesCreator.create(Material.PLANT, 2f, 0.5f,  SoundType.HARD_CROP, false).noOcclusion();
+    static final BlockBehaviour.Properties BRAMBLE_PROPERTIES_2 = blockPropertiesCreator.create(Material.PLANT, 4f, 1f,  SoundType.HARD_CROP, false).noOcclusion();
+    static final BlockBehaviour.Properties BRAMBLE_PROPERTIES_3 = blockPropertiesCreator.create(Material.PLANT, 6f, 2f,  SoundType.HARD_CROP, true).noOcclusion();
+    static final BlockBehaviour.Properties BRAMBLE_PROPERTIES_4 = blockPropertiesCreator.create(Material.PLANT, 10f, 4f,  SoundType.HARD_CROP, true).noOcclusion();
+    static final BlockBehaviour.Properties CLAY_PROPERTIES = blockPropertiesCreator.create(Material.CLAY, 3f, 1f,  SoundType.GRAVEL, false);
+    static final BlockBehaviour.Properties WOOL_PROPERTIES = blockPropertiesCreator.create(Material.WOOL, 4f, 8f,  SoundType.WOOL, false);
+    static final BlockBehaviour.Properties FIRE_PROPERTIES = blockPropertiesCreator.create(Material.FIRE, 0, 0, SoundType.SAND, false).noOcclusion().lightLevel((BlockState state) -> 15);
+    static final Block.Properties GLOW_PROPERTIES = blockPropertiesCreator.create(Material.STONE,1.5f,1f, SoundType.STONE, false).lightLevel((BlockState state) -> 15);
 
-    private static Boolean never(BlockState p_235427_0_, IBlockReader p_235427_1_, BlockPos p_235427_2_, EntityType<?> p_235427_3_) {
+    private static Boolean never(BlockState p_235427_0_, BlockGetter p_235427_1_, BlockPos p_235427_2_, EntityType<?> p_235427_3_) {
         return (boolean)false;
     }
-    private static boolean never(BlockState p_235436_0_, IBlockReader p_235436_1_, BlockPos p_235436_2_) {
+    private static boolean never(BlockState p_235436_0_, BlockGetter p_235436_1_, BlockPos p_235436_2_) {
         return false;
     }
-    static final Block.Properties UNBREAKABLE_BLOCK_PROPERTIES = blockPropertiesCreator.create(Material.STONE,-1,1200f,0, SoundType.STONE, ToolType.PICKAXE).noDrops().noOcclusion().isValidSpawn(RegistryHandler::never).isRedstoneConductor(RegistryHandler::never).isSuffocating(RegistryHandler::never).isViewBlocking(RegistryHandler::never);
+    static final Block.Properties UNBREAKABLE_BLOCK_PROPERTIES = blockPropertiesCreator.create(Material.STONE,-1,1200f, SoundType.STONE, true).noDrops().noOcclusion().isValidSpawn(RegistryHandler::never).isRedstoneConductor(RegistryHandler::never).isSuffocating(RegistryHandler::never).isViewBlocking(RegistryHandler::never);
 
 
     public static final RegistryObject<Block> DEMONIC_STONE = BLOCKS.register("demonic_stone",() -> new Block(STONE_PROPERTIES));
@@ -317,18 +332,18 @@ public class RegistryHandler{
     public static final RegistryObject<Block> ENCHANTERS_WOOL = BLOCKS.register("enchanters_wool",() -> new Block(WOOL_PROPERTIES));
     public static final RegistryObject<Block> ARCANE_BLOOM = BLOCKS.register("arcane_bloom_crop",() -> new ArcaneBloomCrop());
 
-    public static final RegistryObject<Block> POISON_FLOWER = BLOCKS.register("poison_flower",() -> new PoisonFlower(Effects.POISON,FLOWER_PROPERTIES));
+    public static final RegistryObject<Block> POISON_FLOWER = BLOCKS.register("poison_flower",() -> new PoisonFlower(MobEffects.POISON,FLOWER_PROPERTIES));
     public static final RegistryObject<Block> BRAMBLE_1 = BLOCKS.register("bramble_1",() -> new BramblesBlock(BRAMBLE_PROPERTIES,1));
     public static final RegistryObject<Block> BRAMBLE_2 = BLOCKS.register("bramble_2",() -> new BramblesBlock(BRAMBLE_PROPERTIES_2,2));
     public static final RegistryObject<Block> BRAMBLE_3 = BLOCKS.register("bramble_3",() -> new BramblesBlock(BRAMBLE_PROPERTIES_3,3));
     public static final RegistryObject<Block> BRAMBLE_4 = BLOCKS.register("bramble_4",() -> new BramblesBlock(BRAMBLE_PROPERTIES_4,4));
 
-    public static RegistryObject<TileEntityType<PotionExtenderTile>> PotionExtenderType = TILE_ENTITIES.register("potion_extender_tile",() -> TileEntityType.Builder.of(PotionExtenderTile::new,POTION_EXTENDER.get()).build(null));
-    public static RegistryObject<TileEntityType<PotionAmplifierTile>> PotionAmplifierType = TILE_ENTITIES.register("potion_amplifier_tile",() -> TileEntityType.Builder.of(PotionAmplifierTile::new,POTION_AMPLIFIER.get()).build(null));
-    public static RegistryObject<TileEntityType<InfinityCrystalTile>> InfinityCrystalType = TILE_ENTITIES.register("infinity_crystal_tile",() -> TileEntityType.Builder.of(InfinityCrystalTile::new, ItemsRegistry.INFINITY_JAR).build(null));
+    public static RegistryObject<BlockEntityType<PotionExtenderTile>> PotionExtenderType = TILE_ENTITIES.register("potion_extender_tile",() -> BlockEntityType.Builder.of(PotionExtenderTile::new,POTION_EXTENDER.get()).build(null));
+    public static RegistryObject<BlockEntityType<PotionAmplifierTile>> PotionAmplifierType = TILE_ENTITIES.register("potion_amplifier_tile",() -> BlockEntityType.Builder.of(PotionAmplifierTile::new,POTION_AMPLIFIER.get()).build(null));
+    public static RegistryObject<BlockEntityType<InfinityCrystalTile>> InfinityCrystalType = TILE_ENTITIES.register("infinity_crystal_tile",() -> BlockEntityType.Builder.of(InfinityCrystalTile::new, ItemsRegistry.INFINITY_JAR).build(null));
 
 
-    public static final RegistryObject<EntityType<? extends MobEntity>> BASIC_DEMON = ENTITIES.register("demon_basic", () -> EntityType.Builder.of(EntityDemonBasic::new, EntityClassification.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_basic").toString()));
-    public static final RegistryObject<EntityType<? extends MobEntity>> STRONG_DEMON = ENTITIES.register("demon_strong", () -> EntityType.Builder.of(EntityDemonStrong::new, EntityClassification.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_strong").toString()));
-    public static final RegistryObject<EntityType<? extends MobEntity>> BOSS_DEMON_KING = ENTITIES.register("boss_demon_king", () -> EntityType.Builder.of(EntityBossDemonKing::new, EntityClassification.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "boss_demon_king").toString()));
+    public static final RegistryObject<EntityType<? extends Mob>> BASIC_DEMON = ENTITIES.register("demon_basic", () -> EntityType.Builder.of(EntityDemonBasic::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_basic").toString()));
+    public static final RegistryObject<EntityType<? extends Mob>> STRONG_DEMON = ENTITIES.register("demon_strong", () -> EntityType.Builder.of(EntityDemonStrong::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_strong").toString()));
+    public static final RegistryObject<EntityType<? extends Mob>> BOSS_DEMON_KING = ENTITIES.register("boss_demon_king", () -> EntityType.Builder.of(EntityBossDemonKing::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "boss_demon_king").toString()));
 }

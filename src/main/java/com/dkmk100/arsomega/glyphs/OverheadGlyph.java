@@ -1,3 +1,4 @@
+/*
 package com.dkmk100.arsomega.glyphs;
 
 import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
@@ -5,16 +6,16 @@ import com.hollingsworth.arsnouveau.api.spell.AbstractCastMethod;
 import com.hollingsworth.arsnouveau.api.spell.SpellContext;
 import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodUnderfoot;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.item.Items;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.Items;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -30,41 +31,41 @@ public class OverheadGlyph extends AbstractCastMethod {
         super(tag,description);
     }
 
-    public void onCast(@Nullable ItemStack stack, LivingEntity caster, World world, List<AbstractAugment> augments, SpellContext context, SpellResolver resolver) {
+    public void onCast(@Nullable ItemStack stack, LivingEntity caster, Level world, List<AbstractAugment> augments, SpellContext context, SpellResolver resolver) {
 
-        resolver.onResolveEffect(caster.getCommandSenderWorld(), caster, new BlockRayTraceResult(caster.position().add(0,OFFSET,0), Direction.UP, caster.blockPosition().above(OFFSET), true));
+        resolver.onResolveEffect(caster.getCommandSenderWorld(), caster, new BlockHitResult(caster.position().add(0,OFFSET,0), Direction.UP, caster.blockPosition().above(OFFSET), true));
         resolver.expendMana(caster);
     }
 
-    public void onCastOnBlock(ItemUseContext context, List<AbstractAugment> augments, SpellContext spellContext, SpellResolver resolver) {
+    public void onCastOnBlock(UseOnContext context, List<AbstractAugment> augments, SpellContext spellContext, SpellResolver resolver) {
         LivingEntity caster = context.getPlayer();
-        resolver.onResolveEffect(caster.getCommandSenderWorld(), caster, new BlockRayTraceResult(caster.position().add(0,OFFSET,0), Direction.UP, caster.blockPosition().above(OFFSET), true));
+        resolver.onResolveEffect(caster.getCommandSenderWorld(), caster, new BlockHitResult(caster.position().add(0,OFFSET,0), Direction.UP, caster.blockPosition().above(OFFSET), true));
         resolver.expendMana(caster);
     }
 
-    public void onCastOnBlock(BlockRayTraceResult blockRayTraceResult, LivingEntity caster, List<AbstractAugment> augments, SpellContext spellContext, SpellResolver resolver) {
-        resolver.onResolveEffect(caster.getCommandSenderWorld(), caster, new BlockRayTraceResult(caster.position().add(0,OFFSET,0), Direction.UP, caster.blockPosition().above(OFFSET), true));
+    public void onCastOnBlock(BlockHitResult blockRayTraceResult, LivingEntity caster, List<AbstractAugment> augments, SpellContext spellContext, SpellResolver resolver) {
+        resolver.onResolveEffect(caster.getCommandSenderWorld(), caster, new BlockHitResult(caster.position().add(0,OFFSET,0), Direction.UP, caster.blockPosition().above(OFFSET), true));
         resolver.expendMana(caster);
     }
 
-    public void onCastOnEntity(@Nullable ItemStack stack, LivingEntity caster, Entity target, Hand hand, List<AbstractAugment> augments, SpellContext spellContext, SpellResolver resolver) {
-        resolver.onResolveEffect(caster.getCommandSenderWorld(), caster, new BlockRayTraceResult(caster.position().add(0,2,0), Direction.UP, caster.blockPosition().above(2), true));
+    public void onCastOnEntity(@Nullable ItemStack stack, LivingEntity caster, Entity target, InteractionHand hand, List<AbstractAugment> augments, SpellContext spellContext, SpellResolver resolver) {
+        resolver.onResolveEffect(caster.getCommandSenderWorld(), caster, new BlockHitResult(caster.position().add(0,2,0), Direction.UP, caster.blockPosition().above(2), true));
         resolver.expendMana(caster);
     }
 
-    public boolean wouldCastSuccessfully(@Nullable ItemStack stack, LivingEntity playerEntity, World world, List<AbstractAugment> augments, SpellResolver resolver) {
+    public boolean wouldCastSuccessfully(@Nullable ItemStack stack, LivingEntity playerEntity, Level world, List<AbstractAugment> augments, SpellResolver resolver) {
         return false;
     }
 
-    public boolean wouldCastOnBlockSuccessfully(ItemUseContext context, List<AbstractAugment> augments, SpellResolver resolver) {
+    public boolean wouldCastOnBlockSuccessfully(UseOnContext context, List<AbstractAugment> augments, SpellResolver resolver) {
         return false;
     }
 
-    public boolean wouldCastOnBlockSuccessfully(BlockRayTraceResult blockRayTraceResult, LivingEntity caster, List<AbstractAugment> augments, SpellResolver resolver) {
+    public boolean wouldCastOnBlockSuccessfully(BlockHitResult blockRayTraceResult, LivingEntity caster, List<AbstractAugment> augments, SpellResolver resolver) {
         return false;
     }
 
-    public boolean wouldCastOnEntitySuccessfully(@Nullable ItemStack stack, LivingEntity caster, Entity target, Hand hand, List<AbstractAugment> augments, SpellResolver resolver) {
+    public boolean wouldCastOnEntitySuccessfully(@Nullable ItemStack stack, LivingEntity caster, Entity target, InteractionHand hand, List<AbstractAugment> augments, SpellResolver resolver) {
         return false;
     }
 
@@ -86,3 +87,4 @@ public class OverheadGlyph extends AbstractCastMethod {
         return Items.STONE_PRESSURE_PLATE;
     }
 }
+ */

@@ -5,13 +5,12 @@ import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentFortune;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -25,36 +24,38 @@ public class AdrenalineGlyph extends AbstractEffect {
     }
 
     @Override
-    public int getManaCost() {
+    public int getDefaultManaCost() {
         return 300;
     }
     @Override
-    public void onResolveEntity(EntityRayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
             int amp = (int)Math.round(spellStats.getAmpMultiplier());
-            living.addEffect(new EffectInstance(ModPotions.ADRENALINE, 200 + 100*amp));
-            living.addEffect(new EffectInstance(Effects.MOVEMENT_SPEED, 200 + 100*amp,2));
-            living.addEffect(new EffectInstance(Effects.DAMAGE_RESISTANCE, 200 + 100*amp,2));
-            living.addEffect(new EffectInstance(Effects.FIRE_RESISTANCE, 200 + 100*amp));
-            living.addEffect(new EffectInstance(Effects.DAMAGE_BOOST, 200 + 100*amp,2));
-            living.addEffect(new EffectInstance(Effects.JUMP, 200 + 100*amp,2));
-            living.addEffect(new EffectInstance(ModPotions.ADRENALINE, 200 + 100*amp));
-            living.addEffect(new EffectInstance(Effects.CONFUSION, 40 + 20*amp));
+            living.addEffect(new MobEffectInstance(ModPotions.ADRENALINE, 200 + 100*amp));
+            living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 200 + 100*amp,2));
+            living.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 200 + 100*amp,2));
+            living.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 200 + 100*amp));
+            living.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 200 + 100*amp,2));
+            living.addEffect(new MobEffectInstance(MobEffects.JUMP, 200 + 100*amp,2));
+            living.addEffect(new MobEffectInstance(ModPotions.ADRENALINE, 200 + 100*amp));
+            living.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 40 + 20*amp));
         }
     }
 
+    @Override
     @Nonnull
     public Set<AbstractAugment> getCompatibleAugments() {
         return this.augmentSetOf(new AbstractAugment[]{AugmentAmplify.INSTANCE, AugmentDampen.INSTANCE});
     }
 
     @Override
-    public Tier getTier() {
-        return Tier.TWO;
+    public SpellTier getTier() {
+        return SpellTier.TWO;
     }
 
+    @Override
     @Nonnull
     public Set<SpellSchool> getSchools() {
         return this.setOf(new SpellSchool[]{Schools.LIFE});

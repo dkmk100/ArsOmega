@@ -1,6 +1,6 @@
 package com.dkmk100.arsomega;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ObjectHolder;
 
 @ObjectHolder("ars_nouveau")

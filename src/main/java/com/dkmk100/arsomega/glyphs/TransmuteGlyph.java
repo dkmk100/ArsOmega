@@ -1,23 +1,19 @@
 package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.ArsRegistry;
-import com.dkmk100.arsomega.base_blocks.MagicAnimatable;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentPierce;
-import com.hollingsworth.arsnouveau.setup.ItemsRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import javax.annotation.Nonnull;
@@ -44,8 +40,8 @@ public class TransmuteGlyph extends AbstractEffect {
             };
 
     @Override
-    public void onResolveBlock(BlockRayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
-        if (world instanceof ServerWorld) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+        if (world instanceof ServerLevel) {
             int aoeBuff = spellStats.getBuffCount(AugmentAOE.INSTANCE);
             int ampBuff = (int) Math.round(spellStats.getAmpMultiplier());
             int maxProcess = spellStats.getBuffCount(AugmentPierce.INSTANCE) * 16 + 8;
@@ -60,7 +56,7 @@ public class TransmuteGlyph extends AbstractEffect {
             ampBuff = Math.min(ampBuff,maxLevel);
 
 
-            List<ItemEntity> itemEntities = world.getEntitiesOfClass(ItemEntity.class, (new AxisAlignedBB(rayTraceResult.getBlockPos())).inflate((double) aoeBuff + 1.0D));
+            List<ItemEntity> itemEntities = world.getEntitiesOfClass(ItemEntity.class, (new AABB(rayTraceResult.getBlockPos())).inflate((double) aoeBuff + 1.0D));
             Iterator var5 = itemEntities.iterator();
 
             while (var5.hasNext()) {
@@ -113,7 +109,7 @@ public class TransmuteGlyph extends AbstractEffect {
     }
 
     @Override
-    public int getManaCost() {
+    public int getDefaultManaCost() {
         return 160;
     }
 
@@ -124,10 +120,11 @@ public class TransmuteGlyph extends AbstractEffect {
     }
 
     @Override
-    public Tier getTier() {
-        return Tier.TWO;
+    public SpellTier getTier() {
+        return SpellTier.TWO;
     }
 
+    @Override
     @Nonnull
     public Set<SpellSchool> getSchools() {
         return this.setOf(new SpellSchool[]{Schools.ALCHEMY});

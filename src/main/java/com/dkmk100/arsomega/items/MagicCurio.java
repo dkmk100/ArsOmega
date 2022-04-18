@@ -1,7 +1,7 @@
 package com.dkmk100.arsomega.items;
 
 import com.hollingsworth.arsnouveau.common.items.curios.AbstractManaCurio;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public class MagicCurio extends AbstractManaCurio {
     int boost;
@@ -13,11 +13,11 @@ public class MagicCurio extends AbstractManaCurio {
     }
 
     @Override
-    public int getManaRegenBonus() {
+    public int getManaRegenBonus(ItemStack stack) {
         return regen;
     }
     @Override
-    public int getMaxManaBoost() {
+    public int getMaxManaBoost(ItemStack stack) {
         return boost;
     }
 }

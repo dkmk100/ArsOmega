@@ -2,27 +2,26 @@ package com.dkmk100.arsomega.glyphs;
 
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.SpellUtil;
+import com.hollingsworth.arsnouveau.common.datagen.BlockTagProvider;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.IGrowable;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.ForgeTagHandler;
-import net.minecraftforge.common.IPlantable;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.rmi.registry.Registry;
 import java.util.*;
 
 public class Melt extends AbstractEffect {
@@ -34,8 +33,8 @@ public class Melt extends AbstractEffect {
     }
 
     @Override
-    public void onResolveBlock(BlockRayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
-        if(world instanceof ServerWorld){
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+        if(world instanceof ServerLevel){
             int aoeBuff = spellStats.getBuffCount(AugmentAOE.INSTANCE);
             double amp = spellStats.getAmpMultiplier();
             int passes = (int)Math.round((amp+1)/3) + 1;
@@ -55,7 +54,8 @@ public class Melt extends AbstractEffect {
                     else if (block == Blocks.COBBLESTONE) {
                         block = Blocks.STONE;
                     }
-                    else if (block == Blocks.STONE || Tags.Blocks.STONE.contains(block)) {
+                    else if (block == Blocks.STONE || ForgeRegistries.BLOCKS.tags().getTag(Tags.Blocks.STONE).contains(block))
+                    {
                         block = Blocks.BASALT;
                     }
                     else if (block == Blocks.BASALT) {
@@ -73,10 +73,10 @@ public class Melt extends AbstractEffect {
     }
 
     @Override
-    public void onResolveEntity(EntityRayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         Entity entity = rayTraceResult.getEntity();
-        if (entity instanceof MobEntity) {
-            MobEntity living = (MobEntity) entity;
+        if (entity instanceof Mob) {
+            Mob living = (Mob) entity;
             float damage = 2.0f;
             Iterable<ItemStack> armor = living.getArmorSlots();
             for(ItemStack stack : armor){
@@ -89,13 +89,13 @@ public class Melt extends AbstractEffect {
     }
 
     @Override
-    public int getManaCost() {
+    public int getDefaultManaCost() {
         return 50;
     }
 
     @Override
-    public Tier getTier() {
-        return Tier.TWO;
+    public SpellTier getTier() {
+        return SpellTier.TWO;
     }
 
     @Override
@@ -105,7 +105,7 @@ public class Melt extends AbstractEffect {
     @Nonnull
     @Override
     public Set<AbstractAugment> getCompatibleAugments() {
-        Set potionAugments =  this.POTION_AUGMENTS;
+        Set potionAugments =  this.getPotionAugments();
         ArrayList<AbstractAugment> list = new ArrayList<AbstractAugment>(potionAugments);
         list.add(AugmentAOE.INSTANCE);
         return Collections.unmodifiableSet(new HashSet(list));

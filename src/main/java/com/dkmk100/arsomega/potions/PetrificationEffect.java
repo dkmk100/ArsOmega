@@ -1,26 +1,26 @@
 package com.dkmk100.arsomega.potions;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.AttributeModifierManager;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.item.ArmorStandEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectType;
-import net.minecraft.util.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.damagesource.DamageSource;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PetrificationEffect extends Effect {
+public class PetrificationEffect extends MobEffect {
     public static final DamageSource PETRIFY = (new DamageSource("petrify")).bypassArmor().bypassInvul().bypassMagic();
 
     public PetrificationEffect(String name) {
-        super(EffectType.HARMFUL, 9211020);
+        super(MobEffectCategory.HARMFUL, 9211020);
         this.setRegistryName("arsomega", name);
         this.addAttributeModifier(Attributes.MOVEMENT_SPEED, "0dee8a21-f182-42c8-8361-1ad6186cac30", -1.0D, AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
@@ -31,18 +31,18 @@ public class PetrificationEffect extends Effect {
     }
 
     @Override
-    public void removeAttributeModifiers(LivingEntity entity, AttributeModifierManager manager, int level) {
+    public void removeAttributeModifiers(LivingEntity entity, AttributeMap manager, int level) {
         super.removeAttributeModifiers(entity, manager, level);
         if (level >= 1) {
             entity.setHealth(1);
-            ArmorStandEntity ent = new ArmorStandEntity(entity.getCommandSenderWorld(), entity.getX(), entity.getY(), entity.getZ());
+            ArmorStand ent = new ArmorStand(entity.getCommandSenderWorld(), entity.getX(), entity.getY(), entity.getZ());
             entity.getCommandSenderWorld().addFreshEntity(ent);
-            ent.setItemSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.STONE, 1));
-            ent.setItemSlot(EquipmentSlotType.OFFHAND, new ItemStack(Items.STONE, 1));
-            ent.setItemSlot(EquipmentSlotType.HEAD, new ItemStack(Items.STONE, 1));
-            ent.setItemSlot(EquipmentSlotType.CHEST, new ItemStack(Items.STONE, 1));
-            ent.setItemSlot(EquipmentSlotType.LEGS, new ItemStack(Items.STONE, 1));
-            ent.setItemSlot(EquipmentSlotType.FEET, new ItemStack(Items.STONE, 1));
+            ent.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE, 1));
+            ent.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.STONE, 1));
+            ent.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.STONE, 1));
+            ent.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.STONE, 1));
+            ent.setItemSlot(EquipmentSlot.LEGS, new ItemStack(Items.STONE, 1));
+            ent.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.STONE, 1));
             entity.getCommandSenderWorld().addFreshEntity(new ItemEntity(entity.getCommandSenderWorld(), entity.getX(), entity.getY(), entity.getZ(), new ItemStack(Items.STONE, 1)));
             ent.setPose(entity.getPose());
             ent.setYHeadRot(entity.getYHeadRot());

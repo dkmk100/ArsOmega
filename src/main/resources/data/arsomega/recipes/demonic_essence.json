@@ -1,0 +1,36 @@
+{
+  "type": "ars_nouveau:imbuement",
+  "input": {
+    "tag": "forge:gems/source"
+  },
+  "output": "arsomega:demonic_essence",
+  "count": 1,
+  "source": 3000,
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "arsomega:demonic_crystal"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:demonic_glowstone"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:demonic_glowstone"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:magma_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:magma_block"
+      }
+    }
+  ]
+}

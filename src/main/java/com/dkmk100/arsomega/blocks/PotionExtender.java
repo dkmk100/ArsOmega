@@ -1,27 +1,24 @@
 package com.dkmk100.arsomega.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockReader;
+import com.hollingsworth.arsnouveau.common.block.TickableModBlock;
+import com.hollingsworth.arsnouveau.common.block.tile.PotionMelderTile;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.BlockGetter;
 
 import javax.annotation.Nullable;
 
-public class PotionExtender extends Block {
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
+public class PotionExtender extends TickableModBlock {
     public PotionExtender(Properties properties) {
         super(properties);
     }
-
-    public boolean hasTileEntity(BlockState state) {
-        return true;
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new PotionExtenderTile(pos, state);
     }
 
-    @Nullable
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new PotionExtenderTile();
-    }
-
-    //public BlockRenderType getRenderShape(BlockState state) {
-        //return BlockRenderType.ENTITYBLOCK_ANIMATED;
-    //}
 }

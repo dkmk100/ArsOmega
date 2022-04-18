@@ -1,3 +1,4 @@
+/*
 package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.entities.EntityMissileSpell;
@@ -8,20 +9,20 @@ import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
 import com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodProjectile;
-import net.minecraft.command.arguments.EntityAnchorArgument;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.item.Items;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.commands.arguments.EntityAnchorArgument;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.Items;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -29,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import com.hollingsworth.arsnouveau.api.spell.ISpellTier.Tier;
 
 public class FormMissile extends AbstractCastMethod {
     public static FormMissile INSTANCE = new FormMissile("missile","Missile");
@@ -41,7 +44,7 @@ public class FormMissile extends AbstractCastMethod {
         return 10;
     }
 
-    public void summonProjectiles(World world, LivingEntity shooter, List<AbstractAugment> augments, SpellResolver resolver) {
+    public void summonProjectiles(Level world, LivingEntity shooter, List<AbstractAugment> augments, SpellResolver resolver) {
         final boolean activate = true;
         int duration = 50 + (10*getBuffCount(augments, AugmentExtendTime.class)) - (15*getBuffCount(augments, AugmentDurationDown.class));
         duration = Math.max(7,duration);
@@ -74,7 +77,7 @@ public class FormMissile extends AbstractCastMethod {
 
     }
 
-    public void summonProjectiles(World world, BlockPos pos, LivingEntity shooter, List<AbstractAugment> augments, SpellResolver resolver) {
+    public void summonProjectiles(Level world, BlockPos pos, LivingEntity shooter, List<AbstractAugment> augments, SpellResolver resolver) {
         final boolean activate = true;
         int duration = 50 + (10*getBuffCount(augments, AugmentExtendTime.class)) - (10*getBuffCount(augments, AugmentDurationDown.class));
         duration = Math.max(7,duration);
@@ -101,48 +104,48 @@ public class FormMissile extends AbstractCastMethod {
 
         while(var14.hasNext()) {
             EntityMissileSpell proj = (EntityMissileSpell)var14.next();
-            proj.setDeltaMovement(new Vector3d(0.0D, -0.1D, 0.0D));
+            proj.setDeltaMovement(new Vec3(0.0D, -0.1D, 0.0D));
             world.addFreshEntity(proj);
         }
 
     }
 
-    public void onCast(ItemStack stack, LivingEntity shooter, World world, List<AbstractAugment> augments, SpellContext context, SpellResolver resolver) {
+    public void onCast(ItemStack stack, LivingEntity shooter, Level world, List<AbstractAugment> augments, SpellContext context, SpellResolver resolver) {
         this.summonProjectiles(world, shooter, augments, resolver);
         resolver.expendMana(shooter);
     }
 
-    public void onCastOnBlock(ItemUseContext context, List<AbstractAugment> augments, SpellContext spellContext, SpellResolver resolver) {
-        World world = context.getLevel();
-        PlayerEntity shooter = context.getPlayer();
+    public void onCastOnBlock(UseOnContext context, List<AbstractAugment> augments, SpellContext spellContext, SpellResolver resolver) {
+        Level world = context.getLevel();
+        Player shooter = context.getPlayer();
         this.summonProjectiles(world, shooter, augments, resolver);
         resolver.expendMana(shooter);
     }
 
-    public void onCastOnBlock(BlockRayTraceResult blockRayTraceResult, LivingEntity caster, List<AbstractAugment> augments, SpellContext spellContext, SpellResolver resolver) {
-        caster.lookAt(EntityAnchorArgument.Type.EYES, blockRayTraceResult.getLocation().add(0.0D, 0.0D, 0.0D));
+    public void onCastOnBlock(BlockHitResult blockRayTraceResult, LivingEntity caster, List<AbstractAugment> augments, SpellContext spellContext, SpellResolver resolver) {
+        caster.lookAt(EntityAnchorArgument.Anchor.EYES, blockRayTraceResult.getLocation().add(0.0D, 0.0D, 0.0D));
         this.summonProjectiles(caster.getCommandSenderWorld(), blockRayTraceResult.getBlockPos(), caster, augments, resolver);
         resolver.expendMana(caster);
     }
 
-    public void onCastOnEntity(ItemStack stack, LivingEntity caster, Entity target, Hand hand, List<AbstractAugment> augments, SpellContext spellContext, SpellResolver resolver) {
+    public void onCastOnEntity(ItemStack stack, LivingEntity caster, Entity target, InteractionHand hand, List<AbstractAugment> augments, SpellContext spellContext, SpellResolver resolver) {
         this.summonProjectiles(caster.getCommandSenderWorld(), caster, augments, resolver);
         resolver.expendMana(caster);
     }
 
-    public boolean wouldCastSuccessfully(@Nullable ItemStack stack, LivingEntity playerEntity, World world, List<AbstractAugment> augments, SpellResolver resolver) {
+    public boolean wouldCastSuccessfully(@Nullable ItemStack stack, LivingEntity playerEntity, Level world, List<AbstractAugment> augments, SpellResolver resolver) {
         return true;
     }
 
-    public boolean wouldCastOnBlockSuccessfully(ItemUseContext context, List<AbstractAugment> augments, SpellResolver resolver) {
+    public boolean wouldCastOnBlockSuccessfully(UseOnContext context, List<AbstractAugment> augments, SpellResolver resolver) {
         return true;
     }
 
-    public boolean wouldCastOnBlockSuccessfully(BlockRayTraceResult blockRayTraceResult, LivingEntity caster, List<AbstractAugment> augments, SpellResolver resolver) {
+    public boolean wouldCastOnBlockSuccessfully(BlockHitResult blockRayTraceResult, LivingEntity caster, List<AbstractAugment> augments, SpellResolver resolver) {
         return true;
     }
 
-    public boolean wouldCastOnEntitySuccessfully(@Nullable ItemStack stack, LivingEntity caster, Entity target, Hand hand, List<AbstractAugment> augments, SpellResolver resolver) {
+    public boolean wouldCastOnEntitySuccessfully(@Nullable ItemStack stack, LivingEntity caster, Entity target, InteractionHand hand, List<AbstractAugment> augments, SpellResolver resolver) {
         return true;
     }
 
@@ -168,3 +171,5 @@ public class FormMissile extends AbstractCastMethod {
         return true;
     }
 }
+
+ */

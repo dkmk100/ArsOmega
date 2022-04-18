@@ -1,11 +1,11 @@
 package com.dkmk100.arsomega.glyphs;
 
 import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
-import com.hollingsworth.arsnouveau.api.spell.ISpellTier;
 import com.hollingsworth.arsnouveau.api.spell.SpellStats;
 import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
+import com.hollingsworth.arsnouveau.api.spell.SpellTier;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 
 import javax.annotation.Nullable;
 
@@ -17,24 +17,23 @@ public class AdvancedAmplify extends AbstractAugment {
         super("advanced_amplify", "Advanced Amplify");
     }
 
-    public int getManaCost() {
+    @Override
+    public int getDefaultManaCost() {
         return 180;
     }
 
-    @Nullable
-    public Item getCraftingReagent() {
-        return Items.DIAMOND_BLOCK;
+    @Override
+    public SpellTier getTier() {
+        return SpellTier.THREE;
     }
 
-    public ISpellTier.Tier getTier() {
-        return Tier.THREE;
-    }
-
+    @Override
     public SpellStats.Builder applyModifiers(SpellStats.Builder builder, AbstractSpellPart spellPart) {
         builder.addAmplification(2.0D);
         return super.applyModifiers(builder, spellPart);
     }
 
+    @Override
     public String getBookDescription() {
         return "A more powerful version of amplify that is less mana efficient";
     }

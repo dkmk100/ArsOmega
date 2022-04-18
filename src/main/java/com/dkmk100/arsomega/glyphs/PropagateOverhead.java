@@ -1,24 +1,27 @@
+/*
 package com.dkmk100.arsomega.glyphs;
 
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Set;
+
+import com.hollingsworth.arsnouveau.api.spell.ISpellTier.Tier;
 
 public class PropagateOverhead extends AbstractEffect {
     public static PropagateOverhead INSTANCE = new PropagateOverhead("propagate_overhead","Propagate Overhead");
@@ -27,33 +30,33 @@ public class PropagateOverhead extends AbstractEffect {
         super(tag,description);
     }
 
-    public void sendPacket(World world, SpellStats stats, @Nullable LivingEntity shooter, SpellContext spellContext, Entity target) {
+    public void sendPacket(Level world, SpellStats stats, @Nullable LivingEntity shooter, SpellContext spellContext, Entity target) {
         spellContext.setCanceled(true);
         if (spellContext.getCurrentIndex() < spellContext.getSpell().recipe.size()) {
             Spell newSpell = new Spell(new ArrayList(spellContext.getSpell().recipe.subList(spellContext.getCurrentIndex(), spellContext.getSpell().recipe.size())));
             SpellContext newContext = (new SpellContext(newSpell, shooter)).withColors(spellContext.colors);
             SpellResolver resolver = new EntitySpellResolver(newContext);
             int offset = 3 + (int)Math.round(stats.getAmpMultiplier());
-            resolver.onResolveEffect(shooter.getCommandSenderWorld(),shooter,new BlockRayTraceResult(target.position(), Direction.UP, target.blockPosition().above(offset), true));
+            resolver.onResolveEffect(shooter.getCommandSenderWorld(),shooter,new BlockHitResult(target.position(), Direction.UP, target.blockPosition().above(offset), true));
         }
     }
 
-    public void sendPacket(World world, SpellStats stats, @Nullable LivingEntity shooter, SpellContext spellContext, BlockPos pos) {
+    public void sendPacket(Level world, SpellStats stats, @Nullable LivingEntity shooter, SpellContext spellContext, BlockPos pos) {
         spellContext.setCanceled(true);
         if (spellContext.getCurrentIndex() < spellContext.getSpell().recipe.size()) {
             Spell newSpell = new Spell(new ArrayList(spellContext.getSpell().recipe.subList(spellContext.getCurrentIndex(), spellContext.getSpell().recipe.size())));
             SpellContext newContext = (new SpellContext(newSpell, shooter)).withColors(spellContext.colors);
             SpellResolver resolver = new EntitySpellResolver(newContext);
             int offset = 1 + (int)Math.round(stats.getAmpMultiplier());
-            resolver.onResolveEffect(shooter.getCommandSenderWorld(),shooter,new BlockRayTraceResult(new Vector3d(pos.getX(),pos.getY(),pos.getZ()), Direction.UP, pos.above(offset), true));
+            resolver.onResolveEffect(shooter.getCommandSenderWorld(),shooter,new BlockHitResult(new Vec3(pos.getX(),pos.getY(),pos.getZ()), Direction.UP, pos.above(offset), true));
         }
     }
 
-    public void onResolveBlock(BlockRayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         this.sendPacket(world, spellStats, shooter, spellContext,rayTraceResult.getBlockPos());
     }
 
-    public void onResolveEntity(EntityRayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         this.sendPacket(world, spellStats, shooter, spellContext,rayTraceResult.getEntity());
     }
 
@@ -90,3 +93,4 @@ public class PropagateOverhead extends AbstractEffect {
         return this.setOf(new SpellSchool[]{SpellSchools.MANIPULATION});
     }
 }
+ */

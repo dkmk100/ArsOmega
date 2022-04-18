@@ -3,27 +3,30 @@ package com.dkmk100.arsomega.rituals;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 
 public class RitualSummoning extends AbstractRitual {
+    @Override
     protected void tick() {
-        World world = this.getWorld();
+        Level world = this.getWorld();
         if (world.isClientSide) {
             BlockPos pos = this.getPos();
 
             for (int i = 0; i < 100; ++i) {
-                Vector3d particlePos = (new Vector3d((double) pos.getX(), (double) pos.getY(), (double) pos.getZ())).add(0.5D, 0.0D, 0.5D);
+                Vec3 particlePos = (new Vec3((double) pos.getX(), (double) pos.getY(), (double) pos.getZ())).add(0.5D, 0.0D, 0.5D);
                 particlePos = particlePos.add(ParticleUtil.pointInSphere().multiply(5.0D, 5.0D, 5.0D));
                 world.addParticle(ParticleLineData.createData(this.getCenterColor()), particlePos.x(), particlePos.y(), particlePos.z(), (double) pos.getX() + 0.5D, (double) (pos.getY() + 1), (double) pos.getZ() + 0.5D);
             }
@@ -46,7 +49,7 @@ public class RitualSummoning extends AbstractRitual {
                 for(ItemStack stack : items){
                     Item item = stack.getItem();
                     if(chose){
-                        if(net.minecraftforge.common.Tags.Items.GEMS_DIAMOND.contains(item)){
+                        if(tagContains(Tags.Items.GEMS_DIAMOND,item)){
                             if(stack.getCount()<=0){
                                 amount+=1;
                             }
@@ -55,15 +58,15 @@ public class RitualSummoning extends AbstractRitual {
                             }
                         }
                     }
-                    else if(Tags.Items.LEATHER.contains(item)){
+                    else if(tagContains(Tags.Items.LEATHER,item)){
                        target=EntityType.COW;
                        chose=true;
                     }
-                    else if(Tags.Items.FEATHERS.contains(item)){
+                    else if(tagContains(Tags.Items.FEATHERS,item)){
                         target=EntityType.CHICKEN;
                         chose=true;
                     }
-                    else if(Tags.Items.GUNPOWDER.contains(item)){
+                    else if(tagContains(Tags.Items.GUNPOWDER,item)){
                         target=EntityType.CREEPER;
                         chose=true;
                     }
@@ -78,7 +81,7 @@ public class RitualSummoning extends AbstractRitual {
                 }
                 int i=0;
                 while(i<amount) {
-                    target.spawn((ServerWorld) world, null, null, pos.above(), SpawnReason.MOB_SUMMONED, false, false);
+                    target.spawn((ServerLevel) world, null, null, pos.above(), MobSpawnType.MOB_SUMMONED, false, false);
                     i+=1;
                 }
                 this.setFinished();
@@ -92,6 +95,9 @@ public class RitualSummoning extends AbstractRitual {
     @Override
     public int getManaCost() {
         return 5;
+    }
+    boolean tagContains(TagKey tag, Item item){
+        return ForgeRegistries.ITEMS.tags().getTag(tag).contains(item);
     }
 
     @Override

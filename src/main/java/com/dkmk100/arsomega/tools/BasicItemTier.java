@@ -1,16 +1,14 @@
 package com.dkmk100.arsomega.tools;
 
-import com.dkmk100.arsomega.util.RegistryHandler;
-import com.hollingsworth.arsnouveau.common.items.ModItem;
 import com.hollingsworth.arsnouveau.setup.ItemsRegistry;
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.function.Supplier;
 
-public enum BasicItemTier implements IItemTier {
-    Staff(3, 1280, 8.0f, 4F, 10, () -> {return Ingredient.of(ItemsRegistry.manaGem);}),
+public enum BasicItemTier implements Tier {
+    Staff(3, 1280, 8.0f, 4F, 10, () -> {return Ingredient.of(ItemsRegistry.SOURCE_GEM);}),
     Staff2(4, 2057, 9.0f, 5F, 12, () -> {return Ingredient.of(Items.NETHERITE_INGOT);}),
     Staff3(4, 4244, 10.0f, 6F, 16, () -> {return Ingredient.of(Items.NETHER_STAR);})
     ;

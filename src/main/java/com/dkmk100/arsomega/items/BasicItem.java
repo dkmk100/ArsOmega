@@ -1,6 +1,8 @@
 package com.dkmk100.arsomega.items;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
+
+import net.minecraft.world.item.Item.Properties;
 
 public class BasicItem extends Item {
     public BasicItem(Properties properties) {

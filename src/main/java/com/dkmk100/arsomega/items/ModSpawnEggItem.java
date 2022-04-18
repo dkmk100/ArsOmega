@@ -1,21 +1,22 @@
 package com.dkmk100.arsomega.items;
 
-import net.minecraft.block.DispenserBlock;
-import net.minecraft.dispenser.DefaultDispenseItemBehavior;
-import net.minecraft.dispenser.IBlockSource;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SpawnEggItem;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
+import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
+import net.minecraft.core.BlockSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
+import net.minecraftforge.registries.RegistryObject;
 
 public class ModSpawnEggItem extends SpawnEggItem {
     public ModSpawnEggItem(RegistryObject<? extends EntityType<?>> entityTypeIn, int primaryColorIn, int secondaryColorIn, Properties builder) {
@@ -31,10 +32,10 @@ public class ModSpawnEggItem extends SpawnEggItem {
         DefaultDispenseItemBehavior dispenseBehavior = new DefaultDispenseItemBehavior(){
 
             @Override
-            protected ItemStack execute(IBlockSource source, ItemStack stack) {
+            protected ItemStack execute(BlockSource source, ItemStack stack) {
                 Direction direction=source.getBlockState().getValue(DispenserBlock.FACING);
                 EntityType<?> type = ((SpawnEggItem) stack.getItem()).getType(stack.getTag());
-                type.spawn(source.getLevel(),stack,null,source.getPos(), SpawnReason.DISPENSER, direction != Direction.DOWN, false);
+                type.spawn(source.getLevel(),stack,null,source.getPos(), MobSpawnType.DISPENSER, direction != Direction.DOWN, false);
                 stack.shrink(1);
                 return stack;
             }
@@ -48,7 +49,7 @@ public class ModSpawnEggItem extends SpawnEggItem {
         UNADDED_EGGS.clear();
     }
     @Override
-    public EntityType<?> getType(CompoundNBT nbt){
+    public EntityType<?> getType(CompoundTag nbt){
         return this.entityTypeSupplier.get();
     }
 }

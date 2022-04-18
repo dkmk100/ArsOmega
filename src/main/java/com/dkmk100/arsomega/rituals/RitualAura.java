@@ -9,25 +9,23 @@ import com.hollingsworth.arsnouveau.api.spell.Spell;
 import com.hollingsworth.arsnouveau.api.spell.SpellContext;
 import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
 import com.hollingsworth.arsnouveau.api.util.ManaUtil;
+import com.hollingsworth.arsnouveau.api.util.SourceUtil;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import com.hollingsworth.arsnouveau.common.block.tile.RuneTile;
 import com.hollingsworth.arsnouveau.setup.BlockRegistry;
-import com.hollingsworth.arsnouveau.setup.ItemsRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.util.FakePlayer;
 
 import java.util.ArrayList;
@@ -38,13 +36,14 @@ public class RitualAura extends AbstractRitual {
     public String getID() {
         return "aura";
     }
+    @Override
     protected void tick() {
-        World world = this.getWorld();
+        Level world = this.getWorld();
         if (world.isClientSide) {
             BlockPos pos = this.getPos();
 
             for (int i = 0; i < 100; ++i) {
-                Vector3d particlePos = (new Vector3d((double) pos.getX(), (double) pos.getY(), (double) pos.getZ())).add(0.5D, 0.0D, 0.5D);
+                Vec3 particlePos = (new Vec3((double) pos.getX(), (double) pos.getY(), (double) pos.getZ())).add(0.5D, 0.0D, 0.5D);
                 particlePos = particlePos.add(ParticleUtil.pointInSphere().multiply(3.0D, 3.0D, 3.0D));
                 world.addParticle(ParticleLineData.createData(this.getCenterColor()), particlePos.x(), particlePos.y(), particlePos.z(), (double) pos.getX() + 0.5D, (double) (pos.getY() + 1), (double) pos.getZ() + 0.5D);
             }
@@ -77,7 +76,7 @@ public class RitualAura extends AbstractRitual {
                 }
 
                 BlockPos pos = getPos();
-                FakePlayer fakePlayer = ANFakePlayer.getPlayer((ServerWorld)world);
+                FakePlayer fakePlayer = ANFakePlayer.getPlayer((ServerLevel)world);
                 fakePlayer.setPos((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());
                 List<Spell> spells = new ArrayList<Spell>();
                 for(Direction dir : Direction.values()){
@@ -135,10 +134,10 @@ public class RitualAura extends AbstractRitual {
                 for(Spell spell : spells){
                     totalCost+= Math.max(spell.getCastingCost() - discount, 0);//discount is per-spell, but can never take it below 0
                 }
-                if(ManaUtil.takeManaNearbyWithParticles(pos, world, 6, totalCost) != null) {
-                    List<LivingEntity> entities = this.getWorld().getEntitiesOfClass(LivingEntity.class, (new AxisAlignedBB(this.getPos())).inflate(10.0D + aoe * 2).inflate(7, 0, 7));
+                if(SourceUtil.takeSourceNearbyWithParticles(pos, world, 6, totalCost) != null) {
+                    List<LivingEntity> entities = this.getWorld().getEntitiesOfClass(LivingEntity.class, (new AABB(this.getPos())).inflate(10.0D + aoe * 2).inflate(7, 0, 7));
                     for (LivingEntity entity : entities) {
-                        boolean player = entity instanceof PlayerEntity;
+                        boolean player = entity instanceof Player;
                         if ((!player && extract) || (!extract && (player || !sensitive))) {
                             for (Spell spell : spells) {
                                 EntitySpellResolver resolver = new EntitySpellResolver((new SpellContext(spell, fakePlayer)).withCastingTile(world.getBlockEntity(pos)).withType(SpellContext.CasterType.TURRET).withColors(new ParticleColor.IntWrapper(255, 255, 255)));

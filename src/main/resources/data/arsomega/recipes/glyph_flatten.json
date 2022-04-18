@@ -1,6 +1,0 @@
-{
-  "type": "ars_nouveau:glyph_recipe",
-  "tier": "TWO",
-  "input": "ars_nouveau:glyph_crush",
-  "output": "ars_nouveau:glyph_flatten"
-}

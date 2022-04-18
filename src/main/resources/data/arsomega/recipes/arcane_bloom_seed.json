@@ -1,51 +1,54 @@
 {
   "type": "ars_nouveau:enchanting_apparatus",
-  "item_1": [
-    {
-      "item": "ars_nouveau:end_fiber"
-    }
-  ],
-  "item_2": [
-    {
-      "item": "ars_nouveau:end_fiber"
-    }
-  ],
-  "item_3": [
-    {
-      "item": "ars_nouveau:end_fiber"
-    }
-  ],
-  "item_4": [
-    {
-      "item": "ars_nouveau:end_fiber"
-    }
-  ],
-  "item_5": [
-    {
-      "item": "ars_nouveau:mana_bloom"
-    }
-  ],
-  "item_6": [
-    {
-      "item": "ars_nouveau:mana_bloom"
-    }
-  ],
-  "item_7": [
-    {
-      "item": "ars_nouveau:mana_bloom"
-    }
-  ],
-  "item_8": [
-    {
-      "item": "ars_nouveau:mana_gem_block"
-    }
-  ],
   "reagent": [
     {
-      "item": "ars_nouveau:mana_bloom_crop"
+      "item": "ars_nouveau:magebloom_crop"
+    }
+  ],
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "ars_nouveau:end_fiber"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:end_fiber"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:end_fiber"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:end_fiber"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:magebloom"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:magebloom"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:magebloom"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:source_gem_block"
+      }
     }
   ],
   "output": {
     "item": "arsomega:arcane_bloom_crop"
-  }
+  },
+  "sourceCost": 500
 }

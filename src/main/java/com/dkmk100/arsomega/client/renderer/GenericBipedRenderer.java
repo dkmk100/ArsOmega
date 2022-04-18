@@ -1,22 +1,26 @@
 package com.dkmk100.arsomega.client.renderer;
 
 import com.dkmk100.arsomega.ArsOmega;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.model.HumanoidModel;
 
-public class GenericBipedRenderer extends MobRenderer<MobEntity, BipedModel<MobEntity>> {
+import net.minecraft.world.entity.Mob;
+import net.minecraft.resources.ResourceLocation;
+
+public class GenericBipedRenderer extends MobRenderer<Mob, HumanoidModel<Mob>> {
     public ResourceLocation TEXTURE;
-    public GenericBipedRenderer(EntityRendererManager renderManagerIn, String registryName) {
-        super(renderManagerIn, new BipedModel<MobEntity>(1), 0.5f);
-        TEXTURE = new ResourceLocation(ArsOmega.MOD_ID,"textures/entity/" + registryName + ".png");
+
+    public GenericBipedRenderer(EntityRendererProvider.Context context, String texture) {
+        super(context, new BipedModel<>(context.getModelSet().bakeLayer(ModelLayers.PLAYER)), 0.5f);
+        TEXTURE = new ResourceLocation(ArsOmega.MOD_ID,"textures/entity/" + texture + ".png");
+
     }
 
     @Override
-    public ResourceLocation getTextureLocation(MobEntity entity) {
+    public ResourceLocation getTextureLocation(Mob entity) {
         return TEXTURE;
     }
 }

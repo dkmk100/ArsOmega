@@ -1,30 +1,23 @@
 package com.dkmk100.arsomega.events;
 
 import com.dkmk100.arsomega.ArsOmega;
-import com.dkmk100.arsomega.init.ExperimentalStructureInit;
 import com.dkmk100.arsomega.items.ModSpawnEggItem;
 import com.dkmk100.arsomega.potions.ModPotions;
-import com.dkmk100.arsomega.structures.CustomStructure;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.function.Function;
 
@@ -129,18 +122,18 @@ public class CommonEvents {
     @SubscribeEvent
     public static void entityTick(TickEvent.PlayerTickEvent e) {
         if (e.phase == TickEvent.Phase.END && e.player.hasEffect(ModPotions.STONE_PETRIFICATION) && !e.player.isOnGround() && !e.player.isCreative()) {
-            e.player.abilities.flying = false;
+            //e.player.abilities.flying = false;
         }
     }
 
 
-    public static void teleportEntity(Entity entity, BlockPos destPos, ServerWorld destinationWorld, ServerWorld originalWorld) {
+    public static void teleportEntity(Entity entity, BlockPos destPos, ServerLevel destinationWorld, ServerLevel originalWorld) {
 
         // makes sure chunk is made
         destinationWorld.getChunk(destPos);
 
-        if (entity instanceof PlayerEntity) {
-            ((ServerPlayerEntity) entity).teleportTo(
+        if (entity instanceof Player) {
+            ((ServerPlayer) entity).teleportTo(
                     destinationWorld,
                     destPos.getX() + 0.5D,
                     destPos.getY() + 1D,
@@ -154,9 +147,9 @@ public class CommonEvents {
             if (entity2 != null) {
                 entity2.setPos(destPos.getX(),destPos.getY(),destPos.getZ());
                 entity2.setDeltaMovement(entity.getDeltaMovement());
-                destinationWorld.addFromAnotherDimension(entity2);
+                destinationWorld.addDuringTeleport(entity2);
             }
-            entity.remove();
+            entity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
             destinationWorld.getProfiler().endTick();
             //originalWorld.entity ;
             //destinationWorld.resetUpdateEntityTick();

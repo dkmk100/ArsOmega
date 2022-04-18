@@ -1,32 +1,25 @@
 package com.dkmk100.arsomega.glyphs;
 
-import com.dkmk100.arsomega.ArsOmega;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSensitive;
-import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentData;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.EnchantedBookItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.stats.Stats;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,12 +33,12 @@ public class DisenchantGlyph extends AbstractEffect {
     }
 
     @Override
-    public void onResolveBlock(BlockRayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
-        if (world instanceof ServerWorld) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+        if (world instanceof ServerLevel) {
             int aoeBuff = spellStats.getBuffCount(AugmentAOE.INSTANCE);
             int ampBuff = (int) Math.round(spellStats.getAmpMultiplier());
 
-            List<ItemEntity> itemEntities = world.getEntitiesOfClass(ItemEntity.class, (new AxisAlignedBB(rayTraceResult.getBlockPos())).inflate((double) aoeBuff + 1.0D));
+            List<ItemEntity> itemEntities = world.getEntitiesOfClass(ItemEntity.class, (new AABB(rayTraceResult.getBlockPos())).inflate((double) aoeBuff + 1.0D));
             Iterator var5 = itemEntities.iterator();
 
             while (var5.hasNext()) {
@@ -65,18 +58,18 @@ public class DisenchantGlyph extends AbstractEffect {
     }
 
     @Override
-    public void onResolveEntity(EntityRayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
-        if(rayTraceResult.getEntity() instanceof PlayerEntity) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+        if(rayTraceResult.getEntity() instanceof Player) {
             int ampBuff = (int) Math.round(spellStats.getAmpMultiplier());
-            PlayerEntity entity = (PlayerEntity)rayTraceResult.getEntity();
-            ItemStack result = disenchantItem(entity, entity.getItemInHand(Hand.MAIN_HAND), spellStats);
+            Player entity = (Player)rayTraceResult.getEntity();
+            ItemStack result = disenchantItem(entity, entity.getItemInHand(InteractionHand.MAIN_HAND), spellStats);
             if(result!=null) {
-                entity.setItemInHand(Hand.MAIN_HAND, result);
+                entity.setItemInHand(InteractionHand.MAIN_HAND, result);
             }
             else{
-                result = disenchantItem(entity, entity.getItemInHand(Hand.OFF_HAND), spellStats);
+                result = disenchantItem(entity, entity.getItemInHand(InteractionHand.OFF_HAND), spellStats);
                 if(result!=null) {
-                    entity.setItemInHand(Hand.OFF_HAND, result);
+                    entity.setItemInHand(InteractionHand.OFF_HAND, result);
                 }
             }
         }
@@ -97,7 +90,7 @@ public class DisenchantGlyph extends AbstractEffect {
             if(itemstack.isEnchanted()) {
                 int maxRemove = dampens > 0 ? 0 : 1 + amps;//dampen will prevent all removal.
                 int removed = 0;
-                ListNBT keys = itemstack2.getEnchantmentTags();
+                ListTag keys = itemstack2.getEnchantmentTags();
                 Map<Enchantment, Integer> map = EnchantmentHelper.deserializeEnchantments(keys);
                 Map<Enchantment, Integer> map2 = new HashMap<Enchantment, Integer>();
                 for (Map.Entry<Enchantment, Integer> entry : map.entrySet()) {
@@ -112,14 +105,14 @@ public class DisenchantGlyph extends AbstractEffect {
             else {
                 if (amps > 6 && itemstack2.getItem() == Items.ENCHANTED_GOLDEN_APPLE) {
                     itemstack2 = new ItemStack(Items.GOLDEN_APPLE, itemstack2.getCount());
-                    CompoundNBT compoundnbt = itemstack.getTag();
+                    CompoundTag compoundnbt = itemstack.getTag();
                     if (compoundnbt != null) {
                         itemstack2.setTag(compoundnbt.copy());
                     }
 
                 } else if (amps > 2 && itemstack2.getItem() == Items.EXPERIENCE_BOTTLE) {
                     itemstack2 = new ItemStack(Items.HONEY_BOTTLE, itemstack2.getCount());
-                    CompoundNBT compoundnbt = itemstack.getTag();
+                    CompoundTag compoundnbt = itemstack.getTag();
                     if (compoundnbt != null) {
                         itemstack2.setTag(compoundnbt.copy());
                     }
@@ -132,7 +125,7 @@ public class DisenchantGlyph extends AbstractEffect {
 
 
     @Override
-    public int getManaCost() {
+    public int getDefaultManaCost() {
         return 320;
     }
 
@@ -143,10 +136,11 @@ public class DisenchantGlyph extends AbstractEffect {
     }
 
     @Override
-    public ISpellTier.Tier getTier() {
-        return ISpellTier.Tier.TWO;
+    public SpellTier getTier() {
+        return SpellTier.TWO;
     }
 
+    @Override
     @Nonnull
     public Set<SpellSchool> getSchools() {
         return this.setOf(new SpellSchool[]{SpellSchools.ABJURATION});
