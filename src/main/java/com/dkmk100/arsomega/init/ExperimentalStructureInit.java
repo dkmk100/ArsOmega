@@ -46,7 +46,6 @@ public class ExperimentalStructureInit {
         return STRUCTURES.register(structure.name,() -> structure);
     }
 
-
     public static List<StructureFeature<?, ?>> features = new ArrayList<>();
 
 

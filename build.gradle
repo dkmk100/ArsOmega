@@ -20,9 +20,9 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '1.0'
-group = 'com.yourname.modname' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'modid'
+version = '1.1.1'
+group = 'com.dkmk100.arsomega' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'arsomega'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
@@ -57,14 +57,14 @@ minecraft {
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             mods {
-                examplemod {
+                arsomega {
                     source sourceSets.main
                 }
             }
         }
 
         server {
-            workingDirectory project.file('run')
+            workingDirectory project.file('run-server')
 
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
@@ -76,7 +76,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                arsomega {
                     source sourceSets.main
                 }
             }
@@ -96,10 +96,10 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', 'arsomega', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                examplemod {
+                arsomega {
                     source sourceSets.main
                 }
             }
@@ -146,19 +146,9 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.22'
 
     runtimeOnly fg.deobf("curse.maven:exp-407174:3188120")  // Shutup experimental settings
-//    runtimeOnly fg.deobf("curse.maven:exp-401955:3362707")  // Ars Nouveau 1.18.10
-//    compileOnly fg.deobf("curse.maven:exp-401955:3362707")
 
     runtimeOnly fg.deobf("curse.maven:exp-401955:3629422")  // Ars Nouveau 1.24.15
     compileOnly fg.deobf("curse.maven:exp-401955:3629422")
-
-
-    //runtimeOnly fg.deobf("curse.maven:exp-401955:3580842")  // Ars Nouveau 1.24.11
-    //compileOnly fg.deobf("curse.maven:exp-401955:3580842")
-    /*
-    runtimeOnly fg.deobf("curse.maven:exp-401955:3531531")  // Ars Nouveau 1.24.2
-    compileOnly fg.deobf("curse.maven:exp-401955:3531531")
-     */
 
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50")
@@ -166,8 +156,8 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-1.16.2:7.3.2.25:api")
     runtimeOnly fg.deobf("mezz.jei:jei-1.16.2:7.3.2.25")
 
-    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.3-4.0.1.0:api")
-    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.3-4.0.1.0")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.5-4.0.5.3:api")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.5-4.0.5.3")
 
 
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.16.5:3.0.65')

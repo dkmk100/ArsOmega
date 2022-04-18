@@ -57,7 +57,6 @@ public class ArsOmega
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Block.class,RegistryHandler::registerBlocks);
         // Register the doClientStuff method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::finalSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::CursedPlsDontUseWhy);
@@ -122,18 +121,5 @@ public class ArsOmega
     {
         // some postinit code
     }
-    private void doClientStuff(final FMLClientSetupEvent event) {
-        // do something that can only be done on the client
-        LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().options);
-    }
-
-    /*
-    public static final ItemGroup ITEMTAB = new ItemGroup("abyssItems") {
-        @Override
-        public ItemStack makeIcon() {
-            return new ItemStack(RegistryHandler.VOIDSTONE_ITEM.get());
-        }
-    };
-     */
 
 }

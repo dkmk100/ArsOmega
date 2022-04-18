@@ -43,7 +43,7 @@ public class Flatten extends AbstractEffect {
 
     public void onResolveEntity(EntityRayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         try {
-            BlockPos pos = new BlockPos(rayTraceResult.getEntity().getPosition(0)).below();
+            BlockPos pos = new BlockPos(rayTraceResult.getEntity().position()).below();
             Block block = world.getBlockState(pos).getBlock();
             Field field = ReflectionHandler.blockProperties;
             AbstractBlock.Properties properties = ((AbstractBlock.Properties) field.get(block));

@@ -44,7 +44,7 @@ public class PortalBlock extends Block {
 
     void teleportEntity(ServerWorld dest, Entity target, ServerWorld oldWorld){
         if(!(oldWorld.dimensionType()!=dest.dimensionType())) {
-            BlockPos pos = new BlockPos(target.getPosition(0).x, target.getPosition(0).y - 5, target.getPosition(0).z);
+            BlockPos pos = new BlockPos(target.position().x, target.position().y - 5, target.position().z);
             CommonEvents.teleportEntity(target, pos, dest, oldWorld);
             dest.setBlockAndUpdate(pos.below(),Blocks.OBSIDIAN.defaultBlockState());
             //dest.setBlockAndUpdate(pos.above(8),Blocks.OBSIDIAN.defaultBlockState()); //new portal?

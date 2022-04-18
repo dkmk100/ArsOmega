@@ -140,7 +140,7 @@ public class EntityBossDemonKing extends MonsterEntity {
         if (this.tickCount % 25 == 0) {
             this.heal(Math.round(0.4f * healthRatio*2f)/2f);
         }
-        Vector3d entityPos =this.getPosition(0);
+        Vector3d entityPos =this.position();
         BlockPos pos = new BlockPos(entityPos.x,entityPos.y,entityPos.z);
         if(!this.level.isClientSide() && this.getHealth()!=this.getMaxHealth()){
             LivingEntity spawn = null;
