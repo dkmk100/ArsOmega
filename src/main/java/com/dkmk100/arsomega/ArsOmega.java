@@ -2,6 +2,7 @@ package com.dkmk100.arsomega;
 
 import com.dkmk100.arsomega.client.renderer.GenericBipedRenderer;
 import com.dkmk100.arsomega.entities.EntityBossDemonKing;
+import com.dkmk100.arsomega.entities.EntityClayGolem;
 import com.dkmk100.arsomega.entities.EntityDemonBasic;
 //import com.dkmk100.arsomega.init.DelayedStructureInit;
 import com.dkmk100.arsomega.events.CustomBus;
@@ -16,10 +17,12 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.WitherRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
+import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.item.Item;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
@@ -47,8 +50,6 @@ public class ArsOmega
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "arsomega";
-    public static ArrayList<Biome> biomes= new ArrayList<>();
-
     public ArsOmega() {
         RegistryHandler.registerGlyphs();
         RegistryHandler.registerRituals();
@@ -94,6 +95,8 @@ public class ArsOmega
         GlobalEntityTypeAttributes.put(RegistryHandler.BASIC_DEMON.get(), EntityDemonBasic.createAttributes().build());
         GlobalEntityTypeAttributes.put(RegistryHandler.STRONG_DEMON.get(), EntityDemonBasic.createAttributes().build());
         GlobalEntityTypeAttributes.put(RegistryHandler.BOSS_DEMON_KING.get(), EntityBossDemonKing.createAttributes().build());
+        GlobalEntityTypeAttributes.put(RegistryHandler.WITHER_BOUND.get(), WitherEntity.createAttributes().build());
+        GlobalEntityTypeAttributes.put(RegistryHandler.CLAY_GOLEM.get(), EntityClayGolem.createAttributes().build());
     }
     private void clientSetup(final FMLClientSetupEvent event)
     {
@@ -109,13 +112,15 @@ public class ArsOmega
         RegisterMobRenderer(RegistryHandler.BASIC_DEMON.get(),"demon_basic");
         RegisterMobRenderer(RegistryHandler.STRONG_DEMON.get(),"demon_strong");
         RegisterMobRenderer(RegistryHandler.BOSS_DEMON_KING.get(),"boss_demon_king");
+        RegisterMobRenderer(RegistryHandler.CLAY_GOLEM.get(),"clay_golem");
+
+        RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.WITHER_BOUND.get(), (EntityRendererManager managerIn) -> new WitherRenderer(managerIn));
 
         //RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.VOID_BEAST.get(), VoidBeastRenderer::new);
     }
     @OnlyIn(Dist.CLIENT)
     private void RegisterMobRenderer(EntityType<? extends MobEntity> entity, String registryName){
         RenderingRegistry.registerEntityRenderingHandler(entity, (EntityRendererManager managerIn) -> new GenericBipedRenderer(managerIn, registryName));
-
     }
     private void finalSetup(final FMLLoadCompleteEvent event)
     {

@@ -1,5 +1,7 @@
 package com.dkmk100.arsomega.util;
 
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.monster.ZombieVillagerEntity;
 import net.minecraft.world.gen.DimensionSettings;
 import net.minecraft.world.gen.FlatGenerationSettings;
@@ -23,6 +25,33 @@ public class ReflectionHandler {
     public static Field structureConfig;
     public static Field structureFeatures;
 
+    public static class Entity{
+        public static Field witherHeadUpdates;
+        public static Field witherIdleHeads;
+        public static Field witherBlocksTick;
+        public static Field witherBossBar;
+        public static Method witherRangedPos;
+        public static Method witherRangedEntity;
+        protected static void Initialize() throws NoSuchFieldException, IllegalAccessException {
+            witherHeadUpdates = ObfuscationReflectionHelper.findField(WitherEntity.class,"field_82223_h");
+            witherHeadUpdates.setAccessible(true);
+            RemoveFinal(witherHeadUpdates);
+            witherIdleHeads = ObfuscationReflectionHelper.findField(WitherEntity.class,"field_82224_i");
+            witherIdleHeads.setAccessible(true);
+            RemoveFinal(witherIdleHeads);
+            witherBlocksTick = ObfuscationReflectionHelper.findField(WitherEntity.class,"field_82222_j");
+            witherBlocksTick.setAccessible(true);
+            witherBossBar = ObfuscationReflectionHelper.findField(WitherEntity.class,"field_184744_bE");
+            witherBossBar.setAccessible(true);
+            RemoveFinal(witherBossBar);
+            witherRangedPos = ObfuscationReflectionHelper.findMethod(WitherEntity.class,"func_82209_a",int.class,double.class,double.class,double.class,boolean.class);
+            witherRangedEntity = ObfuscationReflectionHelper.findMethod(WitherEntity.class,"func_82216_a",int.class, LivingEntity.class);
+            if(witherRangedEntity==null){
+                throw new RuntimeException("no wither ranged entity method");
+            }
+        }
+    }
+
     public static void Initialize() throws NoSuchFieldException, IllegalAccessException {
         blockProperties = ObfuscationReflectionHelper.findField(AbstractBlock.class,"field_235684_aB_");
         blockProperties.setAccessible(true);
@@ -42,7 +71,7 @@ public class ReflectionHandler {
         structureFeatures = ObfuscationReflectionHelper.findField(FlatGenerationSettings.class,"field_202247_j");
         structureFeatures.setAccessible(true);
         RemoveFinal(structureFeatures);
-
+        Entity.Initialize();
     }
 
     public static void RemoveFinal(Field field) throws NoSuchFieldException, IllegalAccessException {

@@ -19,4 +19,7 @@ public class ArsRegistry {
     public static Item GLYPH_SENSITIVE;
     @ObjectHolder("glyph_extract")
     public static Item GLYPH_EXTRACT;
+
+    @ObjectHolder("magic_clay")
+    public static Item MAGIC_CLAY;
 }

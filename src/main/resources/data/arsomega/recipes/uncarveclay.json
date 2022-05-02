@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:magic_clay_carved"
+    }
+  ],
+  "result": {
+    "item": "ars_nouveau:magic_clay_block",
+    "count": 1
+  }
+}

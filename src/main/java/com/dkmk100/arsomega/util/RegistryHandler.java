@@ -6,9 +6,7 @@ import com.dkmk100.arsomega.armors.BasicArmorMaterial;
 import com.dkmk100.arsomega.base_blocks.BlockPropertiesCreator;
 import com.dkmk100.arsomega.blocks.*;
 import com.dkmk100.arsomega.books.CustomSpellBook;
-import com.dkmk100.arsomega.entities.EntityBossDemonKing;
-import com.dkmk100.arsomega.entities.EntityDemonBasic;
-import com.dkmk100.arsomega.entities.EntityDemonStrong;
+import com.dkmk100.arsomega.entities.*;
 import com.dkmk100.arsomega.glyphs.*;
 import com.dkmk100.arsomega.init.ExperimentalStructureInit;
 import com.dkmk100.arsomega.init.StructureInit;
@@ -29,6 +27,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.potion.Effects;
@@ -119,6 +118,8 @@ public class RegistryHandler{
         register(DemonicLight.INSTANCE);
         register(Fireball.INSTANCE);
         register(HellFlare.INSTANCE);
+        register(CursedBind.INSTANCE);
+        register(TrueUnderfoot.INSTANCE);
     }
 
     public static void registerRituals()
@@ -190,6 +191,8 @@ public class RegistryHandler{
 
         final Item MAGIC_CLAY_BLOCK_ITEM = new BlockItem(MAGIC_CLAY_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("magic_clay_block");
         final Item MAGIC_CLAY_CARVED_ITEM = new BlockItem(MAGIC_CLAY_CARVED.get(),ITEM_PROPERTIES).setRegistryName("magic_clay_carved");
+        final Item SNOW_CARVED_ITEM = new BlockItem(SNOW_CARVED.get(),ITEM_PROPERTIES).setRegistryName("snow_carved");
+
         final Item GORGON_STONE_ITEM = new BlockItem(GORGON_STONE.get(),ITEM_PROPERTIES).setRegistryName("gorgon_stone");
         final Item DEMONIC_GLOWSTONE_ITEM = new BlockItem(DEMONIC_GLOWSTONE.get(),ITEM_PROPERTIES).setRegistryName("demonic_glowstone");
         final Item DEMONIC_GLOWSTONE_DUST = new Item(ITEM_PROPERTIES).setRegistryName("demonic_glowstone_dust");
@@ -245,6 +248,7 @@ public class RegistryHandler{
 
         ITEMS.add(MAGIC_CLAY_BLOCK_ITEM);
         ITEMS.add(MAGIC_CLAY_CARVED_ITEM);
+        ITEMS.add(SNOW_CARVED_ITEM);
         ITEMS.add(GORGON_STONE_ITEM);
         ITEMS.add(DEMONIC_GLOWSTONE_ITEM);
         ITEMS.add(DEMONIC_GLOWSTONE_DUST);
@@ -277,6 +281,8 @@ public class RegistryHandler{
     }
 
 
+
+
     //Block Properties
     static final BlockPropertiesCreator blockPropertiesCreator = new BlockPropertiesCreator();
     static final Block.Properties STONE_PROPERTIES = blockPropertiesCreator.create(Material.STONE,3.5f,2f,0, SoundType.STONE, ToolType.PICKAXE);
@@ -289,6 +295,9 @@ public class RegistryHandler{
     static final AbstractBlock.Properties WOOL_PROPERTIES = blockPropertiesCreator.create(Material.WOOL, 4f, 8f, 2, SoundType.WOOL, ToolType.AXE);
     static final AbstractBlock.Properties FIRE_PROPERTIES = blockPropertiesCreator.create(Material.FIRE, 0, 0, 0, SoundType.SAND, null).noOcclusion().lightLevel((BlockState state) -> 15);
     static final Block.Properties GLOW_PROPERTIES = blockPropertiesCreator.create(Material.STONE,1.5f,1f,0, SoundType.STONE, ToolType.PICKAXE).lightLevel((BlockState state) -> 15);
+
+    static final AbstractBlock.Properties SNOW_PROPERTIES = blockPropertiesCreator.create(Material.SNOW, 1f, 0f, 0, SoundType.SNOW, ToolType.SHOVEL);
+
 
     private static Boolean never(BlockState p_235427_0_, IBlockReader p_235427_1_, BlockPos p_235427_2_, EntityType<?> p_235427_3_) {
         return (boolean)false;
@@ -312,7 +321,12 @@ public class RegistryHandler{
     public static final RegistryObject<Block> POTION_AMPLIFIER = BLOCKS.register("potion_amplifier",() -> new PotionAmplifier(STONE_PROPERTIES));
 
     public static final RegistryObject<Block> MAGIC_CLAY_BLOCK = BLOCKS.register("magic_clay_block",() -> new Block(CLAY_PROPERTIES));
-    public static final RegistryObject<Block> MAGIC_CLAY_CARVED = BLOCKS.register("magic_clay_carved",() -> new CarvedClay(CLAY_PROPERTIES,false,MAGIC_CLAY_BLOCK.get(), EntityType.IRON_GOLEM));
+    static EntityType<? extends Entity> getClayGolem(){
+        return CLAY_GOLEM.get();
+    }
+    public static final RegistryObject<Block> MAGIC_CLAY_CARVED = BLOCKS.register("magic_clay_carved",() -> new CarvedClay(CLAY_PROPERTIES,false,MAGIC_CLAY_BLOCK.get(),() -> getClayGolem()));
+
+    public static final RegistryObject<Block> SNOW_CARVED = BLOCKS.register("snow_carved",() -> new CarvedClay(SNOW_PROPERTIES,false,Blocks.SNOW_BLOCK, EntityType.SNOW_GOLEM));
 
     public static final RegistryObject<Block> ENCHANTERS_WOOL = BLOCKS.register("enchanters_wool",() -> new Block(WOOL_PROPERTIES));
     public static final RegistryObject<Block> ARCANE_BLOOM = BLOCKS.register("arcane_bloom_crop",() -> new ArcaneBloomCrop());
@@ -327,8 +341,12 @@ public class RegistryHandler{
     public static RegistryObject<TileEntityType<PotionAmplifierTile>> PotionAmplifierType = TILE_ENTITIES.register("potion_amplifier_tile",() -> TileEntityType.Builder.of(PotionAmplifierTile::new,POTION_AMPLIFIER.get()).build(null));
     public static RegistryObject<TileEntityType<InfinityCrystalTile>> InfinityCrystalType = TILE_ENTITIES.register("infinity_crystal_tile",() -> TileEntityType.Builder.of(InfinityCrystalTile::new, ItemsRegistry.INFINITY_JAR).build(null));
 
-
+    //entities, put first for carved clay blocks
     public static final RegistryObject<EntityType<? extends MobEntity>> BASIC_DEMON = ENTITIES.register("demon_basic", () -> EntityType.Builder.of(EntityDemonBasic::new, EntityClassification.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_basic").toString()));
     public static final RegistryObject<EntityType<? extends MobEntity>> STRONG_DEMON = ENTITIES.register("demon_strong", () -> EntityType.Builder.of(EntityDemonStrong::new, EntityClassification.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_strong").toString()));
     public static final RegistryObject<EntityType<? extends MobEntity>> BOSS_DEMON_KING = ENTITIES.register("boss_demon_king", () -> EntityType.Builder.of(EntityBossDemonKing::new, EntityClassification.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "boss_demon_king").toString()));
+    public static final RegistryObject<EntityType<? extends MobEntity>> CLAY_GOLEM = ENTITIES.register("clay_golem", () -> EntityType.Builder.of(EntityClayGolem::new, EntityClassification.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem").toString()));
+
+    public static final RegistryObject<EntityType<EntityWitherBound>> WITHER_BOUND = ENTITIES.register("bound_wither", () -> EntityType.Builder.<EntityWitherBound>of(EntityWitherBound::new, EntityClassification.MISC).sized(0.9F, 3.0F).build(new ResourceLocation(ArsOmega.MOD_ID, "bound_wither").toString()));
+
 }

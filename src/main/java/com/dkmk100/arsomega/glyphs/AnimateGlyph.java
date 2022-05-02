@@ -35,6 +35,9 @@ public class AnimateGlyph extends AbstractEffect {
                 MagicAnimatable anim = (MagicAnimatable) block;
                 anim.Animate(pos,(ServerWorld)world);
             }
+            else if(block == Blocks.SNOW_BLOCK){
+
+            }
 
         }
     }

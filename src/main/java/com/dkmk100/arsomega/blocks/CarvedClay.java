@@ -14,17 +14,28 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.RegistryObject;
+
+import java.util.function.Supplier;
 
 public class CarvedClay extends HorizontalBlock implements MagicAnimatable {
     boolean autoConvert;
     Block clayType;
-    EntityType<? extends Entity> entityType;
+    Supplier<EntityType<? extends Entity>> entityType;
     public static final DirectionProperty FACING = HorizontalBlock.FACING;
     public CarvedClay(Properties p_i48440_1_,boolean autoConvert,Block clay, EntityType<? extends Entity> entity) {
         super(p_i48440_1_);
         this.autoConvert = autoConvert;
         this.clayType=clay;
-        this.entityType=entity;
+        this.entityType= () -> entity;
+    }
+
+    public CarvedClay(Properties p_i48440_1_, boolean autoConvert, Block clay, Supplier<EntityType<? extends Entity>> supplier) {
+        super(p_i48440_1_);
+        this.autoConvert = autoConvert;
+        this.clayType=clay;
+
+        this.entityType=supplier;
     }
 
     @Override
@@ -52,11 +63,11 @@ public class CarvedClay extends HorizontalBlock implements MagicAnimatable {
             if (block == clayType) {
                 BlockPos below2 = below.below();
                 Block block2 = world.getBlockState(below2).getBlock();
-                if (block == clayType) {
+                if (block2 == clayType) {
                     world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                     world.setBlockAndUpdate(below, Blocks.AIR.defaultBlockState());
                     world.setBlockAndUpdate(below2, Blocks.AIR.defaultBlockState());
-                    Entity golem = entityType.spawn(world,null,null, below2, SpawnReason.MOB_SUMMONED,true,false);
+                    Entity golem = entityType.get().spawn(world,null,null, below2, SpawnReason.MOB_SUMMONED,true,false);
                     world.addFreshEntity(golem);
                 }
             }

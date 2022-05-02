@@ -33,8 +33,8 @@ public class PropagateOverhead extends AbstractEffect {
             Spell newSpell = new Spell(new ArrayList(spellContext.getSpell().recipe.subList(spellContext.getCurrentIndex(), spellContext.getSpell().recipe.size())));
             SpellContext newContext = (new SpellContext(newSpell, shooter)).withColors(spellContext.colors);
             SpellResolver resolver = new EntitySpellResolver(newContext);
-            int offset = 3 + (int)Math.round(stats.getAmpMultiplier());
-            resolver.onResolveEffect(shooter.getCommandSenderWorld(),shooter,new BlockRayTraceResult(target.position(), Direction.UP, target.blockPosition().above(offset), true));
+            int offset = 1 + (int)Math.round(stats.getAmpMultiplier());
+            resolver.onResolveEffect(shooter.getCommandSenderWorld(),shooter,new BlockRayTraceResult(target.getEyePosition(1), Direction.DOWN, new BlockPos(target.getEyePosition(1)).above(offset), true));
         }
     }
 
@@ -45,7 +45,7 @@ public class PropagateOverhead extends AbstractEffect {
             SpellContext newContext = (new SpellContext(newSpell, shooter)).withColors(spellContext.colors);
             SpellResolver resolver = new EntitySpellResolver(newContext);
             int offset = 1 + (int)Math.round(stats.getAmpMultiplier());
-            resolver.onResolveEffect(shooter.getCommandSenderWorld(),shooter,new BlockRayTraceResult(new Vector3d(pos.getX(),pos.getY(),pos.getZ()), Direction.UP, pos.above(offset), true));
+            resolver.onResolveEffect(shooter.getCommandSenderWorld(),shooter,new BlockRayTraceResult(new Vector3d(pos.getX(),pos.getY(),pos.getZ()), Direction.DOWN, pos.above(offset), true));
         }
     }
 

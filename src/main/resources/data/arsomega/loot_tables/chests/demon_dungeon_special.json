@@ -85,11 +85,6 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 3,
-          "name": "arsomega:demon_staff"
-        },
-        {
-          "type": "minecraft:item",
           "weight": 2,
           "name": "arsomega:staff",
           "functions": [
@@ -99,6 +94,16 @@
               "treasure": true
             }
           ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 3,
+          "name": "arsomega:demon_staff"
         }
       ]
     }

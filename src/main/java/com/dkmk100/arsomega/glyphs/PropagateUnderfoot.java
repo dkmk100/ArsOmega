@@ -33,7 +33,7 @@ public class PropagateUnderfoot extends AbstractEffect {
             SpellContext newContext = (new SpellContext(newSpell, shooter)).withColors(spellContext.colors);
             SpellResolver resolver = new EntitySpellResolver(newContext);
             int offset = 1 + (int)Math.round(stats.getAmpMultiplier());
-            resolver.onResolveEffect(shooter.getCommandSenderWorld(),shooter,new BlockRayTraceResult(target.position(), Direction.DOWN, target.blockPosition().below(offset), true));
+            resolver.onResolveEffect(shooter.getCommandSenderWorld(),shooter,new BlockRayTraceResult(target.position(), Direction.UP, target.blockPosition().below(offset), true));
         }
     }
 
@@ -44,7 +44,7 @@ public class PropagateUnderfoot extends AbstractEffect {
             SpellContext newContext = (new SpellContext(newSpell, shooter)).withColors(spellContext.colors);
             SpellResolver resolver = new EntitySpellResolver(newContext);
             int offset = 1 + (int)Math.round(stats.getAmpMultiplier());
-            resolver.onResolveEffect(shooter.getCommandSenderWorld(),shooter,new BlockRayTraceResult(new Vector3d(pos.getX(),pos.getY(),pos.getZ()), Direction.DOWN, pos.below(offset), true));
+            resolver.onResolveEffect(shooter.getCommandSenderWorld(),shooter,new BlockRayTraceResult(new Vector3d(pos.getX(),pos.getY(),pos.getZ()), Direction.UP, pos.below(offset), true));
         }
     }
 

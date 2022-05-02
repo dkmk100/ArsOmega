@@ -10,18 +10,18 @@ public class CustomEvents {
     public static void onRegisterStructures(final RegisterStructuresEvent event){
         ArsOmega.LOGGER.info("Caught structure register event");
         ExperimentalStructureInit.RegisterStructure(new
-                CustomStructure("demonic_dungeon",ExperimentalStructureInit.demonBiomes,false,0,175,205));
+                CustomStructure("demonic_dungeon",ExperimentalStructureInit.demonBiomes,false,0,75,100));
         ExperimentalStructureInit.RegisterStructure(new
-                CustomStructure("wizard_tower",new String[]{},false,-8,300,350));
+                CustomStructure("wizard_tower",new String[]{},false,-8,200,250));
         ExperimentalStructureInit.RegisterStructure(new
-                CustomStructure("demonic_fossil",ExperimentalStructureInit.demonBiomes,true,5,75,110));
+                CustomStructure("demonic_fossil",ExperimentalStructureInit.demonBiomes,true,5,50,75));
         ExperimentalStructureInit.RegisterStructure(new
-                CustomStructure("demon_pen",ExperimentalStructureInit.demonBiomes,false,-2,200,250));
+                CustomStructure("demon_pen",ExperimentalStructureInit.demonBiomes,false,-2,100,110));
         ExperimentalStructureInit.RegisterStructure(new
-                CustomStructure("demon_temple",ExperimentalStructureInit.demonBiomes,false,0,225,270));
+                CustomStructure("demon_temple",ExperimentalStructureInit.demonBiomes,false,0,85,100));
         ExperimentalStructureInit.RegisterStructure(new
-                CustomStructure("demon_chair",ExperimentalStructureInit.demonBiomes,false,0,300,350));
+                CustomStructure("demon_chair",ExperimentalStructureInit.demonBiomes,false,0,150,200));
         ExperimentalStructureInit.RegisterStructure(new
-                CustomStructure("wizard_dungeon",new String[]{},false,0,200,250));
+                CustomStructure("wizard_dungeon",new String[]{},true,0,90,120));
     }
 }
