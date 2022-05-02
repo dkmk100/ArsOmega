@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "arsomega:gorgon_cave",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 150,
+    "separation": 120,
+    "salt": 364432538
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:village",
+  "config": {
+    "start_pool": "arsomega:demonic_dungeon",
+    "size": 1
+  },
+  "biomes": "arsomega:demon_biome",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

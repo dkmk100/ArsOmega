@@ -1,6 +1,18 @@
 {
-  "type": "ars_nouveau:glyph_recipe",
-  "tier": "ONE",
-  "input": "minecraft:brick",
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "minecraft:iron_helmet"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:stone_button"
+      }
+    }
+  ],
+  "exp": 5,
   "output": "ars_nouveau:glyph_overhead"
 }

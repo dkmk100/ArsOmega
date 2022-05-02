@@ -1,4 +1,3 @@
-/*
 package com.dkmk100.arsomega.glyphs;
 
 import com.hollingsworth.arsnouveau.api.spell.*;
@@ -11,7 +10,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -20,8 +18,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Set;
-
-import com.hollingsworth.arsnouveau.api.spell.ISpellTier.Tier;
 
 public class PropagateOverhead extends AbstractEffect {
     public static PropagateOverhead INSTANCE = new PropagateOverhead("propagate_overhead","Propagate Overhead");
@@ -37,7 +33,7 @@ public class PropagateOverhead extends AbstractEffect {
             SpellContext newContext = (new SpellContext(newSpell, shooter)).withColors(spellContext.colors);
             SpellResolver resolver = new EntitySpellResolver(newContext);
             int offset = 3 + (int)Math.round(stats.getAmpMultiplier());
-            resolver.onResolveEffect(shooter.getCommandSenderWorld(),shooter,new BlockHitResult(target.position(), Direction.UP, target.blockPosition().above(offset), true));
+            resolver.onResolveEffect(shooter.getCommandSenderWorld(),shooter,new BlockHitResult(target.position(), Direction.DOWN, target.blockPosition().above(offset), true));
         }
     }
 
@@ -48,7 +44,7 @@ public class PropagateOverhead extends AbstractEffect {
             SpellContext newContext = (new SpellContext(newSpell, shooter)).withColors(spellContext.colors);
             SpellResolver resolver = new EntitySpellResolver(newContext);
             int offset = 1 + (int)Math.round(stats.getAmpMultiplier());
-            resolver.onResolveEffect(shooter.getCommandSenderWorld(),shooter,new BlockHitResult(new Vec3(pos.getX(),pos.getY(),pos.getZ()), Direction.UP, pos.above(offset), true));
+            resolver.onResolveEffect(shooter.getCommandSenderWorld(),shooter,new BlockHitResult(new Vec3(pos.getX(),pos.getY(),pos.getZ()), Direction.DOWN, pos.above(offset), true));
         }
     }
 
@@ -66,7 +62,7 @@ public class PropagateOverhead extends AbstractEffect {
         this.addGenericInt(builder, 20, "Base duration in ticks.", "base_duration");
     }
 
-    public int getManaCost() {
+    public int getDefaultManaCost() {
         return 50;
     }
 
@@ -79,13 +75,8 @@ public class PropagateOverhead extends AbstractEffect {
         return "Delays the resolution of effects placed to the right of this spell for a few moments. The delay may be increased with the Extend Time augment, or decreased with Duration Down.";
     }
 
-    public Tier getTier() {
-        return Tier.ONE;
-    }
-
-    @Nullable
-    public Item getCraftingReagent() {
-        return Items.REPEATER;
+    public SpellTier getTier() {
+        return SpellTier.ONE;
     }
 
     @Nonnull
@@ -93,4 +84,3 @@ public class PropagateOverhead extends AbstractEffect {
         return this.setOf(new SpellSchool[]{SpellSchools.MANIPULATION});
     }
 }
- */

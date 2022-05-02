@@ -39,11 +39,6 @@ public class SwapTargetGlyph extends AbstractEffect {
     }
 
     @Override
-    public String getBookDescription() {
-        return "Delays the resolution of effects placed to the right of this spell for a few moments. The delay may be increased with the Extend Time augment, or decreased with Duration Down.";
-    }
-
-    @Override
     public SpellTier getTier() {
         return SpellTier.THREE;
     }

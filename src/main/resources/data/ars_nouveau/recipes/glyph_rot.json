@@ -1,6 +1,33 @@
 {
-  "type": "ars_nouveau:glyph_recipe",
-  "tier": "TWO",
-  "input": "minecraft:brown_mushroom",
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:nature_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:manipulation_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:brown_mushroom"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:brown_mushroom"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:red_mushroom"
+      }
+    }
+  ],
+  "exp": 200,
   "output": "ars_nouveau:glyph_rot"
 }

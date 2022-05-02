@@ -52,7 +52,7 @@
         {
           "type": "minecraft:item",
           "weight": 1,
-          "name": "ars_nouveau:mana_gem",
+          "name": "ars_nouveau:source_gem",
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -85,11 +85,6 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 3,
-          "name": "arsomega:demon_staff"
-        },
-        {
-          "type": "minecraft:item",
           "weight": 2,
           "name": "arsomega:staff",
           "functions": [
@@ -99,6 +94,16 @@
               "treasure": true
             }
           ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 3,
+          "name": "arsomega:demon_staff"
         }
       ]
     }

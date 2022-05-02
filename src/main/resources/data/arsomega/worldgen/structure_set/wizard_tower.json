@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "arsomega:wizard_tower",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 325,
+    "separation": 270,
+    "salt": 246449435
+  }
+}

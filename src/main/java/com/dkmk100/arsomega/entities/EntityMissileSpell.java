@@ -1,4 +1,3 @@
-/*
 package com.dkmk100.arsomega.entities;
 
 import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
@@ -14,7 +13,9 @@ import com.hollingsworth.arsnouveau.setup.BlockRegistry;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
+import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -36,6 +37,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.network.PlayMessages;
 
 public class EntityMissileSpell extends EntityProjectileSpell {
     public int age;
@@ -86,13 +88,13 @@ public class EntityMissileSpell extends EntityProjectileSpell {
         Vec3 vector3d = this.getDeltaMovement();
         if (this.age > this.maxAge) {
             ExplodeMissile();
-            this.remove();
+            this.remove(RemovalReason.DISCARDED);
         } else {
             this.xOld = this.getX();
             this.yOld = this.getY();
             this.zOld = this.getZ();
-            if (this.inGround) {
-                this.inGround = false;
+            if (this.onGround) {
+                this.onGround = false;
                 this.setDeltaMovement(this.getDeltaMovement());
             }
 
@@ -158,7 +160,7 @@ public class EntityMissileSpell extends EntityProjectileSpell {
             final int upOffset = 1;
             Vec3 offset = new Vec3(sideOffset,upOffset,sideOffset);
             AABB axis = new AABB(pos.x+offset.x,pos.y+offset.y,pos.z+offset.z,pos.x-offset.x,pos.y-offset.y,pos.z-offset.z);
-            List<Entity> entities = this.level.getEntities((Entity) null,axis,null);
+            List<Entity> entities = this.level.getEntities((Entity) null,axis, entity -> true);
             boolean foundEntity = false;
             for(Entity entity : entities){
                 if(entity instanceof LivingEntity && entity!=caster){
@@ -184,17 +186,13 @@ public class EntityMissileSpell extends EntityProjectileSpell {
         if (this.pierceLeft < 0) {
             ExplodeMissile();
             this.level.broadcastEntityEvent(this, (byte)3);
-            this.remove();
+            this.remove(RemovalReason.DISCARDED);
         }
     }
 
     protected void ExplodeMissile(){
         this.ActivateSpellAtPos(this.position());
         Networking.sendToNearby(this.level, new BlockPos(this.position()), new PacketANEffect(EffectType.BURST, new BlockPos(this.position()), this.getParticleColorWrapper(), new int[0]));
-    }
-
-    public EntityMissileSpell(SpawnEntity packet, Level world) {
-        super(ModEntities.SPELL_PROJ, world);
     }
 
     public void readAdditionalSaveData(CompoundTag tag) {
@@ -211,4 +209,3 @@ public class EntityMissileSpell extends EntityProjectileSpell {
         tag.putInt("maxAge", this.maxAge);
     }
 }
- */

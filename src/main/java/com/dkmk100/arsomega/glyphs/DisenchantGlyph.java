@@ -20,6 +20,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -27,6 +28,8 @@ import java.util.*;
 
 public class DisenchantGlyph extends AbstractEffect {
     public static DisenchantGlyph INSTANCE = new DisenchantGlyph("disenchant", "Disenchant");
+
+    ForgeConfigSpec.BooleanValue affectPlayers;
 
     public DisenchantGlyph(String tag, String description) {
         super(tag, description);
@@ -59,7 +62,7 @@ public class DisenchantGlyph extends AbstractEffect {
 
     @Override
     public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
-        if(rayTraceResult.getEntity() instanceof Player) {
+        if(rayTraceResult.getEntity() instanceof Player && affectPlayers.get()) {
             int ampBuff = (int) Math.round(spellStats.getAmpMultiplier());
             Player entity = (Player)rayTraceResult.getEntity();
             ItemStack result = disenchantItem(entity, entity.getItemInHand(InteractionHand.MAIN_HAND), spellStats);
@@ -126,13 +129,19 @@ public class DisenchantGlyph extends AbstractEffect {
 
     @Override
     public int getDefaultManaCost() {
-        return 320;
+        return 420;
     }
 
     @Nonnull
     @Override
     public Set<AbstractAugment> getCompatibleAugments() {
         return this.augmentSetOf(new AbstractAugment[]{AugmentSensitive.INSTANCE, AugmentDampen.INSTANCE, AugmentAmplify.INSTANCE});
+    }
+
+    @Override
+    public void buildConfig(ForgeConfigSpec.Builder builder) {
+        super.buildConfig(builder);
+        this.affectPlayers = builder.comment("Allows the glyph to hit players, and disenchant held items. Cool but kinda grief-y feature.").define("affect_players",true);
     }
 
     @Override
@@ -143,6 +152,6 @@ public class DisenchantGlyph extends AbstractEffect {
     @Override
     @Nonnull
     public Set<SpellSchool> getSchools() {
-        return this.setOf(new SpellSchool[]{SpellSchools.ABJURATION});
+        return this.setOf(new SpellSchool[]{SpellSchools.ABJURATION,SpellSchools.MANIPULATION});
     }
 }

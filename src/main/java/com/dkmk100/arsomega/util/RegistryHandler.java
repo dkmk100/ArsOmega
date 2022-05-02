@@ -31,11 +31,13 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.storage.loot.Serializer;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +50,6 @@ import net.minecraft.world.level.block.OreBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.RegistryObject;
 
 public class RegistryHandler{
     public static final ResourceLocation DIMTYPE = new ResourceLocation(ArsOmega.MOD_ID, "demon_realm");
@@ -78,9 +79,9 @@ public class RegistryHandler{
     }
 
     public static void registerGlyphs(){
+        register(TrueUnderfoot.INSTANCE);
         register(DiamondGlyph.INSTANCE);
         register(AdvancedAmplify.INSTANCE);
-        ///*
         register(WitherSummon.INSTANCE);
         register(Rot.INSTANCE);
         register(Curse.INSTANCE);
@@ -94,16 +95,16 @@ public class RegistryHandler{
         register(CarveGlyph.INSTANCE);
         register(AnimateGlyph.INSTANCE);
         register(TransmuteGlyph.INSTANCE);
-        //register(OverheadGlyph.INSTANCE);
+        register(OverheadGlyph.INSTANCE);
         register(PropagateProjectile.INSTANCE);
         register(PropagateSelf.INSTANCE);
         register(SwapTargetGlyph.INSTANCE);
         register(PropagateOrbit.INSTANCE);
         register(EnchantGlyph.INSTANCE);
-        //register(FormMissile.INSTANCE);
+        register(FormMissile.INSTANCE);
         register(DisenchantGlyph.INSTANCE);
-        //register(PropagateMissile.INSTANCE);
-        //register(PropagateOverhead.INSTANCE);
+        register(PropagateMissile.INSTANCE);
+        register(PropagateOverhead.INSTANCE);
         register(PropagateUnderfoot.INSTANCE);
         register(Melt.INSTANCE);
         register(AcidGlyph.INSTANCE);
@@ -115,7 +116,6 @@ public class RegistryHandler{
         register(DemonicLight.INSTANCE);
         register(Fireball.INSTANCE);
         register(HellFlare.INSTANCE);
-         //*/
     }
 
     public static void registerRituals()
@@ -129,6 +129,16 @@ public class RegistryHandler{
         register(new RitualSummoning());
         register(new RitualFatigue());
         register(new RitualAura());
+    }
+
+    public static LootItemFunctionType SET_SPELL_TYPE;
+
+    public static void RegisterFunctions(){
+        SET_SPELL_TYPE = register("set_spell",new SetSpellFunction.Serializer());
+    }
+
+    static LootItemFunctionType register(String p_80763_, Serializer<? extends LootItemFunction> p_80764_) {
+        return Registry.register(Registry.LOOT_FUNCTION_TYPE, new ResourceLocation("arsomega",p_80763_), new LootItemFunctionType(p_80764_));
     }
 
     public static void register(AbstractSpellPart spellPart) {
@@ -174,6 +184,9 @@ public class RegistryHandler{
         final Item ARCANE_FIBER = new Item(ITEM_PROPERTIES).setRegistryName("arcane_fiber");
         final Item ARCANE_CLOTH = new Item(ITEM_PROPERTIES_FIRE).setRegistryName("arcane_cloth");
         final Item MAGIC_CLAY = new Item(ITEM_PROPERTIES).setRegistryName("magic_clay");
+        final Item MARVELOUS_CLAY = new Item(ITEM_PROPERTIES).setRegistryName("marvelous_clay");
+        final Item MYSTIC_CLAY = new Item(ITEM_PROPERTIES).setRegistryName("mystic_clay");
+        final Item ARCANE_CLAY = new Item(ITEM_PROPERTIES).setRegistryName("arcane_clay");
 
 
         final Item ROPE = new Item(ITEM_PROPERTIES_FIRE).setRegistryName("rope");
@@ -237,6 +250,9 @@ public class RegistryHandler{
         ITEMS.add(DEMONIC_ORE_ITEM);
         ITEMS.add(DEMON_GEM);
         ITEMS.add(MAGIC_CLAY);
+        ITEMS.add(MARVELOUS_CLAY);
+        ITEMS.add(MYSTIC_CLAY);
+        ITEMS.add(ARCANE_CLAY);
         ITEMS.add(CLEANSING_GEM);
         ITEMS.add(GORGON_GEM);
         ITEMS.add(DEMON_CRYSTAL);

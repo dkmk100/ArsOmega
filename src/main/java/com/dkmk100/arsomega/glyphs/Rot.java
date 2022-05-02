@@ -107,4 +107,10 @@ public class Rot extends AbstractEffect {
         list.add(AugmentAOE.INSTANCE);
         return Collections.unmodifiableSet(new HashSet(list));
     }
+
+    @Nonnull
+    @Override
+    public Set<SpellSchool> getSchools() {
+        return this.setOf(new SpellSchool[]{SpellSchools.MANIPULATION,Schools.NATURE});
+    }
 }

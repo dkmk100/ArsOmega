@@ -18,6 +18,11 @@
     },
     {
       "item": {
+        "item":  "ars_nouveau:abjuration_essence"
+      }
+    },
+    {
+      "item": {
         "tag": "forge:logs/archwood"
       }
     },
@@ -38,12 +43,12 @@
     },
     {
       "item": {
-        "item": "ars_nouveau:glyph_advanced_amplify"
+        "item": "ars_nouveau:glyph_amplify"
       }
     },
     {
       "item": {
-        "item": "ars_nouveau:glyph_advanced_amplify"
+        "item": "ars_nouveau:glyph_amplify"
       }
     }
   ],

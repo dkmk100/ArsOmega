@@ -67,6 +67,10 @@ public class ArsOmega
             LOGGER.log(Level.ERROR,"Exception in reflection handler initialization, mod is likely now in a broken state");
         }
 
+        event.enqueueWork(() -> {
+           RegistryHandler.RegisterFunctions();
+        });
+
         //structures?
     }
     private void RegisterEntityAttributes(EntityAttributeCreationEvent event){

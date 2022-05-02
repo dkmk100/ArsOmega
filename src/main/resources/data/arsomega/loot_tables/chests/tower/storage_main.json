@@ -5,7 +5,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "ars_nouveau:mana_gem",
+          "name": "ars_nouveau:source_gem",
           "weight": 1,
           "functions": [
             {
@@ -47,7 +47,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "ars_nouveau:mana_berry",
+          "name": "ars_nouveau:source_berry",
           "weight": 1,
           "functions": [
             {
@@ -61,7 +61,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "ars_nouveau:magic_clay",
+          "name": "arsomega:magic_clay",
           "weight": 1,
           "functions": [
             {

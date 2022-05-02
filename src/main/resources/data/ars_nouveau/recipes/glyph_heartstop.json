@@ -1,6 +1,33 @@
 {
-  "type": "ars_nouveau:glyph_recipe",
-  "tier": "THREE",
-  "input": "ars_nouveau:glyph_harm",
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "ars_nouveau:abjuration_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:life_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:fermented_spider_eye"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:pufferfish"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:poisonous_potato"
+      }
+    }
+  ],
+  "exp": 150,
   "output": "ars_nouveau:glyph_heartstop"
 }

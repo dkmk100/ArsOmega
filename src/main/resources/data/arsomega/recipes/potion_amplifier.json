@@ -1,51 +1,54 @@
 {
   "type": "ars_nouveau:enchanting_apparatus",
-  "item_1": [
-    {
-      "item": "ars_nouveau:glyph_advanced_amplify"
-    }
-  ],
-  "item_2": [
-    {
-      "item": "ars_nouveau:glyph_advanced_amplify"
-    }
-  ],
-  "item_3": [
-    {
-      "tag": "forge:storage_blocks/gold"
-    }
-  ],
-  "item_4": [
-    {
-      "tag": "forge:storage_blocks/gold"
-    }
-  ],
-  "item_5": [
-    {
-      "item": "minecraft:enchanted_golden_apple"
-    }
-  ],
-  "item_6": [
-    {
-      "item": "arsomega:demonic_gem"
-    }
-  ],
-  "item_7": [
-    {
-      "item": "arsomega:demonic_gem"
-    }
-  ],
-  "item_8": [
-    {
-      "item": "arsomega:demonic_gem"
-    }
-  ],
   "reagent": [
     {
       "item": "ars_nouveau:potion_jar"
     }
   ],
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "ars_nouveau:glyph_advanced_amplify"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:glyph_advanced_amplify"
+      }
+    },
+    {
+      "item": {
+        "tag": "forge:storage_blocks/gold"
+      }
+    },
+    {
+      "item": {
+        "tag": "forge:storage_blocks/gold"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:enchanted_golden_apple"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:demonic_gem"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:demonic_gem"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:demonic_gem"
+      }
+    }
+  ],
   "output": {
     "item": "arsomega:potion_amplifier"
-  }
+  },
+  "sourceCost": 5000
 }

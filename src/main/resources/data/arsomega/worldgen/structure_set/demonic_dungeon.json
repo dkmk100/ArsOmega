@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "arsomega:demonic_dungeon",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 150,
+    "separation": 120,
+    "salt": 1646207470
+  }
+}

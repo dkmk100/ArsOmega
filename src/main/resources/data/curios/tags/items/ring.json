@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "ars_nouveau:ring_regen",
-    "ars_nouveau:ring_boost"
+    "arsomega:ring_regen",
+    "arsomega:ring_boost"
   ]
 }

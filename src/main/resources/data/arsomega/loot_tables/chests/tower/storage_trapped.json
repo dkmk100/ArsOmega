@@ -5,12 +5,12 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "ars_nouveau:mana_bloom_crop",
+          "name": "ars_nouveau:magebloom_crop",
           "weight": 1
         },
         {
           "type": "minecraft:item",
-          "name": "ars_nouveau:mana_gem_block",
+          "name": "ars_nouveau:source_gem_block",
           "weight": 1,
           "functions": [
             {
@@ -60,7 +60,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "ars_nouveau:mana_jar"
+          "name": "ars_nouveau:source_jar"
         },
         {
           "type": "minecraft:item",

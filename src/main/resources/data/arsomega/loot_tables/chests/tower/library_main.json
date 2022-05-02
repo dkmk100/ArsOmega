@@ -62,7 +62,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "ars_nouveau:mana_gem",
+          "name": "ars_nouveau:source_gem",
           "weight": 2,
           "functions": [
             {

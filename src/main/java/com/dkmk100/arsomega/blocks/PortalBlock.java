@@ -44,7 +44,6 @@ public class PortalBlock extends Block {
             BlockPos pos = new BlockPos(target.getX(), target.getY() - 5, target.getZ());
             CommonEvents.teleportEntity(target, pos, dest, oldWorld);
             dest.setBlockAndUpdate(pos.below(),Blocks.OBSIDIAN.defaultBlockState());
-            //dest.setBlockAndUpdate(pos.above(8),Blocks.OBSIDIAN.defaultBlockState()); //new portal?
         }
     }
 }

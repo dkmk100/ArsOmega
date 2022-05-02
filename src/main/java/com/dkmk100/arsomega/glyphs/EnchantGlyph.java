@@ -55,7 +55,7 @@ public class EnchantGlyph extends AbstractEffect {
                 if(shooter instanceof Player){
                     seed+=((Player)shooter).getEnchantmentSeed();
                 }
-                ItemStack result = enchantItem(shooter,seed,current,power(ampBuff));
+                ItemStack result = enchantItem(shooter,seed,current,level(ampBuff));
                 if(result!=null) {
                     world.addFreshEntity(new ItemEntity(world, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), result.copy()));
                     current.setCount(0);
@@ -64,8 +64,9 @@ public class EnchantGlyph extends AbstractEffect {
         }
     }
 
-    int power(int amp){
-        return Math.min(2 * amp + 5,30);
+    int level(int amp){return 2*amp + 4;}
+    int power(int level){
+        return Math.min(Math.max(level,0),30);
     }
 
     @Override
@@ -73,12 +74,12 @@ public class EnchantGlyph extends AbstractEffect {
         if(rayTraceResult.getEntity() instanceof Player) {
             int ampBuff = (int) Math.round(spellStats.getAmpMultiplier());
             Player entity = (Player)rayTraceResult.getEntity();
-            ItemStack result = enchantItem(entity, entity.getEnchantmentSeed(), entity.getItemInHand(InteractionHand.MAIN_HAND),power(ampBuff));
+            ItemStack result = enchantItem(entity, entity.getEnchantmentSeed(), entity.getItemInHand(InteractionHand.MAIN_HAND),level(ampBuff));
             if(result!=null) {
                 entity.setItemInHand(InteractionHand.MAIN_HAND, result);
             }
             else{
-                result = enchantItem(entity, entity.getEnchantmentSeed(), entity.getItemInHand(InteractionHand.OFF_HAND),power(ampBuff));
+                result = enchantItem(entity, entity.getEnchantmentSeed(), entity.getItemInHand(InteractionHand.OFF_HAND),level(ampBuff));
                 if(result!=null) {
                     entity.setItemInHand(InteractionHand.OFF_HAND, result);
 
@@ -89,12 +90,13 @@ public class EnchantGlyph extends AbstractEffect {
 
     @Nullable
     public ItemStack enchantItem(LivingEntity player, int seed, ItemStack itemstack, int level) {
+        int power = power(level);
         int i = seed + 1;
         if (itemstack.isEmpty() || itemstack.isEnchanted()) {
             return null;
         } else {
             ItemStack itemstack2 = itemstack.copy();
-            List<EnchantmentInstance> list = this.getEnchantmentList(itemstack, seed, level);
+            List<EnchantmentInstance> list = this.getEnchantmentList(itemstack, seed, power);
             if (!list.isEmpty()) {
                 boolean flag = itemstack.getItem() == Items.BOOK;
                 if (flag) {
@@ -122,7 +124,7 @@ public class EnchantGlyph extends AbstractEffect {
                 }
             }
             else{
-                if(itemstack.getItem()==Items.GOLDEN_APPLE && level>=20){
+                if(itemstack.getItem()==Items.GOLDEN_APPLE && level>=50){
                     itemstack2 = new ItemStack(Items.ENCHANTED_GOLDEN_APPLE,itemstack.getCount());
                     CompoundTag compoundnbt = itemstack.getTag();
                     if (compoundnbt != null) {
@@ -170,6 +172,6 @@ public class EnchantGlyph extends AbstractEffect {
     @Override
     @Nonnull
     public Set<SpellSchool> getSchools() {
-        return this.setOf(new SpellSchool[]{SpellSchools.ABJURATION});
+        return this.setOf(new SpellSchool[]{SpellSchools.ABJURATION,SpellSchools.MANIPULATION});
     }
 }

@@ -1,6 +1,18 @@
 {
-  "type": "ars_nouveau:glyph_recipe",
-  "tier": "TWO",
-  "input": "ars_nouveau:glyph_projectile",
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "ars_nouveau:manipulation_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:glyph_projectile"
+      }
+    }
+  ],
+  "exp": 50,
   "output": "ars_nouveau:glyph_propagate_projectile"
 }

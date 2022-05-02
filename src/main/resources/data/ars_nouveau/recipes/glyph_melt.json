@@ -1,6 +1,33 @@
 {
-  "type": "ars_nouveau:glyph_recipe",
-  "tier": "TWO",
-  "input": "minecraft:lava_bucket",
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "ars_nouveau:earth_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:fire_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:lava_bucket"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:lava_bucket"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:basalt"
+      }
+    }
+  ],
+  "exp": 50,
   "output": "ars_nouveau:glyph_melt"
 }

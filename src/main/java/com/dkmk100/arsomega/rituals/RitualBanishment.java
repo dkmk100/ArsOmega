@@ -49,11 +49,11 @@ public class RitualBanishment  extends AbstractRitual {
                     ResourceKey<Level> registrykey = ResourceKey.create(Registry.DIMENSION_REGISTRY, RegistryHandler.DIMTYPE);
                     ServerLevel dest = world.getServer().getLevel(registrykey);
                     BlockPos pos = entity.blockPosition();
+                    CommonEvents.teleportEntity(entity, new BlockPos(entity.position()).above(), dest, (ServerLevel) world);
                     dest.setBlockAndUpdate(pos,Blocks.AIR.defaultBlockState());
                     dest.setBlockAndUpdate(pos.above(),Blocks.AIR.defaultBlockState());
                     dest.setBlockAndUpdate(pos.above(2),Blocks.AIR.defaultBlockState());
                     dest.setBlockAndUpdate(pos.below(),Blocks.OBSIDIAN.defaultBlockState());
-                    CommonEvents.teleportEntity(entity, new BlockPos(entity.position()).above(), dest, (ServerLevel) world);
                 }
                 this.setFinished();
             }

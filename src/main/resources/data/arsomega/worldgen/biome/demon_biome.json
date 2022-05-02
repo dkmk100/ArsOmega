@@ -1,24 +1,26 @@
 {
-  "surface_builder": "arsomega:demonic",
   "depth": 0.128,
-  "scale": 0.2,
+  "scale": 0.1,
   "temperature": 0.8,
   "downfall": 0,
   "precipitation": "none",
-  "temperature_modifier": "none",
   "category": "nether",
   "effects": {
-    "sky_color": 15870749,
-    "fog_color": 15870749,
-    "water_color": 1886605,
-    "water_fog_color": 1886605,
-    "grass_color": 13171235,
-    "foliage_color": 13171235
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    },
+    "sky_color": 7254527,
+    "foliage_color": 10387789,
+    "grass_color": 9470285,
+    "fog_color": 12638463,
+    "water_color": 4159204,
+    "water_fog_color": 329011
   },
   "carvers": {
-    "air": [
-      "arsomega:cave"
-    ]
+    "air": []
   },
   "features": [
     [],

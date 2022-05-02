@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ars_nouveau:items/greater_mana_amulet"
+    "layer0": "arsomega:items/greater_mana_amulet"
   }
 }

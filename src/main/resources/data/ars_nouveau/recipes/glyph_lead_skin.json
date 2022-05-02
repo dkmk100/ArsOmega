@@ -1,6 +1,28 @@
 {
-  "type": "ars_nouveau:glyph_recipe",
-  "tier": "THREE",
-  "input": "ars_nouveau:glyph_shield",
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:alchemy_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:shield"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:iron_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:diamond"
+      }
+    }
+  ],
+  "exp": 200,
   "output": "ars_nouveau:glyph_lead_skin"
 }

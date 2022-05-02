@@ -1,6 +1,38 @@
 {
-  "type": "ars_nouveau:glyph_recipe",
-  "tier": "TWO",
-  "input": "minecraft:vine",
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:life_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:fishing_rod"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:cobweb"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:vine"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:vine"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:vine"
+      }
+    }
+  ],
+  "exp": 50,
   "output": "ars_nouveau:glyph_vine_grab"
 }

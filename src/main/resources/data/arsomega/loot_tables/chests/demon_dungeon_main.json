@@ -52,7 +52,7 @@
         {
           "type": "minecraft:item",
           "weight": 1,
-          "name": "ars_nouveau:mana_gem",
+          "name": "ars_nouveau:source_gem",
           "functions": [
             {
               "function": "minecraft:set_count",

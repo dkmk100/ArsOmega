@@ -8,8 +8,9 @@
           "name": "ars_nouveau:caster_tome",
           "functions": [
             {
-              "function": "minecraft:set_nbt",
-              "tag": "{flavor:\"Enchant\",color:\"255,25,180\",spell_0:\"[projectile,enchant,amplify,amplify,amplify]\",display:{Name:'{\"text\":\"Enchant\"}'},current_slot:0,max_slot:1}"
+              "function": "arsomega:set_spell",
+              "name": "Enchant",
+              "spell": ["projectile","enchant","amplify","amplify","amplify"]
             }
           ]
         },
@@ -18,8 +19,10 @@
           "name": "ars_nouveau:caster_tome",
           "functions": [
             {
-              "function": "minecraft:set_nbt",
-              "tag": "{flavor:\"Fireball\",color:\"255,250,25\",spell_0:\"[missile,pierce,duration_down,duration_down,explosion,propagate_projectile,ignite,aoe,aoe]\",display:{Name:'{\"text\":\"Fireball\"}'},current_slot:0,max_slot:1}"
+              "function": "arsomega:set_spell",
+              "name": "Fireball",
+              "spell": ["missile","pierce","explosion","propagate_projectile","ignite","aoe","aoe"],
+              "color": [255,250,25]
             }
           ]
         },
@@ -28,8 +31,10 @@
           "name": "ars_nouveau:caster_tome",
           "functions": [
             {
-              "function": "minecraft:set_nbt",
-              "tag": "{flavor:\"Earth Crush\",color:\"209,255,124\",spell_0:\"[projectile,crush,amplify,amplify,flatten,amplify,amplify,gravity,snare]\",display:{Name:'{\"text\":\"Earth Crush\"}'},current_slot:0,max_slot:1}"
+              "function": "arsomega:set_spell",
+              "name": "Earth Crush",
+              "spell": ["projectile","crush","amplify","amplify","flatten","amplify","amplify","gravity","snare"],
+              "color": [209,255,124]
             }
           ]
         },
@@ -38,91 +43,10 @@
           "name": "ars_nouveau:caster_tome",
           "functions": [
             {
-              "function": "minecraft:set_nbt",
-              "tag": "{flavor:\"Decay\",color:\"125,255,175\",spell_0:\"[projectile,rot,aoe,aoe,aoe,amplify,extend_time,harm,extend_time,amplify]\",display:{Name:'{\"text\":\"Decay\"}'},current_slot:0,max_slot:1}"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "rolls": 3,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:book",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 5,
-                "max": 8
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:hexed_book",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1,
-                "max": 3
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "ars_nouveau:blank_parchment",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 2,
-                "max": 5
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "ars_nouveau:allow_scroll",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1,
-                "max": 3
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "ars_nouveau:deny_scroll",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1,
-                "max": 3
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "ars_nouveau:mimic_scroll",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1,
-                "max": 3
-              }
+              "function": "arsomega:set_spell",
+              "name": "Decay",
+              "spell": ["projectile","rot","aoe","aoe","aoe","amplify","extend_time","harm","extend_time","amplify"],
+              "color": [125,255,175]
             }
           ]
         }

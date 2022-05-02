@@ -34,7 +34,7 @@ public class Hellfire extends TierFourEffect {
 
     @Override
     public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
-        double amp = spellStats.getAmpMultiplier() + 4;
+        double amp = spellStats.getAmpMultiplier() + 2;
         int time = spellStats.getBuffCount(AugmentExtendTime.INSTANCE);
 
         if(rayTraceResult.getEntity() instanceof LivingEntity){

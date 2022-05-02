@@ -127,6 +127,6 @@ public class TransmuteGlyph extends AbstractEffect {
     @Override
     @Nonnull
     public Set<SpellSchool> getSchools() {
-        return this.setOf(new SpellSchool[]{Schools.ALCHEMY});
+        return this.setOf(new SpellSchool[]{SpellSchools.MANIPULATION,Schools.ALCHEMY});
     }
 }

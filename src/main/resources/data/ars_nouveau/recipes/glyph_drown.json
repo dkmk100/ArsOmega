@@ -1,6 +1,38 @@
 {
-  "type": "ars_nouveau:glyph_recipe",
-  "tier": "THREE",
-  "input": "minecraft:pufferfish_bucket",
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "ars_nouveau:water_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:water_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:conduit"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:pufferfish_bucket"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:water_bucket"
+      }
+    }
+  ],
+  "exp": 400,
   "output": "ars_nouveau:glyph_drown"
 }

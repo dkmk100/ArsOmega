@@ -10,6 +10,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -20,6 +21,9 @@ public class Heartstop extends AbstractEffect {
     public static final DamageSource HEARTSTOP_DAMAGE = new DamageSource("heartstop").bypassArmor().bypassMagic();
 
     public static Heartstop INSTANCE = new Heartstop("heartstop", "Heartstop");
+
+    public ForgeConfigSpec.DoubleValue BASE;
+    public ForgeConfigSpec.DoubleValue AMP_DAMAGE;
 
     public Heartstop(String tag, String description) {
             super(tag, description);
@@ -34,7 +38,7 @@ public class Heartstop extends AbstractEffect {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
-            float damage = (float)(2.0 + 0.5 * spellStats.getAmpMultiplier());
+            float damage = (float)(this.DAMAGE.get() + this.AMP_DAMAGE.get() * spellStats.getAmpMultiplier());
             float mult = 0;
             float add = 0;
             if(living.hasEffect(ModPotions.DEMONIC_CURSE)){
@@ -64,6 +68,13 @@ public class Heartstop extends AbstractEffect {
     @Nonnull
     public Set<AbstractAugment> getCompatibleAugments() {
         return this.augmentSetOf(new AbstractAugment[]{AugmentAmplify.INSTANCE, AugmentDampen.INSTANCE, AugmentFortune.INSTANCE});
+    }
+
+    @Override
+    public void buildConfig(ForgeConfigSpec.Builder builder) {
+        super.buildConfig(builder);
+        this.addDamageConfig(builder, 2.0D);
+        this.AMP_DAMAGE = builder.comment("Additional damage per amplify").defineInRange("amp_damage", 0.5D, 0.0D, 2.147483647E9D);
     }
 
     @Override

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ars_nouveau:items/focus_of_mana"
+    "layer0": "arsomega:items/greater_regen_amulet"
   }
 }
