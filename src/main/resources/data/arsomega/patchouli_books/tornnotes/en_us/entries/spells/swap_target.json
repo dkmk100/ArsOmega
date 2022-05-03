@@ -1,7 +1,7 @@
 {
   "name": "Swap Target",
   "icon": "ars_nouveau:glyph_swap_target",
-  "category": "spells_3",
+  "category": "ars_nouveau:glyphs_3",
   "sortnum": 3,
   "pages": [
     {

@@ -1,7 +1,7 @@
 {
   "name": "Advanced Amplify",
   "icon": "ars_nouveau:glyph_advanced_amplify",
-  "category": "spells_3",
+  "category": "ars_nouveau:glyphs_3",
   "sortnum": 3,
   "pages": [
     {
@@ -9,12 +9,8 @@
       "text": "ars_nouveau.glyph_desc.advanced_amplify"
     },
     {
-      "type": "glyph_recipe",
-      "recipe": "ars_nouveau:glyph_advanced_amplify",
-      "tier": "THREE",
-      "mana_cost": "High",
-      "clay_type": "ars_nouveau:mythical_clay",
-      "reagent": "minecraft:emerald"
+      "type": "ars_nouveau:glyph_recipe",
+      "recipe": "ars_nouveau:glyph_advanced_amplify"
     }
   ]
 }

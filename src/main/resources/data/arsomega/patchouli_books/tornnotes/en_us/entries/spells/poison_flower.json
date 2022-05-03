@@ -1,7 +1,7 @@
 {
   "name": "ars_nouveau.glyph_name.poison_flower",
   "icon": "ars_nouveau:glyph_poison_flower",
-  "category": "spells_1",
+  "category": "ars_nouveau:glyphs_1",
   "sortnum": 3,
   "pages": [
     {

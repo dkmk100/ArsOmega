@@ -1,7 +1,7 @@
 {
   "name": "Summon Wither",
   "icon": "ars_nouveau:glyph_wither_summon",
-  "category": "spells_4",
+  "category": "arsomega:spells_4",
   "sortnum": 3,
   "pages": [
     {

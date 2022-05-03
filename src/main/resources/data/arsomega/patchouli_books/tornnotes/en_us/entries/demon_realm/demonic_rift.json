@@ -1,7 +1,7 @@
 {
   "name": "Demonic Rift",
   "icon": "arsomega:demonic_rift",
-  "category": "demon_realm",
+  "category": "arsomega:demon_realm",
   "pages": [
     {
       "type": "text",

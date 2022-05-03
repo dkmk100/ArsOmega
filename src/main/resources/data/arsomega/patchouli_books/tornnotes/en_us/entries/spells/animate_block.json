@@ -1,7 +1,7 @@
 {
   "name": "ars_nouveau.glyph_name.animate_block",
   "icon": "ars_nouveau:glyph_animate_block",
-  "category": "spells_2",
+  "category": "ars_nouveau:glyphs_2",
   "sortnum": 3,
   "pages": [
     {
@@ -9,12 +9,8 @@
       "text": "ars_nouveau.glyph_desc.animate_block"
     },
     {
-      "type": "glyph_recipe",
-      "recipe": "ars_nouveau:glyph_animate_block",
-      "tier": "TWO",
-      "mana_cost": "Medium",
-      "clay_type": "ars_nouveau:marvelous_clay",
-      "reagent": "minecraft:painting"
+      "type": "ars_nouveau:glyph_recipe",
+      "recipe": "ars_nouveau:glyph_animate_block"
     }
   ]
 }

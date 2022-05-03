@@ -1,7 +1,7 @@
 {
   "name": "item.ars_nouveau.ritual_protection",
   "icon": "ars_nouveau:ritual_protection",
-  "category": "rituals",
+  "category": "ars_nouveau:rituals",
   "pages": [
     {
       "type": "text",

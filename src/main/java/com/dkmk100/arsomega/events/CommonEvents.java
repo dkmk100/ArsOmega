@@ -3,9 +3,11 @@ package com.dkmk100.arsomega.events;
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.items.ModSpawnEggItem;
 import com.dkmk100.arsomega.potions.ModPotions;
+import com.dkmk100.arsomega.util.ReflectionHandler;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Abilities;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.core.BlockPos;
@@ -122,7 +124,7 @@ public class CommonEvents {
     @SubscribeEvent
     public static void entityTick(TickEvent.PlayerTickEvent e) {
         if (e.phase == TickEvent.Phase.END && e.player.hasEffect(ModPotions.STONE_PETRIFICATION) && !e.player.isOnGround() && !e.player.isCreative()) {
-            //e.player.abilities.flying = false;
+            e.player.getAbilities().flying = false;
         }
     }
 

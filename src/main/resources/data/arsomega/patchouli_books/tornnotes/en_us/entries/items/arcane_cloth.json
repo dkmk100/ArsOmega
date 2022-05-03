@@ -1,7 +1,7 @@
 {
   "name": "item.arsomega.arcane_cloth",
   "icon": "arsomega:arcane_cloth",
-  "category": "arcane_equipment",
+  "category": "arsomega:arcane_equipment",
   "pages": [
     {
       "type": "text",

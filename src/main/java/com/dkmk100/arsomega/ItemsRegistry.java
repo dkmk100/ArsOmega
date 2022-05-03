@@ -14,6 +14,9 @@ public class ItemsRegistry {
     public static Item CLEANSING_GEM;
     @ObjectHolder("demonic_crystal")
     public static Item DEMON_CRYSTAL;
+
+    @ObjectHolder("magic_clay")
+    public static Item MAGIC_CLAY;
     @ObjectHolder("infinity_crystal")
     public static Block INFINITY_JAR;
 }

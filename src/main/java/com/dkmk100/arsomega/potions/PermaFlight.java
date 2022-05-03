@@ -1,10 +1,12 @@
 package com.dkmk100.arsomega.potions;
 
 import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.hollingsworth.arsnouveau.common.network.Networking;
 import com.hollingsworth.arsnouveau.common.network.PacketUpdateFlight;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.player.Abilities;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.effect.MobEffect;
@@ -41,7 +43,7 @@ public class PermaFlight extends MobEffect {
         super.applyEffectTick(entity, p_76394_2_);
         if (entity instanceof Player) {
             if(!((Player)entity).hasEffect(com.hollingsworth.arsnouveau.common.potions.ModPotions.GRAVITY_EFFECT)) {
-                //((Player) entity).abilities.mayfly = entity.getEffect(ModPotions.PERMA_FLIGHT).getDuration() > 2;
+                ((Player) entity).getAbilities().mayfly = false;
             }
         }
 
@@ -50,10 +52,9 @@ public class PermaFlight extends MobEffect {
     public void removeAttributeModifiers(LivingEntity entity, AttributeMap p_111187_2_, int p_111187_3_) {
         super.removeAttributeModifiers(entity, p_111187_2_, p_111187_3_);
         if (entity instanceof Player) {
-            //((Player)entity).abilities.mayfly = false;
-            //((Player)entity).abilities.flying = false;
-            Networking.sendToPlayer(new PacketUpdateFlight(false, false), (Player)entity);
+            ((Player) entity).getAbilities().mayfly = false;
+            ((Player) entity).getAbilities().flying = false;
+            Networking.sendToPlayer(new PacketUpdateFlight(false, false), (Player) entity);
         }
-
     }
 }

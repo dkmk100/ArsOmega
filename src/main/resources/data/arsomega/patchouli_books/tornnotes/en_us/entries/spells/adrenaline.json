@@ -1,7 +1,7 @@
 {
   "name": "ars_nouveau.glyph_name.adrenaline",
   "icon": "ars_nouveau:glyph_adrenaline",
-  "category": "spells_2",
+  "category": "ars_nouveau:glyphs_2",
   "sortnum": 3,
   "pages": [
     {
@@ -9,12 +9,8 @@
       "text": "ars_nouveau.glyph_desc.adrenaline"
     },
     {
-      "type": "glyph_recipe",
-      "recipe": "ars_nouveau:glyph_adrenaline",
-      "tier": "TWO",
-      "mana_cost": "Medium",
-      "clay_type": "ars_nouveau:marvelous_clay",
-      "reagent": "ars_nouveau:glyph_heal"
+      "type": "ars_nouveau:glyph_recipe",
+      "recipe": "ars_nouveau:glyph_adrenaline"
     }
   ]
 }

@@ -17,16 +17,25 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.function.Supplier;
+
 public class CarvedClay extends HorizontalDirectionalBlock implements MagicAnimatable {
     boolean autoConvert;
     Block clayType;
-    EntityType<? extends Entity> entityType;
+    Supplier<EntityType<? extends Entity>> entityType;
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public CarvedClay(Properties p_i48440_1_,boolean autoConvert,Block clay, EntityType<? extends Entity> entity) {
         super(p_i48440_1_);
         this.autoConvert = autoConvert;
         this.clayType=clay;
-        this.entityType=entity;
+        this.entityType=() -> entity;
+    }
+    public CarvedClay(Properties p_i48440_1_, boolean autoConvert, Block clay, Supplier<EntityType<? extends Entity>> supplier) {
+        super(p_i48440_1_);
+        this.autoConvert = autoConvert;
+        this.clayType=clay;
+
+        this.entityType=supplier;
     }
 
     @Override
@@ -36,6 +45,8 @@ public class CarvedClay extends HorizontalDirectionalBlock implements MagicAnima
             CheckGolem(p_220082_3_, (ServerLevel) world);
         }
     }
+
+
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext p_196258_1_) {
@@ -58,7 +69,7 @@ public class CarvedClay extends HorizontalDirectionalBlock implements MagicAnima
                     world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                     world.setBlockAndUpdate(below, Blocks.AIR.defaultBlockState());
                     world.setBlockAndUpdate(below2, Blocks.AIR.defaultBlockState());
-                    Entity golem = entityType.spawn(world,null,null, below2, MobSpawnType.MOB_SUMMONED,true,false);
+                    Entity golem = entityType.get().spawn(world,null,null, below2, MobSpawnType.MOB_SUMMONED,true,false);
                     world.addFreshEntity(golem);
                 }
             }

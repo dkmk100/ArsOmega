@@ -1,7 +1,7 @@
 {
   "name": "Tablet of Aura",
   "icon": "ars_nouveau:ritual_aura",
-  "category": "rituals",
+  "category": "ars_nouveau:rituals",
   "pages": [
     {
       "type": "text",

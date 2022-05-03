@@ -2,7 +2,10 @@ package com.dkmk100.arsomega.util;
 
 import com.dkmk100.arsomega.ArsOmega;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.monster.ZombieVillager;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.levelgen.flat.FlatLevelGeneratorSettings;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -19,45 +22,45 @@ import java.util.UUID;
 public class ReflectionHandler {
     public static Field blockProperties;
     public static Field destroyTime;
-    //public static Method startConverting;
-    //public static Field noiseFeatures;
     public static Field xRot;
     public static Field yRot;
-    //public static Field dimensionDefaults;
-    //public static Field structureConfig;
-    //public static Field structureFeatures;
 
-    public static void Initialize() throws NoSuchFieldException, IllegalAccessException {
-        blockProperties = ObfuscationReflectionHelper.findField(BlockBehaviour.class,"f_60439_");
+    public static class Entity{
+        public static Field witherHeadUpdates;
+        public static Field witherIdleHeads;
+        public static Field witherBlocksTick;
+        public static Field witherBossBar;
+        public static Method witherRangedPos;
+        public static Method witherRangedEntity;
+        protected static void Initialize(){
+            witherHeadUpdates = ObfuscationReflectionHelper.findField(WitherBoss.class,"f_31427_");
+            witherHeadUpdates.setAccessible(true);
+            RemoveFinal(witherHeadUpdates);
+            witherIdleHeads = ObfuscationReflectionHelper.findField(WitherBoss.class,"f_31428_");
+            witherIdleHeads.setAccessible(true);
+            RemoveFinal(witherIdleHeads);
+            witherBlocksTick = ObfuscationReflectionHelper.findField(WitherBoss.class,"f_31429_");
+            witherBlocksTick.setAccessible(true);
+            witherBossBar = ObfuscationReflectionHelper.findField(WitherBoss.class,"f_31430_");
+            witherBossBar.setAccessible(true);
+            RemoveFinal(witherBossBar);
+            witherRangedPos = ObfuscationReflectionHelper.findMethod(WitherBoss.class,"m_31448_",int.class,double.class,double.class,double.class,boolean.class);
+            witherRangedEntity = ObfuscationReflectionHelper.findMethod(WitherBoss.class,"m_31457_",int.class, LivingEntity.class);
+        }
+    }
+
+    public static void Initialize() {
+        blockProperties = ObfuscationReflectionHelper.findField(BlockBehaviour.class, "f_60439_");
         blockProperties.setAccessible(true);
-        destroyTime = ObfuscationReflectionHelper.findField(BlockBehaviour.Properties.class,"f_60888_");
+        destroyTime = ObfuscationReflectionHelper.findField(BlockBehaviour.Properties.class, "f_60888_");
         destroyTime.setAccessible(true);
-        /*
-        startConverting = ObfuscationReflectionHelper.findMethod(ZombieVillager.class,"func_191991_a",new Class[]{UUID.class,int.class});
-        startConverting.setAccessible(true);
-        noiseFeatures = ObfuscationReflectionHelper.findField(StructureFeature.class,"field_236384_t_");
-        noiseFeatures.setAccessible(true);
-        RemoveFinal(noiseFeatures);
-         */
-        xRot = ObfuscationReflectionHelper.findField(Entity.class,"f_19858_");
+        xRot = ObfuscationReflectionHelper.findField(net.minecraft.world.entity.Entity.class, "f_19858_");
         xRot.setAccessible(true);
         RemoveFinal(xRot);
-        yRot = ObfuscationReflectionHelper.findField(Entity.class,"f_19857_");
+        yRot = ObfuscationReflectionHelper.findField(net.minecraft.world.entity.Entity.class, "f_19857_");
         yRot.setAccessible(true);
         RemoveFinal(yRot);
-        /*
-        dimensionDefaults = ObfuscationReflectionHelper.findField(StructureSettings.class,"field_236191_b_");
-        dimensionDefaults.setAccessible(true);
-        RemoveFinal(dimensionDefaults);
-        structureConfig = ObfuscationReflectionHelper.findField(StructureSettings.class,"field_236193_d_");
-        structureConfig.setAccessible(true);
-        RemoveFinal(structureConfig);
-        structureFeatures = ObfuscationReflectionHelper.findField(FlatLevelGeneratorSettings.class,"field_202247_j");
-        structureFeatures.setAccessible(true);
-        RemoveFinal(structureFeatures);
-
-         */
-
+        Entity.Initialize();
     }
 
     public static void RemoveFinal(Field field) {

@@ -1,7 +1,7 @@
 {
   "name": "ars_nouveau.glyph_name.rot",
   "icon": "ars_nouveau:glyph_rot",
-  "category": "spells_2",
+  "category": "ars_nouveau:glyphs_2",
   "sortnum": 3,
   "pages": [
     {

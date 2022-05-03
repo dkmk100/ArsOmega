@@ -1,7 +1,7 @@
 {
   "name": "Curse",
   "icon": "ars_nouveau:glyph_curse",
-  "category": "spells_1",
+  "category": "ars_nouveau:glyphs_1",
   "sortnum": 3,
   "pages": [
     {
@@ -9,12 +9,8 @@
       "text": "ars_nouveau.glyph_desc.curse"
     },
     {
-      "type": "glyph_recipe",
-      "recipe": "ars_nouveau:glyph_curse",
-      "tier": "ONE",
-      "mana_cost": "Low",
-      "clay_type": "ars_nouveau:magic_clay",
-      "reagent": "minecraft:soul_sand"
+      "type": "ars_nouveau:glyph_recipe",
+      "recipe": "ars_nouveau:glyph_curse"
     }
   ]
 }

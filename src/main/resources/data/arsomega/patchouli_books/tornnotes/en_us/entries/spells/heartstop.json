@@ -1,7 +1,7 @@
 {
   "name": "ars_nouveau.glyph_name.heartstop",
   "icon": "ars_nouveau:glyph_heartstop",
-  "category": "spells_3",
+  "category": "ars_nouveau:glyphs_3",
   "sortnum": 3,
   "pages": [
     {

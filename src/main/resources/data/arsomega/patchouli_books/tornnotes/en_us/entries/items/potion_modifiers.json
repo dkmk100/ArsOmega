@@ -1,7 +1,7 @@
 {
   "name": "Potion Modifiers",
   "icon": "arsomega:potion_extender",
-  "category": "arcane_equipment",
+  "category": "arsomega:arcane_equipment",
   "pages": [
     {
       "type": "text",

@@ -1,7 +1,7 @@
 {
   "name": "item.ars_nouveau.ritual_banishment",
   "icon": "ars_nouveau:ritual_banishment",
-  "category": "rituals",
+  "category": "ars_nouveau:rituals",
   "pages": [
     {
       "type": "text",

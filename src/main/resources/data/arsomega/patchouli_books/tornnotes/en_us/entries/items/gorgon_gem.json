@@ -1,7 +1,7 @@
 {
   "name": "Gorgon Gem",
   "icon": "arsomega:gorgon_gem",
-  "category": "resources",
+  "category": "ars_nouveau:resources",
   "pages": [
     {
       "type": "text",

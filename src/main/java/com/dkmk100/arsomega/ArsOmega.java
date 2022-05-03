@@ -2,10 +2,13 @@ package com.dkmk100.arsomega;
 
 import com.dkmk100.arsomega.client.renderer.GenericBipedRenderer;
 import com.dkmk100.arsomega.entities.EntityBossDemonKing;
+import com.dkmk100.arsomega.entities.EntityClayGolem;
 import com.dkmk100.arsomega.entities.EntityDemonBasic;
 import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.WitherBossRenderer;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -62,11 +65,9 @@ public class ArsOmega
             ReflectionHandler.Initialize();
         }
         catch (Exception e){
-            e.printStackTrace();
-            LOGGER.log(Level.ERROR,e.getMessage());
-            LOGGER.log(Level.ERROR,"Exception in reflection handler initialization, mod is likely now in a broken state");
+            //let's be honest, this is unrecoverable
+            throw new RuntimeException(e);
         }
-
         event.enqueueWork(() -> {
            RegistryHandler.RegisterFunctions();
         });
@@ -77,6 +78,8 @@ public class ArsOmega
         event.put(RegistryHandler.BASIC_DEMON.get(), EntityDemonBasic.createAttributes().build());
         event.put(RegistryHandler.STRONG_DEMON.get(), EntityDemonBasic.createAttributes().build());
         event.put(RegistryHandler.BOSS_DEMON_KING.get(), EntityBossDemonKing.createAttributes().build());
+        event.put(RegistryHandler.CLAY_GOLEM.get(), EntityClayGolem.createAttributes().build());
+        event.put(RegistryHandler.WITHER_BOUND.get(), WitherBoss.createAttributes().build());
     }
     private void clientSetup(final FMLClientSetupEvent event)
     {
@@ -95,6 +98,8 @@ public class ArsOmega
         RegisterMobRenderer(RegistryHandler.BASIC_DEMON.get(),"demon_basic",event);
         RegisterMobRenderer(RegistryHandler.STRONG_DEMON.get(),"demon_strong",event);
         RegisterMobRenderer(RegistryHandler.BOSS_DEMON_KING.get(),"boss_demon_king",event);
+        RegisterMobRenderer(RegistryHandler.CLAY_GOLEM.get(),"clay_golem",event);
+        event.registerEntityRenderer(RegistryHandler.WITHER_BOUND.get(), (EntityRendererProvider.Context context) -> new WitherBossRenderer(context));
     }
     @OnlyIn(Dist.CLIENT)
     private void RegisterMobRenderer(EntityType<? extends Mob> entity, String registryName, EntityRenderersEvent.RegisterRenderers event){

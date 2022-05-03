@@ -1,7 +1,7 @@
 {
   "name": "Demonic Glowstone",
   "icon": "arsomega:demonic_glowstone_dust",
-  "category": "demon_realm",
+  "category": "arsomega:demon_realm",
   "pages": [
     {
       "type": "text",

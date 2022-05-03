@@ -1,7 +1,7 @@
 {
   "name": "ars_nouveau.glyph_name.hellfire",
   "icon": "ars_nouveau:glyph_hellfire",
-  "category": "spells_4",
+  "category": "arsomega:spells_4",
   "sortnum": 3,
   "pages": [
     {

@@ -14,7 +14,7 @@
       "item": "minecraft:obsidian"
     },
     {
-      "tag": "forge:storage_blocks/mana"
+      "tag": "ars_nouveau:source_gem_block"
     },
     {
       "item": "minecraft:shield"
