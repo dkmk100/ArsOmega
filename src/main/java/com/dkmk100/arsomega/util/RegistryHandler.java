@@ -46,6 +46,7 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
@@ -120,6 +121,9 @@ public class RegistryHandler{
         register(HellFlare.INSTANCE);
         register(CursedBind.INSTANCE);
         register(TrueUnderfoot.INSTANCE);
+        register(TornadoGlyph.INSTANCE);
+        register(DivineSmite.INSTANCE);
+        register(GlyphRaiseEarth.INSTANCE);
     }
 
     public static void registerRituals()
@@ -133,6 +137,7 @@ public class RegistryHandler{
         register(new RitualSummoning());
         register(new RitualFatigue());
         register(new RitualAura());
+        register(new RitualChangeBiome());
     }
 
     public static void register(AbstractSpellPart spellPart) {
@@ -216,6 +221,10 @@ public class RegistryHandler{
 
         final Item DEMON_SPAWN_EGG = new ModSpawnEggItem(BASIC_DEMON,0x000000,0x000000,ITEM_PROPERTIES).setRegistryName("basic_demon_spawn_egg");
 
+        final Item ARCANE_TOTEM = new Item(ITEM_PROPERTIES_FIRE).setRegistryName("arcane_totem");
+
+        final Item BIOME_STAFF = new BiomeCrystal("biome_crystal",ITEM_PROPERTIES);
+
         ITEMS.add(GREATER_MANA_AMULET);
         ITEMS.add(GREATER_REGEN_AMULET);
         ITEMS.add(FOCUS_OF_MANA);
@@ -274,6 +283,8 @@ public class RegistryHandler{
         ITEMS.add(DEMONIC_RIFT_ITEM);
 
         ITEMS.add(DEMON_SPAWN_EGG);
+        ITEMS.add(ARCANE_TOTEM);
+        ITEMS.add(BIOME_STAFF);
 
         for (Item item : ITEMS) {
             event.getRegistry().register(item);
@@ -347,6 +358,10 @@ public class RegistryHandler{
     public static final RegistryObject<EntityType<? extends MobEntity>> BOSS_DEMON_KING = ENTITIES.register("boss_demon_king", () -> EntityType.Builder.of(EntityBossDemonKing::new, EntityClassification.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "boss_demon_king").toString()));
     public static final RegistryObject<EntityType<? extends MobEntity>> CLAY_GOLEM = ENTITIES.register("clay_golem", () -> EntityType.Builder.of(EntityClayGolem::new, EntityClassification.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem").toString()));
 
-    public static final RegistryObject<EntityType<EntityWitherBound>> WITHER_BOUND = ENTITIES.register("bound_wither", () -> EntityType.Builder.<EntityWitherBound>of(EntityWitherBound::new, EntityClassification.MISC).sized(0.9F, 3.0F).build(new ResourceLocation(ArsOmega.MOD_ID, "bound_wither").toString()));
+    public static final RegistryObject<EntityType<? extends EntityTornado>> TORNADO = ENTITIES.register("tornado", () -> EntityType.Builder.<EntityTornado>of(EntityTornado::new, EntityClassification.MISC).sized(0.3F, 0.3F).clientTrackingRange(20).setCustomClientFactory(EntityTornado::new).build(new ResourceLocation(ArsOmega.MOD_ID, "tornado").toString()));
+
+    public static final RegistryObject<EntityType<? extends EntityDivineSmite>> DIVINE_SMITE = ENTITIES.register("divine_smite", () -> EntityType.Builder.<EntityDivineSmite>of(EntityDivineSmite::new, EntityClassification.MISC).noSave().sized(0.0F, 0.0F).clientTrackingRange(16).updateInterval(Integer.MAX_VALUE).build(new ResourceLocation(ArsOmega.MOD_ID, "divine_smite").toString()));
+
+    public static final RegistryObject<EntityType<EntityWitherBound>> WITHER_BOUND = ENTITIES.register("bound_wither", () -> EntityType.Builder.<EntityWitherBound>of(EntityWitherBound::new, EntityClassification.MISC).sized(1.0F, 2.0F).build(new ResourceLocation(ArsOmega.MOD_ID, "bound_wither").toString()));
 
 }

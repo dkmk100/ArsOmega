@@ -41,19 +41,24 @@ public class RitualSummoning extends AbstractRitual {
                 BlockPos pos = this.getPos();
                 EntityType target = EntityType.ZOMBIE;
                 boolean chose = false;
+                boolean cursed = false;
                 List<ItemStack> items = this.getConsumedItems();
                 int amount = 5;
                 for(ItemStack stack : items){
                     Item item = stack.getItem();
-                    if(chose){
-                        if(net.minecraftforge.common.Tags.Items.GEMS_DIAMOND.contains(item)){
-                            if(stack.getCount()<=0){
-                                amount+=1;
-                            }
-                            else{
-                                amount+=stack.getCount();
-                            }
+                    if(net.minecraftforge.common.Tags.Items.GEMS_DIAMOND.contains(item)){
+                        if(stack.getCount()<=0){
+                            amount+=1;
                         }
+                        else{
+                            amount+=stack.getCount();
+                        }
+                    }
+                    if(item == Items.NETHERITE_INGOT){
+                        cursed = true;
+                    }
+                    else if(chose){
+
                     }
                     else if(Tags.Items.LEATHER.contains(item)){
                        target=EntityType.COW;
@@ -74,6 +79,32 @@ public class RitualSummoning extends AbstractRitual {
                     else if(item == Items.BLAZE_ROD){
                         target= EntityType.BLAZE;
                         chose=true;
+                    }
+                    else if(item == Items.SHULKER_SHELL){
+                        target= EntityType.SHULKER;
+                        chose=true;
+                    }
+                    else if(item == Items.ENDER_PEARL){
+                        target= EntityType.ENDERMAN;
+                        chose=true;
+                    }
+                    else if(item == Items.SPIDER_EYE){
+                        target = EntityType.SPIDER;
+                        chose=true;
+                    }
+                }
+                if(cursed){
+                    if(target == EntityType.SPIDER){
+                        amount = amount/2;
+                        target = EntityType.CAVE_SPIDER;
+                    }
+                    else if(target == EntityType.ENDERMAN){
+                        amount = amount*2;
+                        target = EntityType.ENDERMITE;
+                    }
+                    else if(target == EntityType.ENDERMAN){
+                        amount = amount/2;
+                        target = EntityType.ENDERMITE;
                     }
                 }
                 int i=0;

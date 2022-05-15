@@ -1,6 +1,6 @@
 {
   "type": "ars_nouveau:glyph_recipe",
   "tier": "THREE",
-  "input": "minecraft:netherite_block",
+  "input": "arsomega:arcane_totem",
   "output": "ars_nouveau:glyph_diamond"
 }

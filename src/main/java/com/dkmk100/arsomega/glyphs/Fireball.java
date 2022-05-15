@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.ANExplosion;
@@ -45,7 +46,14 @@ public class Fireball extends TierFourEffect {
 
     public void onResolve(RayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         Vector3d vec = this.safelyGetHitPos(rayTraceResult);
-        double intensity = (Double)this.BASE.get() + (Double)this.AMP_VALUE.get() * spellStats.getAmpMultiplier() + (Double)this.AOE_BONUS.get() * (double)spellStats.getBuffCount(AugmentAOE.INSTANCE);
+        double intensity;
+        try {
+            intensity = (Double) this.BASE.get() + (Double) this.AMP_VALUE.get() * spellStats.getAmpMultiplier() + (Double) this.AOE_BONUS.get() * (double) spellStats.getBuffCount(AugmentAOE.INSTANCE);
+        }
+        catch (Exception e){
+            intensity = 1.2 + 0.6*spellStats.getAmpMultiplier() + 1.6 * spellStats.getBuffCount(AugmentAOE.INSTANCE);
+            ArsOmega.LOGGER.error("null config for Fireball!");
+        }
         int dampen = spellStats.getBuffCount(AugmentDampen.INSTANCE);
         intensity -= 0.5D * (double)dampen;
         Explosion.Mode mode = dampen > 0 ? Explosion.Mode.NONE : Explosion.Mode.DESTROY;
@@ -79,6 +87,7 @@ public class Fireball extends TierFourEffect {
         }
     }
 
+    @Override
     public void buildConfig(ForgeConfigSpec.Builder builder) {
         super.buildConfig(builder);
         this.addAmpConfig(builder, 0.6D);

@@ -1,0 +1,107 @@
+---- Minecraft Crash Report ----
+// My bad.
+
+Time: 5/14/22 2:22 PM
+Description: Ticking block entity
+
+java.lang.NoSuchMethodError: net.minecraft.world.biome.Biome.getFoliageColor()I
+	at com.dkmk100.arsomega.rituals.RitualChangeBiome.tick(RitualChangeBiome.java:73) ~[?:?] {re:classloading}
+	at com.hollingsworth.arsnouveau.api.ritual.AbstractRitual.tryTick(AbstractRitual.java:38) ~[ars_nouveau:1.24.15] {re:classloading}
+	at com.hollingsworth.arsnouveau.common.block.tile.RitualTile.tick(RitualTile.java:114) ~[ars_nouveau:1.24.15] {re:classloading}
+	at net.minecraft.world.World.tickBlockEntities(World.java:491) ~[forge:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.world.server.ServerWorld.tick(ServerWorld.java:371) ~[forge:?] {re:classloading,pl:runtimedistcleaner:A,re:mixin,pl:runtimedistcleaner:A}
+	at net.minecraft.server.MinecraftServer.tickChildren(MinecraftServer.java:851) ~[forge:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:APP:blame.mixins.json:MinecraftServerAccessor,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.server.dedicated.DedicatedServer.tickChildren(DedicatedServer.java:291) ~[forge:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:787) ~[forge:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:APP:blame.mixins.json:MinecraftServerAccessor,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:642) ~[forge:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:APP:blame.mixins.json:MinecraftServerAccessor,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.server.MinecraftServer.lambda$spin$0(MinecraftServer.java:232) ~[forge:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:APP:blame.mixins.json:MinecraftServerAccessor,pl:mixin:A,pl:runtimedistcleaner:A}
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_261] {}
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Server thread
+Stacktrace:
+	at com.dkmk100.arsomega.rituals.RitualChangeBiome.tick(RitualChangeBiome.java:73) ~[?:?] {re:classloading}
+	at com.hollingsworth.arsnouveau.api.ritual.AbstractRitual.tryTick(AbstractRitual.java:38) ~[ars_nouveau:1.24.15] {re:classloading}
+	at com.hollingsworth.arsnouveau.common.block.tile.RitualTile.tick(RitualTile.java:114) ~[ars_nouveau:1.24.15] {re:classloading}
+-- Block entity being ticked --
+Details:
+	Name: ars_nouveau:ritual // com.hollingsworth.arsnouveau.common.block.tile.RitualTile
+	Block: Block{ars_nouveau:ritual}[lit=true]
+	Block location: World: (232,64,69), Chunk: (at 8,4,5 in 14,4; contains blocks 224,0,64 to 239,255,79), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,0,0 to 511,255,511)
+	Block: Block{ars_nouveau:ritual}[lit=true]
+	Block location: World: (232,64,69), Chunk: (at 8,4,5 in 14,4; contains blocks 224,0,64 to 239,255,79), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,0,0 to 511,255,511)
+Stacktrace:
+	at net.minecraft.world.World.tickBlockEntities(World.java:491) ~[forge:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at net.minecraft.world.server.ServerWorld.tick(ServerWorld.java:371) ~[forge:?] {re:classloading,pl:runtimedistcleaner:A,re:mixin,pl:runtimedistcleaner:A}
+
+
+-- Affected level --
+Details:
+	All players: 1 total; [ServerPlayerEntity['Dev'/273, l='ServerLevel[world]', x=232.55, y=65.00, z=69.47]]
+	Chunk stats: ServerChunkCache: 2267
+	Level dimension: minecraft:overworld
+	Level spawn location: World: (192,64,16), Chunk: (at 0,4,0 in 12,1; contains blocks 192,0,16 to 207,255,31), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,0,0 to 511,255,511)
+	Level time: 15268 game time, 15268 day time
+	Level name: world
+	Level game mode: Game mode: survival (ID 0). Hardcore: false. Cheats: false
+	Level weather: Rain time: 154094 (now: false), thunder time: 32579 (now: false)
+	Known server brands: forge
+	Level was modded: true
+	Level storage version: 0x04ABD - Anvil
+Stacktrace:
+	at net.minecraft.server.MinecraftServer.tickChildren(MinecraftServer.java:851) ~[forge:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:APP:blame.mixins.json:MinecraftServerAccessor,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.server.dedicated.DedicatedServer.tickChildren(DedicatedServer.java:291) ~[forge:?] {re:classloading,pl:accesstransformer:B}
+	at net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:787) ~[forge:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:APP:blame.mixins.json:MinecraftServerAccessor,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:642) ~[forge:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:APP:blame.mixins.json:MinecraftServerAccessor,pl:mixin:A,pl:runtimedistcleaner:A}
+	at net.minecraft.server.MinecraftServer.lambda$spin$0(MinecraftServer.java:232) ~[forge:?] {re:mixin,pl:accesstransformer:B,pl:runtimedistcleaner:A,re:classloading,pl:accesstransformer:B,pl:mixin:APP:blame.mixins.json:MinecraftServerAccessor,pl:mixin:A,pl:runtimedistcleaner:A}
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_261] {}
+
+
+-- System Details --
+Details:
+	Minecraft Version: 1.16.5
+	Minecraft Version ID: 1.16.5
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 1.8.0_261, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 782415136 bytes (746 MB) / 1839726592 bytes (1754 MB) up to 3797417984 bytes (3621 MB)
+	CPUs: 12
+	JVM Flags: 1 total; -XX:+IgnoreUnrecognizedVMOptions
+	ModLauncher: 8.0.9+86+master.3cf110c
+	ModLauncher launch target: fmluserdevserver
+	ModLauncher naming: mcp
+	ModLauncher services: 
+		/mixin-0.8.4.jar mixin PLUGINSERVICE 
+		/eventbus-4.0.0.jar eventbus PLUGINSERVICE 
+		/forge-1.16.5-36.2.22_mapped_official_1.16.5-launcher.jar object_holder_definalize PLUGINSERVICE 
+		/forge-1.16.5-36.2.22_mapped_official_1.16.5-launcher.jar runtime_enum_extender PLUGINSERVICE 
+		/accesstransformers-3.0.1.jar accesstransformer PLUGINSERVICE 
+		/forge-1.16.5-36.2.22_mapped_official_1.16.5-launcher.jar capability_inject_definalize PLUGINSERVICE 
+		/forge-1.16.5-36.2.22_mapped_official_1.16.5-launcher.jar runtimedistcleaner PLUGINSERVICE 
+		/mixin-0.8.4.jar mixin TRANSFORMATIONSERVICE 
+		/forge-1.16.5-36.2.22_mapped_official_1.16.5-launcher.jar fml TRANSFORMATIONSERVICE 
+	FML: 36.2
+	Forge: net.minecraftforge:36.2.22
+	FML Language Providers: 
+		javafml@36.2
+		minecraft@1
+	Mod List: 
+		client-extra.jar                                  |Minecraft                     |minecraft                     |1.16.5              |DONE      |Manifest: a1:d4:5e:04:4f:d3:d6:e0:7b:37:97:cf:77:b0:de:ad:4a:47:ce:8c:96:49:5f:0a:cf:8c:ae:b2:6d:4b:8a:3f
+		forge-1.16.5-36.2.22_mapped_official_1.16.5-recomp|Forge                         |forge                         |36.2.22             |DONE      |Manifest: NOSIGNATURE
+		Blame-1.16.5-3.2.1-forge_mapped_official_1.16.5.ja|Blame!                        |blame                         |1.16.5-3.2.1-forge  |DONE      |Manifest: NOSIGNATURE
+		curios-forge-1.16.5-4.0.5.3_mapped_official_1.16.5|Curios API                    |curios                        |1.16.5-4.0.5.3      |DONE      |Manifest: NOSIGNATURE
+		Patchouli-1.16.4-50_mapped_official_1.16.5.jar    |Patchouli                     |patchouli                     |1.16.4-50           |DONE      |Manifest: NOSIGNATURE
+		geckolib-forge-1.16.5-3.0.65_mapped_official_1.16.|GeckoLib                      |geckolib3                     |3.0.65              |DONE      |Manifest: NOSIGNATURE
+		exp-401955-3629422_mapped_official_1.16.5.jar     |Ars Nouveau                   |ars_nouveau                   |1.24.15             |DONE      |Manifest: NOSIGNATURE
+		main                                              |Ars Omega                     |arsomega                      |1.16.5-1.3          |DONE      |Manifest: NOSIGNATURE
+		exp-407174-3188120_mapped_official_1.16.5.jar     |Shutup Experimental Settings! |shutupexperimentalsettings    |1.0.3               |DONE      |Manifest: NOSIGNATURE
+		jei-1.16.2-7.3.2.25_mapped_official_1.16.5.jar    |Just Enough Items             |jei                           |7.3.2.25            |DONE      |Manifest: NOSIGNATURE
+	Crash Report UUID: e33d44bf-5f5a-4497-b274-4b1d6bac6522
+	Player Count: 1 / 20; [ServerPlayerEntity['Dev'/273, l='ServerLevel[world]', x=232.55, y=65.00, z=69.47]]
+	Data Packs: vanilla, mod:forge, mod:blame, mod:curios, mod:patchouli (incompatible), mod:geckolib3 (incompatible), mod:ars_nouveau, mod:arsomega, mod:shutupexperimentalsettings (incompatible), mod:jei
+	Is Modded: Definitely; Server brand changed to 'forge'
+	Type: Dedicated Server (map_server.txt)

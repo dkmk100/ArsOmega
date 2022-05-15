@@ -26,7 +26,6 @@ public class CursedBind extends AbstractAugment implements ICustomTier {
     }
 
     public SpellStats.Builder applyModifiers(SpellStats.Builder builder, AbstractSpellPart spellPart) {
-        builder.addAmplification(2.0D);
         return super.applyModifiers(builder, spellPart);
     }
 

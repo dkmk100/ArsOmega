@@ -1,0 +1,6 @@
+{
+  "type": "ars_nouveau:glyph_recipe",
+  "tier": "THREE",
+  "input": "ars_nouveau:glyph_flatten",
+  "output": "ars_nouveau:glyph_raise_earth"
+}

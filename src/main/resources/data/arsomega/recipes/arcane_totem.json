@@ -1,0 +1,51 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "item_1": [
+    {
+      "tag": "forge:storage_blocks/mana"
+    }
+  ],
+  "item_2": [
+    {
+      "item": "arsomega:demonic_gem"
+    }
+  ],
+  "item_3": [
+    {
+      "tag": "forge:storage_blocks/mana"
+    }
+  ],
+  "item_4": [
+    {
+      "item": "arsomega:demonic_gem"
+    }
+  ],
+  "item_5": [
+    {
+      "item": "arsomega:demonic_gem"
+    }
+  ],
+  "item_6": [
+    {
+      "tag": "forge:storage_blocks/mana"
+    }
+  ],
+  "item_7": [
+    {
+      "item": "arsomega:demonic_gem"
+    }
+  ],
+  "item_8": [
+    {
+      "tag": "forge:storage_blocks/mana"
+    }
+  ],
+  "reagent": [
+    {
+      "item": "minecraft:netherite_block"
+    }
+  ],
+  "output": {
+    "item": "arsomega:arcane_totem"
+  }
+}

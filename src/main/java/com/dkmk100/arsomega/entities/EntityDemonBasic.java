@@ -50,7 +50,7 @@ public class EntityDemonBasic extends MonsterEntity {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.WOLF_GROWL;
+        return SoundEvents.AMBIENT_CAVE;
     }
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {

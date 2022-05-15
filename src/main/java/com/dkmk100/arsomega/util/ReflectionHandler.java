@@ -2,7 +2,9 @@ package com.dkmk100.arsomega.util;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.monster.ZombieVillagerEntity;
+import net.minecraft.world.biome.BiomeContainer;
 import net.minecraft.world.gen.DimensionSettings;
 import net.minecraft.world.gen.FlatGenerationSettings;
 import net.minecraft.world.gen.feature.structure.Structure;
@@ -25,6 +27,8 @@ public class ReflectionHandler {
     public static Field structureConfig;
     public static Field structureFeatures;
 
+    public static Field biomes;
+
     public static class Entity{
         public static Field witherHeadUpdates;
         public static Field witherIdleHeads;
@@ -32,6 +36,10 @@ public class ReflectionHandler {
         public static Field witherBossBar;
         public static Method witherRangedPos;
         public static Method witherRangedEntity;
+
+        public static Field lightningLife;
+        public static Field lightningFlash;
+        public static Field lightningCause;
         protected static void Initialize() throws NoSuchFieldException, IllegalAccessException {
             witherHeadUpdates = ObfuscationReflectionHelper.findField(WitherEntity.class,"field_82223_h");
             witherHeadUpdates.setAccessible(true);
@@ -46,9 +54,10 @@ public class ReflectionHandler {
             RemoveFinal(witherBossBar);
             witherRangedPos = ObfuscationReflectionHelper.findMethod(WitherEntity.class,"func_82209_a",int.class,double.class,double.class,double.class,boolean.class);
             witherRangedEntity = ObfuscationReflectionHelper.findMethod(WitherEntity.class,"func_82216_a",int.class, LivingEntity.class);
-            if(witherRangedEntity==null){
-                throw new RuntimeException("no wither ranged entity method");
-            }
+
+            lightningLife = ObfuscationReflectionHelper.findField(LightningBoltEntity.class,"field_70262_b");
+            lightningFlash = ObfuscationReflectionHelper.findField(LightningBoltEntity.class,"field_70263_c");
+            lightningCause = ObfuscationReflectionHelper.findField(LightningBoltEntity.class,"field_204810_e");
         }
     }
 
@@ -70,8 +79,11 @@ public class ReflectionHandler {
         RemoveFinal(structureConfig);
         structureFeatures = ObfuscationReflectionHelper.findField(FlatGenerationSettings.class,"field_202247_j");
         structureFeatures.setAccessible(true);
+        biomes = ObfuscationReflectionHelper.findField(BiomeContainer.class,"field_227054_f_");
+        biomes.setAccessible(true);
         RemoveFinal(structureFeatures);
         Entity.Initialize();
+
     }
 
     public static void RemoveFinal(Field field) throws NoSuchFieldException, IllegalAccessException {

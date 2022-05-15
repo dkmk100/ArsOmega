@@ -1,9 +1,7 @@
 package com.dkmk100.arsomega;
 
 import com.dkmk100.arsomega.client.renderer.GenericBipedRenderer;
-import com.dkmk100.arsomega.entities.EntityBossDemonKing;
-import com.dkmk100.arsomega.entities.EntityClayGolem;
-import com.dkmk100.arsomega.entities.EntityDemonBasic;
+import com.dkmk100.arsomega.entities.*;
 //import com.dkmk100.arsomega.init.DelayedStructureInit;
 import com.dkmk100.arsomega.events.CustomBus;
 import com.dkmk100.arsomega.events.CustomEvents;
@@ -14,10 +12,10 @@ import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.WitherRenderer;
+import net.minecraft.client.renderer.entity.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
@@ -71,25 +69,16 @@ public class ArsOmega
         CustomBus.BUS.post(new RegisterStructuresEvent("test"));
     }
 
-
     private void setup(final FMLCommonSetupEvent event) {
         LOGGER.info("Initializing Reflection Handler");
         try {
             ReflectionHandler.Initialize();
         }
         catch (Exception e){
-            e.printStackTrace();
-            LOGGER.log(Level.ERROR,"Exception in reflection handler initialization, mod is likely now in a broken state");
+            //unrecoverable tbh
+            throw new RuntimeException(e);
         }
 
-
-        /*
-        event.enqueueWork(() -> {
-            StructureInit.setupStructures();
-            DelayedStructureInit.RegisterConfiguredStructures();
-        });
-
-         //*/
         ExperimentalStructureInit.Initialize(event);
 
         GlobalEntityTypeAttributes.put(RegistryHandler.BASIC_DEMON.get(), EntityDemonBasic.createAttributes().build());
@@ -109,14 +98,20 @@ public class ArsOmega
         RenderTypeLookup.setRenderLayer(RegistryHandler.GORGON_FIRE.get(), RenderType.cutoutMipped());
         RenderTypeLookup.setRenderLayer(ItemsRegistry.INFINITY_JAR, RenderType.cutout());
 
+        //IDK why but this fixes a major server crash. Something related to class loading I think. Sometimes I hate java.
+        RegisterMobRenderers();
+    }
+    @OnlyIn(Dist.CLIENT)
+    private void RegisterMobRenderers(){
         RegisterMobRenderer(RegistryHandler.BASIC_DEMON.get(),"demon_basic");
         RegisterMobRenderer(RegistryHandler.STRONG_DEMON.get(),"demon_strong");
         RegisterMobRenderer(RegistryHandler.BOSS_DEMON_KING.get(),"boss_demon_king");
         RegisterMobRenderer(RegistryHandler.CLAY_GOLEM.get(),"clay_golem");
 
-        RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.WITHER_BOUND.get(), (EntityRendererManager managerIn) -> new WitherRenderer(managerIn));
+        RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.TORNADO.get(), (EntityRendererManager managerIn) -> new PlainRenderer<EntityTornado>(managerIn));
+        RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.DIVINE_SMITE.get(), (EntityRendererManager managerIn) -> new LightningBoltRenderer(managerIn));
 
-        //RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.VOID_BEAST.get(), VoidBeastRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.WITHER_BOUND.get(), (EntityRendererManager managerIn) -> new WitherRenderer(managerIn));
     }
     @OnlyIn(Dist.CLIENT)
     private void RegisterMobRenderer(EntityType<? extends MobEntity> entity, String registryName){
@@ -126,5 +121,4 @@ public class ArsOmega
     {
         // some postinit code
     }
-
 }
