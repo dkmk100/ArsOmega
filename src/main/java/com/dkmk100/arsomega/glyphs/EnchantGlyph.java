@@ -124,7 +124,7 @@ public class EnchantGlyph extends AbstractEffect {
                 }
             }
             else{
-                if(itemstack.getItem()==Items.GOLDEN_APPLE && level>=50){
+                if(itemstack.getItem()==Items.GOLDEN_APPLE && level>=40){
                     itemstack2 = new ItemStack(Items.ENCHANTED_GOLDEN_APPLE,itemstack.getCount());
                     CompoundTag compoundnbt = itemstack.getTag();
                     if (compoundnbt != null) {

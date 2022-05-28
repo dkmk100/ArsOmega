@@ -14,6 +14,8 @@ import java.util.*;
 @Mixin(AbstractSpellPart.class)
 public class AugmentCompat {
 
+    //pretty sure this class is useless now, but will keep around for another version or two incase I need it for reference
+    /*
     @Inject(at = @At("RETURN"), method = "Lcom/hollingsworth/arsnouveau/api/spell/AbstractSpellPart;augmentSetOf([Lcom/hollingsworth/arsnouveau/api/spell/AbstractAugment;)Ljava/util/Set;", cancellable = true, remap = false)
     protected <AbstractArgument> void argumentSetOf(AbstractAugment[] augments, CallbackInfoReturnable<Set<AbstractAugment>> cir) {
         if(augments!=null) {
@@ -24,6 +26,7 @@ public class AugmentCompat {
             }
         }
     }
+     */
 
 
 }

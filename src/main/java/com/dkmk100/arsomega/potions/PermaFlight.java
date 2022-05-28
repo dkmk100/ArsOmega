@@ -43,7 +43,7 @@ public class PermaFlight extends MobEffect {
         super.applyEffectTick(entity, p_76394_2_);
         if (entity instanceof Player) {
             if(!((Player)entity).hasEffect(com.hollingsworth.arsnouveau.common.potions.ModPotions.GRAVITY_EFFECT)) {
-                ((Player) entity).getAbilities().mayfly = false;
+                ((Player) entity).getAbilities().mayfly = true;
             }
         }
 

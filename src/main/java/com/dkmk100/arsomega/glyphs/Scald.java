@@ -33,13 +33,13 @@ public class Scald extends AbstractEffect {
     @Override
     public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         double amp = spellStats.getAmpMultiplier() + 2;
-        int time = spellStats.getBuffCount(AugmentExtendTime.INSTANCE);
+        int time = 60 + (int)Math.round(30 * spellStats.getDurationMultiplier());
 
         if(rayTraceResult.getEntity() instanceof LivingEntity){
             LivingEntity living = (LivingEntity)rayTraceResult.getEntity();
-            living.addEffect(new MobEffectInstance(ModPotions.BURNED,60 + 30*time));
+            living.addEffect(new MobEffectInstance(ModPotions.BURNED,time));
         }
-        rayTraceResult.getEntity().hurt(SCALD(shooter,shooter),(float)amp*1.5f);
+        this.dealDamage(world, shooter, (float)amp*1.5f, spellStats,rayTraceResult.getEntity(),SCALD(shooter,shooter));
     }
 
     @Override

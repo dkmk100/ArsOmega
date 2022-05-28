@@ -30,18 +30,20 @@ public class DemonStaff extends BasicItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
         ItemStack stack = playerIn.getItemInHand(handIn);
-        if(worldIn instanceof ServerLevel){
-            Entity ent = RegistryHandler.BOSS_DEMON_KING.get().spawn((ServerLevel)worldIn,stack,playerIn,playerIn.blockPosition(), MobSpawnType.MOB_SUMMONED,true,false);
+        if(worldIn instanceof ServerLevel) {
+            Entity ent = RegistryHandler.BOSS_DEMON_KING.get().spawn((ServerLevel) worldIn, stack, playerIn, playerIn.blockPosition(), MobSpawnType.MOB_SUMMONED, true, false);
             worldIn.addFreshEntity(ent);
+            //stack.shrink(1);
+            playerIn.getCooldowns().addCooldown(this, 100);
         }
-        stack.shrink(1);
-        return new InteractionResultHolder<>(InteractionResult.CONSUME,stack);
+
+        return new InteractionResultHolder<>(InteractionResult.SUCCESS,stack);
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip2, TooltipFlag flagIn) {
-        tooltip2.add(new TextComponent("Summons the Demon King on use"));
+        tooltip2.add(new TextComponent("Summons the Demon King on use. Can be found in a structure in the demon realm."));
         super.appendHoverText(stack, worldIn, tooltip2, flagIn);
     }
 }

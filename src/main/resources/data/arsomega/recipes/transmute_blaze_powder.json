@@ -1,0 +1,13 @@
+{
+  "type": "arsomega:transmute",
+  "input": {
+    "item": "minecraft:blaze_powder",
+    "count": 1
+  },
+  "output": {
+    "item": "minecraft:nether_wart",
+    "count": 1
+  },
+  "reversible": true,
+  "minAmp": 1
+}

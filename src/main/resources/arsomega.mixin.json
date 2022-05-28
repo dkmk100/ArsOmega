@@ -5,7 +5,8 @@
   "refmap": "arsomega.refmap.json",
   "mixins": [
     "CustomFire",
-    "AugmentCompat"
+    "AugmentCompat",
+    "DispelMixin"
   ],
   "client": [
   ],

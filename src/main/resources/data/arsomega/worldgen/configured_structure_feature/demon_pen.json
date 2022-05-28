@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:village",
+  "config": {
+    "start_pool": "arsomega:demon_pen",
+    "size": 1
+  },
+  "biomes": "arsomega:demon_biome",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

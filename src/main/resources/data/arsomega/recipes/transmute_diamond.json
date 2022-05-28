@@ -1,0 +1,13 @@
+{
+  "type": "arsomega:transmute",
+  "input": {
+    "item": "minecraft:diamond",
+    "count": 1
+  },
+  "output": {
+    "item": "minecraft:emerald_block",
+    "count": 1
+  },
+  "reversible": true,
+  "minAmp": 3
+}

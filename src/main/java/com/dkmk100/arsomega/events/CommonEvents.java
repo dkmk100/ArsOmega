@@ -4,6 +4,7 @@ import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.items.ModSpawnEggItem;
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.dkmk100.arsomega.util.ReflectionHandler;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,6 +19,7 @@ import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -40,7 +42,7 @@ public class CommonEvents {
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGH)
     public static void attack(LivingAttackEvent e) {
         if (e.getSource().getEntity() instanceof LivingEntity) {
             LivingEntity living = (LivingEntity) e.getSource().getEntity();
@@ -83,7 +85,7 @@ public class CommonEvents {
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGH)
     public static void playerDamaged(LivingHurtEvent e) {
         if (e.getEntityLiving() != null) {
             LivingEntity living = e.getEntityLiving();
@@ -98,7 +100,7 @@ public class CommonEvents {
                         damage = damage * 0.8f;
                     }
                 }
-                if (e.getSource().isFire()) {
+                if (e.getSource().isFire() || e.getSource().msgId.equals(RegistryHandler.FIRE_FOCUS_DAMAGE)) {
                     if (living.hasEffect(ModPotions.BURNED)) {
                         damage = damage * 1.5f;
                     }
@@ -107,6 +109,18 @@ public class CommonEvents {
                     }
                 }
                 e.setAmount(Math.max(0.0F, damage));
+            }
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST,receiveCanceled = true)
+    public static void playerDamagedFinal(LivingHurtEvent e) {
+        if (e.getEntityLiving() != null) {
+            LivingEntity living = e.getEntityLiving();
+            if (living.hasEffect(ModPotions.STONE_PETRIFICATION) && !e.getSource().isBypassInvul()) {
+                //make sure to cancel it, this is important
+                e.setAmount(0);
+                e.setCanceled(true);
             }
         }
     }
@@ -152,10 +166,10 @@ public class CommonEvents {
                 destinationWorld.addDuringTeleport(entity2);
             }
             entity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
-            destinationWorld.getProfiler().endTick();
+            //destinationWorld.getProfiler().endTick();
             //originalWorld.entity ;
             //destinationWorld.resetUpdateEntityTick();
-            destinationWorld.getProfiler().endTick();
+            //destinationWorld.getProfiler().endTick();
         }
     }
     /*

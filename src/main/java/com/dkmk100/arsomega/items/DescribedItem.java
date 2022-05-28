@@ -4,7 +4,7 @@ import net.minecraft.world.item.Item.Properties;
 
 public class DescribedItem extends BasicItem {
     String description;
-    public DescribedItem(Properties properties,String description) {
+    public DescribedItem(Properties properties, String description) {
         super(properties);
         this.description = description;
     }

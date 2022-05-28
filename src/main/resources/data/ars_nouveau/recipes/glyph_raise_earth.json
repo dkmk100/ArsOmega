@@ -1,0 +1,48 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:earth_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:glyph_flatten"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:rabbit_hide"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:piston"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:piston"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:obsidian"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:lava_bucket"
+      }
+    }
+  ],
+  "exp": 200,
+  "output": "ars_nouveau:glyph_raise_earth"
+}

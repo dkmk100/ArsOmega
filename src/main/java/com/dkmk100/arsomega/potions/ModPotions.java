@@ -23,7 +23,8 @@ public class ModPotions {
     public static MobEffect VINE_BIND = new BindEffect("vine_bind",2743808);
     public static MobEffect BURNED = new GenericEffect(MobEffectCategory.HARMFUL,0,"burned",false);
     public static MobEffect SOUL_FIRE = new GenericEffect(MobEffectCategory.HARMFUL,0,"soulfire",false);
-    //public static Effect FUTURE_DEATH = new DeathPotion("future_death");
+
+    public static MobEffect DISPELLANT = new GenericEffect(MobEffectCategory.HARMFUL,0,"dispellant",true);
 
     @Mod.EventBusSubscriber(
             modid = ArsOmega.MOD_ID,
@@ -36,7 +37,7 @@ public class ModPotions {
         @SubscribeEvent
         public static void registerEffects(RegistryEvent.Register<MobEffect> event) {
             IForgeRegistry<MobEffect> registry = event.getRegistry();
-            registry.registerAll(new MobEffect[]{DEMONIC_CURSE,PERMA_FLIGHT,ADRENALINE, LEAD_SKIN,NO_BREAK,STONE_PETRIFICATION,VINE_BIND,BURNED,SOUL_FIRE});
+            registry.registerAll(new MobEffect[]{DEMONIC_CURSE,PERMA_FLIGHT,ADRENALINE, LEAD_SKIN,NO_BREAK,STONE_PETRIFICATION,VINE_BIND,BURNED,SOUL_FIRE,DISPELLANT});
         }
 
         @SubscribeEvent

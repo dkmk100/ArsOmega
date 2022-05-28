@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "arsomega:ring_regen",
-    "arsomega:ring_boost"
+    "arsomega:ring_boost",
+    "arsomega:ring_arcane_discount"
   ]
 }

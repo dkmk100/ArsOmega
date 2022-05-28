@@ -2,6 +2,8 @@ package com.dkmk100.arsomega.entities;
 
 import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.util.RegistryHandler;
+import com.hollingsworth.arsnouveau.common.potions.ModPotions;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -19,6 +21,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.BossEvent;
@@ -38,6 +41,8 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+
+import java.util.List;
 
 public class EntityBossDemonKing extends Monster {
     private int minionTimer = 100;
@@ -151,29 +156,31 @@ public class EntityBossDemonKing extends Monster {
         Vec3 entityPos =this.getPosition(0);
         BlockPos pos = new BlockPos(entityPos.x,entityPos.y,entityPos.z);
         if(!this.level.isClientSide() && this.getHealth()!=this.getMaxHealth()){
-            LivingEntity spawn = null;
-            if (minionTimer >= (250 - ((this.getMaxHealth() - this.getHealth()) / 12))) {
-                if (minionsSpawned % 2 == 0) {
-                    spawn = (LivingEntity) RegistryHandler.BASIC_DEMON.get().spawn((ServerLevel) this.level, null, null, pos, MobSpawnType.EVENT, true, false);
+            List<LivingEntity> nearby = level.getEntitiesOfClass(LivingEntity.class, AABB.ofSize(this.position(),8,3,8), entity -> entity.getClass()!=Player.class);
+            if(nearby.size()<=15) {
+                LivingEntity spawn = null;
+                if (minionTimer >= (250 - ((this.getMaxHealth() - this.getHealth()) / 12))) {
+                    if (minionsSpawned % 2 == 0) {
+                        spawn = (LivingEntity) RegistryHandler.BASIC_DEMON.get().spawn((ServerLevel) this.level, null, null, pos, MobSpawnType.EVENT, true, false);
+                    } else {
+                        spawn = (LivingEntity) RegistryHandler.STRONG_DEMON.get().spawn((ServerLevel) this.level, null, null, pos, MobSpawnType.EVENT, true, false);
+                    }
+                    minionsSpawned += 1;
+                    minionTimer = 0;
                 } else {
-                    spawn = (LivingEntity) RegistryHandler.STRONG_DEMON.get().spawn((ServerLevel) this.level, null, null, pos, MobSpawnType.EVENT, true, false);
+                    rangedMinionTimer += 1;
+                    if (rangedMinionTimer >= (350 - ((this.getMaxHealth() - this.getHealth()) / 12))) {
+                        spawn = (LivingEntity) EntityType.SKELETON.spawn((ServerLevel) this.level, null, null, pos, MobSpawnType.EVENT, true, false);
+                        rangedMinionTimer = 0;
+                    }
                 }
-                minionsSpawned += 1;
-                minionTimer = 0;
-            }
-            else {
-                rangedMinionTimer += 1;
-                if (rangedMinionTimer >= (350 - ((this.getMaxHealth() - this.getHealth()) / 12))) {
-                    spawn = (LivingEntity) EntityType.SKELETON.spawn((ServerLevel) this.level, null, null, pos, MobSpawnType.EVENT, true, false);
-                    rangedMinionTimer = 0;
+                if (spawn != null) {
+                    spawn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 100000, 3));
+                    spawn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100000, 2));
+                    spawn.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 1200, 0));
+                    spawn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1200, 0));
+                    this.getCommandSenderWorld().addFreshEntity(spawn);
                 }
-            }
-            if(spawn!=null){
-                spawn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,100000,3));
-                spawn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,100000,2));
-                spawn.addEffect(new MobEffectInstance(MobEffects.REGENERATION,1200,0));
-                spawn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE,1200,0));
-                this.getCommandSenderWorld().addFreshEntity(spawn);
             }
         }
         this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
@@ -195,7 +202,8 @@ public class EntityBossDemonKing extends Monster {
 
     @Override
     public boolean canBeAffected(MobEffectInstance effect) {
-        if (effect.getEffect() == MobEffects.POISON || effect.getEffect() == MobEffects.MOVEMENT_SLOWDOWN) {
+        MobEffect e = effect.getEffect();
+        if (e == MobEffects.POISON || e == MobEffects.MOVEMENT_SLOWDOWN || e == ModPotions.SNARE_EFFECT || e == com.dkmk100.arsomega.potions.ModPotions.DEMONIC_CURSE) {
             return false;
         }
         return super.canBeAffected(effect);

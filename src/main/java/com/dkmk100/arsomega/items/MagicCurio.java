@@ -10,11 +10,22 @@ import net.minecraft.world.item.ItemStack;
 public class MagicCurio extends ArsNouveauCurio implements IManaEquipment {
     int boost;
     int regen;
+
+    int discount;
     public MagicCurio(String reg, int boost, int regen) {
         super();
         this.setRegistryName(reg);
         this.boost = boost;
         this.regen = regen;
+        this.discount = 0;
+    }
+
+    public MagicCurio(String reg, int boost, int regen, int discount) {
+        super();
+        this.setRegistryName(reg);
+        this.boost = boost;
+        this.regen = regen;
+        this.discount = discount;
     }
 
     @Override
@@ -24,6 +35,11 @@ public class MagicCurio extends ArsNouveauCurio implements IManaEquipment {
     @Override
     public int getMaxManaBoost(ItemStack stack) {
         return boost;
+    }
+
+    @Override
+    public int getManaDiscount(ItemStack stack) {
+        return discount;
     }
 
     @Override

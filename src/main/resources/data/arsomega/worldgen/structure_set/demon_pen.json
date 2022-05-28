@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "arsomega:demon_pen",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 120,
+    "separation": 100,
+    "salt": 1645257770
+  }
+}

@@ -1,6 +1,8 @@
 package com.dkmk100.arsomega.entities;
 
+import com.hollingsworth.arsnouveau.api.spell.SpellContext;
 import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
+import com.hollingsworth.arsnouveau.api.spell.SpellStats;
 import com.hollingsworth.arsnouveau.client.particle.GlowParticleData;
 import com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell;
 import com.hollingsworth.arsnouveau.common.entity.ModEntities;
@@ -24,6 +26,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.ClipContext.Block;
 import net.minecraft.world.level.ClipContext.Fluid;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
@@ -44,6 +47,7 @@ public class EntityMissileSpell extends EntityProjectileSpell {
     public SpellResolver spellResolver;
     public int pierceLeft;
     public int numSensitive;
+    public float aoe;
     public boolean activateOnEmpty;
     int maxAge = 200;
     @Nullable Entity caster;
@@ -62,16 +66,18 @@ public class EntityMissileSpell extends EntityProjectileSpell {
         this.spellResolver = resolver;
         this.pierceLeft = resolver.spell.getBuffsAtIndex(0, resolver.spellContext.caster, AugmentPierce.INSTANCE);
         this.numSensitive = resolver.spell.getBuffsAtIndex(0, resolver.spellContext.caster, AugmentSensitive.INSTANCE);
+        this.aoe = 0;
         resolver.spellContext.colors.makeVisible();
         this.setColor(resolver.spellContext.colors);
         this.maxAge = 200;
         this.activateOnEmpty = true;
     }
-    public EntityMissileSpell(Level world, SpellResolver resolver, int maxAge, boolean activate, @Nullable Entity caster){
+    public EntityMissileSpell(Level world, SpellResolver resolver, int maxAge, boolean activate, float aoe, @Nullable Entity caster){
         super(world, resolver.spellContext.caster);
         this.spellResolver = resolver;
         this.pierceLeft = resolver.spell.getBuffsAtIndex(0, resolver.spellContext.caster, AugmentPierce.INSTANCE);
         this.numSensitive = resolver.spell.getBuffsAtIndex(0, resolver.spellContext.caster, AugmentSensitive.INSTANCE);
+        this.aoe = aoe;
         resolver.spellContext.colors.makeVisible();
         this.setColor(resolver.spellContext.colors);
         this.maxAge = maxAge;
@@ -116,6 +122,9 @@ public class EntityMissileSpell extends EntityProjectileSpell {
                 if (entity instanceof Player && entity1 instanceof Player && !((Player)entity1).canHarmPlayer((Player)entity)) {
                     raytraceresult = null;
                 }
+                //fixes missile bug from before
+                this.setPos(entity.position());
+                ExplodeMissile();
             }
 
             if (raytraceresult != null && ((HitResult)raytraceresult).getType() != Type.MISS && !ForgeEventFactory.onProjectileImpact(this, (HitResult)raytraceresult)) {
@@ -152,20 +161,21 @@ public class EntityMissileSpell extends EntityProjectileSpell {
             }
 
         }
+        this.baseTick();
     }
 
     protected void ActivateSpellAtPos(Vec3 pos){
         if(!this.level.isClientSide() && this.spellResolver != null){
-            final int sideOffset = 3;
-            final int upOffset = 1;
+            float sideOffset = 3.5f + aoe;
+            float upOffset = 1 + (aoe/2f);
             Vec3 offset = new Vec3(sideOffset,upOffset,sideOffset);
             AABB axis = new AABB(pos.x+offset.x,pos.y+offset.y,pos.z+offset.z,pos.x-offset.x,pos.y-offset.y,pos.z-offset.z);
-            List<Entity> entities = this.level.getEntities((Entity) null,axis, entity -> true);
+            List<LivingEntity> entities = this.level.getEntitiesOfClass(LivingEntity.class,axis, entity -> true);
             boolean foundEntity = false;
-            for(Entity entity : entities){
-                if(entity instanceof LivingEntity && entity!=caster){
+            for(LivingEntity entity : entities){
+                if(entity!=caster){
                     foundEntity = true;
-                    ActivateSpellAtEntity((LivingEntity)entity);
+                    ActivateSpellAtEntity(entity);
                 }
             }
             if(!foundEntity){
@@ -200,12 +210,15 @@ public class EntityMissileSpell extends EntityProjectileSpell {
         if (tag.contains("maxAge")) {
             this.maxAge = tag.getInt("maxAge");
         }
-
+        if (tag.contains("aoe")) {
+            this.aoe = tag.getFloat("aoe");
+        }
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("maxAge", this.maxAge);
+        tag.putFloat("aoe", this.aoe);
     }
 }

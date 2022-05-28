@@ -58,7 +58,10 @@ public class Curse extends AbstractEffect {
                 else if(block == Blocks.GRASS_BLOCK){
                     world.setBlock(pos1, Blocks.MYCELIUM.defaultBlockState(), 3);
                 }
-                else if(block == Blocks.SOUL_SOIL){
+                else if(block == Blocks.SOUL_SAND){
+                    world.setBlock(pos1, Blocks.SOUL_SOIL.defaultBlockState(), 3);
+                }
+                else if(block == Blocks.SAND){
                     world.setBlock(pos1, Blocks.SOUL_SAND.defaultBlockState(), 3);
                 }
             }

@@ -1,0 +1,82 @@
+package com.dkmk100.arsomega.client.jei;
+
+import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.crafting.ConjuringRecipe;
+import com.dkmk100.arsomega.crafting.TransmuteRecipe;
+import com.dkmk100.arsomega.glyphs.TransmuteGlyph;
+import com.dkmk100.arsomega.util.RegistryHandler;
+import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
+import mezz.jei.api.IModPlugin;
+import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.helpers.IJeiHelpers;
+import mezz.jei.api.registration.IRecipeCatalystRegistration;
+import mezz.jei.api.registration.IRecipeCategoryRegistration;
+import mezz.jei.api.registration.IRecipeRegistration;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@JeiPlugin
+public class JEICompat implements IModPlugin {
+
+    @Override
+    public void registerCategories(IRecipeCategoryRegistration registration) {
+        final IJeiHelpers helpers = registration.getJeiHelpers();
+        final IGuiHelper guiHelper = helpers.getGuiHelper();
+
+        registration.addRecipeCategories(new TransmuteRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new ConjuringRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new TributeRecipeCategory(guiHelper));
+
+        IModPlugin.super.registerCategories(registration);
+    }
+
+    public void registerRecipes(IRecipeRegistration registry) {
+        List<TransmuteRecipe> transmuteRecipes = Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(RegistryHandler.TRANSMUTE_TYPE);
+
+        ArrayList<TransmuteRecipe> finalRecipes = new ArrayList<>();
+
+        for(TransmuteRecipe recipe : transmuteRecipes){
+            finalRecipes.add(new TransmuteRecipe(recipe.getId(),recipe.input,recipe.output,false, recipe.minAmp));
+            if(recipe.reversible) {
+                finalRecipes.add(new TransmuteRecipe(recipe.getId(), recipe.output, recipe.input, false, recipe.minAmp));
+            }
+        }
+
+        registry.addRecipes(finalRecipes, TransmuteRecipeCategory.UID);
+
+        ArrayList<ConjuringRecipe> conjuring = new ArrayList<>();
+        conjuring.add(new ConjuringRecipe(new ItemStack(ItemsRegistry.DEMONIC_GEM)));
+        conjuring.add(new ConjuringRecipe(new ItemStack(ItemsRegistry.GORGON_GEM)));
+
+        registry.addRecipes(conjuring, ConjuringRecipeCategory.UID);
+
+        ArrayList<ConjuringRecipe> tribute = new ArrayList<>();
+        tribute.add(new ConjuringRecipe(new ItemStack(com.hollingsworth.arsnouveau.setup.ItemsRegistry.WILDEN_TRIBUTE)));
+
+        registry.addRecipes(tribute, TributeRecipeCategory.UID);
+        
+        registry.addIngredientInfo(new ItemStack(ArsNouveauAPI.getInstance().getRitualItemMap().get("tribute")), VanillaTypes.ITEM, new TextComponent(""));
+    }
+
+    public void registerRecipeCatalysts(IRecipeCatalystRegistration registry) {
+        registry.addRecipeCatalyst(new ItemStack(ArsNouveauAPI.getInstance().getGlyphItem(TransmuteGlyph.INSTANCE)), new ResourceLocation[]{TransmuteRecipeCategory.UID});
+        registry.addRecipeCatalyst(new ItemStack(ArsNouveauAPI.getInstance().getRitualItemMap().get("conjuring")), new ResourceLocation[]{ConjuringRecipeCategory.UID});
+        registry.addRecipeCatalyst(new ItemStack(ArsNouveauAPI.getInstance().getRitualItemMap().get("tribute")), new ResourceLocation[]{TributeRecipeCategory.UID});
+
+    }
+
+    @Override
+    public ResourceLocation getPluginUid() {
+        return new ResourceLocation("arsomega", "main");
+    }
+}

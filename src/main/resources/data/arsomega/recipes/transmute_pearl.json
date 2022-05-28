@@ -1,0 +1,13 @@
+{
+  "type": "arsomega:transmute",
+  "input": {
+    "item": "minecraft:ender_pearl",
+    "count": 1
+  },
+  "output": {
+    "item": "minecraft:blaze_rod",
+    "count": 1
+  },
+  "reversible": true,
+  "minAmp": 2
+}

@@ -24,11 +24,11 @@ public class VineGrab extends AbstractEffect {
     @Override
     public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         double amp = spellStats.getAmpMultiplier() + 2;
-        int time = spellStats.getBuffCount(AugmentExtendTime.INSTANCE);
+        int time = 50 + (int)Math.round(20* spellStats.getDurationMultiplier());
 
         if(rayTraceResult.getEntity() instanceof LivingEntity){
             LivingEntity living = (LivingEntity)rayTraceResult.getEntity();
-            living.addEffect(new MobEffectInstance(ModPotions.VINE_BIND,50 + 20*time));
+            living.addEffect(new MobEffectInstance(ModPotions.VINE_BIND,time));
         }
     }
 

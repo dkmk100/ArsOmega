@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.ArsRegistry;
+import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
@@ -40,9 +41,9 @@ public class AcidGlyph extends AbstractEffect {
                 BlockPos pos = rayTraceResult.getBlockPos();
                 double amp = spellStats.getAmpMultiplier() + 1;
 
-                if (CuriosApi.getCuriosHelper().findEquippedCurio(ArsRegistry.ALCHEMY_FOCUS_ADVANCED, shooter).isPresent()) {
+                if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,ItemsRegistry.ALCHEMY_FOCUS_ADVANCED).isPresent()) {
                     amp += 4;
-                } else if (CuriosApi.getCuriosHelper().findEquippedCurio(ArsRegistry.ALCHEMY_FOCUS, shooter).isPresent()) {
+                } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,ItemsRegistry.ALCHEMY_FOCUS).isPresent()) {
                     amp += 2;
                 }
 
@@ -80,9 +81,9 @@ public class AcidGlyph extends AbstractEffect {
     public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         double amp = spellStats.getAmpMultiplier() + 1;
 
-        if (CuriosApi.getCuriosHelper().findEquippedCurio(ArsRegistry.ALCHEMY_FOCUS_ADVANCED, shooter).isPresent()) {
+        if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,ItemsRegistry.ALCHEMY_FOCUS_ADVANCED).isPresent()) {
             amp += 4;
-        } else if (CuriosApi.getCuriosHelper().findEquippedCurio(ArsRegistry.ALCHEMY_FOCUS, shooter).isPresent()) {
+        } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,ItemsRegistry.ALCHEMY_FOCUS).isPresent()) {
             amp += 2;
         }
         rayTraceResult.getEntity().hurt(ACID,(float)amp*2);
@@ -90,7 +91,7 @@ public class AcidGlyph extends AbstractEffect {
 
     @Override
     public int getDefaultManaCost() {
-        return 300;
+        return 80;
     }
 
     @Override

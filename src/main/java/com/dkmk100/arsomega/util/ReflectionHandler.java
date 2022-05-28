@@ -2,10 +2,14 @@ package com.dkmk100.arsomega.util;
 
 import com.dkmk100.arsomega.ArsOmega;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.monster.ZombieVillager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeManager;
+import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.levelgen.flat.FlatLevelGeneratorSettings;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -25,6 +29,14 @@ public class ReflectionHandler {
     public static Field xRot;
     public static Field yRot;
 
+    public static Field biomeCategory;
+    public static Field biomes;
+
+    public static Method getFiddledDistance;
+    public static Field zoomSeed;
+
+
+
     public static class Entity{
         public static Field witherHeadUpdates;
         public static Field witherIdleHeads;
@@ -32,6 +44,11 @@ public class ReflectionHandler {
         public static Field witherBossBar;
         public static Method witherRangedPos;
         public static Method witherRangedEntity;
+
+        public static Field lightningLife;
+        public static Field lightningFlash;
+        public static Field lightningCause;
+        public static Method powerRod;
         protected static void Initialize(){
             witherHeadUpdates = ObfuscationReflectionHelper.findField(WitherBoss.class,"f_31427_");
             witherHeadUpdates.setAccessible(true);
@@ -46,6 +63,12 @@ public class ReflectionHandler {
             RemoveFinal(witherBossBar);
             witherRangedPos = ObfuscationReflectionHelper.findMethod(WitherBoss.class,"m_31448_",int.class,double.class,double.class,double.class,boolean.class);
             witherRangedEntity = ObfuscationReflectionHelper.findMethod(WitherBoss.class,"m_31457_",int.class, LivingEntity.class);
+
+
+            lightningLife = ObfuscationReflectionHelper.findField(LightningBolt.class,"f_20860_");
+            lightningFlash = ObfuscationReflectionHelper.findField(LightningBolt.class,"f_20861_");
+            lightningCause = ObfuscationReflectionHelper.findField(LightningBolt.class,"f_20863_");
+            powerRod = ObfuscationReflectionHelper.findMethod(LightningBolt.class,"m_147161_");
         }
     }
 
@@ -60,6 +83,13 @@ public class ReflectionHandler {
         yRot = ObfuscationReflectionHelper.findField(net.minecraft.world.entity.Entity.class, "f_19857_");
         yRot.setAccessible(true);
         RemoveFinal(yRot);
+
+        biomeCategory = ObfuscationReflectionHelper.findField(Biome.class, "f_47442_");
+        biomes = ObfuscationReflectionHelper.findField(LevelChunkSection.class, "f_187995_");
+
+        getFiddledDistance = ObfuscationReflectionHelper.findMethod(BiomeManager.class, "m_186679_",long.class,int.class,int.class,int.class,double.class,double.class,double.class);
+        zoomSeed = ObfuscationReflectionHelper.findField(BiomeManager.class, "f_47863_");
+
         Entity.Initialize();
     }
 
@@ -70,7 +100,7 @@ public class ReflectionHandler {
             modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
         }
         catch (Exception e){
-            ArsOmega.LOGGER.error(e.getMessage());
+            //ArsOmega.LOGGER.error(e.getMessage());
             try {
                 var lookup = MethodHandles.privateLookupIn(Field.class, MethodHandles.lookup());
                 VarHandle MODIFIERS = lookup.findVarHandle(Field.class, "modifiers", int.class);

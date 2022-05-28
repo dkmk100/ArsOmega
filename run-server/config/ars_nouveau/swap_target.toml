@@ -1,0 +1,3 @@
+#If set to false, Swap Target will only affect non-player entities: 
+affect_players = true
+

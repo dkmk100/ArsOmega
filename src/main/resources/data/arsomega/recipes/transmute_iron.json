@@ -1,0 +1,13 @@
+{
+  "type": "arsomega:transmute",
+  "input": {
+    "item": "minecraft:iron_ingot",
+    "count": 1
+  },
+  "output": {
+    "item": "minecraft:gold_ingot",
+    "count": 1
+  },
+  "reversible": true,
+  "minAmp": 0
+}

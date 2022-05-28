@@ -1,0 +1,36 @@
+{
+  "type": "ars_nouveau:imbuement",
+  "input": {
+    "tag": "forge:gems/source"
+  },
+  "output": "arsomega:demonic_gem",
+  "count": 1,
+  "source": 5000,
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "arsomega:demonic_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:demonic_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:lava_bucket"
+      }
+    }
+  ]
+}

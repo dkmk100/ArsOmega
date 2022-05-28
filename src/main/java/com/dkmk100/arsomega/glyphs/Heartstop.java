@@ -45,6 +45,10 @@ public class Heartstop extends AbstractEffect {
                 mult += 2;
                 add += 4;
             }
+            if(living.hasEffect(ModPotions.ADRENALINE)){
+                mult -= 3;
+                add -= 5;
+            }
             if(living.hasEffect(com.hollingsworth.arsnouveau.common.potions.ModPotions.SHOCKED_EFFECT)){
                 mult += 3;
                 int amp = living.getEffect(com.hollingsworth.arsnouveau.common.potions.ModPotions.SHOCKED_EFFECT).getAmplifier();

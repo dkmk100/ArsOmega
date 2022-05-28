@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smithing",
   "base": {
-    "item": "ars_nouveau:archmage_hood"
+    "item": "ars_nouveau:archmage_boots"
   },
   "addition": {
     "item": "arsomega:enchanters_wool"

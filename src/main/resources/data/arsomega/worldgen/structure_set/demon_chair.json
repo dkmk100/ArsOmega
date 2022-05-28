@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "arsomega:demon_chair",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 140,
+    "separation": 120,
+    "salt": 1442307470
+  }
+}

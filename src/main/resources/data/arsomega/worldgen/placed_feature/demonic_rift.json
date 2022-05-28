@@ -1,8 +1,8 @@
 {
-  "feature": "arsomega:demonic_ore",
+  "feature": "arsomega:demonic_rift",
   "placement": [
     {
-      "count": 2,
+      "count": 5,
       "type": "minecraft:count"
     },
     {
@@ -11,7 +11,7 @@
     {
       "height": {
         "min_inclusive": {
-          "absolute": 12
+          "absolute": 25
         },
         "max_inclusive": {
           "absolute": 50

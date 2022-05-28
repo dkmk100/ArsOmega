@@ -75,11 +75,13 @@ public class RitualTribute extends AbstractRitual {
                         quality += q2 * stack.getCount();
                     }
                 }
-                if(quality>=20) {
+                if(quality>=20)
+                {
                     ItemEntity itementity = this.spawnAtLocation(new ItemStack(ItemsRegistry.WILDEN_TRIBUTE), 1, pos);
                     if (itementity != null) {
                         itementity.setExtendedLifetime();
                     }
+
                 }
                 ItemEntity itementity2 = this.spawnAtLocation(new ItemStack(ArsRegistry.TRIBUTE_RITUAL),1,pos);
                 if (itementity2 != null) {

@@ -19,4 +19,20 @@ public class ItemsRegistry {
     public static Item MAGIC_CLAY;
     @ObjectHolder("infinity_crystal")
     public static Block INFINITY_JAR;
+
+    @ObjectHolder("greater_mana_amulet")
+    public static Item GREATER_MANA_AMULET;
+    @ObjectHolder("focus_of_alchemy")
+    public static Item ALCHEMY_FOCUS;
+    @ObjectHolder("focus_of_advanced_alchemy")
+    public static Item ALCHEMY_FOCUS_ADVANCED;
+
+    @ObjectHolder("biome_crystal")
+    public static Item BIOME_CRYSTAL;
+
+    @ObjectHolder("demonic_gem")
+    public static Item DEMONIC_GEM;
+
+    @ObjectHolder("gorgon_gem")
+    public static Item GORGON_GEM;
 }

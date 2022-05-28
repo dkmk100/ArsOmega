@@ -26,7 +26,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class DisenchantGlyph extends AbstractEffect {
+public class DisenchantGlyph extends AbstractEffect implements ConfigurableGlyph {
     public static DisenchantGlyph INSTANCE = new DisenchantGlyph("disenchant", "Disenchant");
 
     ForgeConfigSpec.BooleanValue affectPlayers;
@@ -137,10 +137,12 @@ public class DisenchantGlyph extends AbstractEffect {
     public Set<AbstractAugment> getCompatibleAugments() {
         return this.augmentSetOf(new AbstractAugment[]{AugmentSensitive.INSTANCE, AugmentDampen.INSTANCE, AugmentAmplify.INSTANCE});
     }
-
     @Override
-    public void buildConfig(ForgeConfigSpec.Builder builder) {
-        super.buildConfig(builder);
+    public void setConfig(ForgeConfigSpec spec) {
+        this.CONFIG = spec;
+    }
+    @Override
+    public void buildExtraConfig(ForgeConfigSpec.Builder builder) {
         this.affectPlayers = builder.comment("Allows the glyph to hit players, and disenchant held items. Cool but kinda grief-y feature.").define("affect_players",true);
     }
 

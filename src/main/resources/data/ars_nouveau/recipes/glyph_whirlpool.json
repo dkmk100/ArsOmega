@@ -1,0 +1,38 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:water_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:glyph_aquatic"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:ink_sac"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:piston"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:wilden_spike"
+      }
+    }
+  ],
+  "exp": 200,
+  "output": "ars_nouveau:glyph_whirlpool"
+}

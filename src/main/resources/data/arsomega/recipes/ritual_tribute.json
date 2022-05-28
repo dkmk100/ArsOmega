@@ -11,7 +11,7 @@
       "tag": "forge:storage_blocks/diamond"
     },
     {
-      "tag": "ars_nouveau:source_gem_block"
+      "item": "ars_nouveau:source_gem_block"
     },
     {
       "tag": "forge:storage_blocks/gold"

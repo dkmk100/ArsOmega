@@ -46,21 +46,36 @@ public class RitualSummoning extends AbstractRitual {
                 boolean chose = false;
                 List<ItemStack> items = this.getConsumedItems();
                 int amount = 5;
+                boolean cursed = false;
+                boolean strong = false;//so far unused, but might be something fun later
                 for(ItemStack stack : items){
                     Item item = stack.getItem();
-                    if(chose){
-                        if(tagContains(Tags.Items.GEMS_DIAMOND,item)){
-                            if(stack.getCount()<=0){
-                                amount+=1;
-                            }
-                            else{
-                                amount+=stack.getCount();
-                            }
+                    if(tagContains(Tags.Items.GEMS_DIAMOND,item)){
+                        if(stack.getCount()<=0){
+                            amount+=1;
+                        }
+                        else{
+                            amount+=stack.getCount();
                         }
                     }
-                    else if(tagContains(Tags.Items.LEATHER,item)){
+                    else if(item == Items.ENDER_EYE){
+                        cursed = true;
+                    }
+                    else if(item == Items.NETHERITE_INGOT)
+                    {
+                        cursed = true;
+                        strong = true;
+                    }
+                    else if(chose){
+
+                    }
+                    else if(tagContains(Tags.Items.LEATHER,item) || item == Items.BEEF){
                        target=EntityType.COW;
                        chose=true;
+                    }
+                    else if(item == Items.PORKCHOP){
+                        target=EntityType.PIG;
+                        chose=true;
                     }
                     else if(tagContains(Tags.Items.FEATHERS,item)){
                         target=EntityType.CHICKEN;
@@ -77,6 +92,76 @@ public class RitualSummoning extends AbstractRitual {
                     else if(item == Items.BLAZE_ROD){
                         target= EntityType.BLAZE;
                         chose=true;
+                    }
+                    else if(item == Items.SHULKER_SHELL){
+                        target= EntityType.SHULKER;
+                        chose=true;
+                    }
+                    else if(item == Items.ENDER_PEARL){
+                        target= EntityType.ENDERMAN;
+                        chose=true;
+                    }
+                    else if(item == Items.SPIDER_EYE){
+                        target = EntityType.SPIDER;
+                        chose=true;
+                    }
+                    else if(item == Items.BONE){
+                        target = EntityType.SKELETON;
+                        chose=true;
+                    }
+                    else if(item == Items.GOLD_BLOCK){
+                        target = EntityType.PIGLIN;
+                        chose=true;
+                    }
+                    else if(item == Items.GUNPOWDER){
+                        target = EntityType.CREEPER;
+                        chose=true;
+                    }
+                    else if(item == Items.EMERALD_BLOCK){
+                        target = EntityType.HORSE;
+                        chose=true;
+                    }
+                    else if(item == Items.ROTTEN_FLESH){
+                        target = EntityType.ZOMBIE_VILLAGER;
+                        chose=true;
+                    }
+                }
+                if(cursed){
+                    if(target == EntityType.SPIDER){
+                        amount = amount/2;
+                        target = EntityType.CAVE_SPIDER;
+                    }
+                    else if(target == EntityType.ENDERMAN){
+                        amount = amount*2;
+                        target = EntityType.ENDERMITE;
+                    }
+                    else if(target == EntityType.COW){
+                        amount = amount/2;
+                        target = EntityType.MOOSHROOM;
+                    }
+                    else if(target == EntityType.SKELETON){
+                        amount = amount/2;
+                        target = EntityType.WITHER_SKELETON;
+                    }
+                    else if(target == EntityType.PIG){
+                        amount = amount/2;
+                        target = EntityType.PIGLIN_BRUTE;
+                    }
+                    else if(target == EntityType.PIGLIN){
+                        amount = amount/2;
+                        target = EntityType.ZOMBIFIED_PIGLIN;
+                    }
+                    else if(target == EntityType.ZOMBIE){
+                        amount = amount-4;
+                        target = EntityType.ZOMBIE_HORSE;
+                    }
+                    else if(target == EntityType.ZOMBIE){
+                        amount = amount-4;
+                        target = EntityType.VILLAGER;
+                    }
+                    else if(target == EntityType.ZOMBIE_VILLAGER){
+                        amount = amount-4;
+                        target = EntityType.SKELETON_HORSE;
                     }
                 }
                 int i=0;
