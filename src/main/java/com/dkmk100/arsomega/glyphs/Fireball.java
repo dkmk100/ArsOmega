@@ -41,7 +41,7 @@ public class Fireball extends TierFourEffect implements ConfigurableGlyph {
     public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         Vec3 vec = this.safelyGetHitPos(rayTraceResult);
         double intensity;
-        intensity = this.BASE.get() + this.AMP_BONUS.get() * spellStats.getAmpMultiplier() + this.AOE_BONUS.get() * (double) spellStats.getBuffCount(AugmentAOE.INSTANCE);
+        intensity = this.BASE.get() + this.AMP_BONUS.get() * spellStats.getAmpMultiplier() + this.AOE_BONUS.get() * (double) spellStats.getAoeMultiplier();
         int dampen = spellStats.getBuffCount(AugmentDampen.INSTANCE);
         intensity -= 0.5D * (double)dampen;
         Explosion.BlockInteraction mode = dampen > 0 ? Explosion.BlockInteraction.NONE : Explosion.BlockInteraction.DESTROY;
@@ -76,10 +76,6 @@ public class Fireball extends TierFourEffect implements ConfigurableGlyph {
         }
     }
 
-    @Override
-    public void setConfig(ForgeConfigSpec spec) {
-        this.CONFIG = spec;
-    }
     @Override
     public void buildExtraConfig(ForgeConfigSpec.Builder builder) {
         this.BASE_DAMAGE = builder.comment("Base damage").defineInRange("base_damage", 6.0D, 0.0D, 100.0D);

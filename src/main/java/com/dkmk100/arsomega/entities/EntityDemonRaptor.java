@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.entities;
 
+import com.dkmk100.arsomega.ItemsRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -19,6 +20,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -79,6 +81,15 @@ public class EntityDemonRaptor  extends Monster implements IAnimatable {
     @Override
     protected void playStepSound(BlockPos pos, BlockState blockIn) {
         this.playSound(SoundEvents.ZOMBIE_STEP, 0.15F, 1.0F);
+    }
+
+    @Override
+    protected void dropCustomDeathLoot(DamageSource p_213333_1_, int p_213333_2_, boolean p_213333_3_) {
+        super.dropCustomDeathLoot(p_213333_1_, p_213333_2_, p_213333_3_);
+        ItemEntity itementity = this.spawnAtLocation(ItemsRegistry.DEMONIC_TOOTH);
+        if (itementity != null) {
+            itementity.setExtendedLifetime();
+        }
     }
 
     @Override

@@ -1,0 +1,39 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "reagent": [
+    {
+      "item": "arsomega:infused_diamond"
+    }
+  ],
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "minecraft:lapis_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:gold_block"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:source_gem_block"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:source_gem_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:book"
+      }
+    }
+  ],
+  "output": {
+    "item": "arsomega:enchanted_diamond"
+  },
+  "sourceCost": 0
+}

@@ -42,7 +42,12 @@ public class Drown extends TierFourEffect {
         if(rayTraceResult.getEntity() instanceof LivingEntity){
             LivingEntity living = (LivingEntity)rayTraceResult.getEntity();
             if(!living.hasEffect(MobEffects.WATER_BREATHING)){
-                this.dealDamage(world,shooter,(float)amp*0.5f*depth,spellStats,living,DamageSource.DROWN);
+                if(living.isDamageSourceBlocked(DamageSource.DROWN)){
+                    this.dealDamage(world,shooter,(float)amp*0.25f*depth,spellStats,living,DamageSource.MAGIC);
+                }
+                else {
+                    this.dealDamage(world, shooter, (float) amp * 0.5f * depth, spellStats, living, DamageSource.DROWN);
+                }
             }
         }
     }

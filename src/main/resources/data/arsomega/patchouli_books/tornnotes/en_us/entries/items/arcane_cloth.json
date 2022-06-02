@@ -23,7 +23,7 @@
     },
     {
       "type": "relations",
-      "entries":["items/arcane_cloth"]
+      "entries":["arsomega:items/arcane_cloth"]
     }
 
   ]

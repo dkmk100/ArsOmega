@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:arcane_diamond_block"
+    }
+  ],
+  "result": {
+    "item": "arsomega:arcane_diamond",
+    "count": 9
+  }
+}

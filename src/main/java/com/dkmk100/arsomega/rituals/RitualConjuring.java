@@ -60,13 +60,11 @@ public class RitualConjuring extends AbstractRitual {
             if (this.getProgress() > 10) {
                 BlockPos pos = this.getPos();
                 List<ItemStack> items = this.getConsumedItems();
-                if(items.size() > 0)
-                {
-                    for(int i=0;i<3;i++){
-                    ItemEntity itementity = this.spawnAtLocation(items.get(0), 1, pos);
+                if(items.size() > 0) {
+                    ItemEntity itementity = this.spawnAtLocation(new ItemStack(items.get(0).getItem(), 3), 1, pos);
                     if (itementity != null) {
                         itementity.setExtendedLifetime();
-                    }
+                        world.addFreshEntity(itementity);
                     }
                 }
                 this.setFinished();
@@ -76,8 +74,14 @@ public class RitualConjuring extends AbstractRitual {
     @Override
     public boolean canConsumeItem(ItemStack stack) {
 
-        return stack.getItem() == ItemsRegistry.DEMONIC_GEM || stack.getItem() == ItemsRegistry.GORGON_GEM;
+        return this.getConsumedItems().size() == 0 && (stack.getItem() == ItemsRegistry.DEMONIC_GEM || stack.getItem() == ItemsRegistry.GORGON_GEM);
     }
+
+    @Override
+    public boolean canStart() {
+        return this.getConsumedItems().size() > 0;
+    }
+
     boolean tagContains(TagKey tag, Item item){
         return ForgeRegistries.ITEMS.tags().getTag(tag).contains(item);
     }

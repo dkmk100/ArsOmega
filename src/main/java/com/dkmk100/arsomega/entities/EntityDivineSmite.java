@@ -17,14 +17,14 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class EntityDivineSmite extends LightningBolt {
-    int aoe;
+    float aoe;
     boolean sensitive;
 
     public EntityDivineSmite(EntityType<? extends LightningBolt> type, Level world) {
         super(type,world);
     }
 
-    public void setAoe(int amount){
+    public void setAoe(float amount){
         aoe = amount;
     }
     public void setSensitive(boolean bool){

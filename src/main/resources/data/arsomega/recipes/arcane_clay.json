@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:mystic_clay"
+    },
+    {
+      "item": "arsomega:arcane_diamond"
+    },
+    {
+      "tag": "arsomega:tier_4_ingredient"
+    },
+    {
+      "item": "ars_nouveau:end_fiber"
+    },
+    {
+      "item": "arsomega:arcane_fiber"
+    }
+  ],
+  "result": {
+    "item": "arsomega:arcane_clay"
+  }
+}

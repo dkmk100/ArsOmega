@@ -8,13 +8,13 @@
       "item": "minecraft:elytra"
     },
     {
-      "item": "arsomega:demonic_crystal"
+      "tag": "arsomega:tier_4_catalyst"
     },
     {
-      "item": "arsomega:demonic_gem"
+      "tag": "arsomega:tier_4_ingredient"
     },
     {
-      "item": "arsomega:demonic_gem"
+      "tag": "arsomega:tier_4_ingredient"
     },
     {
       "item": "minecraft:netherite_block"

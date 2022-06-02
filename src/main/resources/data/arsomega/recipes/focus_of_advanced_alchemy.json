@@ -8,12 +8,12 @@
   "pedestalItems": [
     {
       "item": {
-        "tag": "forge:storage_blocks/diamond"
+        "tag": "arsomega:infused_diamond_block"
       }
     },
     {
       "item": {
-        "tag": "forge:storage_blocks/diamond"
+        "tag": "arsomega:infused_diamond_block"
       }
     },
     {

@@ -81,6 +81,7 @@ public class EntityBossDemonKing extends Monster {
         this.bossInfo.setName(this.getDisplayName());
     }
 
+    //hopefully will make them not dropped by drygmies
     @Override
     protected void dropCustomDeathLoot(DamageSource p_213333_1_, int p_213333_2_, boolean p_213333_3_) {
         super.dropCustomDeathLoot(p_213333_1_, p_213333_2_, p_213333_3_);
@@ -103,11 +104,11 @@ public class EntityBossDemonKing extends Monster {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 500.0D)
-                .add(Attributes.MOVEMENT_SPEED, (double)0.25F)
-                .add(Attributes.ATTACK_DAMAGE,22)
-                .add(Attributes.FOLLOW_RANGE,32)
-                .add(Attributes.KNOCKBACK_RESISTANCE,0.35D);
+                .add(Attributes.MAX_HEALTH, 800.0D)
+                .add(Attributes.MOVEMENT_SPEED, (double)0.28F)
+                .add(Attributes.ATTACK_DAMAGE,40)
+                .add(Attributes.FOLLOW_RANGE,64)
+                .add(Attributes.KNOCKBACK_RESISTANCE,0.45D);
     }
 
 
@@ -175,10 +176,10 @@ public class EntityBossDemonKing extends Monster {
                     }
                 }
                 if (spawn != null) {
-                    spawn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 100000, 3));
-                    spawn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100000, 2));
-                    spawn.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 1200, 0));
-                    spawn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1200, 0));
+                    spawn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 100000, 8));
+                    spawn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100000, 4));
+                    spawn.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 1200, 1));
+                    spawn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1200, 1));
                     this.getCommandSenderWorld().addFreshEntity(spawn);
                 }
             }
@@ -203,7 +204,7 @@ public class EntityBossDemonKing extends Monster {
     @Override
     public boolean canBeAffected(MobEffectInstance effect) {
         MobEffect e = effect.getEffect();
-        if (e == MobEffects.POISON || e == MobEffects.MOVEMENT_SLOWDOWN || e == ModPotions.SNARE_EFFECT || e == com.dkmk100.arsomega.potions.ModPotions.DEMONIC_CURSE) {
+        if (e == MobEffects.POISON || e == MobEffects.MOVEMENT_SLOWDOWN || e == ModPotions.SNARE_EFFECT || e == com.dkmk100.arsomega.potions.ModPotions.DEMONIC_CURSE || e == com.dkmk100.arsomega.potions.ModPotions.VINE_BIND) {
             return false;
         }
         return super.canBeAffected(effect);

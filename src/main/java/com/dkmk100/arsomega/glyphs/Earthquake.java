@@ -33,7 +33,7 @@ public class Earthquake  extends TierFourEffect{
         int ticks = 50 + (int)Math.round(25 * spellStats.getDurationMultiplier());
         quake.setDuration(ticks);
         quake.setAccelerate(spellStats.getBuffCount(AugmentAccelerate.INSTANCE));
-        quake.setAoe(spellStats.getBuffCount(AugmentAOE.INSTANCE));
+        quake.setAoe((float) spellStats.getAmpMultiplier());
         quake.setAmp((int) Math.round(spellStats.getAmpMultiplier()));
         world.addFreshEntity(quake);
     }

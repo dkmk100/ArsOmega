@@ -24,7 +24,7 @@ public class VineGrab extends AbstractEffect {
     @Override
     public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         double amp = spellStats.getAmpMultiplier() + 2;
-        int time = 50 + (int)Math.round(20* spellStats.getDurationMultiplier());
+        int time = 60 + (int)Math.round(30* spellStats.getDurationMultiplier());
 
         if(rayTraceResult.getEntity() instanceof LivingEntity){
             LivingEntity living = (LivingEntity)rayTraceResult.getEntity();

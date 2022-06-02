@@ -9,11 +9,6 @@
     },
     {
       "item": {
-        "item": "ars_nouveau:earth_essence"
-      }
-    },
-    {
-      "item": {
         "item": "minecraft:clock"
       }
     },
@@ -24,7 +19,7 @@
     },
     {
       "item": {
-        "item": "minecraft:diamond_block"
+        "item": "arsomega:infused_diamond_block"
       }
     },
     {

@@ -6,7 +6,12 @@
   "mixins": [
     "CustomFire",
     "AugmentCompat",
-    "DispelMixin"
+    "DispelMixin",
+    "DelayMixin",
+    "BlinkMixin",
+    "BlockUtilMixin",
+    "ScrollMixin",
+    "EffectMixin"
   ],
   "client": [
   ],

@@ -2,12 +2,14 @@ package com.dkmk100.arsomega.client.jei;
 
 import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.crafting.TransmuteRecipe;
+import com.dkmk100.arsomega.glyphs.AdvancedAmplify;
 import com.dkmk100.arsomega.glyphs.TransmuteGlyph;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import com.hollingsworth.arsnouveau.client.jei.JEIConstants;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -34,17 +36,11 @@ public class TransmuteRecipeCategory implements IRecipeCategory<TransmuteRecipe>
     public ItemStack input;
     public ItemStack output;
     public int minAmp;
-    private final LoadingCache<Integer, IDrawableAnimated> cachedArrows;
 
     public TransmuteRecipeCategory(final IGuiHelper helper) {
         this.helper = helper;
         this.background = helper.createBlankDrawable(60, 50);
         this.icon = helper.createDrawableIngredient(new ItemStack(ArsNouveauAPI.getInstance().getGlyphItem(TransmuteGlyph.INSTANCE)));
-        this.cachedArrows = CacheBuilder.newBuilder().maximumSize(25L).build(new CacheLoader<Integer, IDrawableAnimated>() {
-            public IDrawableAnimated load(Integer cookTime) {
-                return helper.drawableBuilder(JEIConstants.RECIPE_GUI_VANILLA, 82, 128, 24, 17).buildAnimated(cookTime, IDrawableAnimated.StartDirection.LEFT, false);
-            }
-        });
     }
 
     public ResourceLocation getUid() {
@@ -60,7 +56,7 @@ public class TransmuteRecipeCategory implements IRecipeCategory<TransmuteRecipe>
     }
 
     public IDrawable getBackground() {
-        return this.helper.createBlankDrawable(120, 30);
+        return this.helper.createBlankDrawable(150, 32);
     }
 
     public IDrawable getIcon() {
@@ -102,17 +98,32 @@ public class TransmuteRecipeCategory implements IRecipeCategory<TransmuteRecipe>
         this.minAmp = o.minAmp;
 
         //position 0 will always be the list of actual inputs, position 1 is the foci
-        recipeLayout.getItemStacks().init(index, true, 6, 3);
+        recipeLayout.getItemStacks().init(index, true, 6, 2);
         recipeLayout.getItemStacks().set(index, (List)ingredients.getInputs(VanillaTypes.ITEM).get(0));
         ++index;
 
+        //before foci I'm gonna add the amps real quick
+        if(minAmp > 0) {
+            ItemStack amps = new ItemStack(ArsNouveauAPI.getInstance().getGlyphItem(AugmentAmplify.INSTANCE), minAmp);
+            ItemStack advAmps = new ItemStack(ArsNouveauAPI.getInstance().getGlyphItem(AdvancedAmplify.INSTANCE), Math.round(minAmp / 2f + 0.3f));
+            List<ItemStack> ampsList = new ArrayList<>();
+            ampsList.add(amps);
+            ampsList.add(advAmps);
+
+            recipeLayout.getItemStacks().init(index, true, 35, 14);
+            recipeLayout.getItemStacks().set(index, ampsList);
+            ++index;
+        }
+
         //position 1 should be the foci...
-        recipeLayout.getItemStacks().init(index, true, 35, 13);
+        recipeLayout.getItemStacks().init(index, true, 65, 14);
         recipeLayout.getItemStacks().set(index, (List)ingredients.getInputs(VanillaTypes.ITEM).get(1));
         ++index;
 
+
+
         for(int i = 0; i < ingredients.getOutputs(VanillaTypes.ITEM).size(); ++i) {
-            recipeLayout.getItemStacks().init(index, false, 80 + 10*i, 3);
+            recipeLayout.getItemStacks().init(index, false, 100 + 10*i, 2);
             recipeLayout.getItemStacks().set(index, (List)ingredients.getOutputs(VanillaTypes.ITEM).get(i));
             ++index;
         }

@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "arsomega:blocks/infused_diamond_block"
+  }
+}

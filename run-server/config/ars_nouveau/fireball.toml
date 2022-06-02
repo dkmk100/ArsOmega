@@ -1,16 +1,17 @@
-#Base damage
-#Range: 0.0 ~ 100.0
-base_damage = 6.0
-#AMP intensity bonus
-#Range: 0.0 ~ 100.0
-amp_bonus = 0.6
-#Base intensity
-#Range: 0.0 ~ 100.0
-base = 1.2
-#AOE intensity bonus
-#Range: 0.0 ~ 100.0
-aoe_bonus = 1.8
-#Additional damage per amplify
-#Range: 0.0 ~ 100.0
-amp_damage = 3.0
+
+#General settings
+[general]
+	#Is Enabled?
+	enabled = true
+	#Cost
+	#Range: > -2147483648
+	cost = 800
+	#Is Starter Glyph?
+	starter = false
+	#The maximum number of times this glyph may appear in a single spell
+	#Range: > 1
+	per_spell_limit = 2147483647
+	#Limits the number of times a given augment may be applied to a given effect
+	#Example entry: "amplify=5"
+	augment_limits = []
 

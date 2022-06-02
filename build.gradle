@@ -188,8 +188,8 @@ dependencies {
 
     runtimeOnly fg.deobf("curse.maven:exp-407174:3544525")  // Shutup experimental settings
 
-    runtimeOnly fg.deobf("curse.maven:exp-401955:3750811")  // Ars Nouveau 2.3.2
-    compileOnly fg.deobf("curse.maven:exp-401955:3750811")
+    runtimeOnly fg.deobf("curse.maven:exp-401955:3814106")  // Ars Nouveau 2.3.2
+    compileOnly fg.deobf("curse.maven:exp-401955:3814106")
 
     //runtimeOnly fg.deobf("curse.maven:exp-541676:3594181") //cyanide, for some reason it doesn't work lol
 

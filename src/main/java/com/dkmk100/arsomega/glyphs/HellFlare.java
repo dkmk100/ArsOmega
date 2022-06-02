@@ -35,7 +35,7 @@ public class HellFlare extends TierFourEffect {
             LivingEntity livingEntity = (LivingEntity)entity;
             Vec3 vec = this.safelyGetHitPos(rayTraceResult);
             float damage = (float)(8 + 4 * spellStats.getAmpMultiplier());
-            int range = 4 + Math.round(1.5f * spellStats.getBuffCount(AugmentAOE.INSTANCE));
+            int range = 4 + (int)Math.round(1.5f * spellStats.getAoeMultiplier());
             int fireSec = (int)(5.0D + 1.2D * spellStats.getDurationMultiplier());
             DamageSource source = this.buildDamageSource(world, shooter).setIsFire();
             if (livingEntity.isOnFire()) {

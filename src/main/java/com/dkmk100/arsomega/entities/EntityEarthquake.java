@@ -30,7 +30,7 @@ import java.util.Random;
 
 public class EntityEarthquake extends ColoredProjectile {
 
-    public static final EntityDataAccessor<Integer> AOE = SynchedEntityData.defineId(EntityTornado.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Float> AOE = SynchedEntityData.defineId(EntityTornado.class, EntityDataSerializers.FLOAT);
 
     public EntityEarthquake(Level worldIn, LivingEntity shooter) {
         super(RegistryHandler.EARTHQUAKE.get(),worldIn, shooter);
@@ -46,7 +46,7 @@ public class EntityEarthquake extends ColoredProjectile {
         ticksLeft = ticks;
     }
 
-    public void setAoe(int amount){
+    public void setAoe(float amount){
         entityData.set(AOE,amount);
     }
 
@@ -58,7 +58,7 @@ public class EntityEarthquake extends ColoredProjectile {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(AOE, 0);
+        this.entityData.define(AOE, 0f);
     }
 
     public EntityEarthquake(EntityType<? extends EntityEarthquake> type, Level worldIn) {
@@ -73,11 +73,11 @@ public class EntityEarthquake extends ColoredProjectile {
     @Override
     public void tick() {
         super.tick();
-        int aoe = this.entityData.get(AOE);
+        float aoe = this.entityData.get(AOE);
         if (level.isClientSide) {
             //particles! this is why AOE is synched data and the others arent
             ParticleUtil.spawnLight(this.level, this.getParticleColor(), this.position().add(0, 0.5, 0), 20);
-            ParticleUtil.spawnRitualAreaEffect(new BlockPos(this.position().add(0,0.1,0)), this.level, this.random, this.getParticleColor(), 3 + (aoe * 2));
+            ParticleUtil.spawnRitualAreaEffect(new BlockPos(this.position().add(0,0.1,0)), this.level, this.random, this.getParticleColor(), 3 + Math.round(aoe * 2));
         } else {
             //apply the actual earthquake logic
             if(tickCount%8==0) {
@@ -93,7 +93,7 @@ public class EntityEarthquake extends ColoredProjectile {
     @Override
     protected void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        entityData.set(AOE, compound.getInt("aoe"));
+        entityData.set(AOE, compound.getFloat("aoe"));
         amplify = compound.getInt("amp");
         accelerate = compound.getInt("accelerate");
         ticksLeft = compound.getInt("lifetime");
@@ -102,20 +102,20 @@ public class EntityEarthquake extends ColoredProjectile {
     @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putInt("aoe", entityData.get(AOE));
+        compound.putFloat("aoe", entityData.get(AOE));
         compound.putInt("amp", amplify);
         compound.putInt("accelerate", accelerate);
         compound.putInt("lifetime", ticksLeft);
     }
 
-    public static void applyEarthquake(ServerLevel level, int amp, int speed, int aoe, Vec3 position) {
+    public static void applyEarthquake(ServerLevel level, int amp, int speed, float aoe, Vec3 position) {
         BlockPos quakePos = new BlockPos(position.x, position.y - 1, position.z);
         Random rand = level.getRandom();
         int rarity = 25 - Math.min(speed*3, 15);
 
-        int range = 5 + 2 * aoe;
+        int range = 5 + Math.round(2 * aoe);
         int depth = 3;
-        int height = 2 + aoe;
+        int height = 2 + Math.round(aoe);
 
         int blockDepth = 1;
         int blockHeight = 1;
@@ -126,7 +126,8 @@ public class EntityEarthquake extends ColoredProjectile {
                     boolean affectPos = rand.nextInt(rarity) == 0;
                     try {
                         BlockBehaviour.Properties properties = (BlockBehaviour.Properties) ReflectionHandler.blockProperties.get(level.getBlockState(pos).getBlock());
-                        if (affectPos && ReflectionHandler.destroyTime.getFloat(properties) > 0) {
+                        float breakTime = ReflectionHandler.destroyTime.getFloat(properties);
+                        if (affectPos && breakTime > 0 && breakTime < 40) {
                             FallingBlockEntity falling = FallingBlockEntity.fall(level, pos, level.getBlockState(pos));
                             falling.setPos(falling.position().add(0, 0.6, 0));
                             falling.push((rand.nextInt(2) - 1) * 0.15, 0.8, (rand.nextInt(2) - 1) * 0.15);

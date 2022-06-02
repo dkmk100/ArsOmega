@@ -6,6 +6,11 @@
     {
       "type": "text",
       "text": "Demonic rifts are rarely found in the demon realm, and will lead one back to the overworld. They are not stable however, and can drop you into a dangerous situation."
+    },
+    {
+      "type": "spotlight",
+      "item": "arsomega:demonic_rift",
+      "link_recipe": "true"
     }
   ]
 }

@@ -49,6 +49,13 @@
         "minCount": 1,
         "maxCount": 1
       }
+    ,
+      {
+        "type": "arsomega:demon_raptor",
+        "weight": 5,
+        "minCount": 2,
+        "maxCount": 3
+      }
     ]
   },
   "spawn_costs": {}

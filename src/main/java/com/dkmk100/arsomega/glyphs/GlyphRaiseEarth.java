@@ -3,10 +3,12 @@ package com.dkmk100.arsomega.glyphs;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.SpellUtil;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAccelerate;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentPierce;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectKnockback;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,6 +17,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nonnull;
@@ -33,7 +36,7 @@ public class GlyphRaiseEarth  extends TierFourEffect {
     public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         //raise actual earth
         BlockPos pos1 = rayTraceResult.getBlockPos();
-        int aoeBuff = spellStats.getBuffCount(AugmentAOE.INSTANCE);
+        double aoeBuff = spellStats.getAoeMultiplier();
         List<BlockPos> posList = SpellUtil.calcAOEBlocks(shooter, pos1, rayTraceResult, aoeBuff, 0);
         int highestReached = 0;
         Iterator var12 = posList.iterator();
@@ -89,15 +92,13 @@ public class GlyphRaiseEarth  extends TierFourEffect {
         };
         List<Entity> list = world.getEntities(shooter, new AABB(x - 3.0D, y - 3.0D, z - 3.0D, x + 3.0D, y + highestReached + 3.0D, z + 3.0D).inflate(aoeBuff), test);
         for(Entity entity : list){
-            entity.setPos(entity.position().x,pos1.getY() + highestReached, entity.position().z);
+            entity.setPos(entity.position().x,pos1.getY() + highestReached + 2, entity.position().z);
             if(shooter!=null) {
-                Vec3 dir = entity.position().subtract(shooter.position()).normalize();
-                double speed = 2 + spellStats.getAmpMultiplier();
-                entity.push(dir.x*speed,speed/2,dir.z*speed);
+                double speed = 2 + (0.3f * spellStats.getAmpMultiplier()) + (0.5f * spellStats.getBuffCount(AugmentPierce.INSTANCE) + spellStats.getBuffCount(AugmentAccelerate.INSTANCE));
                 entity.hurtMarked = true;
                 entity.hasImpulse = true;
                 if(entity instanceof LivingEntity) {
-                    EffectKnockback.INSTANCE.knockback((LivingEntity) entity, shooter, 2);
+                    EffectKnockback.INSTANCE.knockback((LivingEntity) entity, shooter, (float)speed);
                 }
             }
             this.dealDamage(world, shooter, 4 + 2*(float)spellStats.getAmpMultiplier(), spellStats, entity, DamageSource.FALL);
@@ -122,6 +123,6 @@ public class GlyphRaiseEarth  extends TierFourEffect {
     @Nonnull
     @Override
     public Set<AbstractAugment> getCompatibleAugments() {
-        return augmentSetOf(new AbstractAugment[]{AugmentAOE.INSTANCE, AugmentAmplify.INSTANCE,AugmentPierce.INSTANCE});
+        return augmentSetOf(new AbstractAugment[]{AugmentAOE.INSTANCE, AugmentAmplify.INSTANCE,AugmentPierce.INSTANCE, AugmentAccelerate.INSTANCE});
     }
 }

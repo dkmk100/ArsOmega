@@ -166,8 +166,8 @@ public class EntityMissileSpell extends EntityProjectileSpell {
 
     protected void ActivateSpellAtPos(Vec3 pos){
         if(!this.level.isClientSide() && this.spellResolver != null){
-            float sideOffset = 3.5f + aoe;
-            float upOffset = 1 + (aoe/2f);
+            float sideOffset = 5f + 1.3f * aoe;
+            float upOffset = 2f + aoe;
             Vec3 offset = new Vec3(sideOffset,upOffset,sideOffset);
             AABB axis = new AABB(pos.x+offset.x,pos.y+offset.y,pos.z+offset.z,pos.x-offset.x,pos.y-offset.y,pos.z-offset.z);
             List<LivingEntity> entities = this.level.getEntitiesOfClass(LivingEntity.class,axis, entity -> true);

@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BaseFireBlock.class)
 public class CustomFire {
-    @Inject(at = @At("HEAD"), method = "Lnet/minecraft/world/level/block/BaseFireBlock;getState(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/state/BlockState;", cancellable = true, remap = false)
+    @Inject(at = @At("HEAD"), method = "Lnet/minecraft/world/level/block/BaseFireBlock;getState(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/state/BlockState;", cancellable = true)
     private static void getState(BlockGetter p_235326_0_, BlockPos p_235326_1_, CallbackInfoReturnable<BlockState> cir){
         BlockPos blockpos = p_235326_1_.below();
         BlockState blockstate = p_235326_0_.getBlockState(blockpos);

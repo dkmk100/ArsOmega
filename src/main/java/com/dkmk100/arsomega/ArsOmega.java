@@ -1,9 +1,11 @@
 package com.dkmk100.arsomega;
 
+import com.dkmk100.arsomega.blocks.ChalkLineBlock;
 import com.dkmk100.arsomega.client.renderer.GenericBipedRenderer;
 import com.dkmk100.arsomega.client.renderer.PlainRenderer;
 import com.dkmk100.arsomega.client.renderer.RaptorRenderer;
 import com.dkmk100.arsomega.entities.*;
+import com.dkmk100.arsomega.potions.ModPotions;
 import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -88,7 +90,8 @@ public class ArsOmega
         }
         RegistryHandler.addAugments();
         event.enqueueWork(() -> {
-           RegistryHandler.RegisterFunctions();
+            RegistryHandler.RegisterFunctions();
+            ModPotions.RegisterPotionRecipes();
         });
 
         //structures?
@@ -111,9 +114,13 @@ public class ArsOmega
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BRAMBLE_4.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.GORGON_FIRE.get(), RenderType.cutoutMipped());
         ItemBlockRenderTypes.setRenderLayer(ItemsRegistry.INFINITY_JAR, RenderType.cutout());
-
-        //RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.VOID_BEAST.get(), VoidBeastRenderer::new);
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CHALK_LINE_1.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CHALK_LINE_2.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CHALK_LINE_3.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CHALK_LINE_4.get(), RenderType.cutout());
     }
+
+
     private void RegisterRenderers(EntityRenderersEvent.RegisterRenderers event){
         RegisterMobRenderers(event);
     }

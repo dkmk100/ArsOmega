@@ -1,0 +1,54 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "reagent": [
+    {
+      "item": "arsomega:demonic_gem"
+    }
+  ],
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "arsomega:enchanted_diamond"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:demonic_tooth"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:demonic_tooth"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:demonic_tooth"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:searing_flesh"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:searing_flesh"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:searing_flesh"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:searing_flesh"
+      }
+    }
+  ],
+  "output": {
+    "item": "arsomega:enchanted_demonic_gem"
+  },
+  "sourceCost": 2000
+}

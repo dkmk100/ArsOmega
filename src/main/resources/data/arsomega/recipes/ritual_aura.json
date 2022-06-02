@@ -5,19 +5,19 @@
       "item": "ars_nouveau:purple_archwood_log"
     },
     {
-      "item": "arsomega:demonic_gem"
+      "tag": "arsomega:tier_4_ingredient"
     },
     {
-      "item": "arsomega:demonic_gem"
+      "tag": "arsomega:tier_4_ingredient"
     },
     {
-      "item": "arsomega:demonic_gem"
+      "tag": "arsomega:tier_4_ingredient"
     },
     {
       "item": "minecraft:obsidian"
     },
     {
-      "item": "minecraft:diamond_block"
+      "item": "arsomega:infused_diamond_block"
     },
     {
       "item": "minecraft:prismarine_crystals"

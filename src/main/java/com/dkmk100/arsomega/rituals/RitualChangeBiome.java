@@ -25,6 +25,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.Ref;
 
 public class RitualChangeBiome  extends AbstractRitual {
+
+    Biome biome = null;
     protected void tick() {
         Level world = this.getWorld();
         BlockPos pos = this.getPos();
@@ -46,7 +48,10 @@ public class RitualChangeBiome  extends AbstractRitual {
         RegistryAccess reg = world.registryAccess();
         Registry<Biome> a = reg.registry(Registry.BIOME_REGISTRY).get();
         ResourceLocation loc = new ResourceLocation(biomeName);
-        Biome biome = a.get(loc);
+        //cache biome for better performance
+        if(biome==null) {
+            biome = a.get(loc);
+        }
         //fix for wrong biome name
         boolean canConvert = true;
         if(biome==null){
@@ -190,7 +195,34 @@ public class RitualChangeBiome  extends AbstractRitual {
     }
     @Override
     public ParticleColor getCenterColor() {
+        if(this.getConsumedItems().size()>0 && this.getWorld().isClientSide()){
+            ItemStack stack = getConsumedItems().get(0);
+            if(stack.getItem() == ItemsRegistry.BIOME_CRYSTAL && stack.hasTag() && stack.getTag().contains("biome")){
+                if(biome==null) {
+                    String biomeName = stack.getTag().getString("biome");
+                    RegistryAccess reg = this.getWorld().registryAccess();
+                    Registry<Biome> a = reg.registry(Registry.BIOME_REGISTRY).get();
+                    ResourceLocation loc = new ResourceLocation(biomeName);
+                    biome = a.get(loc);
+                }
+                try {
+                    Biome.BiomeCategory category = (Biome.BiomeCategory) ReflectionHandler.biomeCategory.get(biome);
+                    int biomeColor;
+                    if (category == Biome.BiomeCategory.NETHER || category == Biome.BiomeCategory.THEEND) {
+                        biomeColor = biome.getFogColor();
 
+                    } else {
+                        biomeColor = biome.getFoliageColor();
+                    }
+
+                    return ParticleColor.fromInt(biomeColor);
+                }
+                catch (Exception e){
+                    throw new RuntimeException(e);
+                }
+
+            }
+        }
         return new ParticleColor(220,240,25);
     }
     @Override
@@ -200,7 +232,15 @@ public class RitualChangeBiome  extends AbstractRitual {
 
     @Override
     public boolean canConsumeItem(ItemStack stack) {
-        return stack.getItem()==ItemsRegistry.BIOME_CRYSTAL || stack.getItem()==ItemsRegistry.DEMONIC_GEM;
+        int consumed = this.getConsumedItems().size();
+        if(consumed==0){
+            return stack.getItem()==ItemsRegistry.BIOME_CRYSTAL;
+        }
+        else if(consumed==1){
+            return stack.getItem()==ItemsRegistry.DEMONIC_GEM;
+        }
+
+        return false;
     }
 
     @Override

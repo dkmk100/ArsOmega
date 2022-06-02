@@ -38,7 +38,7 @@ public class DisenchantGlyph extends AbstractEffect implements ConfigurableGlyph
     @Override
     public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         if (world instanceof ServerLevel) {
-            int aoeBuff = spellStats.getBuffCount(AugmentAOE.INSTANCE);
+            double aoeBuff = spellStats.getAoeMultiplier();
             int ampBuff = (int) Math.round(spellStats.getAmpMultiplier());
 
             List<ItemEntity> itemEntities = world.getEntitiesOfClass(ItemEntity.class, (new AABB(rayTraceResult.getBlockPos())).inflate((double) aoeBuff + 1.0D));
@@ -138,12 +138,8 @@ public class DisenchantGlyph extends AbstractEffect implements ConfigurableGlyph
         return this.augmentSetOf(new AbstractAugment[]{AugmentSensitive.INSTANCE, AugmentDampen.INSTANCE, AugmentAmplify.INSTANCE});
     }
     @Override
-    public void setConfig(ForgeConfigSpec spec) {
-        this.CONFIG = spec;
-    }
-    @Override
     public void buildExtraConfig(ForgeConfigSpec.Builder builder) {
-        this.affectPlayers = builder.comment("Allows the glyph to hit players, and disenchant held items. Cool but kinda grief-y feature.").define("affect_players",true);
+        this.affectPlayers = builder.comment("Allows the glyph to hit players, and disenchant held items. Cool but kinda grief-y feature.").define("affect_players",false);
     }
 
     @Override

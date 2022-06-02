@@ -10,7 +10,7 @@ public abstract class TierFourEffect extends AbstractEffect {
         super(tag, description);
     }
 
-    public static SpellTier FOUR = new SpellTier(new ResourceLocation("ars_omega","four"),4);
+    public static SpellTier FOUR = new SpellTier(new ResourceLocation("arsomega","four"),4);
 
     @Override
     public SpellTier getTier() {

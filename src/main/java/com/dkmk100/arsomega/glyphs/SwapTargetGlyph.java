@@ -1,6 +1,8 @@
 package com.dkmk100.arsomega.glyphs;
 
 import com.hollingsworth.arsnouveau.api.spell.*;
+import com.hollingsworth.arsnouveau.api.util.BlockUtil;
+import com.hollingsworth.arsnouveau.common.spell.effect.EffectToss;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,6 +20,7 @@ public class SwapTargetGlyph extends AbstractEffect implements ConfigurableGlyph
     public static SwapTargetGlyph INSTANCE = new SwapTargetGlyph("swap_target","swap_target");
 
     ForgeConfigSpec.BooleanValue AFFECT_PLAYERS;
+    ForgeConfigSpec.BooleanValue ALLOW_TOSS;
 
     private SwapTargetGlyph(String tag, String description) {
         super(tag,description);
@@ -31,16 +34,24 @@ public class SwapTargetGlyph extends AbstractEffect implements ConfigurableGlyph
             if(!AFFECT_PLAYERS.get() && entity instanceof Player){
                 return;
             }
-            if (spellContext.getCurrentIndex() < spellContext.getSpell().recipe.size()) {
+            if (spellContext.getCurrentIndex() < spellContext.getSpell().recipe.size() && BlockUtil.destroyRespectsClaim(shooter, world, entity.blockPosition().below())) {
                 Spell newSpell = new Spell(new ArrayList(spellContext.getSpell().recipe.subList(spellContext.getCurrentIndex(), spellContext.getSpell().recipe.size())));
-                SpellContext newContext = (new SpellContext(newSpell, (LivingEntity) entity)).withColors(spellContext.colors);
-                SpellResolver.resolveEffects(entity.getCommandSenderWorld(), (LivingEntity)entity, new EntityHitResult(shooter), newSpell, newContext);
+                boolean hasToss = false;
+                for(AbstractSpellPart part : newSpell.recipe){
+                    if(part == EffectToss.INSTANCE){
+                        hasToss = true;
+                    }
+                }
+                if(!hasToss || ALLOW_TOSS.get()) {
+                    SpellContext newContext = (new SpellContext(newSpell, (LivingEntity) entity)).withColors(spellContext.colors);
+                    SpellResolver.resolveEffects(entity.getCommandSenderWorld(), (LivingEntity) entity, new EntityHitResult(shooter), newSpell, newContext);
+                }
             }
         }
     }
 
     public int getDefaultManaCost() {
-        return 500;
+        return 800;
     }
 
     @Override
@@ -64,10 +75,9 @@ public class SwapTargetGlyph extends AbstractEffect implements ConfigurableGlyph
     public void buildExtraConfig(ForgeConfigSpec.Builder builder) {
         builder.comment("If set to false, Swap Target will only affect non-player entities: ");
         AFFECT_PLAYERS = builder.define("affect_players", true);
+        builder.comment("WARNING! THE FOLLOWING ALLOWS FOR MAJOR GRIEFING!!");
+        builder.comment("Only enable if you understand players could loose their stuff...");
+        ALLOW_TOSS = builder.define("allow_toss", false);
     }
 
-    @Override
-    public void setConfig(ForgeConfigSpec spec) {
-        this.CONFIG = spec;
-    }
 }

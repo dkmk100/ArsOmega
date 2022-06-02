@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:chalk"
+    },
+    {
+      "item": "arsomega:arcane_clay"
+    },
+    {
+      "item": "arsomega:arcane_fiber"
+    }
+  ],
+  "result": {
+    "item": "arsomega:arcane_chalk"
+  }
+}

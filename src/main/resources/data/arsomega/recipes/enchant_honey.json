@@ -1,0 +1,12 @@
+{
+  "type": "arsomega:enchant",
+  "input": {
+    "item": "minecraft:honey_bottle",
+    "count": 1
+  },
+  "output": {
+    "item": "minecraft:experience_bottle",
+    "count": 1
+  },
+  "minLevel": 20
+}

@@ -1,0 +1,12 @@
+{
+  "type": "arsomega:enchant",
+  "input": {
+    "item": "minecraft:golden_apple",
+    "count": 1
+  },
+  "output": {
+    "item": "minecraft:enchanted_golden_apple",
+    "count": 1
+  },
+  "minLevel": 40
+}

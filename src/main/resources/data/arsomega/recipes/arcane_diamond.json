@@ -1,0 +1,34 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "reagent": [
+    {
+      "item": "arsomega:enchanted_diamond"
+    }
+  ],
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:amethyst_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:prismarine_crystals"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:honeycomb"
+      }
+    }
+  ],
+  "output": {
+    "item": "arsomega:arcane_diamond"
+  },
+  "sourceCost": 5000
+}

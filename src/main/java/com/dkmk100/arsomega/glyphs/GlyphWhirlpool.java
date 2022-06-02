@@ -39,7 +39,7 @@ public class GlyphWhirlpool  extends TierFourEffect{
         int ticks = 250 + (int)Math.round(70 * spellStats.getDurationMultiplier());
         tornado.setDuration(ticks);
         tornado.setAccelerate(spellStats.getBuffCount(AugmentAccelerate.INSTANCE));
-        tornado.setAoe(spellStats.getBuffCount(AugmentAOE.INSTANCE));
+        tornado.setAoe((int)spellStats.getAoeMultiplier());
         world.addFreshEntity(tornado);
 
         if(shooter!=null) {

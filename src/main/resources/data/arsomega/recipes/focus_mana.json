@@ -33,17 +33,17 @@
     },
     {
       "item": {
-        "tag": "forge:storage_blocks/diamond"
+        "item": "minecraft:diamond_block"
       }
     },
     {
       "item": {
-        "tag": "forge:storage_blocks/diamond"
+        "item": "minecraft:diamond_block"
       }
     },
     {
       "item": {
-        "tag": "forge:storage_blocks/diamond"
+        "item": "minecraft:diamond_block"
       }
     }
   ],

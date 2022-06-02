@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega;
 
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ObjectHolder;
@@ -27,12 +28,30 @@ public class ItemsRegistry {
     @ObjectHolder("focus_of_advanced_alchemy")
     public static Item ALCHEMY_FOCUS_ADVANCED;
 
+    @ObjectHolder("alchemy_essence")
+    public static Item ALCHEMY_ESSENCE;
+
+    @ObjectHolder("life_essence")
+    public static Item LIFE_ESSENCE;
+
+    @ObjectHolder("nature_essence")
+    public static Item NATURE_ESSENCE;
+
+    @ObjectHolder("arcane_essence")
+    public static Item ARCANE_ESSENCE;
+
     @ObjectHolder("biome_crystal")
     public static Item BIOME_CRYSTAL;
+
+    @ObjectHolder("demonic_tooth")
+    public static Item DEMONIC_TOOTH;
 
     @ObjectHolder("demonic_gem")
     public static Item DEMONIC_GEM;
 
     @ObjectHolder("gorgon_gem")
     public static Item GORGON_GEM;
+
+    @ObjectHolder("poison_flower")
+    public static Item POISON_FLOWER;
 }

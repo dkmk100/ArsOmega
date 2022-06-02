@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:infused_diamond_block"
+    }
+  ],
+  "result": {
+    "item": "arsomega:infused_diamond",
+    "count": 9
+  }
+}

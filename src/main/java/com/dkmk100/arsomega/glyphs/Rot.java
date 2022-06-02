@@ -31,7 +31,7 @@ public class Rot extends AbstractEffect {
     @Override
     public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         if(world instanceof ServerLevel){
-            int aoeBuff = spellStats.getBuffCount(AugmentAOE.INSTANCE);
+            double aoeBuff = spellStats.getAoeMultiplier();
             double amp = spellStats.getAmpMultiplier();
             BlockPos pos = rayTraceResult.getBlockPos();
             List<BlockPos> posList = SpellUtil.calcAOEBlocks(shooter, pos, rayTraceResult, aoeBuff, 0);

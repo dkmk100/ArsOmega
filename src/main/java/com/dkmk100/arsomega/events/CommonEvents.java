@@ -15,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -39,6 +40,14 @@ public class CommonEvents {
         if (living != null && ((living.hasEffect(ModPotions.VINE_BIND)&&!living.isOnFire())||living.hasEffect(ModPotions.STONE_PETRIFICATION))) {
             living.setDeltaMovement(0.0D, 0.0D, 0.0D);
             living.setNoActionTime(10);
+        }
+    }
+
+    @SubscribeEvent
+    public static void Teleport(EntityTeleportEvent.EnderEntity e){
+        LivingEntity entity = e.getEntityLiving();
+        if(entity.hasEffect(ModPotions.DEMONIC_ANCHORING)){
+            e.setCanceled(true);
         }
     }
 

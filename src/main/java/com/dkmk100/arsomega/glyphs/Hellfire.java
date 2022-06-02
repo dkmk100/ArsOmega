@@ -35,11 +35,11 @@ public class Hellfire extends TierFourEffect {
     @Override
     public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         double amp = spellStats.getAmpMultiplier() + 2;
-        int time = spellStats.getBuffCount(AugmentExtendTime.INSTANCE);
+        int time = 20 + (int) Math.round(10 * spellStats.getDurationMultiplier());
 
         if(rayTraceResult.getEntity() instanceof LivingEntity){
             LivingEntity living = (LivingEntity)rayTraceResult.getEntity();
-            living.setRemainingFireTicks(living.getRemainingFireTicks()+20+10*time);
+            living.setRemainingFireTicks(living.getRemainingFireTicks()+time);
             living.addEffect(new MobEffectInstance(ModPotions.BURNED,20));
         }
         this.dealDamage(world,shooter,(float)amp*3f,spellStats,rayTraceResult.getEntity(),HELLFIRE);
@@ -50,7 +50,7 @@ public class Hellfire extends TierFourEffect {
         if (!spellStats.hasBuff(AugmentSensitive.INSTANCE)) {
             if (world.getBlockState(rayTraceResult.getBlockPos().above()).getMaterial().isReplaceable()) {
                 Direction face = rayTraceResult.getDirection();
-                int aoe = spellStats.getBuffCount(AugmentAOE.INSTANCE) * 2 + 4;
+                double aoe = spellStats.getAoeMultiplier() * 2 + 4;
                 Iterator var7 = SpellUtil.calcAOEBlocks(shooter, rayTraceResult.getBlockPos(), rayTraceResult, aoe,0).iterator();
 
                 while(var7.hasNext()) {

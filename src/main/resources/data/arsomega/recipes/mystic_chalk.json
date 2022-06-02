@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:chalk"
+    },
+    {
+      "item": "arsomega:mystic_clay"
+    },
+    {
+      "item": "ars_nouveau:end_fiber"
+    }
+  ],
+  "result": {
+    "item": "arsomega:mystic_chalk"
+  }
+}

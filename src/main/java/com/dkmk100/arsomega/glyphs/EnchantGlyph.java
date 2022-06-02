@@ -1,5 +1,8 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.crafting.EnchantRecipe;
+import com.dkmk100.arsomega.crafting.TransmuteRecipe;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
@@ -41,7 +44,7 @@ public class EnchantGlyph extends AbstractEffect {
     @Override
     public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         if (world instanceof ServerLevel) {
-            int aoeBuff = spellStats.getBuffCount(AugmentAOE.INSTANCE);
+            double aoeBuff = spellStats.getAoeMultiplier();
             int ampBuff = (int) Math.round(spellStats.getAmpMultiplier());
 
             List<ItemEntity> itemEntities = world.getEntitiesOfClass(ItemEntity.class, (new AABB(rayTraceResult.getBlockPos())).inflate((double) aoeBuff + 1.0D));
@@ -65,6 +68,9 @@ public class EnchantGlyph extends AbstractEffect {
     }
 
     int level(int amp){return 2*amp + 4;}
+    public int getAmp(int level){
+        return (level-4)/2;
+    }
     int power(int level){
         return Math.min(Math.max(level,0),30);
     }
@@ -124,18 +130,15 @@ public class EnchantGlyph extends AbstractEffect {
                 }
             }
             else{
-                if(itemstack.getItem()==Items.GOLDEN_APPLE && level>=40){
-                    itemstack2 = new ItemStack(Items.ENCHANTED_GOLDEN_APPLE,itemstack.getCount());
-                    CompoundTag compoundnbt = itemstack.getTag();
-                    if (compoundnbt != null) {
-                        itemstack2.setTag(compoundnbt.copy());
-                    }
-                }
-                else if(itemstack.getItem()==Items.HONEY_BOTTLE && level>=20){
-                    itemstack2 = new ItemStack(Items.EXPERIENCE_BOTTLE,itemstack.getCount());
-                    CompoundTag compoundnbt = itemstack.getTag();
-                    if (compoundnbt != null) {
-                        itemstack2.setTag(compoundnbt.copy());
+                List<EnchantRecipe> recipes = player.getLevel().getRecipeManager().getAllRecipesFor(RegistryHandler.ENCHANT_TYPE);
+
+                for(EnchantRecipe recipe : recipes){
+                    if(itemstack.getItem()==recipe.input.getItem() && level >= recipe.minLevel){
+                        itemstack2 = new ItemStack(recipe.output.getItem(),itemstack.getCount());
+                        CompoundTag compoundnbt = itemstack.getTag();
+                        if (compoundnbt != null) {
+                            itemstack2.setTag(compoundnbt.copy());
+                        }
                     }
                 }
             }

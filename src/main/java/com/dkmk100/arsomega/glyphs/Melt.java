@@ -35,7 +35,7 @@ public class Melt extends AbstractEffect {
     @Override
     public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         if(world instanceof ServerLevel){
-            int aoeBuff = spellStats.getBuffCount(AugmentAOE.INSTANCE);
+            double aoeBuff = spellStats.getAoeMultiplier();
             double amp = spellStats.getAmpMultiplier();
             int passes = (int)Math.round((amp+1)/3) + 1;
             BlockPos pos = rayTraceResult.getBlockPos();

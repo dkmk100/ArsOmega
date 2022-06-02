@@ -122,7 +122,7 @@ public class Staff extends SwordItem implements IAnimatable, ICasterTool {
         for(AbstractSpellPart part : spell.recipe){
             recipe.add(part);
             int boostsLeft = augmentAmount;
-            if(part instanceof AbstractEffect && part.compatibleAugments.contains(AugmentAmplify.INSTANCE)) {
+            if(part instanceof AbstractEffect && part.compatibleAugments.contains(augmentAdded)) {
                 boolean valid = true;
                 if (i + 1 < spell.recipe.size()) {
                     AbstractSpellPart part2 = spell.recipe.get(i + 1);

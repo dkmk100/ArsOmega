@@ -41,7 +41,7 @@ public class TransmuteGlyph extends AbstractEffect {
     public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         if (world instanceof ServerLevel) {
             List<TransmuteRecipe> recipes = world.getRecipeManager().getAllRecipesFor(RegistryHandler.TRANSMUTE_TYPE);
-            int aoeBuff = spellStats.getBuffCount(AugmentAOE.INSTANCE);
+            double aoeBuff = spellStats.getAoeMultiplier();
             int ampBuff = (int) Math.round(spellStats.getAmpMultiplier());
             int maxProcess = spellStats.getBuffCount(AugmentPierce.INSTANCE) * 16 + 8;
 

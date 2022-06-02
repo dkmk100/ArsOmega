@@ -41,10 +41,10 @@ public class FormMissile extends AbstractCastMethod {
 
     public void summonProjectiles(Level world, LivingEntity shooter, SpellStats stats, SpellResolver resolver) {
         final boolean activate = true;
-        int duration = 50 + (int)Math.round(15f * stats.getDurationMultiplier());
-        duration = Math.max(7,duration);
+        int duration = 30 + (int)Math.round(7f * stats.getDurationMultiplier());
+        duration = Math.max(5,duration);
         ArrayList<EntityMissileSpell> projectiles = new ArrayList();
-        EntityMissileSpell projectileSpell = new EntityMissileSpell(world, resolver,duration,activate,stats.getBuffCount(AugmentAOE.INSTANCE),shooter);
+        EntityMissileSpell projectileSpell = new EntityMissileSpell(world, resolver,duration,activate, (float)stats.getAoeMultiplier(),shooter);
         projectiles.add(projectileSpell);
         int numSplits = stats.getBuffCount(AugmentSplit.INSTANCE);
 
@@ -56,7 +56,7 @@ public class FormMissile extends AbstractCastMethod {
 
             BlockPos projPos = shooter.blockPosition().relative(offset, i);
             projPos = projPos.offset(0.0D, 1.5D, 0.0D);
-            EntityMissileSpell spell = new EntityMissileSpell(world, resolver,duration,activate,stats.getBuffCount(AugmentAOE.INSTANCE),shooter);
+            EntityMissileSpell spell = new EntityMissileSpell(world, resolver,duration,activate,(float)stats.getAoeMultiplier(),shooter);
             spell.setPos((double)projPos.getX(), (double)projPos.getY(), (double)projPos.getZ());
             projectiles.add(spell);
         }
@@ -78,10 +78,10 @@ public class FormMissile extends AbstractCastMethod {
 
     public void summonProjectiles(Level world, BlockPos pos, LivingEntity shooter, SpellStats stats, SpellResolver resolver) {
         final boolean activate = true;
-        int duration = 50 + (int)Math.round(15f * stats.getDurationMultiplier());
-        duration = Math.max(7,duration);
+        int duration = 30 + (int)Math.round(7f * stats.getDurationMultiplier());
+        duration = Math.max(5,duration);
         ArrayList<EntityMissileSpell> projectiles = new ArrayList();
-        EntityMissileSpell projectileSpell = new EntityMissileSpell(world, resolver,duration,activate,stats.getBuffCount(AugmentAOE.INSTANCE),shooter);
+        EntityMissileSpell projectileSpell = new EntityMissileSpell(world, resolver,duration,activate,(float)stats.getAoeMultiplier(),shooter);
         projectileSpell.setPos((double)pos.getX(), (double)(pos.getY() + 1), (double)pos.getZ());
         projectiles.add(projectileSpell);
         int numSplits = stats.getBuffCount(AugmentSplit.INSTANCE);
@@ -94,7 +94,7 @@ public class FormMissile extends AbstractCastMethod {
 
             BlockPos projPos = pos.relative(offset, i);
             projPos = projPos.offset(0.0D, 1.5D, 0.0D);
-            EntityMissileSpell spell = new EntityMissileSpell(world, resolver,duration,activate,stats.getBuffCount(AugmentAOE.INSTANCE),shooter);
+            EntityMissileSpell spell = new EntityMissileSpell(world, resolver,duration,activate,(float)stats.getAoeMultiplier(),shooter);
             spell.setPos((double)projPos.getX(), (double)projPos.getY(), (double)projPos.getZ());
             projectiles.add(spell);
         }
@@ -159,7 +159,7 @@ public class FormMissile extends AbstractCastMethod {
 
     @Nonnull
     public Set<AbstractAugment> getCompatibleAugments() {
-        return this.augmentSetOf(new AbstractAugment[]{AugmentPierce.INSTANCE, AugmentSplit.INSTANCE, AugmentAccelerate.INSTANCE, AugmentSensitive.INSTANCE, AugmentDurationDown.INSTANCE, AugmentExtendTime.INSTANCE});
+        return this.augmentSetOf(new AbstractAugment[]{AugmentPierce.INSTANCE, AugmentSplit.INSTANCE, AugmentAccelerate.INSTANCE, AugmentSensitive.INSTANCE, AugmentDurationDown.INSTANCE, AugmentExtendTime.INSTANCE, AugmentAOE.INSTANCE});
     }
 
     public String getBookDescription() {

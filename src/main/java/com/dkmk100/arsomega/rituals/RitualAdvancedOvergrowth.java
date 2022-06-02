@@ -17,7 +17,7 @@ import net.minecraftforge.common.util.FakePlayerFactory;
 import java.util.Iterator;
 import java.util.List;
 
-public class RitualAdvancedOvergrowth  extends AbstractRitual {
+public class RitualAdvancedOvergrowth extends AbstractRitual {
     public RitualAdvancedOvergrowth() {
     }
 

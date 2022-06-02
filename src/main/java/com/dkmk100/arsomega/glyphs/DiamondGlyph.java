@@ -15,6 +15,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.Tags;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.util.ISlotHelper;
 
@@ -40,51 +41,43 @@ public class DiamondGlyph extends TierFourEffect implements ConfigurableGlyph {
     public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         if ((world instanceof ServerLevel) && rayTraceResult instanceof BlockHitResult) {
             BlockPos pos = new BlockPos(((BlockHitResult) rayTraceResult).getBlockPos());
+
+            if (!world.getBlockState(pos).is(Tags.Blocks.STONE)) {
+                return;
+            }
             double amp = spellStats.getAmpMultiplier();
             int tier = maxTier.get();
             int cost = extraAmpCost.get();
 
-            try {
-                if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, ItemsRegistry.ALCHEMY_FOCUS_ADVANCED).isPresent()) {
-                    amp += Math.max(advancedFocusBonus.get(), focusBonus.get());
-                } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, ItemsRegistry.ALCHEMY_FOCUS).isPresent()) {
-                    amp += focusBonus.get();
-                }
-            } catch (Exception e) {
-                ArsOmega.LOGGER.error(e);
+
+            if (shooter != null && CuriosApi.getCuriosHelper().findFirstCurio(shooter, ItemsRegistry.ALCHEMY_FOCUS_ADVANCED).isPresent()) {
+                amp += Math.max(advancedFocusBonus.get(), focusBonus.get());
+            } else if (shooter != null && CuriosApi.getCuriosHelper().findFirstCurio(shooter, ItemsRegistry.ALCHEMY_FOCUS).isPresent()) {
+                amp += focusBonus.get();
             }
 
             BlockState state = Blocks.DIRT.defaultBlockState();
-            if(!canSummon(shooter)){
+            if (!canSummon(shooter)) {
                 if (amp > 30 + cost && tier >= 7) {
                     state = Blocks.SANDSTONE.defaultBlockState();
-                }
-                else {
+                } else {
                     state = Blocks.SAND.defaultBlockState();
                 }
-            }
-            else if (amp > 30 + cost && tier >= 7) {
-                state = Blocks.NETHERITE_BLOCK.defaultBlockState();
-            } else if (amp > 25 + cost && tier >= 6) {
-                state = Blocks.DIAMOND_BLOCK.defaultBlockState();
-            } else if (amp > 21 + cost && tier >= 6) {
+            } else if (amp > 30 + cost && tier >= 7) {
+                state = Blocks.ANCIENT_DEBRIS.defaultBlockState();
+            } else if (amp > 27 + cost && tier >= 6) {
                 state = Blocks.DIAMOND_ORE.defaultBlockState();
+            } else if (amp > 25 + cost && tier >= 6) {
+                state = Blocks.DEEPSLATE_DIAMOND_ORE.defaultBlockState();
             } else if (amp > 17 + cost && tier >= 5) {
                 state = Blocks.EMERALD_BLOCK.defaultBlockState();
             } else if (amp > 13 + cost && tier >= 4) {
                 state = Blocks.GOLD_BLOCK.defaultBlockState();
             } else if (amp > 10 + cost && tier >= 3) {
                 state = Blocks.REDSTONE_BLOCK.defaultBlockState();
-            } else if (amp > 8 + cost && tier >= 3) {
+            } else if (amp > 7 + cost && tier >= 3) {
                 state = Blocks.LAPIS_BLOCK.defaultBlockState();
-            }
-            else if (amp > 6 + cost && tier >= 2) {
-                state = Blocks.IRON_BLOCK.defaultBlockState();
-            } else if (amp > 4 + cost && tier >= 2) {
-                state = Blocks.COPPER_BLOCK.defaultBlockState();
-            } else if (amp > 3 + cost && tier >= 1) {
-                state = Blocks.GOLD_ORE.defaultBlockState();
-            } else if (amp > 2 + cost && tier >= 1) {
+            } else if (amp > 2 + cost && tier >= 2) {
                 state = Blocks.IRON_ORE.defaultBlockState();
             } else if (amp > 1 + cost && tier >= 1) {
                 state = Blocks.COPPER_ORE.defaultBlockState();
@@ -109,15 +102,10 @@ public class DiamondGlyph extends TierFourEffect implements ConfigurableGlyph {
 
     @Override
     public void buildExtraConfig(ForgeConfigSpec.Builder builder) {
-        this.maxTier = builder.comment("The max block tier that can be made, anything above this will never be made regardless of power leve (amp amount plus bonuses). Tier 0 is coal, order goes coal, iron, iron again, redstone, gold, emerald, diamond, and netherite").defineInRange("maxTier",7,0,10);
+        this.maxTier = builder.comment("The max block tier that can be made, anything above this will never be made regardless of power leve (amp amount plus bonuses). Tier 0 is coal, order goes coal, copper, iron, redstone, gold, emerald, diamond, and netherite").defineInRange("maxTier",6,0,10);
         this.extraAmpCost = builder.comment("The extra power level required for each tier, a linear value. Numbers larger than 5 or smaller than -5 can break progression, so be careful.").defineInRange("extraAmpCost",0,-20,20);
         this.focusBonus = builder.comment("How many levels of amplify the focus of alchemy is worth").defineInRange("focusBonus",5,0,20);
         this.advancedFocusBonus = builder.comment("How many levels of amplify the advanced focus of alchemy is worth. Should be higher than the normal focus value.").defineInRange("advancedFocusBonus",10,0,20);
-    }
-
-    @Override
-    public void setConfig(ForgeConfigSpec spec) {
-        this.CONFIG = spec;
     }
 
     @Nonnull

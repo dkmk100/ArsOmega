@@ -33,7 +33,7 @@ public class DivineSmite  extends TierFourEffect implements ConfigurableGlyph{
         EntityDivineSmite lightningBoltEntity = new EntityDivineSmite(RegistryHandler.DIVINE_SMITE.get(), world);
         lightningBoltEntity.setPos(pos.x(), pos.y(), pos.z());
         lightningBoltEntity.setCause(shooter instanceof ServerPlayer ? (ServerPlayer)shooter : null);
-        lightningBoltEntity.setAoe(spellStats.getBuffCount(AugmentAOE.INSTANCE));
+        lightningBoltEntity.setAoe((float)spellStats.getAoeMultiplier());
         lightningBoltEntity.setSensitive(spellStats.hasBuff(AugmentSensitive.INSTANCE));
         lightningBoltEntity.setDamage(this.DAMAGE.get().floatValue() + (float)((this.AMP_VALUE.get()) * spellStats.getAmpMultiplier()));
         world.addFreshEntity(lightningBoltEntity);
@@ -43,11 +43,6 @@ public class DivineSmite  extends TierFourEffect implements ConfigurableGlyph{
     public void buildExtraConfig(ForgeConfigSpec.Builder builder) {
         this.addDamageConfig(builder, 9.0);
         this.addAmpConfig(builder, 4.0);
-    }
-
-    @Override
-    public void setConfig(ForgeConfigSpec spec) {
-        this.CONFIG = spec;
     }
 
     @Override

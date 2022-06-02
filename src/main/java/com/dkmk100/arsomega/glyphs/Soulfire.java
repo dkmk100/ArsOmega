@@ -24,12 +24,12 @@ public class Soulfire extends AbstractEffect {
     @Override
     public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         double amp = spellStats.getAmpMultiplier() + 1;
-        int time = spellStats.getBuffCount(AugmentExtendTime.INSTANCE);
+        int time = 80 + (int) Math.round(40 + spellStats.getDurationMultiplier());
 
         if(rayTraceResult.getEntity() instanceof LivingEntity){
             LivingEntity living = (LivingEntity)rayTraceResult.getEntity();
-            living.addEffect(new MobEffectInstance(ModPotions.SOUL_FIRE,80 + 40*time));
-            living.setRemainingFireTicks(living.getRemainingFireTicks()+40+20*time);
+            living.addEffect(new MobEffectInstance(ModPotions.SOUL_FIRE,time));
+            living.setRemainingFireTicks(living.getRemainingFireTicks()+time/2);
         }
     }
 

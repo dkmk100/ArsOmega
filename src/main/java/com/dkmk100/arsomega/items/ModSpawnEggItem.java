@@ -28,7 +28,7 @@ public class ModSpawnEggItem extends SpawnEggItem {
 
     private final Lazy<? extends EntityType<?>> entityTypeSupplier;
     public static void initSpawnEggs(){
-        final Map<EntityType<?>, SpawnEggItem> EGGS = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class,null,"field_195987_b");
+        final Map<EntityType<?>, SpawnEggItem> EGGS = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class,null,"f_43201");
         DefaultDispenseItemBehavior dispenseBehavior = new DefaultDispenseItemBehavior(){
 
             @Override

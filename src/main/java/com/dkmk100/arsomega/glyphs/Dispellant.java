@@ -26,13 +26,14 @@ public class Dispellant extends AbstractEffect {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
-            this.applyPotionWithCap(living, ModPotions.DISPELLANT, spellStats, 30,15,0);
+            //low time cause the effect is sorta OP lol
+            this.applyPotionWithCap(living, ModPotions.DISPELLANT, spellStats, 6,3,0);
         }
     }
 
     @Override
     public int getDefaultManaCost() {
-        return 600;
+        return 800;
     }
 
     @Override

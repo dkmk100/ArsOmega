@@ -29,12 +29,22 @@
     },
     {
       "item": {
+        "item": "arsomega:arcane_diamond_block"
+      }
+    },
+    {
+      "item": {
         "item": "minecraft:netherite_block"
       }
     },
     {
       "item": {
         "item": "minecraft:totem_of_undying"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:honey_block"
       }
     },
     {

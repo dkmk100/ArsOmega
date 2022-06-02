@@ -25,7 +25,7 @@ public class Regen extends AbstractEffect {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
-            this.applyPotionWithCap(living, MobEffects.REGENERATION, spellStats, 30,15,2);
+            this.applyPotionWithCap(living, MobEffects.REGENERATION, spellStats, 30,15,1);
         }
     }
 
