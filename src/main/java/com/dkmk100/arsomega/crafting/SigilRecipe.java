@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.crafting;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -114,12 +115,10 @@ public class SigilRecipe implements Recipe<Container> {
             buf.writeInt(recipeSize);
             buf.writeInt(size2);
             for (int i = 0; i < recipeSize; i++) {
-                recipe.recipe[i] = new boolean[size2];
                 for(int i2 = 0;i2 < size2; i2++){
                     buf.writeBoolean(recipe.recipe[i][i2]);
                 }
             }
-
         }
 
 
@@ -131,11 +130,15 @@ public class SigilRecipe implements Recipe<Container> {
             int tileY = buffer.readInt();
             int recipeSize = buffer.readInt();
             int size2 = buffer.readInt();
+
             boolean[][] recipe = new boolean[recipeSize][];
             for(int i=0;i<recipeSize;i++){
                 recipe[i] = new boolean[size2];
-
+                for(int i2=0;i2<size2;i2++) {
+                    recipe[i][i2] = buffer.readBoolean();
+                }
             }
+
             return new SigilRecipe(recipeId, recipe, output, tileX, tileY, sourceCost);
         }
 
@@ -168,7 +171,7 @@ public class SigilRecipe implements Recipe<Container> {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return new SigilRecipe.Serializer();
+        return RegistryHandler.SIGIL_SERIALIZER;
     }
 
     @Override
