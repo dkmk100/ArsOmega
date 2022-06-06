@@ -37,7 +37,7 @@ public class EntityTornado extends ColoredProjectile {
 
     int accelerate = 0;
 
-    int checkTicks = 3;
+    int checkTicks = 1;
 
     List<Entity> targets = new ArrayList<>();
 
@@ -92,8 +92,7 @@ public class EntityTornado extends ColoredProjectile {
 
     @Override
     public void tick() {
-        final boolean crashPrevention = false;
-        final boolean killSpells = false;
+        final int checkRate = 8;
 
         super.tick();
         boolean active = level.getBlockState(new BlockPos(position()).above()).isAir();
@@ -108,31 +107,21 @@ public class EntityTornado extends ColoredProjectile {
             int radius = 12 + (aoe * 5);
             checkTicks--;
             if (checkTicks <= 0) {
-                checkTicks = 2;
+                checkTicks = checkRate;
+                float checkRadius = radius + 0.5f;//check slightly further incase something enters
+                float checkRSq = checkRadius * checkRadius;//cache to not multiply in the loop
                 for (Entity entity : targets) {
                     if(entity==null || !entity.isAlive()){
                         continue;
                     }
                     entity.setNoGravity(false);
                 }
-                List<Entity> entities = this.level.getEntities(this, AABB.ofSize(this.position(), radius, radius, radius));
+                List<Entity> entities = this.level.getEntities(this, AABB.ofSize(this.position(), checkRadius, checkRadius, checkRadius));
                 targets = new ArrayList<>();
 
                 for (Entity entity : entities) {
-                    if (entity.isAlive() && Math.abs(entity.position().distanceToSqr(this.position())) <= radius * radius) {
-                        //workaround to prevent server thread freeze
-                        if (crashPrevention && entity instanceof EntityProjectileSpell) {
-                            if(killSpells) {
-                                ArsOmega.LOGGER.warn("Removed spell entity of type: "+entity.getType());
-                                entity.remove(RemovalReason.KILLED);
-                            }
-                            else{
-                                ArsOmega.LOGGER.warn("Ignored spell entity of type: "+entity.getType());
-                            }
-                        }
-                        else {
+                    if (entity.isAlive() && Math.abs(entity.position().distanceToSqr(this.position())) <= checkRSq) {
                             targets.add(entity);
-                        }
                     }
                 }
             }

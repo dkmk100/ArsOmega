@@ -1,8 +1,10 @@
 package com.dkmk100.arsomega.blocks;
 
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.events.CommonEvents;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.resources.ResourceKey;
@@ -35,7 +37,18 @@ public class DemonicRift extends Block {
             ResourceKey<Level> registrykey = ResourceKey.create(Registry.DIMENSION_REGISTRY, RegistryHandler.DIMTYPE);
             ServerLevel demonDim = world.getServer().getLevel(registrykey);
             ServerLevel dest = world.dimensionType() == demonDim.dimensionType() ? world.getServer().overworld() : demonDim;
-            CommonEvents.teleportEntity(entity,new BlockPos(entity.position()).above(),dest,(ServerLevel)world);
+            this.teleportEntity(dest,entity,new BlockPos(entity.position()).above(),(ServerLevel)world);
+        }
+    }
+
+    void teleportEntity(ServerLevel dest, Entity target, BlockPos pos, ServerLevel oldWorld){
+        if((oldWorld.dimensionType()!=dest.dimensionType())) {
+            BlockPos pos2 = new BlockPos(target.getX(), pos.getY() - 1, target.getZ());
+            CommonEvents.teleportEntity(target, pos2, dest, oldWorld);
+
+            if(dest.getBlockState(pos2.below()).isAir()) {
+                dest.setBlockAndUpdate(pos2.below(), Blocks.OBSIDIAN.defaultBlockState());
+            }
         }
     }
 }

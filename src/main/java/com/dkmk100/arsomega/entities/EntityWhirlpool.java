@@ -25,7 +25,7 @@ import java.util.List;
 
 public class EntityWhirlpool  extends ColoredProjectile {
 
-    public static final EntityDataAccessor<Integer> AOE = SynchedEntityData.defineId(EntityTornado.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> AOE = SynchedEntityData.defineId(EntityWhirlpool.class, EntityDataSerializers.INT);
 
     int amplify = 0;
 
@@ -87,6 +87,7 @@ public class EntityWhirlpool  extends ColoredProjectile {
 
     @Override
     public void tick() {
+        final int checkRate = 8;
         super.tick();
         int aoe = this.entityData.get(AOE);
         boolean active = level.getBlockState(new BlockPos(position()).above()).is(Blocks.WATER);
@@ -100,7 +101,9 @@ public class EntityWhirlpool  extends ColoredProjectile {
             int radius = 12 + (aoe * 5);
             checkTicks--;
             if (checkTicks <= 0) {
-                checkTicks = 2;
+                checkTicks = checkRate;
+                float checkRadius = radius + 0.5f;//check slightly further incase something enters
+                float checkRSq = checkRadius * checkRadius;//cache to not multiply in the loop
                 for (Entity entity : targets) {
                     if(entity==null || !entity.isAlive()){
                         continue;
