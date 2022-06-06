@@ -49,7 +49,7 @@ public class GlyphWhirlpool  extends TierFourEffect{
 
     @Override
     public int getDefaultManaCost() {
-        return 1000;
+        return 850;
     }
 
     @Nonnull

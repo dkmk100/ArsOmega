@@ -1,0 +1,48 @@
+{
+  "type": "ars_nouveau:enchantment",
+  "enchantment": "minecraft:binding_curse",
+  "level": 1,
+  "sourceCost": 3000,
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "ars_nouveau:abjuration_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:earth_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:earth_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:enchanted_demonic_gem"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:enchanted_demonic_gem"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:cobweb"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:cobweb"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:cobweb"
+      }
+    }
+  ]
+}

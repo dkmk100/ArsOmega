@@ -1,0 +1,25 @@
+{
+  "type": "arsomega:sigil",
+  "pattern": [
+    "     xxxxx     ",
+    "   xxx x xxx   ",
+    "  xx  xxx  xx  ",
+    " xx   x x   xx ",
+    " x   xx xx   x ",
+    "xxxxxxxxxxxxxxx",
+    "x xx x   x xx x",
+    "x  xxx B xxx  x",
+    "x   xxx xxx   x",
+    "xx  x xxx x  xx",
+    " x  x xxx x  x ",
+    " xx xxx xxx xx ",
+    "  xxxx   xxxx  ",
+    "   xxx   xxx   ",
+    "     xxxxx     "
+  ],
+  "output": {
+    "item": "arsomega:sigil_binding",
+    "count": 4
+  },
+  "sourceCost": 2000
+}

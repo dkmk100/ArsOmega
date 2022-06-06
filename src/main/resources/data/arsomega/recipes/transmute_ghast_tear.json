@@ -1,0 +1,13 @@
+{
+  "type": "arsomega:transmute",
+  "input": {
+    "item": "minecraft:ghast_tear",
+    "count": 1
+  },
+  "output": {
+    "item": "minecraft:phantom_membrane",
+    "count": 1
+  },
+  "reversible": true,
+  "minAmp": 2
+}

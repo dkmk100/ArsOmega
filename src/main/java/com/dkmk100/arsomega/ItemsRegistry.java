@@ -43,6 +43,9 @@ public class ItemsRegistry {
     @ObjectHolder("biome_crystal")
     public static Item BIOME_CRYSTAL;
 
+    @ObjectHolder("dimension_crystal")
+    public static Item DIMENSION_CRYSTAL;
+
     @ObjectHolder("demonic_tooth")
     public static Item DEMONIC_TOOTH;
 

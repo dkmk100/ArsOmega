@@ -41,6 +41,7 @@ public class Heartstop extends AbstractEffect implements ConfigurableGlyph{
             float damage = (float)(this.DAMAGE.get() + this.AMP_DAMAGE.get() * spellStats.getAmpMultiplier());
             float mult = 0;
             float add = 0;
+            int ticks = 120 + (int)Math.round(120 * spellStats.getDurationMultiplier());
             if(living.hasEffect(ModPotions.DEMONIC_CURSE)){
                 mult += 3;
                 add += 6;
@@ -68,6 +69,7 @@ public class Heartstop extends AbstractEffect implements ConfigurableGlyph{
                 mult = mult*1.5f;
                 mult += 8;
                 add += 10;
+                ticks = ticks*2;//more nausea, why not
             }
 
             //multiply some of the addition lol
@@ -76,14 +78,14 @@ public class Heartstop extends AbstractEffect implements ConfigurableGlyph{
             damage += add*0.85f;
 
             this.dealDamage(world,shooter,damage,spellStats,living, HEARTSTOP_DAMAGE);
-            living.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 120));
+            living.addEffect(new MobEffectInstance(MobEffects.CONFUSION, ticks));
         }
     }
 
     @Override
     @Nonnull
     public Set<AbstractAugment> getCompatibleAugments() {
-        return this.augmentSetOf(new AbstractAugment[]{AugmentAmplify.INSTANCE, AugmentDampen.INSTANCE, AugmentFortune.INSTANCE});
+        return this.augmentSetOf(new AbstractAugment[]{AugmentAmplify.INSTANCE, AugmentDampen.INSTANCE, AugmentFortune.INSTANCE, AugmentExtendTime.INSTANCE});
     }
 
     @Override

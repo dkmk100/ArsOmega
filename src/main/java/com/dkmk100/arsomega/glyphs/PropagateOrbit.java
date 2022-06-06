@@ -17,7 +17,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class PropagateOrbit  extends AbstractEffect {
+public class PropagateOrbit  extends AbstractEffect implements ConfigurableGlyph{
     public static PropagateOrbit INSTANCE = new PropagateOrbit("propagate_orbit","Propagate Orbit");
 
     private PropagateOrbit(String tag, String description) {
@@ -53,7 +53,7 @@ public class PropagateOrbit  extends AbstractEffect {
     @Override
     @Nonnull
     public Set<AbstractAugment> getCompatibleAugments() {
-        return this.augmentSetOf(new AbstractAugment[]{AugmentAccelerate.INSTANCE, AugmentAOE.INSTANCE, AugmentPierce.INSTANCE, AugmentSplit.INSTANCE, AugmentExtendTime.INSTANCE, AugmentDurationDown.INSTANCE, AugmentSensitive.INSTANCE});
+        return MethodOrbit.INSTANCE.getCompatibleAugments();
     }
 
     @Override
@@ -67,14 +67,8 @@ public class PropagateOrbit  extends AbstractEffect {
     }
 
     @Override
-    public void buildConfig(ForgeConfigSpec.Builder builder) {
-        super.buildConfig(builder);
-        //this.PER_SPELL_LIMIT = builder.comment("The maximum number of times this glyph may appear in a single spell").defineInRange("per_spell_limit", 2, 2, 2);
-    }
-
-    @Nullable
-    public Item getCraftingReagent() {
-        return Items.REPEATER;
+    public void buildExtraConfig(ForgeConfigSpec.Builder builder) {
+        this.PER_SPELL_LIMIT = builder.comment("The maximum number of times this glyph may appear in a single spell").defineInRange("per_spell_limit", 2, 2, 2);
     }
 
     @Nonnull

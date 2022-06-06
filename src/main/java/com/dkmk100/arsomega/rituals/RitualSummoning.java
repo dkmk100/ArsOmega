@@ -4,6 +4,7 @@ import com.dkmk100.arsomega.ItemsRegistry;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -126,6 +127,14 @@ public class RitualSummoning extends AbstractRitual {
                         target = EntityType.ZOMBIE_VILLAGER;
                         chose=true;
                     }
+                    else if(tagContains(ItemTags.SMALL_FLOWERS,item)){
+                        target = EntityType.BEE;
+                        chose=true;
+                    }
+                    else if(item == Items.GLOWSTONE_DUST){
+                        target = EntityType.WITCH;
+                        chose=true;
+                    }
                 }
                 if(cursed){
                     if(target == EntityType.SPIDER){
@@ -164,6 +173,10 @@ public class RitualSummoning extends AbstractRitual {
                         amount = amount-4;
                         target = EntityType.SKELETON_HORSE;
                     }
+                    else if(target == EntityType.BEE){
+                        amount = amount+3;
+                        target = EntityType.SILVERFISH;
+                    }
                 }
                 int i=0;
                 while(i<amount) {
@@ -182,7 +195,7 @@ public class RitualSummoning extends AbstractRitual {
     public int getManaCost() {
         return 5;
     }
-    boolean tagContains(TagKey tag, Item item){
+    boolean tagContains(TagKey<Item> tag, Item item){
         return ForgeRegistries.ITEMS.tags().getTag(tag).contains(item);
     }
 

@@ -1,0 +1,13 @@
+{
+  "type": "arsomega:transmute",
+  "input": {
+    "item": "minecraft:peony",
+    "count": 1
+  },
+  "output": {
+    "item": "minecraft:sunflower",
+    "count": 1
+  },
+  "reversible": false,
+  "minAmp": 0
+}

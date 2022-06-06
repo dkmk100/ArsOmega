@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:sigil_nature"
+    },
+    {
+      "item": "arsomega:nature_essence"
+    }
+  ],
+  "result": {
+    "item": "arsomega:sigil_nature_active"
+  }
+}

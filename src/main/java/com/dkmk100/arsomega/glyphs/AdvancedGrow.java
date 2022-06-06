@@ -9,6 +9,7 @@ import com.hollingsworth.arsnouveau.common.spell.effect.EffectGrow;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.item.ItemStack;
@@ -20,6 +21,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.FakePlayerFactory;
 
 import javax.annotation.Nonnull;
@@ -102,7 +104,18 @@ public class AdvancedGrow extends AbstractEffect {
                 }
                 i+=1;
             }
-
+            return false;
+        }
+        else if(state.is(BlockTags.SMALL_FLOWERS) && block instanceof IPlantable){
+            for(Direction dir : Direction.values()){
+                if(dir!=Direction.DOWN && dir!=Direction.UP){
+                    BlockPos pos1 = pos.relative(dir);
+                    if(world.getBlockState(pos1).isAir() && state.canSustainPlant(world,pos1.below(),Direction.UP,(IPlantable)block)){
+                        world.setBlockAndUpdate(pos1,state);
+                        return true;
+                    }
+                }
+            }
             return false;
         }
         else{
@@ -206,6 +219,9 @@ public class AdvancedGrow extends AbstractEffect {
             return state.getValue(NetherWartBlock.AGE) < NetherWartBlock.MAX_AGE;
         }
         else if(block == Blocks.CHORUS_FLOWER){
+            return true;
+        }
+        else if(state.is(BlockTags.SMALL_FLOWERS)){
             return true;
         }
         else{

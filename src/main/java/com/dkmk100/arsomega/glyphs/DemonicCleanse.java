@@ -40,14 +40,20 @@ public class DemonicCleanse extends TierFourEffect{
             MobEffectInstance[] var9 = array;
             int var10 = array.length;
 
+            int durationTicks = 1200;
+
             for(int var11 = 0; var11 < var10; ++var11) {
                 MobEffectInstance e = var9[var11];
-                if (e.isCurativeItem(new ItemStack(Items.MILK_BUCKET))||e.isCurativeItem(new ItemStack(ItemsRegistry.CLEANSING_GEM))||e.getEffect() == com.hollingsworth.arsnouveau.common.potions.ModPotions.SUMMONING_SICKNESS) {
+                if (e.isCurativeItem(new ItemStack(Items.MILK_BUCKET))||e.isCurativeItem(new ItemStack(ItemsRegistry.CLEANSING_GEM))) {
+                    entity.removeEffect(e.getEffect());
+                }
+                else if(e.getEffect() == com.hollingsworth.arsnouveau.common.potions.ModPotions.SUMMONING_SICKNESS){
+                    durationTicks+=entity.getEffect(com.hollingsworth.arsnouveau.common.potions.ModPotions.SUMMONING_SICKNESS).getDuration();
                     entity.removeEffect(e.getEffect());
                 }
             }
 
-            entity.addEffect(new MobEffectInstance(ModPotions.DEMONIC_CLEANSE,1200));
+            entity.addEffect(new MobEffectInstance(ModPotions.DEMONIC_CLEANSE,durationTicks));
         }
 
     }

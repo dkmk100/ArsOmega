@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sqs",
+    "qeq",
+    "sgs"
+  ],
+  "key": {
+    "s": {
+      "item": "minecraft:purpur_block"
+    },
+    "q": {
+      "item": "minecraft:quartz_block"
+    },
+    "e": {
+      "item": "minecraft:end_crystal"
+    },
+    "g": {
+      "item": "ars_nouveau:source_gem_block"
+    }
+  },
+  "result": {
+    "item": "arsomega:dimension_crystal"
+  }
+}

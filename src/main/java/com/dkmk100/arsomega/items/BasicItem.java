@@ -15,7 +15,7 @@ public class BasicItem extends Item {
         super(properties);
         setRegistryName(name);
     }
-    public BasicItem(Properties properties, String name,boolean showEnch)
+    public BasicItem(Properties properties, String name, boolean showEnch)
     {
         super(properties);
         setRegistryName(name);

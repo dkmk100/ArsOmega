@@ -124,6 +124,10 @@ public class EntityWhirlpool  extends ColoredProjectile {
                     continue;
                 }
                 if (active && Math.abs(entity.position().distanceToSqr(this.position())) <= radius * radius) {
+                    if(entity.position().x == this.position().x && entity.position().z == this.position().z){
+                        ArsOmega.LOGGER.warn("entity in same column as tornado");
+                        continue;
+                    }
                     Vec3 toEntity = entity.position().subtract(this.position());
                     Vec3 pos = this.position();
                     double distance = Math.sqrt(toEntity.x()*toEntity.x() + toEntity.z() * toEntity.z());//avoid using .distance because we don't use y
@@ -147,6 +151,10 @@ public class EntityWhirlpool  extends ColoredProjectile {
                     }
                     Vec3 newPos = new Vec3(pos.x + angleDir.x, entity.position().y, pos.z + angleDir.z);
                     Vec3 dir = newPos.subtract(entity.position());
+                    if(Double.isNaN(dir.x) || Double.isNaN(dir.y)){
+                        ArsOmega.LOGGER.error("Nan dir value (w): "+dir.toString());
+                        throw new ArithmeticException("Error: NaN direction on whirlpool. Please report on Ars Omega github page.");
+                    }
                     dir.scale(1/Math.sqrt(dir.x*dir.x + dir.z * dir.z));
                     if(toEntity.y > 1) {
                         dir = new Vec3(dir.x, -0.1, dir.z);//negative dir

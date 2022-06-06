@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:sigil_air"
+    },
+    {
+      "item": "ars_nouveau:air_essence"
+    }
+  ],
+  "result": {
+    "item": "arsomega:sigil_air_active"
+  }
+}

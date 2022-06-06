@@ -23,9 +23,9 @@ public class RitualProtection extends AbstractRitual {
         if (world.isClientSide) {
             BlockPos pos = this.getPos();
 
-            for (int i = 0; i < 100; ++i) {
+            for (int i = 0; i < 40; ++i) {
                 Vec3 particlePos = (new Vec3((double) pos.getX(), (double) pos.getY(), (double) pos.getZ())).add(0.5D, 0.0D, 0.5D);
-                particlePos = particlePos.add(ParticleUtil.pointInSphere().multiply(3.0D, 3.0D, 3.0D));
+                particlePos = particlePos.add(ParticleUtil.pointInSphere().multiply(4.0D, 4.0D, 4.0D));
                 world.addParticle(ParticleLineData.createData(this.getCenterColor()), particlePos.x(), particlePos.y(), particlePos.z(), (double) pos.getX() + 0.5D, (double) (pos.getY() + 1), (double) pos.getZ() + 0.5D);
             }
         }
@@ -49,11 +49,9 @@ public class RitualProtection extends AbstractRitual {
                         aoe += stack.getCount();
                     }
                 }
-                List<LivingEntity> entities = this.getWorld().getEntitiesOfClass(LivingEntity.class, (new AABB(this.getPos())).inflate(12.0D+aoe*2).inflate(10,0,10));
-                for (LivingEntity entity : entities) {
-                    if(entity instanceof Player){
-                        entity.addEffect(new MobEffectInstance(ModPotions.NO_BREAK, 140));
-                    }
+                List<Player> entities = this.getWorld().getEntitiesOfClass(Player.class, (new AABB(this.getPos())).inflate(12.0D+aoe*2).inflate(10,0,10));
+                for (Player entity : entities) {
+                    entity.addEffect(new MobEffectInstance(ModPotions.NO_BREAK, 140));
                 }
             }
         }

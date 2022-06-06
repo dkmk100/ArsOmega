@@ -8,6 +8,7 @@ import com.dkmk100.arsomega.base_blocks.BlockPropertiesCreator;
 import com.dkmk100.arsomega.blocks.*;
 import com.dkmk100.arsomega.crafting.CustomRecipeType;
 import com.dkmk100.arsomega.crafting.EnchantRecipe;
+import com.dkmk100.arsomega.crafting.SigilRecipe;
 import com.dkmk100.arsomega.crafting.TransmuteRecipe;
 import com.dkmk100.arsomega.entities.*;
 import com.dkmk100.arsomega.glyphs.*;
@@ -15,23 +16,20 @@ import com.dkmk100.arsomega.items.*;
 import com.dkmk100.arsomega.rituals.*;
 import com.dkmk100.arsomega.tools.BasicItemTier;
 import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
-import com.hollingsworth.arsnouveau.api.RegistryHelper;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
-import com.hollingsworth.arsnouveau.common.crafting.recipes.CrushRecipe;
 import com.hollingsworth.arsnouveau.common.items.SpellBook;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDurationDown;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtendTime;
-import com.hollingsworth.arsnouveau.setup.RecipeRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.block.GlassBlock;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -51,7 +49,6 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.*;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.world.item.BlockItem;
@@ -83,16 +80,22 @@ public class RegistryHandler{
     public static final RecipeSerializer<EnchantRecipe> ENCHANT_SERIALIZER = new EnchantRecipe.Serializer();
     public static final RecipeType<EnchantRecipe> ENCHANT_TYPE = new CustomRecipeType();
 
+    public static final RecipeSerializer<SigilRecipe> SIGIL_SERIALIZER = new SigilRecipe.Serializer();
+    public static final RecipeType<SigilRecipe> SIGIL_TYPE = new CustomRecipeType();
+
     public static final String FIRE_FOCUS_DAMAGE = "hellflare";
 
     public static void RegisterRecipeTypes(){
         Registry.register(Registry.RECIPE_TYPE, new ResourceLocation("arsomega", "transmute"), TRANSMUTE_TYPE);
         Registry.register(Registry.RECIPE_TYPE, new ResourceLocation("arsomega", "enchant"), ENCHANT_TYPE);
+        Registry.register(Registry.RECIPE_TYPE, new ResourceLocation("arsomega", "sigil"), SIGIL_TYPE);
 
     }
     public static void RegisterRecipeSerializers(RegistryEvent.Register<RecipeSerializer<?>> event){
         event.getRegistry().register(TRANSMUTE_SERIALIZER.setRegistryName(new ResourceLocation("arsomega", "transmute")));
         event.getRegistry().register(ENCHANT_SERIALIZER.setRegistryName(new ResourceLocation("arsomega", "enchant")));
+        event.getRegistry().register(SIGIL_SERIALIZER.setRegistryName(new ResourceLocation("arsomega", "sigil")));
+
 
     }
 
@@ -194,6 +197,9 @@ public class RegistryHandler{
         register(new RitualConjuring());
         register(new RitualFlowingTime());
         register(new RitualDemonicSummoning());
+        register(new RitualOpenPortal());
+        register(new RitualDispel());
+        register(new RitualShaping());
     }
 
     public static void addAugments(){
@@ -251,10 +257,10 @@ public class RegistryHandler{
     public static void RegisterItems(RegistryEvent.Register<Item> event){
         final Item GREATER_MANA_AMULET = new MagicCurio("greater_mana_amulet",500,1);
         final Item GREATER_REGEN_AMULET = new MagicCurio("greater_regen_amulet",10,25);
-        final Item FOCUS_OF_MANA = new MagicCurio("focus_of_mana",3000,-35);
-        final Item FOCUS_OF_ALCHEMY = new MagicCurio("focus_of_alchemy",-50,-5);
-        final Item FOCUS_OF_ALCHEMY_2 = new MagicCurio("focus_of_advanced_alchemy",-200,-12);
-        final Item FOCUS_OF_REGEN = new MagicCurio("focus_of_regen",-250,100);
+        final Item FOCUS_OF_MANA = new MagicCurio("focus_of_mana",3250,-30);
+        final Item FOCUS_OF_ALCHEMY = new MagicCurio("focus_of_alchemy",-50,-4);
+        final Item FOCUS_OF_ALCHEMY_2 = new MagicCurio("focus_of_advanced_alchemy",-300,-13);
+        final Item FOCUS_OF_REGEN = new MagicCurio("focus_of_regen",-300,100);
         final Item RING_REGEN = new MagicCurio("ring_regen",0,5,5);
         final Item RING_BOOST = new MagicCurio("ring_boost",100,0,5);
         final Item RING_ARCANE_DISCOUNT = new MagicCurio("ring_arcane_discount",20,1,50);
@@ -342,9 +348,7 @@ public class RegistryHandler{
         final Item DEMON_STRONG_SPAWN_EGG = new ModSpawnEggItem(STRONG_DEMON,0x000000,0x000000,EGG_PROPERTIES).setRegistryName("strong_demon_spawn_egg");
         final Item DEMON_RAPTOR_SPAWN_EGG = new ModSpawnEggItem(RAPTOR_DEMON,0x000000,0x000000,EGG_PROPERTIES).setRegistryName("demon_raptor_spawn_egg");
 
-
         final Item BIOME_CRYSTAL = new BiomeCrystal("biome_crystal",ITEM_PROPERTIES);
-
 
         ITEMS.add(GREATER_MANA_AMULET);
         ITEMS.add(GREATER_REGEN_AMULET);
@@ -412,8 +416,6 @@ public class RegistryHandler{
         ITEMS.add(POTION_AMPLIFIER_ITEM);
         ITEMS.add(POTION_RELAY_ITEM);
 
-        //ITEMS.add(CHALK_LINE_ITEM);
-
         ITEMS.add(DEMON_STAFF);
 
         ITEMS.add(ARCANE_HELMET);
@@ -441,8 +443,40 @@ public class RegistryHandler{
         ITEMS.add(new MagicChalk("mystic_chalk",() -> CHALK_LINE_3.get(),128));
         ITEMS.add(new MagicChalk("arcane_chalk",() -> CHALK_LINE_4.get(),1024));
 
-        //chalk for crafting stuff
-        ITEMS.add(new BasicChalkItem("chalk",() -> CHALK_BLOCK.get(), ITEM_PROPERTIES,"A crafting ingredient used for crafting magic chalk. \nWill gain its own functionality in another update..."));
+        //chalk for crafting stuff, currently doesn't do much on its own.
+        ITEMS.add(new BasicChalkItem("chalk",() -> CHALK_BLOCK.get(), ITEM_PROPERTIES,"A crafting ingredient used for crafting magic chalk. \nCan also be used in a ritual of shaping to craft sigils."));
+
+        ITEMS.add(new DescribedItem("alchemical_diamond",ITEM_PROPERTIES,"A diamond created using arcane alchemical processes. \nPhysically, it is a perfect gem, but it cannot withstand strong magical energies, and thus cannot be used to craft many advanced magical items."));
+
+        ITEMS.add(new BlockItem(ALCHEMICAL_DIAMOND_ORE.get(),ITEM_PROPERTIES).setRegistryName("alchemical_diamond_ore"));
+        ITEMS.add(new BlockItem(ALCHEMICAL_DIAMOND_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("alchemical_diamond_block"));
+        ITEMS.add(new BlockItem(ALCHEMICAL_STONE.get(),ITEM_PROPERTIES).setRegistryName("alchemical_stone"));
+        ITEMS.add(new DimensionCrystal("dimension_crystal",ITEM_PROPERTIES));
+
+        ITEMS.add(new SigilItem("sigil_water", ITEM_PROPERTIES));
+        ITEMS.add(new SigilItem("sigil_fire", ITEM_PROPERTIES));
+        ITEMS.add(new SigilItem("sigil_earth", ITEM_PROPERTIES));
+        ITEMS.add(new SigilItem("sigil_air", ITEM_PROPERTIES));
+        ITEMS.add(new SigilItem("sigil_binding", ITEM_PROPERTIES));
+        ITEMS.add(new SigilItem("sigil_water_active", ITEM_PROPERTIES,false,true));
+        ITEMS.add(new SigilItem("sigil_fire_active", ITEM_PROPERTIES,false,true));
+        ITEMS.add(new SigilItem("sigil_earth_active", ITEM_PROPERTIES,false,true));
+        ITEMS.add(new SigilItem("sigil_air_active", ITEM_PROPERTIES,false,true));
+        ITEMS.add(new SigilItem("sigil_binding_active", ITEM_PROPERTIES,false,true));
+        ITEMS.add(new SigilItem("sigil_alchemy", ITEM_PROPERTIES));
+        ITEMS.add(new SigilItem("sigil_life", ITEM_PROPERTIES));
+        ITEMS.add(new SigilItem("sigil_nature", ITEM_PROPERTIES));
+        ITEMS.add(new SigilItem("sigil_alchemy_active", ITEM_PROPERTIES,false,true));
+        ITEMS.add(new SigilItem("sigil_life_active", ITEM_PROPERTIES,false,true));
+        ITEMS.add(new SigilItem("sigil_nature_active", ITEM_PROPERTIES,false,true));
+
+        ITEMS.add(new DescribedItem("spell_sigil_scald", ITEM_PROPERTIES,"Currently has no functionality, will be implemented next update."));
+
+
+
+        //ITEMS.add(new BlockItem(INFUSED_GLASS.get(),ITEM_PROPERTIES).setRegistryName("infused_glass"));
+        //ITEMS.add(new BasicItem(ITEM_PROPERTIES,"reflective_coating"));
+        //ITEMS.add(new BasicItem(ITEM_PROPERTIES, "enchanted_mirror_shard",true));
 
 
         for (Item item : ITEMS) {
@@ -455,7 +489,8 @@ public class RegistryHandler{
     static final BlockPropertiesCreator blockPropertiesCreator = new BlockPropertiesCreator();
     static final Block.Properties STONE_PROPERTIES = blockPropertiesCreator.create(Material.STONE,3.5f,2f, SoundType.STONE, true);
 
-    static final Block.Properties CHALK_PROPERTIES = blockPropertiesCreator.create(Material.CLAY,0.4f,7f, SoundType.CALCITE, false).noCollission().noOcclusion();;
+    static final Block.Properties MAGIC_CHALK_PROPERTIES = blockPropertiesCreator.create(Material.CLAY,1.0f,9f, SoundType.CALCITE, false).noCollission().noOcclusion();;
+    static final Block.Properties CHALK_PROPERTIES = blockPropertiesCreator.create(Material.DECORATION,0.2f,2f, SoundType.WOOD, false).noCollission().noOcclusion();;
 
     static final Block.Properties FLOWER_PROPERTIES = blockPropertiesCreator.create(Material.PLANT,0.01f,0f, SoundType.CROP, false).noCollission().noOcclusion();
     static final BlockBehaviour.Properties BRAMBLE_PROPERTIES = blockPropertiesCreator.create(Material.PLANT, 2f, 0.5f,  SoundType.HARD_CROP, false).noOcclusion();
@@ -463,6 +498,8 @@ public class RegistryHandler{
     static final BlockBehaviour.Properties BRAMBLE_PROPERTIES_3 = blockPropertiesCreator.create(Material.PLANT, 6f, 2f,  SoundType.HARD_CROP, true).noOcclusion();
     static final BlockBehaviour.Properties BRAMBLE_PROPERTIES_4 = blockPropertiesCreator.create(Material.PLANT, 10f, 4f,  SoundType.HARD_CROP, true).noOcclusion();
     static final BlockBehaviour.Properties CLAY_PROPERTIES = blockPropertiesCreator.create(Material.CLAY, 3f, 1f,  SoundType.GRAVEL, false);
+    static final BlockBehaviour.Properties GLASS_PROPERTIES = blockPropertiesCreator.create(Material.GLASS, 0.5f, 0f,  SoundType.GLASS, false);
+
     static final BlockBehaviour.Properties WOOL_PROPERTIES = blockPropertiesCreator.create(Material.WOOL, 8f, 800f,  SoundType.WOOL, false);
     static final BlockBehaviour.Properties FIRE_PROPERTIES = blockPropertiesCreator.create(Material.FIRE, 0, 0, SoundType.SAND, false).noOcclusion().lightLevel((BlockState state) -> 15);
     static final Block.Properties GLOW_PROPERTIES = blockPropertiesCreator.create(Material.STONE,1.5f,1f, SoundType.STONE, false).lightLevel((BlockState state) -> 15);
@@ -473,7 +510,9 @@ public class RegistryHandler{
     private static boolean never(BlockState p_235436_0_, BlockGetter p_235436_1_, BlockPos p_235436_2_) {
         return false;
     }
-    static final Block.Properties UNBREAKABLE_BLOCK_PROPERTIES = blockPropertiesCreator.create(Material.STONE,-1,1200f, SoundType.STONE, true).noDrops().noOcclusion().isValidSpawn(RegistryHandler::never).isRedstoneConductor(RegistryHandler::never).isSuffocating(RegistryHandler::never).isViewBlocking(RegistryHandler::never);
+    static final Block.Properties UNBREAKABLE_BLOCK_PROPERTIES = blockPropertiesCreator.create(Material.STONE,-1,12000f, SoundType.STONE, true).noDrops().noOcclusion().isValidSpawn(RegistryHandler::never).isRedstoneConductor(RegistryHandler::never).isSuffocating(RegistryHandler::never).isViewBlocking(RegistryHandler::never);
+
+    static final Block.Properties PORTAL_PROPERTIES = blockPropertiesCreator.create(Material.PORTAL,-1,120000f, SoundType.NETHERITE_BLOCK, false).noDrops().noOcclusion();
 
 
     public static final RegistryObject<Block> DEMONIC_STONE = BLOCKS.register("demonic_stone",() -> new Block(STONE_PROPERTIES));
@@ -485,8 +524,13 @@ public class RegistryHandler{
     public static final RegistryObject<Block> DEMONIC_GLOWSTONE = BLOCKS.register("demonic_glowstone",() -> new Block(GLOW_PROPERTIES));
     public static final RegistryObject<Block> FLESH_BLOCK = BLOCKS.register("flesh_block",() -> new Block(STONE_PROPERTIES));
 
+    public static final RegistryObject<Block> INFUSED_GLASS = BLOCKS.register("infused_glass",() -> new GlassBlock(GLASS_PROPERTIES));
+
     public static final RegistryObject<Block> POTION_EXTENDER = BLOCKS.register("potion_extender",() -> new PotionExtender(STONE_PROPERTIES));
     public static final RegistryObject<Block> POTION_AMPLIFIER = BLOCKS.register("potion_amplifier",() -> new PotionAmplifier(STONE_PROPERTIES));
+
+    public static final RegistryObject<Block> CURSE_ALTAR = BLOCKS.register("curse_altar",() -> new Block(UNBREAKABLE_BLOCK_PROPERTIES));
+
 
     static EntityType<? extends Entity> getClayGolem(){
         return CLAY_GOLEM.get();
@@ -508,22 +552,29 @@ public class RegistryHandler{
     public static final RegistryObject<Block> ARCANE_DIAMOND_BLOCK = BLOCKS.register("arcane_diamond_block",() -> new BasicBlock(STONE_PROPERTIES));
 
     public static final RegistryObject<Block> DEMONIC_GEM_BLOCK = BLOCKS.register("demonic_gem_block",() -> new BasicBlock(STONE_PROPERTIES));
+    public static final RegistryObject<Block> ALCHEMICAL_DIAMOND_ORE = BLOCKS.register("alchemical_diamond_ore",() -> new BasicBlock(STONE_PROPERTIES));
+    public static final RegistryObject<Block> ALCHEMICAL_DIAMOND_BLOCK = BLOCKS.register("alchemical_diamond_block",() -> new BasicBlock(STONE_PROPERTIES));
+    public static final RegistryObject<Block> ALCHEMICAL_STONE = BLOCKS.register("alchemical_stone",() -> new BasicBlock(STONE_PROPERTIES));
+
 
     //IDK about the balancing on the charges and costs of these.
     //the colors look pretty good though
     public static final RegistryObject<ChalkLineBlock> CHALK_LINE_1 = BLOCKS.register("magic_chalk_line",() ->
-            new ChalkLineBlock(CHALK_PROPERTIES,3,1.0f,new ChalkColor(0.3f,0.2f,0.3f,0.5f,0.3f,0.5f)));
+            new ChalkLineBlock(MAGIC_CHALK_PROPERTIES,3,1.0f,new ChalkColor(0.3f,0.2f,0.3f,0.5f,0.3f,0.5f)));
     public static final RegistryObject<ChalkLineBlock> CHALK_LINE_2 = BLOCKS.register("marvelous_chalk_line",() ->
-            new ChalkLineBlock(CHALK_PROPERTIES,6,0.95f,new ChalkColor(0.3f,0.3f,0.15f,0.6f,0.6f,0.3f)));
+            new ChalkLineBlock(MAGIC_CHALK_PROPERTIES,6,0.95f,new ChalkColor(0.3f,0.3f,0.15f,0.6f,0.6f,0.3f)));
     public static final RegistryObject<ChalkLineBlock> CHALK_LINE_3 = BLOCKS.register("mystic_chalk_line",() ->
-            new ChalkLineBlock(CHALK_PROPERTIES,10,0.9f,new ChalkColor(0.1f,0.4f,0.2f,0.1f,0.6f,0.3f)));
+            new ChalkLineBlock(MAGIC_CHALK_PROPERTIES,10,0.9f,new ChalkColor(0.1f,0.4f,0.2f,0.1f,0.6f,0.3f)));
     public static final RegistryObject<ChalkLineBlock> CHALK_LINE_4 = BLOCKS.register("arcane_chalk_line",() ->
-            new ChalkLineBlock(CHALK_PROPERTIES,16,0.8f,new ChalkColor(0.3f,0.03f,0.3f,0.55f,0.05f,0.6f)));
+            new ChalkLineBlock(MAGIC_CHALK_PROPERTIES,16,0.8f,new ChalkColor(0.3f,0.03f,0.3f,0.55f,0.05f,0.6f)));
 
     public static final RegistryObject<BasicChalk> CHALK_BLOCK = BLOCKS.register("chalk",() ->
             new BasicChalk(CHALK_PROPERTIES,new ChalkColor(1.0f,1.0f,1.0f,0f,0f,0f)));
 
     public static final RegistryObject<Block> POTION_RELAY = BLOCKS.register("potion_relay",() -> new PotionRelay());
+
+    public static final RegistryObject<PortalBlock> PORTAL_BLOCK = BLOCKS.register("portal_block",() -> new PortalBlock(PORTAL_PROPERTIES));
+
 
     public static RegistryObject<BlockEntityType<PotionExtenderTile>> PotionExtenderType = TILE_ENTITIES.register("potion_extender_tile",() -> BlockEntityType.Builder.of(PotionExtenderTile::new,POTION_EXTENDER.get()).build(null));
     public static RegistryObject<BlockEntityType<PotionAmplifierTile>> PotionAmplifierType = TILE_ENTITIES.register("potion_amplifier_tile",() -> BlockEntityType.Builder.of(PotionAmplifierTile::new,POTION_AMPLIFIER.get()).build(null));
@@ -532,6 +583,7 @@ public class RegistryHandler{
     public static RegistryObject<BlockEntityType<PotionRelayTile>> PotionRelayType = TILE_ENTITIES.register("potion_relay_tile",() -> BlockEntityType.Builder.of(PotionRelayTile::new, POTION_RELAY.get()).build(null));
 
     public static RegistryObject<BlockEntityType<ChalkTile>> ChalkTileType = TILE_ENTITIES.register("chalk_tile",() -> BlockEntityType.Builder.of(ChalkTile::new, CHALK_LINE_1.get(),CHALK_LINE_2.get(),CHALK_LINE_3.get(),CHALK_LINE_4.get()).build(null));
+    public static RegistryObject<BlockEntityType<PortalBlockEntity>> PortalType = TILE_ENTITIES.register("portal_tile",() -> BlockEntityType.Builder.of(PortalBlockEntity::new, PORTAL_BLOCK.get()).build(null));
 
     public static final RegistryObject<EntityType<? extends Mob>> BASIC_DEMON = ENTITIES.register("demon_basic", () -> EntityType.Builder.of(EntityDemonBasic::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_basic").toString()));
     public static final RegistryObject<EntityType<? extends Mob>> STRONG_DEMON = ENTITIES.register("demon_strong", () -> EntityType.Builder.of(EntityDemonStrong::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_strong").toString()));

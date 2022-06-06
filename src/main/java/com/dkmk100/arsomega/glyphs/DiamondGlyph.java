@@ -3,6 +3,7 @@ package com.dkmk100.arsomega.glyphs;
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.ArsRegistry;
 import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
@@ -42,7 +43,7 @@ public class DiamondGlyph extends TierFourEffect implements ConfigurableGlyph {
         if ((world instanceof ServerLevel) && rayTraceResult instanceof BlockHitResult) {
             BlockPos pos = new BlockPos(((BlockHitResult) rayTraceResult).getBlockPos());
 
-            if (!world.getBlockState(pos).is(Tags.Blocks.STONE)) {
+            if (world.getBlockState(pos).getBlock() != RegistryHandler.ALCHEMICAL_STONE.get()) {
                 return;
             }
             double amp = spellStats.getAmpMultiplier();
@@ -59,24 +60,29 @@ public class DiamondGlyph extends TierFourEffect implements ConfigurableGlyph {
             BlockState state = Blocks.DIRT.defaultBlockState();
             if (!canSummon(shooter)) {
                 if (amp > 30 + cost && tier >= 7) {
+                    state = Blocks.CHISELED_RED_SANDSTONE.defaultBlockState();
+                } else if(amp > 20 && tier >= 6) {
+                    state = Blocks.RED_SAND.defaultBlockState();
+                }else if(amp > 16 && tier >= 4) {
                     state = Blocks.SANDSTONE.defaultBlockState();
-                } else {
+                }
+                else{
                     state = Blocks.SAND.defaultBlockState();
                 }
             } else if (amp > 30 + cost && tier >= 7) {
                 state = Blocks.ANCIENT_DEBRIS.defaultBlockState();
-            } else if (amp > 27 + cost && tier >= 6) {
-                state = Blocks.DIAMOND_ORE.defaultBlockState();
             } else if (amp > 25 + cost && tier >= 6) {
-                state = Blocks.DEEPSLATE_DIAMOND_ORE.defaultBlockState();
-            } else if (amp > 17 + cost && tier >= 5) {
+                state = RegistryHandler.ALCHEMICAL_DIAMOND_ORE.get().defaultBlockState();
+            } else if (amp > 19 + cost && tier >= 5) {
                 state = Blocks.EMERALD_BLOCK.defaultBlockState();
             } else if (amp > 13 + cost && tier >= 4) {
-                state = Blocks.GOLD_BLOCK.defaultBlockState();
-            } else if (amp > 10 + cost && tier >= 3) {
-                state = Blocks.REDSTONE_BLOCK.defaultBlockState();
+                state = Blocks.GOLD_ORE.defaultBlockState();
+            } else if (amp > 12 + cost && tier >= 4) {
+                state = Blocks.QUARTZ_BLOCK.defaultBlockState();
+            }else if (amp > 10 + cost && tier >= 3) {
+                state = Blocks.REDSTONE_ORE.defaultBlockState();
             } else if (amp > 7 + cost && tier >= 3) {
-                state = Blocks.LAPIS_BLOCK.defaultBlockState();
+                state = Blocks.LAPIS_ORE.defaultBlockState();
             } else if (amp > 2 + cost && tier >= 2) {
                 state = Blocks.IRON_ORE.defaultBlockState();
             } else if (amp > 1 + cost && tier >= 1) {
@@ -92,7 +98,7 @@ public class DiamondGlyph extends TierFourEffect implements ConfigurableGlyph {
 
     @Override
     public int getDefaultManaCost() {
-        return 1200;
+        return 650;
     }
 
     @Override

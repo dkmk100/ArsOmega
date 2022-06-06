@@ -1,0 +1,13 @@
+{
+  "type": "arsomega:transmute",
+  "input": {
+    "item": "minecraft:allium",
+    "count": 1
+  },
+  "output": {
+    "item": "minecraft:rose_bush",
+    "count": 1
+  },
+  "reversible": false,
+  "minAmp": 0
+}

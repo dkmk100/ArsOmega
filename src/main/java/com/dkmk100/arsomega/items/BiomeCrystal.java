@@ -55,7 +55,6 @@ public class BiomeCrystal extends Item {
             } else {
                 changed = true;
                 stack.getOrCreateTag().putString("biome", biome);
-                ArsOmega.LOGGER.info("Biome: " + biome);
             }
 
             if (changed) {

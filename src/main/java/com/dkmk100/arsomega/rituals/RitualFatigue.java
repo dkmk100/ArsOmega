@@ -25,9 +25,9 @@ public class RitualFatigue extends AbstractRitual {
         if (world.isClientSide) {
             BlockPos pos = this.getPos();
 
-            for (int i = 0; i < 100; ++i) {
+            for (int i = 0; i < 40; ++i) {
                 Vec3 particlePos = (new Vec3((double) pos.getX(), (double) pos.getY(), (double) pos.getZ())).add(0.5D, 0.0D, 0.5D);
-                particlePos = particlePos.add(ParticleUtil.pointInSphere().multiply(3.0D, 3.0D, 3.0D));
+                particlePos = particlePos.add(ParticleUtil.pointInSphere().multiply(4.0D, 4.0D, 4.0D));
                 world.addParticle(ParticleLineData.createData(this.getCenterColor()), particlePos.x(), particlePos.y(), particlePos.z(), (double) pos.getX() + 0.5D, (double) (pos.getY() + 1), (double) pos.getZ() + 0.5D);
             }
         }

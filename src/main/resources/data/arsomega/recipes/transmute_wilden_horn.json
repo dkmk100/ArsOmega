@@ -1,0 +1,13 @@
+{
+  "type": "arsomega:transmute",
+  "input": {
+    "item": "ars_nouveau:wilden_horn",
+    "count": 1
+  },
+  "output": {
+    "item": "ars_nouveau:wilden_wing",
+    "count": 1
+  },
+  "reversible": true,
+  "minAmp": 2
+}

@@ -1,0 +1,13 @@
+{
+  "type": "arsomega:transmute",
+  "input": {
+    "item": "minecraft:vine",
+    "count": 1
+  },
+  "output": {
+    "item": "minecraft:lily_pad",
+    "count": 1
+  },
+  "reversible": true,
+  "minAmp": 0
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:sigil_earth"
+    },
+    {
+      "item": "ars_nouveau:earth_essence"
+    }
+  ],
+  "result": {
+    "item": "arsomega:sigil_earth_active"
+  }
+}

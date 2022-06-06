@@ -3,6 +3,8 @@ package com.dkmk100.arsomega.items;
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.ISpellCaster;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.MobSpawnType;
@@ -31,10 +33,14 @@ public class DemonStaff extends BasicItem {
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
         ItemStack stack = playerIn.getItemInHand(handIn);
         if(worldIn instanceof ServerLevel) {
+            if(!worldIn.dimension().equals(ResourceKey.create(Registry.DIMENSION_REGISTRY, RegistryHandler.DIMTYPE))){
+                //not in demon realm
+                return new InteractionResultHolder<>(InteractionResult.FAIL,stack);
+            }
             Entity ent = RegistryHandler.BOSS_DEMON_KING.get().spawn((ServerLevel) worldIn, stack, playerIn, playerIn.blockPosition(), MobSpawnType.MOB_SUMMONED, true, false);
             worldIn.addFreshEntity(ent);
             //stack.shrink(1);
-            playerIn.getCooldowns().addCooldown(this, 100);
+            playerIn.getCooldowns().addCooldown(this, 200);
         }
 
         return new InteractionResultHolder<>(InteractionResult.SUCCESS,stack);

@@ -72,7 +72,7 @@ public class FormProjectileBurst extends AbstractCastMethod {
             projectiles.add(spell);
         }
 
-        float velocity = 0.2F + 0.1f*(float)stats.getBuffCount(AugmentAccelerate.INSTANCE);
+        float velocity = 0.4F + 0.2f*(float)stats.getBuffCount(AugmentAccelerate.INSTANCE);
         Iterator var14 = projectiles.iterator();
 
         int i2 = 0;

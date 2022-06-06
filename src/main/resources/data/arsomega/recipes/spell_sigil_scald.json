@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:sigil_water_active"
+    },
+    {
+      "item": "arsomega:sigil_fire_active"
+    }
+  ],
+  "result": {
+    "item": "arsomega:spell_sigil_scald"
+  }
+}

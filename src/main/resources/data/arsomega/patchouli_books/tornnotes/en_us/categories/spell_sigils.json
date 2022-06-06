@@ -1,0 +1,6 @@
+{
+  "name": "Spell Sigils",
+  "description": "Spell sigils are special variants of sigils that, when their symbol is draw in-world with chalk, can be cast and have various effects.",
+  "icon": "arsomega:spell_sigil_scald",
+  "sortnum":12
+}

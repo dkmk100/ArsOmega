@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:sigil_alchemy"
+    },
+    {
+      "item": "arsomega:alchemy_essence"
+    }
+  ],
+  "result": {
+    "item": "arsomega:sigil_alchemy_active"
+  }
+}

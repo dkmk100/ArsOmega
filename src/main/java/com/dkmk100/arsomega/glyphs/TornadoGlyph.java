@@ -51,7 +51,7 @@ public class TornadoGlyph extends TierFourEffect{
 
     @Override
     public int getDefaultManaCost() {
-        return 1000;
+        return 900;
     }
 
     @Nonnull

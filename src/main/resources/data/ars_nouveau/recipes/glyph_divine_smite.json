@@ -14,6 +14,11 @@
     },
     {
       "item": {
+        "item": "arsomega:sigil_air_active"
+      }
+    },
+    {
+      "item": {
         "item": "ars_nouveau:glyph_lightning"
       }
     },

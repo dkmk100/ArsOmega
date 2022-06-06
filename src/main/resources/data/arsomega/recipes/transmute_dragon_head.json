@@ -1,0 +1,13 @@
+{
+  "type": "arsomega:transmute",
+  "input": {
+    "item": "minecraft:dragon_head",
+    "count": 1
+  },
+  "output": {
+    "item": "minecraft:wither_skeleton_skull",
+    "count": 1
+  },
+  "reversible": true,
+  "minAmp": 3
+}

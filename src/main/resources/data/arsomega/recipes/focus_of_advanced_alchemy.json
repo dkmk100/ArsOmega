@@ -8,12 +8,12 @@
   "pedestalItems": [
     {
       "item": {
-        "tag": "arsomega:infused_diamond_block"
+        "item": "arsomega:enchanted_diamond_block"
       }
     },
     {
       "item": {
-        "tag": "arsomega:infused_diamond_block"
+        "item": "arsomega:enchanted_diamond_block"
       }
     },
     {

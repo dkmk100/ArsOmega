@@ -1,0 +1,13 @@
+{
+  "type": "arsomega:transmute",
+  "input": {
+    "item": "minecraft:ender_eye",
+    "count": 1
+  },
+  "output": {
+    "item": "ars_nouveau:wilden_spike",
+    "count": 1
+  },
+  "reversible": true,
+  "minAmp": 3
+}

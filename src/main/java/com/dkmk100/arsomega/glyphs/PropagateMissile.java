@@ -59,7 +59,7 @@ public class PropagateMissile extends AbstractEffect {
 
     @Nonnull
     public Set<AbstractAugment> getCompatibleAugments() {
-        return this.augmentSetOf(new AbstractAugment[]{AugmentPierce.INSTANCE, AugmentSplit.INSTANCE, AugmentAccelerate.INSTANCE, AugmentSensitive.INSTANCE, AugmentDurationDown.INSTANCE, AugmentExtendTime.INSTANCE,AugmentAOE.INSTANCE});
+        return FormMissile.INSTANCE.getCompatibleAugments();
     }
 
     public SpellTier getTier() {

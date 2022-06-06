@@ -1,0 +1,31 @@
+{
+  "type": "ars_nouveau:imbuement",
+  "input": {
+    "tag": "minecraft:small_flowers"
+  },
+  "output": "minecraft:wither_rose",
+  "count": 1,
+  "source": 500,
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "minecraft:wither_skeleton_skull"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:prismarine_shard"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:blaze_rod"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:emerald_block"
+      }
+    }
+  ]
+}

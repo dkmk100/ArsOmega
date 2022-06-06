@@ -62,9 +62,9 @@ public class MagicChalk extends BasicItem{
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip2, TooltipFlag flagIn) {
-        tooltip2.add(new TextComponent("Magic chalk can be used to draw lines of magic chalk on the ground. " +
-                "\nThese can then have a touch spell added to them by the drawer, which will affect the entire line. " +
-                "\nMagic chalk can take multiple charges of a spell, and is good for defense in a pinch. "));
+        tooltip2.add(new TextComponent("Used to draw lines of magic chalk on the ground. " +
+                "\nThese can then be inscribed with a touch spell, which will affect the entire line. " +
+                "\nCan take multiple charges of a spell, and is good for defense in a pinch. "));
         super.appendHoverText(stack, worldIn, tooltip2, flagIn);
     }
 

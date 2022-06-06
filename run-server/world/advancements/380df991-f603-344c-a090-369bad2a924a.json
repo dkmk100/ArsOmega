@@ -95,6 +95,12 @@
     },
     "done": true
   },
+  "minecraft:recipes/misc/pumpkin_seeds": {
+    "criteria": {
+      "has_pumpkin": "2022-06-02 12:08:12 -0700"
+    },
+    "done": true
+  },
   "minecraft:recipes/building_blocks/magenta_wool": {
     "criteria": {
       "has_white_wool": "2022-05-07 16:49:27 -0700"
@@ -206,6 +212,12 @@
   "minecraft:recipes/misc/firework_rocket_simple": {
     "criteria": {
       "has_gunpowder": "2022-05-21 14:10:55 -0700"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/emerald_block": {
+    "criteria": {
+      "has_emerald": "2022-06-02 12:14:00 -0700"
     },
     "done": true
   },
@@ -368,6 +380,12 @@
   "minecraft:recipes/redstone/tnt": {
     "criteria": {
       "has_gunpowder": "2022-05-21 14:10:55 -0700"
+    },
+    "done": true
+  },
+  "minecraft:recipes/misc/emerald": {
+    "criteria": {
+      "has_emerald_block": "2022-06-02 12:18:14 -0700"
     },
     "done": true
   },
@@ -602,7 +620,8 @@
   "minecraft:adventure/kill_all_mobs": {
     "criteria": {
       "minecraft:skeleton": "2022-05-31 15:49:47 -0700",
-      "minecraft:spider": "2022-05-18 14:07:54 -0700"
+      "minecraft:spider": "2022-05-18 14:07:54 -0700",
+      "minecraft:zombie": "2022-06-02 12:18:11 -0700"
     },
     "done": false
   },
@@ -660,6 +679,12 @@
     },
     "done": true
   },
+  "minecraft:recipes/building_blocks/jack_o_lantern": {
+    "criteria": {
+      "has_carved_pumpkin": "2022-06-02 12:07:00 -0700"
+    },
+    "done": true
+  },
   "minecraft:recipes/decorations/granite_wall_from_granite_stonecutting": {
     "criteria": {
       "has_granite": "2022-05-18 14:17:28 -0700"
@@ -702,6 +727,12 @@
     },
     "done": true
   },
+  "minecraft:recipes/misc/gold_ingot_from_gold_block": {
+    "criteria": {
+      "has_gold_block": "2022-06-02 12:18:37 -0700"
+    },
+    "done": true
+  },
   "minecraft:recipes/building_blocks/orange_concrete_powder": {
     "criteria": {
       "has_sand": "2022-05-19 16:11:34 -0700"
@@ -741,6 +772,12 @@
   "minecraft:recipes/misc/paper": {
     "criteria": {
       "has_reeds": "2022-05-19 16:00:37 -0700"
+    },
+    "done": true
+  },
+  "minecraft:end/root": {
+    "criteria": {
+      "entered_end": "2022-06-02 13:53:49 -0700"
     },
     "done": true
   },
@@ -1143,21 +1180,27 @@
     },
     "done": true
   },
-  "minecraft:recipes/building_blocks/diamond_block": {
-    "criteria": {
-      "has_diamond": "2022-05-31 15:51:20 -0700"
-    },
-    "done": true
-  },
   "minecraft:recipes/redstone/heavy_weighted_pressure_plate": {
     "criteria": {
       "has_iron_ingot": "2022-05-31 15:39:45 -0700"
     },
     "done": true
   },
+  "minecraft:recipes/building_blocks/diamond_block": {
+    "criteria": {
+      "has_diamond": "2022-05-31 15:51:20 -0700"
+    },
+    "done": true
+  },
   "minecraft:recipes/transportation/dark_oak_boat": {
     "criteria": {
       "in_water": "2022-05-28 12:56:01 -0700"
+    },
+    "done": true
+  },
+  "minecraft:recipes/food/pumpkin_pie": {
+    "criteria": {
+      "has_carved_pumpkin": "2022-06-02 12:07:00 -0700"
     },
     "done": true
   },
@@ -1170,6 +1213,12 @@
   "minecraft:recipes/decorations/andesite_wall_from_andesite_stonecutting": {
     "criteria": {
       "has_andesite": "2022-05-18 14:17:29 -0700"
+    },
+    "done": true
+  },
+  "minecraft:story/enter_the_end": {
+    "criteria": {
+      "entered_end": "2022-06-02 13:53:49 -0700"
     },
     "done": true
   },

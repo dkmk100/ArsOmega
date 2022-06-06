@@ -1,0 +1,13 @@
+{
+  "type": "arsomega:transmute",
+  "input": {
+    "item": "minecraft:nautilus_shell",
+    "count": 1
+  },
+  "output": {
+    "item": "minecraft:rabbit_foot",
+    "count": 1
+  },
+  "reversible": true,
+  "minAmp": 3
+}

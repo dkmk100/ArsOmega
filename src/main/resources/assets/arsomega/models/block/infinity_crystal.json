@@ -6,7 +6,8 @@
         32
     ], 
     "textures": {
-        "main": "arsomega:blocks/infinitesorcejar"
+        "main": "arsomega:blocks/infinitesorcejar",
+        "particle": "arsomega:blocks/infinitesorcejar"
     }, 
     "elements": [
         {

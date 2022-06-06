@@ -24,7 +24,7 @@ import net.minecraft.world.phys.Vec3;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Ref;
 
-public class RitualChangeBiome  extends AbstractRitual {
+public class RitualChangeBiome extends AbstractRitual {
 
     Biome biome = null;
     protected void tick() {

@@ -5,6 +5,8 @@
     "arsomega:infused_diamond_block",
     "arsomega:enchanted_diamond_block",
     "arsomega:arcane_diamond_block",
-    "arsomega:demonic_gem_block"
+    "arsomega:demonic_gem_block",
+    "arsomega:alchemical_diamond_block",
+    "arsomega:alchemical_diamond_ore"
   ]
 }

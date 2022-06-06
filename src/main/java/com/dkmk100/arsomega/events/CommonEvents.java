@@ -77,7 +77,7 @@ public class CommonEvents {
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void useEvent(LivingEntityUseItemEvent.Start e) {
         if (e.getEntityLiving().hasEffect(ModPotions.STONE_PETRIFICATION)) {
             e.setCanceled(true);

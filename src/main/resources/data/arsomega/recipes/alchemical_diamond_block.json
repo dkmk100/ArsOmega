@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "arsomega:alchemical_diamond"
+    }
+  },
+  "result": {
+    "item": "arsomega:alchemical_diamond_block"
+  }
+}

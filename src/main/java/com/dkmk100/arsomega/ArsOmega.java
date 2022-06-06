@@ -3,6 +3,7 @@ package com.dkmk100.arsomega;
 import com.dkmk100.arsomega.blocks.ChalkLineBlock;
 import com.dkmk100.arsomega.client.renderer.GenericBipedRenderer;
 import com.dkmk100.arsomega.client.renderer.PlainRenderer;
+import com.dkmk100.arsomega.client.renderer.PortalRenderer;
 import com.dkmk100.arsomega.client.renderer.RaptorRenderer;
 import com.dkmk100.arsomega.entities.*;
 import com.dkmk100.arsomega.potions.ModPotions;
@@ -118,8 +119,8 @@ public class ArsOmega
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CHALK_LINE_2.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CHALK_LINE_3.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CHALK_LINE_4.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CHALK_BLOCK.get(), RenderType.cutout());
     }
-
 
     private void RegisterRenderers(EntityRenderersEvent.RegisterRenderers event){
         RegisterMobRenderers(event);
@@ -137,6 +138,8 @@ public class ArsOmega
         event.registerEntityRenderer(RegistryHandler.DIVINE_SMITE.get(), (EntityRendererProvider.Context context) -> new LightningBoltRenderer(context));
         event.registerEntityRenderer(RegistryHandler.WHIRLPOOL.get(), (EntityRendererProvider.Context context) -> new PlainRenderer(context));
 
+
+        event.registerBlockEntityRenderer(RegistryHandler.PortalType.get(), PortalRenderer::new);
     }
     @OnlyIn(Dist.CLIENT)
     private void RegisterMobRenderer(EntityType<? extends Mob> entity, String registryName, EntityRenderersEvent.RegisterRenderers event){

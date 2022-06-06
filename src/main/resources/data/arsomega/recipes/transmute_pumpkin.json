@@ -1,0 +1,13 @@
+{
+  "type": "arsomega:transmute",
+  "input": {
+    "item": "minecraft:pumpkin",
+    "count": 1
+  },
+  "output": {
+    "item": "minecraft:melon",
+    "count": 1
+  },
+  "reversible": true,
+  "minAmp": 0
+}

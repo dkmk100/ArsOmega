@@ -6,6 +6,7 @@ import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import com.hollingsworth.arsnouveau.common.entity.ColoredProjectile;
+import com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell;
 import com.mojang.math.Vector3d;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -91,6 +92,9 @@ public class EntityTornado extends ColoredProjectile {
 
     @Override
     public void tick() {
+        final boolean crashPrevention = false;
+        final boolean killSpells = false;
+
         super.tick();
         boolean active = level.getBlockState(new BlockPos(position()).above()).isAir();
         int aoe = this.entityData.get(AOE);
@@ -113,9 +117,22 @@ public class EntityTornado extends ColoredProjectile {
                 }
                 List<Entity> entities = this.level.getEntities(this, AABB.ofSize(this.position(), radius, radius, radius));
                 targets = new ArrayList<>();
+
                 for (Entity entity : entities) {
                     if (entity.isAlive() && Math.abs(entity.position().distanceToSqr(this.position())) <= radius * radius) {
-                        targets.add(entity);
+                        //workaround to prevent server thread freeze
+                        if (crashPrevention && entity instanceof EntityProjectileSpell) {
+                            if(killSpells) {
+                                ArsOmega.LOGGER.warn("Removed spell entity of type: "+entity.getType());
+                                entity.remove(RemovalReason.KILLED);
+                            }
+                            else{
+                                ArsOmega.LOGGER.warn("Ignored spell entity of type: "+entity.getType());
+                            }
+                        }
+                        else {
+                            targets.add(entity);
+                        }
                     }
                 }
             }
@@ -128,9 +145,17 @@ public class EntityTornado extends ColoredProjectile {
                     continue;
                 }
                 if (Math.abs(entity.position().distanceToSqr(this.position())) <= radius * radius && active) {
+                    if(entity.position().x == this.position().x && entity.position().z == this.position().z){
+                        ArsOmega.LOGGER.warn("entity in same column as tornado");
+                        continue;
+                    }
                     Vec3 toEntity = entity.position().subtract(this.position());
                     Vec3 pos = this.position();
+
                     double distance = Math.sqrt(toEntity.x()*toEntity.x() + toEntity.z() * toEntity.z());//avoid using .distance because we don't use y
+                    if(distance==0){
+                        ArsOmega.LOGGER.warn("zero distance");
+                    }
                     Vec3 normalizedTo = toEntity.scale(1/distance);
                     double entityAngle = Math.asin(normalizedTo.z);
                     if (toEntity.x < 0) {
@@ -151,7 +176,14 @@ public class EntityTornado extends ColoredProjectile {
                     }
                     Vec3 newPos = new Vec3(pos.x + angleDir.x, entity.position().y, pos.z + angleDir.z);
                     Vec3 dir = newPos.subtract(entity.position());
-                    dir.scale(1/Math.sqrt(dir.x*dir.x + dir.z * dir.z));
+
+                    if(dir.x==0 && dir.z==0){
+                        ArsOmega.LOGGER.info("zero dir...");
+                    }
+                    else{
+                        dir.scale(1/Math.sqrt(dir.x*dir.x + dir.z * dir.z));
+                    }
+
                     if(toEntity.y< 4 + 2*aoe + accelerate) {
                         dir = new Vec3(dir.x, 0.1, dir.z);
                     }
@@ -161,7 +193,14 @@ public class EntityTornado extends ColoredProjectile {
 
                     double speed = 0.45 + 0.1*accelerate + (0.015+0.002*accelerate)*Math.abs(entity.position().distanceTo(this.position()));
 
-                    entity.setDeltaMovement(dir.multiply(speed, 1, speed));
+
+                    if(Double.isNaN(dir.x) || Double.isNaN(dir.y)){
+                        ArsOmega.LOGGER.error("Nan dir value (t): "+dir.toString());
+                        throw new ArithmeticException("Error: NaN direction on tornado. Please report on Ars Omega github page.");
+                    }
+                    else {
+                        entity.setDeltaMovement(dir.multiply(speed, 1, speed));
+                    }
                     entity.hasImpulse = true;
                     entity.hurtMarked = true;
                     entity.setNoGravity(true);

@@ -4,6 +4,7 @@ import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
+import com.hollingsworth.arsnouveau.common.spell.method.MethodProjectile;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -106,7 +107,7 @@ public class PropagateProjectile extends AbstractEffect {
     @Override
     @Nonnull
     public Set<AbstractAugment> getCompatibleAugments() {
-        return this.augmentSetOf(new AbstractAugment[]{AugmentPierce.INSTANCE, AugmentSplit.INSTANCE, AugmentAccelerate.INSTANCE, AugmentSensitive.INSTANCE});
+        return MethodProjectile.INSTANCE.getCompatibleAugments();
     }
 
     @Override

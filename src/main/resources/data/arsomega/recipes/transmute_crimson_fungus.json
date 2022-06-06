@@ -1,0 +1,13 @@
+{
+  "type": "arsomega:transmute",
+  "input": {
+    "item": "minecraft:crimson_fungus",
+    "count": 1
+  },
+  "output": {
+    "item": "minecraft:warped_fungus",
+    "count": 1
+  },
+  "reversible": true,
+  "minAmp": 1
+}

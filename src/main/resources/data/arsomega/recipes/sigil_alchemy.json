@@ -1,0 +1,17 @@
+{
+  "type": "arsomega:sigil",
+  "pattern": [
+    "xxxxxxx",
+    "xx x xx",
+    "x xxx x",
+    "xxxBxxx",
+    "x xxx x",
+    "xx x xx",
+    "xxxxxxx"
+  ],
+  "output": {
+    "item": "arsomega:sigil_alchemy",
+    "count": 2
+  },
+  "sourceCost": 500
+}

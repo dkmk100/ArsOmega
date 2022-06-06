@@ -1,0 +1,13 @@
+{
+  "type": "arsomega:transmute",
+  "input": {
+    "item": "minecraft:cornflower",
+    "count": 1
+  },
+  "output": {
+    "item": "minecraft:lily_of_the_valley",
+    "count": 1
+  },
+  "reversible": true,
+  "minAmp": 1
+}

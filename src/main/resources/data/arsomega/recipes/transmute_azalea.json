@@ -1,0 +1,13 @@
+{
+  "type": "arsomega:transmute",
+  "input": {
+    "item": "minecraft:azalea",
+    "count": 1
+  },
+  "output": {
+    "item": "minecraft:sea_pickle",
+    "count": 1
+  },
+  "reversible": true,
+  "minAmp": 2
+}

@@ -4,6 +4,7 @@ import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDurationDown;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtendTime;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodProjectile;
+import com.hollingsworth.arsnouveau.common.spell.method.MethodSelf;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -60,7 +61,7 @@ public class PropagateSelf extends AbstractEffect {
     @Override
     @Nonnull
     public Set<AbstractAugment> getCompatibleAugments() {
-        return this.augmentSetOf(new AbstractAugment[]{});
+        return MethodSelf.INSTANCE.getCompatibleAugments();
     }
 
     @Override

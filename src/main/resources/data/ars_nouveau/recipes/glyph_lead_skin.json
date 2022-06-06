@@ -9,6 +9,16 @@
     },
     {
       "item": {
+        "item": "arsomega:alchemy_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:sigil_alchemy_active"
+      }
+    },
+    {
+      "item": {
         "item": "minecraft:shield"
       }
     },
@@ -19,7 +29,12 @@
     },
     {
       "item": {
-        "item": "minecraft:diamond"
+        "item": "minecraft:iron_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:diamond_block"
       }
     }
   ],

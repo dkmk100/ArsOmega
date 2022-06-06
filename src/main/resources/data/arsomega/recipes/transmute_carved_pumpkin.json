@@ -1,0 +1,13 @@
+{
+  "type": "arsomega:transmute",
+  "input": {
+    "item": "minecraft:carved_pumpkin",
+    "count": 1
+  },
+  "output": {
+    "item": "minecraft:beehive",
+    "count": 1
+  },
+  "reversible": true,
+  "minAmp": 0
+}

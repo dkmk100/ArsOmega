@@ -1,0 +1,17 @@
+{
+  "type": "arsomega:sigil",
+  "pattern": [
+    "xxxxxxx",
+    "x x x x",
+    "xxx xxx",
+    "x  B  x",
+    "xxx xxx",
+    "x x x x",
+    "xxxxxxx"
+  ],
+  "output": {
+    "item": "arsomega:sigil_earth",
+    "count": 2
+  },
+  "sourceCost": 500
+}

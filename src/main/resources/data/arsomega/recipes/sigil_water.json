@@ -1,0 +1,17 @@
+{
+  "type": "arsomega:sigil",
+  "pattern": [
+    " xxxxx ",
+    "xx x xx",
+    "x  x  x",
+    "xxxBxxx",
+    "x  x  x",
+    "xx x xx",
+    " xxxxx "
+  ],
+  "output": {
+    "item": "arsomega:sigil_water",
+    "count": 2
+  },
+  "sourceCost": 500
+}

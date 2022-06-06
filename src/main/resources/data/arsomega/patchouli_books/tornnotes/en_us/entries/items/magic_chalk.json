@@ -5,19 +5,23 @@
   "pages": [
     {
       "type": "text",
-      "text": "Infused diamonds are a crafting ingredient made in an imbuement chamber. They can be upgraded to enchanted diamonds in an enchanting appratus, and eventually further upgraded to arcane diamonds."
+      "text": "Magic chalk can be used in-world to draw lines of magic chalk. These can be infused with a touch spell, using either spell parchment or a spellbook, which the spell line will cast on any entity that touches it. Chalk lines can be infused with the spell more than once, building up multiple charges that they'll use one at a time. Magic chalk does not hit the owner, making it ideal for protective circles."
     },
     {
-      "type": "imbuement_recipe",
-      "recipe": "arsomega:infused_diamond"
+      "type": "patchouli:crafting",
+      "recipe": "arsomega:magic_chalk"
     },
     {
-      "type": "apparatus_recipe",
-      "recipe": "arsomega:enchanted_diamond"
+      "type": "patchouli:crafting",
+      "recipe": "arsomega:marvelous_chalk"
     },
     {
-      "type": "apparatus_recipe",
-      "recipe": "arsomega:arcane_diamond"
+      "type": "patchouli:crafting",
+      "recipe": "arsomega:mystic_chalk"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "arsomega:arcane_chalk"
     }
   ]
 }

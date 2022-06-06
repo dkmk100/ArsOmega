@@ -19,7 +19,7 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class EnchantRecipe  implements Recipe<Container> {
+public class EnchantRecipe implements Recipe<Container> {
     public final ItemStack input;
 
     public final ItemStack output;
