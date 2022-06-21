@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#A#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "arsomega:arcane_diamond"
+    },
+    "A": {
+      "item": "arsomega:enchanted_diamond_apple"
+    }
+  },
+  "result": {
+    "item": "arsomega:arcane_apple"
+  }
+}

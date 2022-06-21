@@ -6,14 +6,20 @@ import com.dkmk100.arsomega.armors.BasicArmorMaterial;
 import com.dkmk100.arsomega.base_blocks.BasicBlock;
 import com.dkmk100.arsomega.base_blocks.BlockPropertiesCreator;
 import com.dkmk100.arsomega.blocks.*;
-import com.dkmk100.arsomega.crafting.CustomRecipeType;
-import com.dkmk100.arsomega.crafting.EnchantRecipe;
-import com.dkmk100.arsomega.crafting.SigilRecipe;
-import com.dkmk100.arsomega.crafting.TransmuteRecipe;
+import com.dkmk100.arsomega.crafting.*;
+import com.dkmk100.arsomega.empathy_api.AbstractEmpathyIngredient;
+import com.dkmk100.arsomega.empathy_api.EmpathyAPI;
+import com.dkmk100.arsomega.empathy_components.HarmingEmpathyIngredient;
+import com.dkmk100.arsomega.empathy_components.HealingEmpathyIngredient;
+import com.dkmk100.arsomega.empathy_components.MultiplierIngredient;
+import com.dkmk100.arsomega.enchants.ProactiveEnchant;
 import com.dkmk100.arsomega.entities.*;
 import com.dkmk100.arsomega.glyphs.*;
 import com.dkmk100.arsomega.items.*;
+import com.dkmk100.arsomega.potions.ModPotions;
 import com.dkmk100.arsomega.rituals.*;
+import com.dkmk100.arsomega.spell_sigils.PetrifySigil;
+import com.dkmk100.arsomega.spell_sigils.ScaldSigil;
 import com.dkmk100.arsomega.tools.BasicItemTier;
 import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
@@ -26,9 +32,15 @@ import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtendTime;
 import net.minecraft.core.Registry;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.food.Foods;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.GlassBlock;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.effect.MobEffects;
@@ -51,9 +63,6 @@ import net.minecraftforge.registries.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.OreBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -83,27 +92,41 @@ public class RegistryHandler{
     public static final RecipeSerializer<SigilRecipe> SIGIL_SERIALIZER = new SigilRecipe.Serializer();
     public static final RecipeType<SigilRecipe> SIGIL_TYPE = new CustomRecipeType();
 
+    public static final RecipeSerializer<WriteProactiveRecipe> WRITE_PROACTIVE_SERIALIZER = new WriteProactiveRecipe.Serializer();
+    public static final RecipeType<WriteProactiveRecipe> WRITE_PROACTIVE_TYPE = new CustomRecipeType();
+
+    public static final RecipeSerializer<ProactiveEnchantRecipe> PROACTIVE_ENCHANT_SERIALIZER = new ProactiveEnchantRecipe.Serializer();
+    public static final RecipeType<ProactiveEnchantRecipe> PROACTIVE_ENCHANT_TYPE = new CustomRecipeType();
+
+    public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, ArsOmega.MOD_ID);
+
     public static final String FIRE_FOCUS_DAMAGE = "hellflare";
 
     public static void RegisterRecipeTypes(){
         Registry.register(Registry.RECIPE_TYPE, new ResourceLocation("arsomega", "transmute"), TRANSMUTE_TYPE);
         Registry.register(Registry.RECIPE_TYPE, new ResourceLocation("arsomega", "enchant"), ENCHANT_TYPE);
         Registry.register(Registry.RECIPE_TYPE, new ResourceLocation("arsomega", "sigil"), SIGIL_TYPE);
-
+        Registry.register(Registry.RECIPE_TYPE, new ResourceLocation("arsomega", "write_proactive"), WRITE_PROACTIVE_TYPE);
+        Registry.register(Registry.RECIPE_TYPE, new ResourceLocation("arsomega", "proactive_enchant"), PROACTIVE_ENCHANT_TYPE);
+        ArsNouveauAPI.getInstance().getEnchantingRecipeTypes().add(WRITE_PROACTIVE_TYPE);
+        ArsNouveauAPI.getInstance().getEnchantingRecipeTypes().add(PROACTIVE_ENCHANT_TYPE);
     }
     public static void RegisterRecipeSerializers(RegistryEvent.Register<RecipeSerializer<?>> event){
         event.getRegistry().register(TRANSMUTE_SERIALIZER.setRegistryName(new ResourceLocation("arsomega", "transmute")));
         event.getRegistry().register(ENCHANT_SERIALIZER.setRegistryName(new ResourceLocation("arsomega", "enchant")));
         event.getRegistry().register(SIGIL_SERIALIZER.setRegistryName(new ResourceLocation("arsomega", "sigil")));
-
-
+        event.getRegistry().register(WRITE_PROACTIVE_SERIALIZER.setRegistryName(new ResourceLocation("arsomega", "write_proactive")));
+        event.getRegistry().register(PROACTIVE_ENCHANT_SERIALIZER.setRegistryName(new ResourceLocation("arsomega", "proactive_enchant")));
     }
+
+    public static final RegistryObject<Enchantment> PROACTIVE_ENCHANT = ENCHANTMENTS.register("proactive",ProactiveEnchant::new);
 
     public static void init (){
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         BLOCKS.register(bus);
         TILE_ENTITIES.register(bus);
         ENTITIES.register(bus);
+        ENCHANTMENTS.register(bus);
         //StructureInit.RegisterStructures(bus);
         //ExperimentalStructureInit.RegisterStructures(bus);
     }
@@ -113,6 +136,8 @@ public class RegistryHandler{
     }
 
     static final List<ConfigurableGlyph> configurableGlyphs = new ArrayList<>();
+    static final List<ConfigurableRitual> configurableRituals = new ArrayList<>();
+
 
     public static void registerGlyphConfig(){
         FMLPaths.getOrCreateGameRelativePath(FMLPaths.CONFIGDIR.get().resolve("arsomega"), "arsomega");
@@ -121,6 +146,18 @@ public class RegistryHandler{
             glyph.buildExtraConfig(spellBuilder);
             ForgeConfigSpec spec = spellBuilder.build();
             ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, spec, "arsomega/" + glyph.getId() + ".toml");
+        }
+    }
+
+    public static void registerRitualConfig(){
+        FMLPaths.getOrCreateGameRelativePath(FMLPaths.CONFIGDIR.get().resolve("arsomega"), "arsomega");
+        for(ConfigurableRitual ritual : configurableRituals) {
+            ArsOmega.LOGGER.info("defining config for: "+ritual.getID());
+            ForgeConfigSpec.Builder spellBuilder = new ForgeConfigSpec.Builder();
+            ritual.buildConfig(spellBuilder);
+            ForgeConfigSpec spec = spellBuilder.build();
+            ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, spec, "arsomega/ritual_" + ritual.getID() + ".toml");
+            ArsOmega.LOGGER.info("defined config for: "+ritual.getID());
         }
     }
 
@@ -202,6 +239,17 @@ public class RegistryHandler{
         register(new RitualShaping());
     }
 
+    public static void registerEmpathyIngredients(){
+        register(new HarmingEmpathyIngredient(Items.SPIDER_EYE,2,2));
+        register(new HarmingEmpathyIngredient(Items.FERMENTED_SPIDER_EYE,3,2,(a,m) -> new MobEffectInstance(MobEffects.POISON,Math.round(80*m),a-1)));
+        register(new HarmingEmpathyIngredient(Items.WITHER_ROSE,0,(a,m) -> new MobEffectInstance(MobEffects.WITHER,100 + Math.round(100 * a * m),1)));
+        register(new HealingEmpathyIngredient(Items.GLISTERING_MELON_SLICE,2,2,(a,m) -> new MobEffectInstance(MobEffects.REGENERATION,80 + Math.round(50 * a*m),0)));
+        register(new HealingEmpathyIngredient(Items.MELON_SLICE,1));
+        register(new HealingEmpathyIngredient(Items.BREAD,1));
+        register(new HealingEmpathyIngredient(ItemsRegistry.LIFE_ESSENCE,2,2,(a,m) -> new MobEffectInstance(MobEffects.REGENERATION,50 + Math.round(100 * m),a)));
+        register(new MultiplierIngredient(Items.GHAST_TEAR,0.75f,true,true));
+    }
+
     public static void addAugments(){
         for(AbstractSpellPart part : ArsNouveauAPI.getInstance().getSpellpartMap().values()){
             if(part.compatibleAugments.contains(AugmentAmplify.INSTANCE)&&!part.compatibleAugments.contains(AdvancedAmplify.INSTANCE)){
@@ -240,6 +288,16 @@ public class RegistryHandler{
     public static void register(AbstractRitual ritual) {
         ArsNouveauAPI.getInstance().registerRitual(ritual.getID(),ritual);
         registeredRituals.add(ritual);
+        if(ritual instanceof ConfigurableRitual){
+            configurableRituals.add((ConfigurableRitual) ritual);
+        }
+    }
+
+    static int empReg = 0;
+
+    private static void register(AbstractEmpathyIngredient ingredient) {
+        EmpathyAPI.INSTANCE.RegisterIngredient("ingredient_"+empReg, ingredient);
+        empReg+=1;
     }
 
 
@@ -252,6 +310,8 @@ public class RegistryHandler{
     static final Item.Properties ITEM_PROPERTIES_FIRE = itemPropertiesCreator.create(ArsOmega.itemGroup,64).fireResistant();
     static final Item.Properties UNSTACKABLE_FIRE = itemPropertiesCreator.create(ArsOmega.itemGroup,1).fireResistant();
 
+    public static final FoodProperties ENCHANTED_DIAMOND_APPLE = (new FoodProperties.Builder()).nutrition(5).saturationMod(1.2F).effect(() -> new MobEffectInstance(MobEffects.HEALTH_BOOST, 8000, 4),1).effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 800, 1), 1.0F).effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 8000, 0), 1.0F).effect(() -> new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 7000, 0), 1.0F).effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 5000, 5), 1.0F).alwaysEat().build();
+    public static final FoodProperties ARCANE_APPLE = (new FoodProperties.Builder()).nutrition(7).saturationMod(1.5F).effect(() -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 8000, 1),1).effect(() -> new MobEffectInstance(ModPotions.LEAD_SKIN, 8000, 1),1).effect(() -> new MobEffectInstance(MobEffects.HEALTH_BOOST, 8000, 6),1).effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 800, 2), 1.0F).effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 10000, 1), 1.0F).effect(() -> new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 9000, 0), 1.0F).effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 9000, 8), 1.0F).alwaysEat().build();
 
     public static final List<Item> ITEMS = new ArrayList<>();
     public static void RegisterItems(RegistryEvent.Register<Item> event){
@@ -287,7 +347,6 @@ public class RegistryHandler{
         final Item MYSTIC_CLAY = new Item(ITEM_PROPERTIES).setRegistryName("mystic_clay");
         final Item ARCANE_CLAY = new Item(ITEM_PROPERTIES).setRegistryName("arcane_clay");
 
-
         final Item INFUSED_DIAMOND = new BasicItem(ITEM_PROPERTIES,"infused_diamond");
         final Item ENCHANTED_DIAMOND = new BasicItem(ITEM_PROPERTIES,"enchanted_diamond",true);
         final Item ARCANE_DIAMOND = new BasicItem(ITEM_PROPERTIES_FIRE,"arcane_diamond",true);
@@ -315,7 +374,6 @@ public class RegistryHandler{
         final Item INFINITY_CRYSTAL_BLOCK = new BlockItem(ItemsRegistry.INFINITY_JAR,ITEM_PROPERTIES).setRegistryName("infinity_crystal");
         final Item FLESH_BLOCK_ITEM = new BlockItem(FLESH_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("flesh_block");
         final Item DEMONIC_RIFT_ITEM = new BlockItem(DEMONIC_RIFT.get(),ITEM_PROPERTIES).setRegistryName("demonic_rift");
-
 
         final Item MAGIC_CLAY_BLOCK_ITEM = new BlockItem(MAGIC_CLAY_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("magic_clay_block");
         final Item MAGIC_CLAY_CARVED_ITEM = new BlockItem(MAGIC_CLAY_CARVED.get(),ITEM_PROPERTIES).setRegistryName("magic_clay_carved");
@@ -470,14 +528,21 @@ public class RegistryHandler{
         ITEMS.add(new SigilItem("sigil_life_active", ITEM_PROPERTIES,false,true));
         ITEMS.add(new SigilItem("sigil_nature_active", ITEM_PROPERTIES,false,true));
 
-        ITEMS.add(new DescribedItem("spell_sigil_scald", ITEM_PROPERTIES,"Currently has no functionality, will be implemented next update."));
+        ITEMS.add(new ScaldSigil("spell_sigil_scald"));
+        ITEMS.add(new PetrifySigil("spell_sigil_petrify"));
+        //ITEMS.add(new DescribedItem("spell_sigil_smite", ITEM_PROPERTIES,"This spell sigil currently has no functionality, it will be implemented in another beta for the update."));
 
+        ITEMS.add(new BlockItem(INFUSED_GLASS.get(),ITEM_PROPERTIES).setRegistryName("infused_glass"));
+        ITEMS.add(new BasicItem(ITEM_PROPERTIES,"reflective_coating"));
+        ITEMS.add(new BasicItem(ITEM_PROPERTIES, "enchanted_mirror_shard",true));
 
+        ITEMS.add(new BasicItem(ITEM_PROPERTIES, "enchanters_cloak",true));
+        ITEMS.add(new BasicItem(ITEM_PROPERTIES, "stability_cloak",true));
 
-        //ITEMS.add(new BlockItem(INFUSED_GLASS.get(),ITEM_PROPERTIES).setRegistryName("infused_glass"));
-        //ITEMS.add(new BasicItem(ITEM_PROPERTIES,"reflective_coating"));
-        //ITEMS.add(new BasicItem(ITEM_PROPERTIES, "enchanted_mirror_shard",true));
+        ITEMS.add(new ItemPlayerStorage("iron_needle",UNSTACKABLE_FIRE));
 
+        ITEMS.add(new BasicItem((new Item.Properties()).tab(CreativeModeTab.TAB_FOOD).rarity(Rarity.EPIC).food(ENCHANTED_DIAMOND_APPLE), "enchanted_diamond_apple",true) );
+        ITEMS.add(new BasicItem((new Item.Properties()).tab(CreativeModeTab.TAB_FOOD).rarity(Rarity.EPIC).food(ARCANE_APPLE), "arcane_apple",true));
 
         for (Item item : ITEMS) {
             event.getRegistry().register(item);
@@ -498,7 +563,7 @@ public class RegistryHandler{
     static final BlockBehaviour.Properties BRAMBLE_PROPERTIES_3 = blockPropertiesCreator.create(Material.PLANT, 6f, 2f,  SoundType.HARD_CROP, true).noOcclusion();
     static final BlockBehaviour.Properties BRAMBLE_PROPERTIES_4 = blockPropertiesCreator.create(Material.PLANT, 10f, 4f,  SoundType.HARD_CROP, true).noOcclusion();
     static final BlockBehaviour.Properties CLAY_PROPERTIES = blockPropertiesCreator.create(Material.CLAY, 3f, 1f,  SoundType.GRAVEL, false);
-    static final BlockBehaviour.Properties GLASS_PROPERTIES = blockPropertiesCreator.create(Material.GLASS, 0.5f, 0f,  SoundType.GLASS, false);
+    static final BlockBehaviour.Properties GLASS_PROPERTIES = blockPropertiesCreator.create(Material.GLASS, 0.8f, 4f,  SoundType.GLASS, false).noOcclusion();
 
     static final BlockBehaviour.Properties WOOL_PROPERTIES = blockPropertiesCreator.create(Material.WOOL, 8f, 800f,  SoundType.WOOL, false);
     static final BlockBehaviour.Properties FIRE_PROPERTIES = blockPropertiesCreator.create(Material.FIRE, 0, 0, SoundType.SAND, false).noOcclusion().lightLevel((BlockState state) -> 15);
@@ -528,8 +593,9 @@ public class RegistryHandler{
 
     public static final RegistryObject<Block> POTION_EXTENDER = BLOCKS.register("potion_extender",() -> new PotionExtender(STONE_PROPERTIES));
     public static final RegistryObject<Block> POTION_AMPLIFIER = BLOCKS.register("potion_amplifier",() -> new PotionAmplifier(STONE_PROPERTIES));
+    //public static final RegistryObject<Block> POTION_BOTTLER = BLOCKS.register("potion_bottler",() -> new PotionBottler(STONE_PROPERTIES));
 
-    public static final RegistryObject<Block> CURSE_ALTAR = BLOCKS.register("curse_altar",() -> new Block(UNBREAKABLE_BLOCK_PROPERTIES));
+    public static final RegistryObject<Block> CURSE_ALTAR = BLOCKS.register("curse_altar",() -> new CurseAltarBlock(UNBREAKABLE_BLOCK_PROPERTIES));
 
 
     static EntityType<? extends Entity> getClayGolem(){
@@ -578,20 +644,25 @@ public class RegistryHandler{
 
     public static RegistryObject<BlockEntityType<PotionExtenderTile>> PotionExtenderType = TILE_ENTITIES.register("potion_extender_tile",() -> BlockEntityType.Builder.of(PotionExtenderTile::new,POTION_EXTENDER.get()).build(null));
     public static RegistryObject<BlockEntityType<PotionAmplifierTile>> PotionAmplifierType = TILE_ENTITIES.register("potion_amplifier_tile",() -> BlockEntityType.Builder.of(PotionAmplifierTile::new,POTION_AMPLIFIER.get()).build(null));
+    //public static RegistryObject<BlockEntityType<BottlerTile>> PotionBottlerType = TILE_ENTITIES.register("potion_bottler_tile",() -> BlockEntityType.Builder.of(BottlerTile::new,POTION_BOTTLER.get()).build(null));
+
     public static RegistryObject<BlockEntityType<InfinityCrystalTile>> InfinityCrystalType = TILE_ENTITIES.register("infinity_crystal_tile",() -> BlockEntityType.Builder.of(InfinityCrystalTile::new, ItemsRegistry.INFINITY_JAR).build(null));
 
     public static RegistryObject<BlockEntityType<PotionRelayTile>> PotionRelayType = TILE_ENTITIES.register("potion_relay_tile",() -> BlockEntityType.Builder.of(PotionRelayTile::new, POTION_RELAY.get()).build(null));
 
     public static RegistryObject<BlockEntityType<ChalkTile>> ChalkTileType = TILE_ENTITIES.register("chalk_tile",() -> BlockEntityType.Builder.of(ChalkTile::new, CHALK_LINE_1.get(),CHALK_LINE_2.get(),CHALK_LINE_3.get(),CHALK_LINE_4.get()).build(null));
     public static RegistryObject<BlockEntityType<PortalBlockEntity>> PortalType = TILE_ENTITIES.register("portal_tile",() -> BlockEntityType.Builder.of(PortalBlockEntity::new, PORTAL_BLOCK.get()).build(null));
+    public static RegistryObject<BlockEntityType<CurseAltarTile>> CurseAltarType = TILE_ENTITIES.register("curse_altar_tile",() -> BlockEntityType.Builder.of(CurseAltarTile::new, CURSE_ALTAR.get()).build(null));
 
     public static final RegistryObject<EntityType<? extends Mob>> BASIC_DEMON = ENTITIES.register("demon_basic", () -> EntityType.Builder.of(EntityDemonBasic::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_basic").toString()));
     public static final RegistryObject<EntityType<? extends Mob>> STRONG_DEMON = ENTITIES.register("demon_strong", () -> EntityType.Builder.of(EntityDemonStrong::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_strong").toString()));
     public static final RegistryObject<EntityType<? extends Mob>> BOSS_DEMON_KING = ENTITIES.register("boss_demon_king", () -> EntityType.Builder.of(EntityBossDemonKing::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "boss_demon_king").toString()));
 
-    public static final RegistryObject<EntityType<? extends Mob>> RAPTOR_DEMON = ENTITIES.register("demon_raptor", () -> EntityType.Builder.of(EntityDemonRaptor::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_raptor").toString()));
+    public static final RegistryObject<EntityType<? extends Mob>> RAPTOR_DEMON = ENTITIES.register("demon_raptor", () -> EntityType.Builder.of(EntityDemonRaptor::new, MobCategory.MONSTER).sized(0.6F, 1.4F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_raptor").toString()));
+    public static final RegistryObject<EntityType<? extends Mob>> RAY_DEMON = ENTITIES.register("demon_ray", () -> EntityType.Builder.of(EntityDemonRay::new, MobCategory.AMBIENT).sized(1.5F, 1.1F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_ray").toString()));
 
-    public static final RegistryObject<EntityType<? extends Mob>> CLAY_GOLEM = ENTITIES.register("clay_golem", () -> EntityType.Builder.of(EntityClayGolem::new, MobCategory.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem").toString()));
+    public static final RegistryObject<EntityType<? extends Mob>> CLAY_GOLEM = ENTITIES.register("clay_golem", () -> EntityType.Builder.of(EntityClayGolemLegacy::new, MobCategory.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem").toString()));
+    public static final RegistryObject<EntityType<? extends Mob>> CLAY_GOLEM_BETA = ENTITIES.register("clay_golem_beta", () -> EntityType.Builder.of(EntityClayGolem::new, MobCategory.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem_beta").toString()));
 
     public static final RegistryObject<EntityType<? extends EntityTornado>> TORNADO = ENTITIES.register("tornado", () -> EntityType.Builder.<EntityTornado>of(EntityTornado::new, MobCategory.MISC).sized(0.3F, 0.3F).clientTrackingRange(20).build(new ResourceLocation(ArsOmega.MOD_ID, "tornado").toString()));
 

@@ -27,7 +27,7 @@ public class ClotGlyph  extends TierFourEffect {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
-            this.applyPotionWithCap(living, ModPotions.BLOOD_CLOT, spellStats,5,5,0);
+            this.applyPotionWithCap(living, ModPotions.BLOOD_CLOT, spellStats,5,5,5);
         }
     }
 

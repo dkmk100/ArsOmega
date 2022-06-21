@@ -2,6 +2,7 @@ package com.dkmk100.arsomega.crafting;
 
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.util.RegistryHandler;
+import com.dkmk100.arsomega.util.SigilPattern;
 import com.hollingsworth.arsnouveau.common.block.SourceJar;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -29,7 +30,11 @@ public class SigilValidator {
     }
 
     public void CleanupChalk(Level world, BlockPos centerPos, SigilRecipe recipe, SigilValidationResult result){
-        this.CleanupChalk(world,centerPos,recipe,result.rotation);
+        this.CleanupChalk(world,centerPos,recipe.pattern,result);
+    }
+
+    public void CleanupChalk(Level world, BlockPos centerPos, SigilPattern pattern, SigilValidationResult result){
+        this.CleanupChalk(world,centerPos,pattern,result.rotation);
     }
 
     public boolean isSigilValid(Level world, BlockPos centerPos, SigilRecipe recipe, SigilValidationResult result){
@@ -37,8 +42,12 @@ public class SigilValidator {
     }
 
     public SigilValidationResult ValidateSigil(Level world, BlockPos centerPos, SigilRecipe recipe){
+            return ValidateSigil(world,centerPos,recipe.pattern);
+    }
+
+    public SigilValidationResult ValidateSigil(Level world, BlockPos centerPos, SigilPattern pattern){
         for(Rotation rotation : Rotation.values()){
-            SigilValidationResult result = ValidateSigil(world,centerPos,recipe,rotation);
+            SigilValidationResult result = ValidateSigil(world,centerPos,pattern,rotation);
             if(result.succeded){
                 return result;
             }
@@ -47,21 +56,21 @@ public class SigilValidator {
     }
 
     private boolean isSigilValid(Level world, BlockPos centerPos, SigilRecipe recipe, Rotation rotation) {
-        return ValidateSigil(world,centerPos,recipe,rotation).succeded;
+        return ValidateSigil(world,centerPos,recipe.pattern,rotation).succeded;
     }
 
-    public void CleanupChalk(Level world, BlockPos centerPos, SigilRecipe recipe, Rotation rotation){
-        for(int y = 0; y< recipe.sizeY; y++){
-            for(int x = 0; x< recipe.sizeX; x++){
-                int relativeX = x - recipe.tileX;
-                int relativeY = y - recipe.tileY;
+    private void CleanupChalk(Level world, BlockPos centerPos, SigilPattern pattern, Rotation rotation){
+        for(int y = 0; y< pattern.sizeY; y++){
+            for(int x = 0; x< pattern.sizeX; x++){
+                int relativeX = x - pattern.tileX;
+                int relativeY = y - pattern.tileY;
 
                 //skip center pos as this has the crafting block which is immune to being checked
                 if(relativeX == 0 && relativeY == 0){
                     continue;
                 }
 
-                boolean value = recipe.isFilled(x,y);
+                boolean value = pattern.isFilled(x,y);
 
                 //technically relativeY is the z since we're converting from 2d recipe to 3d blockpos lol
 
@@ -78,18 +87,18 @@ public class SigilValidator {
         }
     }
 
-    private SigilValidationResult ValidateSigil(Level world, BlockPos centerPos, SigilRecipe recipe, Rotation rotation) {
-        for(int y = 0; y< recipe.sizeY; y++){
-            for(int x = 0; x< recipe.sizeX; x++){
-                int relativeX = x - recipe.tileX;
-                int relativeY = y - recipe.tileY;
+    private SigilValidationResult ValidateSigil(Level world, BlockPos centerPos, SigilPattern pattern, Rotation rotation) {
+        for(int y = 0; y< pattern.sizeY; y++){
+            for(int x = 0; x< pattern.sizeX; x++){
+                int relativeX = x - pattern.tileX;
+                int relativeY = y - pattern.tileY;
 
                 //skip center pos as this has the crafting block which is immune to being checked
                 if(relativeX == 0 && relativeY == 0){
                     continue;
                 }
 
-                boolean value = recipe.isFilled(x,y);
+                boolean value = pattern.isFilled(x,y);
 
                 //technically relativeY is the z since we're converting from 2d recipe to 3d blockpos lol
 

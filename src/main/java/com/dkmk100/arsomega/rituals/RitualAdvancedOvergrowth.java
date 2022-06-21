@@ -17,7 +17,7 @@ import net.minecraftforge.common.util.FakePlayerFactory;
 import java.util.Iterator;
 import java.util.List;
 
-public class RitualAdvancedOvergrowth extends AbstractRitual {
+public class RitualAdvancedOvergrowth extends BasicConfigRitual {
     public RitualAdvancedOvergrowth() {
     }
 
@@ -31,7 +31,6 @@ public class RitualAdvancedOvergrowth extends AbstractRitual {
             {
                 return;
             }
-
             boolean didWorkOnce;
             Iterator var5;
             if (this.isAnimalGrowth()) {
@@ -48,12 +47,8 @@ public class RitualAdvancedOvergrowth extends AbstractRitual {
                         didWorkOnce = true;
                     }
                 }
-
-                if (didWorkOnce) {
-                    this.setNeedsMana(true);
-                }
             } else {
-                int range = 6;//range increased by 1
+                double range = RANGE.get();
                 didWorkOnce = false;
                 var5 = BlockPos.betweenClosed(pos.offset(range, -1, range), pos.offset(-range, 1, -range)).iterator();
 
@@ -65,13 +60,18 @@ public class RitualAdvancedOvergrowth extends AbstractRitual {
                         didWorkOnce = true;
                     }
                 }
-
-                if (didWorkOnce) {
-                    this.setNeedsMana(true);
-                }
+            }
+            if (didWorkOnce) {
+                this.setNeedsMana(true);
             }
         }
 
+    }
+
+    @Override
+    protected double getDefaultRange() {
+        //range increased by 1 from default overgrowth ritual
+        return 6;
     }
 
     public boolean isAnimalGrowth() {

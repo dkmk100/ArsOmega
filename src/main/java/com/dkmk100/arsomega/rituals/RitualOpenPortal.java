@@ -45,7 +45,7 @@ public class RitualOpenPortal extends AbstractRitual {
             }
             this.incrementProgress();
             if (this.getProgress() > 20) {
-                BlockPos pos = this.getPos().above(5);
+                BlockPos pos = this.getPos().above();
 
                 world.setBlockAndUpdate(pos, RegistryHandler.PORTAL_BLOCK.get().defaultBlockState());
                 ItemStack crystal = this.getConsumedItems().get(0);

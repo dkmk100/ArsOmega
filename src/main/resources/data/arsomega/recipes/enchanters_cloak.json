@@ -1,0 +1,54 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "reagent": [
+    {
+      "item": "ars_nouveau:enchanters_shield"
+    }
+  ],
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "arsomega:enchanted_mirror_shard"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:enchanted_mirror_shard"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:enchanted_mirror_shard"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:enchanted_mirror_shard"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:enchanters_wool"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:enchanters_wool"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:enchanters_wool"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:enchanters_wool"
+      }
+    }
+  ],
+  "output": {
+    "item": "arsomega:enchanters_cloak"
+  },
+  "sourceCost": 5000
+}

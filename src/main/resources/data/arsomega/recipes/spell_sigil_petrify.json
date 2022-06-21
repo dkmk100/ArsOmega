@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:sigil_earth_active"
+    },
+    {
+      "item": "arsomega:sigil_earth_active"
+    },
+    {
+      "item": "arsomega:gorgon_gem"
+    },
+    {
+      "item": "arsomega:sigil_binding_active"
+    }
+  ],
+  "result": {
+    "item": "arsomega:spell_sigil_petrify"
+  }
+}

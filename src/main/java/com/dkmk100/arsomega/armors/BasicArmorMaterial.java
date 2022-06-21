@@ -14,10 +14,10 @@ import net.minecraft.sounds.SoundEvents;
 import java.util.function.Supplier;
 
 public enum BasicArmorMaterial implements ArmorMaterial {
-    Arcane(ArsOmega.MOD_ID+":arcane", 40, new int[]{4, 7, 9, 4}, 55, SoundEvents.ARMOR_EQUIP_LEATHER, 2.5F, () -> {
+    Arcane(ArsOmega.MOD_ID+":arcane", 50, new int[]{3, 6, 8, 3}, 55, SoundEvents.ARMOR_EQUIP_LEATHER, 2.5F, () -> {
         return Ingredient.of(new ItemLike[]{Items.NETHERITE_INGOT});
     },0.05f),
-    Defensive(ArsOmega.MOD_ID+":defense", 50, new int[]{5, 8, 10, 5}, 30, SoundEvents.ARMOR_EQUIP_CHAIN, 3.0F, () -> {
+    Defensive(ArsOmega.MOD_ID+":defense", 70, new int[]{5, 8, 10, 5}, 30, SoundEvents.ARMOR_EQUIP_CHAIN, 3.0F, () -> {
         return Ingredient.of(new ItemLike[]{Items.NETHERITE_INGOT});
     },0.075f);
 

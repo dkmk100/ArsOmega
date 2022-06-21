@@ -5,6 +5,7 @@ import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
+import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -15,7 +16,8 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 
-public class RitualPermaFlight extends AbstractRitual {
+public class RitualPermaFlight extends BasicConfigRitual{
+
     @Override
     protected void tick() {
         Level world = this.getWorld();
@@ -37,8 +39,8 @@ public class RitualPermaFlight extends AbstractRitual {
                 this.setNeedsMana(true);
             }
             this.incrementProgress();
-            if (this.getProgress() > 8) {
-                List<LivingEntity> entities = this.getWorld().getEntitiesOfClass(LivingEntity.class, (new AABB(this.getPos())).inflate(5.0D));
+            if (this.getProgress() > DURATION.get()) {
+                List<LivingEntity> entities = this.getWorld().getEntitiesOfClass(LivingEntity.class, (new AABB(this.getPos())).inflate(RANGE.get() * 2));
                 for (LivingEntity entity : entities) {
                     if(entity instanceof Player){
                         entity.addEffect(new MobEffectInstance(ModPotions.PERMA_FLIGHT, 999999,0,false,false));
@@ -65,5 +67,15 @@ public class RitualPermaFlight extends AbstractRitual {
     @Override
     public String getID() {
         return "perma_flight";
+    }
+
+    @Override
+    protected int getDefaultDuration() {
+        return 8;
+    }
+
+    @Override
+    protected double getDefaultRange() {
+        return 3.0;
     }
 }

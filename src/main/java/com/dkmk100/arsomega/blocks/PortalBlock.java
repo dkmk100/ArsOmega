@@ -60,7 +60,7 @@ public class PortalBlock extends Block implements EntityBlock {
     void teleportEntity(ServerLevel dest, Entity target, BlockPos pos, ServerLevel oldWorld){
         if((oldWorld.dimensionType()!=dest.dimensionType())) {
             ArsOmega.LOGGER.info("attempting to teleport");
-            BlockPos pos2 = new BlockPos(target.getX(), pos.getY() - 5, target.getZ());
+            BlockPos pos2 = new BlockPos(target.getX(), pos.getY(), target.getZ());
             CommonEvents.teleportEntity(target, pos2, dest, oldWorld);
 
             if(dest.getBlockState(pos2.below()).isAir()) {

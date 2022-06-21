@@ -1,0 +1,54 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "reagent": [
+    {
+      "item": "minecraft:slime_ball"
+    }
+  ],
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "minecraft:amethyst_shard"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:amethyst_shard"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:amethyst_shard"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:amethyst_shard"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:copper_block"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:alchemy_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:alchemy_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:alchemy_essence"
+      }
+    }
+  ],
+  "output": {
+    "item": "arsomega:reflective_coating"
+  },
+  "sourceCost": 0
+}

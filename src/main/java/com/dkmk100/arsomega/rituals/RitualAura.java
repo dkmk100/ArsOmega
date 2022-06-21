@@ -32,7 +32,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RitualAura extends AbstractRitual {
+public class RitualAura extends BasicConfigRitual {
     boolean initialized = false;
     boolean sensitive = false;
     boolean extract = false;

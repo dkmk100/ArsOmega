@@ -1,0 +1,54 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "reagent": [
+    {
+      "item": "ars_nouveau:enchanters_shield"
+    }
+  ],
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "minecraft:phantom_membrane"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:phantom_membrane"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:respawn_anchor"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:respawn_anchor"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:arcane_cloth"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:arcane_cloth"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:arcane_cloth"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:arcane_cloth"
+      }
+    }
+  ],
+  "output": {
+    "item": "arsomega:stability_cloak"
+  },
+  "sourceCost": 5000
+}

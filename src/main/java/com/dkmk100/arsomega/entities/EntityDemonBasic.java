@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.entities;
 
+import com.dkmk100.arsomega.ArsOmega;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -30,6 +31,7 @@ public class EntityDemonBasic extends Monster {
         super(type, worldIn);
         this.xpReward = 12;
     }
+
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new FloatGoal(this));

@@ -1,0 +1,54 @@
+{
+  "type": "ars_nouveau:enchanting_apparatus",
+  "reagent": [
+    {
+      "item": "arsomega:infused_glass"
+    }
+  ],
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "arsomega:reflective_coating"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:reflective_coating"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:reflective_coating"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:reflective_coating"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:ender_eye"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:lapis_lazuli"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:ghast_tear"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:blaze_powder"
+      }
+    }
+  ],
+  "output": {
+    "item": "arsomega:enchanted_mirror_shard"
+  },
+  "sourceCost": 500
+}

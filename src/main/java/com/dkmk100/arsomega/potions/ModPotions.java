@@ -75,6 +75,9 @@ public class ModPotions {
         public static Potion HEALTH_1_POT;
         @ObjectHolder("health_2_potion")
         public static Potion HEALTH_2_POT;
+
+        @ObjectHolder("blended_potion")
+        public static Potion BLENDED_POT;
     }
 
     @Mod.EventBusSubscriber(
@@ -99,6 +102,7 @@ public class ModPotions {
             registry.register((new Potion(new MobEffectInstance[]{new MobEffectInstance(DISPELLANT, 9600,0)})).setRegistryName("dispellant_extended_potion"));
             registry.register((new Potion(new MobEffectInstance[]{new MobEffectInstance(MobEffects.HEALTH_BOOST, 18000,0)})).setRegistryName("health_1_potion"));
             registry.register((new Potion(new MobEffectInstance[]{new MobEffectInstance(MobEffects.HEALTH_BOOST, 18000,1)})).setRegistryName("health_2_potion"));
+        registry.register((new Potion(new MobEffectInstance[]{})).setRegistryName("blended_potion"));
         }
     }
 }

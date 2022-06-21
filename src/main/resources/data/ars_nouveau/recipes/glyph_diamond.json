@@ -9,22 +9,12 @@
     },
     {
       "item": {
-        "item": "arsomega:arcane_essence"
-      }
-    },
-    {
-      "item": {
         "item": "arsomega:sigil_binding_active"
       }
     },
     {
       "item": {
         "item": "arsomega:sigil_alchemy_active"
-      }
-    },
-    {
-      "item": {
-        "item": "ars_nouveau:conjuration_essence"
       }
     },
     {
@@ -50,11 +40,6 @@
     {
       "item": {
         "item": "minecraft:totem_of_undying"
-      }
-    },
-    {
-      "item": {
-        "item": "minecraft:honey_block"
       }
     },
     {

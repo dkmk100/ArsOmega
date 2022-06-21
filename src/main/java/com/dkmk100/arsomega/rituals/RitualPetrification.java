@@ -40,7 +40,7 @@ public class RitualPetrification extends AbstractRitual {
                 this.setNeedsMana(true);
             }
             this.incrementProgress();
-            if (this.getProgress() > 40) {
+            if (this.getProgress() > 30) {
                 List<LivingEntity> entities = this.getWorld().getEntitiesOfClass(LivingEntity.class, (new AABB(this.getPos())).inflate(5.0D));
                 for (LivingEntity entity : entities) {
                     Collection<MobEffectInstance> effects = entity.getActiveEffects();
@@ -54,11 +54,11 @@ public class RitualPetrification extends AbstractRitual {
                             entity.removeEffect(e.getEffect());
                         }
                     }
-                    entity.addEffect(new MobEffectInstance(ModPotions.STONE_PETRIFICATION, 1200,1,false,false));
+                    entity.addEffect(new MobEffectInstance(ModPotions.STONE_PETRIFICATION, 800,1,false,false));
                 }
                 this.setFinished();
             }
-            else if (this.getProgress() >= 20 && this.getProgress()<=35) {
+            else if (this.getProgress() >= 5 && this.getProgress()<=27) {
                 List<LivingEntity> entities = this.getWorld().getEntitiesOfClass(LivingEntity.class, (new AABB(this.getPos())).inflate(5.0D));
                 for (LivingEntity entity : entities) {
                     entity.addEffect(new MobEffectInstance(com.hollingsworth.arsnouveau.common.potions.ModPotions.SNARE_EFFECT, 40, 0, false, false));
@@ -69,7 +69,7 @@ public class RitualPetrification extends AbstractRitual {
 
     @Override
     public int getManaCost() {
-        return 1000;
+        return 500;
     }
     @Override
     public ParticleColor getCenterColor() {

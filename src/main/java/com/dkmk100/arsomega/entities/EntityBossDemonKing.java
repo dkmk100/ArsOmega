@@ -2,8 +2,19 @@ package com.dkmk100.arsomega.entities;
 
 import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.util.RegistryHandler;
+import com.hollingsworth.arsnouveau.api.spell.EntitySpellResolver;
+import com.hollingsworth.arsnouveau.api.spell.Spell;
+import com.hollingsworth.arsnouveau.api.spell.SpellContext;
+import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
 import com.hollingsworth.arsnouveau.common.potions.ModPotions;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAccelerate;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
+import com.hollingsworth.arsnouveau.common.spell.effect.EffectFlare;
+import com.hollingsworth.arsnouveau.common.spell.effect.EffectHarm;
+import com.hollingsworth.arsnouveau.common.spell.effect.EffectIgnite;
+import com.hollingsworth.arsnouveau.common.spell.method.MethodProjectile;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -96,11 +107,11 @@ public class EntityBossDemonKing extends Monster {
         return new GroundPathNavigation(this, worldIn);
     }
 
-    @Override
-    public void tick() {
-
-        super.tick();
-    }
+        static final Spell[] spells =
+        {
+            new Spell(MethodProjectile.INSTANCE, AugmentAccelerate.INSTANCE,AugmentAccelerate.INSTANCE, EffectHarm.INSTANCE,EffectHarm.INSTANCE, AugmentAmplify.INSTANCE, AugmentAmplify.INSTANCE, AugmentAmplify.INSTANCE),
+            new Spell(MethodProjectile.INSTANCE, AugmentAccelerate.INSTANCE,AugmentAccelerate.INSTANCE, EffectIgnite.INSTANCE, EffectFlare.INSTANCE, AugmentAmplify.INSTANCE, AugmentAmplify.INSTANCE)
+        };
 
     public static AttributeSupplier.Builder createAttributes() {
         return Monster.createMonsterAttributes()
@@ -147,40 +158,67 @@ public class EntityBossDemonKing extends Monster {
     @Override
     protected void customServerAiStep() {
         super.customServerAiStep();
-        float healthRatio = this.getMaxHealth()/this.getHealth();
-        if(healthRatio>10){healthRatio=10;}
+
+        float healthRatio = this.getMaxHealth() / this.getHealth();
+        if (healthRatio > 10) {
+            healthRatio = 10;
+        }
         minionTimer += 1;
 
         if (this.tickCount % 25 == 0) {
-            this.heal(Math.round(0.4f * healthRatio*2f)/2f);
+            this.heal(Math.round(0.4f * healthRatio * 2f) / 2f);
         }
-        Vec3 entityPos =this.getPosition(0);
-        BlockPos pos = new BlockPos(entityPos.x,entityPos.y,entityPos.z);
-        if(!this.level.isClientSide() && this.getHealth()!=this.getMaxHealth()){
-            List<LivingEntity> nearby = level.getEntitiesOfClass(LivingEntity.class, AABB.ofSize(this.position(),8,3,8), entity -> entity.getClass()!=Player.class);
-            if(nearby.size()<=15) {
-                LivingEntity spawn = null;
-                if (minionTimer >= (250 - ((this.getMaxHealth() - this.getHealth()) / 12))) {
-                    if (minionsSpawned % 2 == 0) {
-                        spawn = (LivingEntity) RegistryHandler.BASIC_DEMON.get().spawn((ServerLevel) this.level, null, null, pos, MobSpawnType.EVENT, true, false);
-                    } else {
-                        spawn = (LivingEntity) RegistryHandler.STRONG_DEMON.get().spawn((ServerLevel) this.level, null, null, pos, MobSpawnType.EVENT, true, false);
+        Vec3 entityPos = this.getPosition(0);
+        BlockPos pos = new BlockPos(entityPos.x, entityPos.y, entityPos.z);
+        if (!this.level.isClientSide() && this.getHealth() != this.getMaxHealth()) {
+            LivingEntity target = getTarget();
+            int frequency = 50;
+            if (level.getGameTime() % frequency == 0) {
+                if (target != null) {
+                    float lavaRange = 4f;
+                    float minRange = 1.5f;
+                    float shootRange = 8.5f;
+                    double dist2 = target.position().distanceToSqr(this.position());
+                    //too close, lava bucket
+                    if (dist2 < lavaRange * lavaRange && dist2 > minRange * minRange) {
+                        level.setBlockAndUpdate(target.blockPosition(), Blocks.LAVA.defaultBlockState());
                     }
-                    minionsSpawned += 1;
-                    minionTimer = 0;
-                } else {
-                    rangedMinionTimer += 1;
-                    if (rangedMinionTimer >= (350 - ((this.getMaxHealth() - this.getHealth()) / 12))) {
-                        spawn = (LivingEntity) EntityType.SKELETON.spawn((ServerLevel) this.level, null, null, pos, MobSpawnType.EVENT, true, false);
-                        rangedMinionTimer = 0;
+                    //too far, shoot at
+                    else if (dist2 > shootRange * shootRange) {
+                        Spell spell = spells[level.random.nextInt(spells.length)];
+                        SpellContext context = new SpellContext(spell, this);
+                        EntitySpellResolver resolver = new EntitySpellResolver(context);
+                        resolver.onCast(this.getMainHandItem(), this, level);
                     }
-                }
-                if (spawn != null) {
-                    spawn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 100000, 8));
-                    spawn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100000, 4));
-                    spawn.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 1200, 1));
-                    spawn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1200, 1));
-                    this.getCommandSenderWorld().addFreshEntity(spawn);
+                    //just right, spawn stuff
+                    else {
+                        List<LivingEntity> nearby = level.getEntitiesOfClass(LivingEntity.class, AABB.ofSize(this.position(), 8, 3, 8), entity -> entity.getClass() != Player.class);
+                        if (nearby.size() <= 15) {
+                            LivingEntity spawn = null;
+                            if (minionTimer >= (250 - ((this.getMaxHealth() - this.getHealth()) / 12))) {
+                                if (minionsSpawned % 2 == 0) {
+                                    spawn = (LivingEntity) RegistryHandler.BASIC_DEMON.get().spawn((ServerLevel) this.level, null, null, pos, MobSpawnType.EVENT, true, false);
+                                } else {
+                                    spawn = (LivingEntity) RegistryHandler.STRONG_DEMON.get().spawn((ServerLevel) this.level, null, null, pos, MobSpawnType.EVENT, true, false);
+                                }
+                                minionsSpawned += 1;
+                                minionTimer = 0;
+                            } else {
+                                rangedMinionTimer += 1;
+                                if (rangedMinionTimer >= (350 - ((this.getMaxHealth() - this.getHealth()) / 12))) {
+                                    spawn = (LivingEntity) EntityType.SKELETON.spawn((ServerLevel) this.level, null, null, pos, MobSpawnType.EVENT, true, false);
+                                    rangedMinionTimer = 0;
+                                }
+                            }
+                            if (spawn != null) {
+                                spawn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 100000, 8));
+                                spawn.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100000, 4));
+                                spawn.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 1200, 1));
+                                spawn.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1200, 1));
+                                this.getCommandSenderWorld().addFreshEntity(spawn);
+                            }
+                        }
+                    }
                 }
             }
         }

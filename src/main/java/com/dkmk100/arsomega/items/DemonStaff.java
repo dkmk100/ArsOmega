@@ -33,7 +33,7 @@ public class DemonStaff extends BasicItem {
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
         ItemStack stack = playerIn.getItemInHand(handIn);
         if(worldIn instanceof ServerLevel) {
-            if(!worldIn.dimension().equals(ResourceKey.create(Registry.DIMENSION_REGISTRY, RegistryHandler.DIMTYPE))){
+            if(!worldIn.dimension().equals(ResourceKey.create(Registry.DIMENSION_REGISTRY, RegistryHandler.DIMTYPE)) && !playerIn.getAbilities().instabuild){
                 //not in demon realm
                 return new InteractionResultHolder<>(InteractionResult.FAIL,stack);
             }

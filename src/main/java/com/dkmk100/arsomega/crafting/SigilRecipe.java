@@ -2,6 +2,7 @@ package com.dkmk100.arsomega.crafting;
 
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.util.RegistryHandler;
+import com.dkmk100.arsomega.util.SigilPattern;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -22,35 +23,21 @@ import javax.annotation.Nullable;
 
 public class SigilRecipe implements Recipe<Container> {
     public final ResourceLocation id;
-    private final boolean[][] recipe;
-    public final int tileX;
-    public final int tileY;
+    public final SigilPattern pattern;
+
     public final ItemStack output;
 
-    public final int sizeY;
-    public final int sizeX;
-
-    public final int sourceCost;
 
     public static final String RECIPE_ID = "sigil";
 
-    public boolean isFilled(int x, int y){
-        return recipe[y][x];
-    }
-
-    public SigilRecipe(ResourceLocation id, boolean[][] recipe, ItemStack output, int tileX, int tileY, int sourceCost){
+    public SigilRecipe(ResourceLocation id, SigilPattern pattern, ItemStack output){
         this.id = id;
-        this.recipe = recipe.clone();
+        this.pattern = pattern;
         this.output = output;
-        this.tileX = tileX;
-        this.tileY = tileY;
-        this.sizeY = recipe.length;
-        this.sizeX = recipe[0].length;
-        this.sourceCost = sourceCost;
     }
 
-    public SigilRecipe(String name, boolean[][] recipe, ItemStack output, int tileX, int tileY, int sourceCost){
-        this(new ResourceLocation(ArsOmega.MOD_ID,"sigil_"+name),recipe,output, tileX, tileY, sourceCost);
+    public SigilRecipe(String name, SigilPattern pattern, ItemStack output){
+        this(new ResourceLocation(ArsOmega.MOD_ID,"sigil_"+name),pattern,output);
     }
 
     public static JsonElement stackToJson(ItemStack stack){
@@ -75,8 +62,8 @@ public class SigilRecipe implements Recipe<Container> {
             JsonArray pattern = json.getAsJsonArray("pattern");
 
             recipe = new boolean[pattern.size()][];
-            int tileX = pattern.size() / 2;
-            int tileY = pattern.get(0).getAsString().length() / 2;
+            int tileY = pattern.size() / 2;
+            int tileX = pattern.get(0).getAsString().length() / 2;
 
             int i2 = 0;
             for (JsonElement element : pattern) {
@@ -101,24 +88,13 @@ public class SigilRecipe implements Recipe<Container> {
 
             int sourceCost = json.has("sourceCost") ? json.get("sourceCost").getAsInt() : 0;
 
-            return new SigilRecipe(recipeId, recipe, output, tileX, tileY, sourceCost);
+            return new SigilRecipe(recipeId, new SigilPattern(recipe,tileX,tileY,sourceCost), output);
         }
 
 
         public void toNetwork(FriendlyByteBuf buf, SigilRecipe recipe) {
             buf.writeItem(recipe.output);
-            buf.writeInt(recipe.sourceCost);
-            buf.writeInt(recipe.tileX);
-            buf.writeInt(recipe.tileY);
-            int recipeSize = recipe.recipe.length;
-            int size2 = recipe.recipe[0].length;
-            buf.writeInt(recipeSize);
-            buf.writeInt(size2);
-            for (int i = 0; i < recipeSize; i++) {
-                for(int i2 = 0;i2 < size2; i2++){
-                    buf.writeBoolean(recipe.recipe[i][i2]);
-                }
-            }
+            recipe.pattern.toNetwork(buf);
         }
 
 
@@ -139,7 +115,7 @@ public class SigilRecipe implements Recipe<Container> {
                 }
             }
 
-            return new SigilRecipe(recipeId, recipe, output, tileX, tileY, sourceCost);
+            return new SigilRecipe(recipeId, new SigilPattern(recipe,tileX,tileY,sourceCost), output);
         }
 
     }

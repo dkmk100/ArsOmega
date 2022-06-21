@@ -1,0 +1,31 @@
+{
+  "type": "ars_nouveau:imbuement",
+  "input": {
+    "item": "minecraft:glass"
+  },
+  "output": "arsomega:infused_glass",
+  "count": 1,
+  "source": 2000,
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "arsomega:enchanted_diamond"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:glow_ink_sac"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:soul_sand"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:whirlisprig_shards"
+      }
+    }
+  ]
+}

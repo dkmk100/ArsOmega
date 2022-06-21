@@ -19,7 +19,7 @@ import java.util.Set;
 
 public class Scald extends AbstractEffect {
 
-    public static DamageSource SCALD(Entity entity,@Nullable LivingEntity source) {
+    public static DamageSource SCALD(Entity entity, @Nullable LivingEntity source) {
         DamageSource SCALD = new IndirectEntityDamageSource("scald",entity,source).setIsFire();
         return SCALD;
     }

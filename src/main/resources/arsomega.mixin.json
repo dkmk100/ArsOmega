@@ -14,6 +14,7 @@
     "EffectMixin"
   ],
   "client": [
+    "ManaGUIMixin"
   ],
   "minVersion": "0.8"
 }

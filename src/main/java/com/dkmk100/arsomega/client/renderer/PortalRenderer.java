@@ -36,7 +36,7 @@ public class PortalRenderer<T extends PortalBlockEntity> implements BlockEntityR
         int i = this.getPasses(d0);
         float f = this.getOffset();
         Matrix4f matrix4f = matrixStackIn.last().pose();
-        this.renderCube(tileEntityIn, f, 0.1F, matrix4f, bufferIn.getBuffer((RenderType)RENDER_TYPES.get(0)));
+        this.renderCube(tileEntityIn, f, 1F, matrix4f, bufferIn.getBuffer((RenderType)RENDER_TYPES.get(0)));
 
         for(int j = 1; j < i; ++j) {
             this.renderCube(tileEntityIn, f, 2.0F / (float)(35 - j), matrix4f, bufferIn.getBuffer((RenderType)RENDER_TYPES.get(j)));

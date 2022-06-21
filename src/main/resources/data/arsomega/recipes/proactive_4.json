@@ -1,0 +1,38 @@
+{
+  "type": "ars_nouveau:enchantment",
+  "enchantment": "arsomega:proactive",
+  "level": 4,
+  "sourceCost": 10000,
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "arsomega:arcane_diamond_block"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:demonic_crystal"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:enchanted_demonic_gem"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:enchanted_demonic_gem"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:sigil_binding_active"
+      }
+    }
+  ]
+}

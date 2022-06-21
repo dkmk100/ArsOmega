@@ -1,0 +1,48 @@
+{
+  "type": "ars_nouveau:enchantment",
+  "enchantment": "arsomega:proactive",
+  "level": 3,
+  "sourceCost": 10000,
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "arsomega:enchanted_diamond_block"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:enchanted_mirror_shard"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:enchanted_mirror_shard"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:enchanted_mirror_shard"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:sigil_air_active"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:sigil_earth_active"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:sigil_fire_active"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:sigil_water_active"
+      }
+    }
+  ]
+}

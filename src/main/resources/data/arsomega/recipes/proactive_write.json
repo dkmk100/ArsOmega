@@ -1,0 +1,16 @@
+{
+  "type": "arsomega:write_proactive",
+  "sourceCost": 0,
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "ars_nouveau:spell_parchment"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:source_gem"
+      }
+    }
+  ]
+}

@@ -3,6 +3,7 @@ package com.dkmk100.arsomega.glyphs;
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
+import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -18,7 +19,13 @@ import java.util.Set;
 
 public class Heartstop extends AbstractEffect implements ConfigurableGlyph{
 
-    public static final DamageSource HEARTSTOP_DAMAGE = new DamageSource("heartstop").bypassArmor().bypassMagic();
+    public static final DamageSource STATIC_HEARTSTOP_DAMAGE = new DamageSource("heartstop");
+    public static final DamageSource HEARTSTOP_DAMAGE(Entity source){
+        if(source == null){
+            return STATIC_HEARTSTOP_DAMAGE;
+        }
+        return new EntityDamageSource("heartstop",source).bypassArmor().bypassMagic();
+    }
 
     public static Heartstop INSTANCE = new Heartstop("heartstop", "Heartstop");
 
@@ -54,7 +61,7 @@ public class Heartstop extends AbstractEffect implements ConfigurableGlyph{
                 mult += 3;
                 add += 1;
                 int amp = living.getEffect(com.hollingsworth.arsnouveau.common.potions.ModPotions.SHOCKED_EFFECT).getAmplifier();
-                mult += 1.5f * amp;
+                mult += 1.75f * amp;
                 add += 2 * amp;
             }
             if(living.hasEffect(com.hollingsworth.arsnouveau.common.potions.ModPotions.SNARE_EFFECT)){
@@ -67,8 +74,12 @@ public class Heartstop extends AbstractEffect implements ConfigurableGlyph{
                 //lol, multiplying the multiplier so as to increase other effects, but not have the rest grow each other exponentially
                 //yea this is kinda silly but oh well
                 mult = mult*1.5f;
-                mult += 8;
-                add += 10;
+                mult += 2;
+                add += 4;
+                int amp = living.getEffect(ModPotions.BLOOD_CLOT).getAmplifier();
+                mult += 2f * amp;
+                add += 2 * amp;
+
                 ticks = ticks*2;//more nausea, why not
             }
 
@@ -77,7 +88,7 @@ public class Heartstop extends AbstractEffect implements ConfigurableGlyph{
             damage = damage * (1.0f + 0.1f*mult);
             damage += add*0.85f;
 
-            this.dealDamage(world,shooter,damage,spellStats,living, HEARTSTOP_DAMAGE);
+            this.dealDamage(world,shooter,damage,spellStats,living, HEARTSTOP_DAMAGE(shooter));
             living.addEffect(new MobEffectInstance(MobEffects.CONFUSION, ticks));
         }
     }

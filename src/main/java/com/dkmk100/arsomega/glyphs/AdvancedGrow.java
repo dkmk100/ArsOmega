@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.ArsOmega;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.BlockUtil;
 import com.hollingsworth.arsnouveau.api.util.SpellUtil;
@@ -52,6 +53,7 @@ public class AdvancedGrow extends AbstractEffect {
     public static boolean GrowBlock(BlockPos pos, ServerLevel world){
         BlockState state = world.getBlockState(pos);
         Block block = state.getBlock();
+        ArsOmega.LOGGER.info("checking block for flower: " + block.getRegistryName());
         if(block == Blocks.CACTUS || block == Blocks.SUGAR_CANE){
             //I know that you can just hit a higher block to keep growing them, I just don't care
             //seems fair enough to just let you do that as a player
@@ -107,12 +109,18 @@ public class AdvancedGrow extends AbstractEffect {
             return false;
         }
         else if(state.is(BlockTags.SMALL_FLOWERS) && block instanceof IPlantable){
+            ArsOmega.LOGGER.info("flower at pos: " + pos);
             for(Direction dir : Direction.values()){
                 if(dir!=Direction.DOWN && dir!=Direction.UP){
                     BlockPos pos1 = pos.relative(dir);
-                    if(world.getBlockState(pos1).isAir() && state.canSustainPlant(world,pos1.below(),Direction.UP,(IPlantable)block)){
-                        world.setBlockAndUpdate(pos1,state);
-                        return true;
+                    ArsOmega.LOGGER.info("checking pos: " + pos1);
+                    if(world.getBlockState(pos1).isAir()){
+                        ArsOmega.LOGGER.info("pos is air: " + pos1);
+                        if(world.getBlockState(pos1.below()).canSustainPlant(world,pos1.below(),Direction.UP,(IPlantable)block)) {
+                            ArsOmega.LOGGER.info("growing flower" + pos1);
+                            world.setBlockAndUpdate(pos1, state);
+                            return true;
+                        }
                     }
                 }
             }

@@ -1,10 +1,19 @@
 package com.dkmk100.arsomega.events;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.enchants.ProactiveSpellcaster;
 import com.dkmk100.arsomega.items.ModSpawnEggItem;
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
+import com.hollingsworth.arsnouveau.common.enchantment.EnchantmentRegistry;
+import com.hollingsworth.arsnouveau.common.spell.casters.ReactiveCaster;
+import com.hollingsworth.arsnouveau.common.util.PortUtil;
+import net.minecraft.client.gui.screens.social.PlayerEntry;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,21 +22,96 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
+import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.function.Function;
 
 @Mod.EventBusSubscriber(modid = ArsOmega.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CommonEvents {
+
+    @SubscribeEvent
+    public static void onProjectileHit(final ProjectileImpactEvent event){
+        HitResult result = event.getRayTraceResult();
+        if(result instanceof EntityHitResult){
+            Entity ent = ((EntityHitResult) result).getEntity();
+            if(ent instanceof Player){
+                Player player = (Player)ent;
+                if (CuriosApi.getCuriosHelper().findFirstCurio(player, ItemsRegistry.ENCHANTERS_CLOAK).isPresent()) {
+                    handleCloak(event,player);
+                }
+            }
+        }
+    }
+
+    private static void handleCloak(final ProjectileImpactEvent event, Player player){
+        Projectile projectile = event.getProjectile();
+
+        double angleTolerance = Math.PI/2.3;
+        //fix to other rotation type
+        double playerAngle = player.getYHeadRot() + 90;
+
+        //clamp
+        while(playerAngle > 360){
+            playerAngle-=360;
+        }
+        while(playerAngle < -360){
+            playerAngle+=360;
+        }
+
+        //convert
+        playerAngle = playerAngle/180;
+        playerAngle = playerAngle * Math.PI;
+
+        //we use this to get movement direction, much better than trying to BS the angle of hit.
+        Vec3 toEntity = projectile.getDeltaMovement();
+        //Vec3 pos = player.position();
+
+        double distance = Math.sqrt(toEntity.x()*toEntity.x() + toEntity.z() * toEntity.z());//avoid using .distance because we don't use y
+        if(distance==0){
+            return;
+        }
+        Vec3 normalizedTo = toEntity.scale(1/distance);
+
+        double entityAngle = Math.asin(normalizedTo.z);
+        if (toEntity.x < 0) {
+            if(entityAngle < 0){
+                entityAngle = (-1 * Math.PI) - entityAngle;
+            }
+            else {
+                entityAngle = Math.PI - entityAngle;
+            }
+        }
+
+        double angleDif = Math.abs(Math.min(Math.abs(playerAngle - entityAngle), (Math.PI * 2)-Math.abs((playerAngle)-entityAngle)));
+
+        if(angleDif < angleTolerance){
+            //reflect
+            Vec3 targetDelta = projectile.getDeltaMovement().scale(-1);
+            projectile.setYRot(projectile.getXRot() * -1);
+            //projectile.setPos(projectile.position().add(targetDelta));
+            projectile.setDeltaMovement(targetDelta);
+            //stop hit
+            event.setCanceled(true);
+        }
+    }
 
     @SubscribeEvent
     public static void onRegisterEntities(final RegistryEvent.Register<EntityType<?>> event) {
@@ -49,6 +133,30 @@ public class CommonEvents {
         if(entity.hasEffect(ModPotions.DEMONIC_ANCHORING)){
             e.setCanceled(true);
         }
+    }
+
+    @SubscribeEvent
+    public static void UseItemOnBlock(PlayerInteractEvent.RightClickBlock event){
+        castSpell(event.getPlayer(),event.getItemStack());
+    }
+
+    @SubscribeEvent
+    public static void UseItemOnBlock(PlayerInteractEvent.EntityInteract event){
+        castSpell(event.getPlayer(),event.getItemStack());
+    }
+
+    @SubscribeEvent
+    public static void UseItemOnBlock(PlayerInteractEvent.RightClickItem event){
+        castSpell(event.getPlayer(),event.getItemStack());
+    }
+
+    public static boolean castSpell(Player playerIn, ItemStack s) {
+        ProactiveSpellcaster proCaster = new ProactiveSpellcaster(s);
+        if ((double) EnchantmentHelper.getItemEnchantmentLevel(RegistryHandler.PROACTIVE_ENCHANT.get(), s) * 0.25 >= Math.random() && proCaster.getSpell().isValid()) {
+            proCaster.castSpell(playerIn.getCommandSenderWorld(), playerIn, InteractionHand.MAIN_HAND, null);
+            return true;
+        }
+        return false;
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)

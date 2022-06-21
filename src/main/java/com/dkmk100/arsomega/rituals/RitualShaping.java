@@ -54,18 +54,18 @@ public class RitualShaping extends AbstractRitual {
                         chosenRecipe = recipe;
                         sigilResult = result;
 
-                        if(chosenRecipe.sourceCost == 0){
+                        if(chosenRecipe.pattern.sourceCost == 0){
                             this.setNeedsMana(false);
                         }
                         else{
                             //quick check for mana to not delay craft on mana things
                             //we don't do this every time so we can get the ritual brazier to say missing mana lol
                             //range of 6 for parity with normal brazier range
-                            if(SourceUtil.takeSourceNearbyWithParticles(pos,world,6,chosenRecipe.sourceCost) != null){
+                            if(SourceUtil.takeSourceNearbyWithParticles(pos,world,6,chosenRecipe.pattern.sourceCost) != null){
                                 this.setNeedsMana(false);
                             }
                             else {
-                                sourceNeeded = chosenRecipe.sourceCost;
+                                sourceNeeded = chosenRecipe.pattern.sourceCost;
                                 this.setNeedsMana(true);
                             }
                         }

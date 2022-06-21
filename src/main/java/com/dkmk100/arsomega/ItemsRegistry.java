@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega;
 
 import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ObjectHolder;
@@ -57,4 +58,12 @@ public class ItemsRegistry {
 
     @ObjectHolder("poison_flower")
     public static Item POISON_FLOWER;
+
+    @ObjectHolder("enchanted_mirror_shard")
+    public static Item ENCHANTED_MIRROR_SHARD;
+
+    @ObjectHolder("enchanters_cloak")
+    public static Item ENCHANTERS_CLOAK;
+    @ObjectHolder("stability_cloak")
+    public static Item STABILITY_CLOAK;
 }

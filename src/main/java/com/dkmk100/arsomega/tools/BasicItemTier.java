@@ -8,9 +8,9 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.function.Supplier;
 
 public enum BasicItemTier implements Tier {
-    Staff(3, 1280, 8.0f, 4F, 10, () -> {return Ingredient.of(ItemsRegistry.SOURCE_GEM);}),
-    Staff2(4, 2057, 9.0f, 5F, 12, () -> {return Ingredient.of(Items.NETHERITE_INGOT);}),
-    Staff3(4, 4244, 10.0f, 6F, 16, () -> {return Ingredient.of(Items.NETHER_STAR);})
+    Staff(3, -1, 8.0f, 4F, 10, () -> {return Ingredient.of(ItemsRegistry.SOURCE_GEM);}),
+    Staff2(4, -1, 9.0f, 5F, 12, () -> {return Ingredient.of(Items.NETHERITE_INGOT);}),
+    Staff3(4, -1, 10.0f, 6F, 16, () -> {return Ingredient.of(Items.NETHER_STAR);})
     ;
     private final int harvestLevel;
     private final int maxUses;

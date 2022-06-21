@@ -3,10 +3,17 @@ package com.dkmk100.arsomega.entities;
 import com.dkmk100.arsomega.ArsRegistry;
 import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.util.RegistryHandler;
+import com.hollingsworth.arsnouveau.api.client.ITooltipProvider;
+import com.hollingsworth.arsnouveau.api.entity.IDispellable;
+import com.hollingsworth.arsnouveau.api.item.IWandable;
+import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -24,6 +31,7 @@ import net.minecraft.world.entity.ai.goal.MoveTowardsTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.AbstractGolem;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
@@ -31,8 +39,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib3.core.IAnimatable;
 
-public class EntityClayGolem extends AbstractGolem {
+import java.util.List;
+
+public class EntityClayGolem extends AbstractGolem implements IDispellable, ITooltipProvider, IWandable {
     protected static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(EntityClayGolem.class, EntityDataSerializers.BYTE);
 
     public EntityClayGolem(EntityType<? extends AbstractGolem> p_i50267_1_, Level p_i50267_2_) {
@@ -131,5 +143,14 @@ public class EntityClayGolem extends AbstractGolem {
     }
 
 
+    @Override
+    public void getTooltip(List<Component> list) {
+
+    }
+
+    @Override
+    public boolean onDispel(@Nullable LivingEntity livingEntity) {
+        return false;
+    }
 }
 

@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.blocks;
 
+import com.dkmk100.arsomega.potions.ModPotions;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.util.SourceUtil;
 import com.hollingsworth.arsnouveau.client.ClientInfo;
@@ -93,7 +94,7 @@ public class PotionAmplifierTile extends BlockEntity implements ITickable {
 
                                 Potion jar1Potion = tile1.getPotion();
                                 if (combJar.getAmount() == 0) {
-                                    combJar.setPotion(Potions.WATER, combined);
+                                    combJar.setPotion(ModPotions.PotionsRegistry.BLENDED_POT, combined);
                                     combJar.setFill(100);
                                     tile1.addAmount(-200);
                                     this.hasMana = false;

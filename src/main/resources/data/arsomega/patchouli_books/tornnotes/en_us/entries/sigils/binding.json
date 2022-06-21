@@ -2,6 +2,7 @@
   "name": "item.arsomega.sigil_binding",
   "icon": "arsomega:sigil_binding_active",
   "category": "arsomega:sigils",
+  "sortnum": 3,
   "pages": [
     {
       "type": "patchouli:spotlight",

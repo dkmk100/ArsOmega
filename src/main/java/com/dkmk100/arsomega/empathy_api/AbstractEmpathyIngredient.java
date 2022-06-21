@@ -1,4 +1,4 @@
-package com.dkmk100.arsomega.empathy_system;
+package com.dkmk100.arsomega.empathy_api;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 
 public abstract class AbstractEmpathyIngredient {
     protected Item item;
+    public String regName;
     public AbstractEmpathyIngredient(Item item){
         this.item = item;
     }
@@ -25,16 +26,16 @@ public abstract class AbstractEmpathyIngredient {
      * @return
      * Whether the ingredient should be added to the spell. The default implementation returns true when the ingredient hasn't been added yet.
      */
-    boolean canAdd(EmpathySpell currentSpell, @Nullable EmpathyIngredientInstance currentInstance){
+    public boolean canAdd(EmpathySpell currentSpell, @Nullable EmpathyIngredientInstance currentInstance){
         return currentInstance == null || currentInstance.getAmount() == 0;
     }
 
     /**
-     * called when
+     * called when the ingredient is added to the spell.
      * @param currentSpell
      * @param currentInstance
      */
-    abstract void onAdd(EmpathySpell currentSpell, @NotNull EmpathyIngredientInstance currentInstance);
+    public abstract void onAdd(EmpathySpell currentSpell, @NotNull EmpathyIngredientInstance currentInstance);
 
     /**
      * Called when an empathy link is first ativated on all relevant entities. Will be called on both logical sides.
@@ -48,7 +49,7 @@ public abstract class AbstractEmpathyIngredient {
      * Determines the amount of the link affecting an entity. Should be a value between 0 and 1, with 1 representing 100%.
      * In some cases may add up to more than 100% on a spell instance, however should be treated as if not.
      * @param affected
-     * Determines if the link should affect the target.
+     * Determines if the link should affect the target. By default will be true for percentages greater than 0, but some spell implementations may break this rule.
      */
-    abstract void onCastEntity(LivingEntity target, EmpathySpell spell, EmpathyIngredientInstance instance, float percentage, boolean affected);
+    public abstract void onCastEntity(LivingEntity target, EmpathySpell spell, EmpathyIngredientInstance instance, float percentage, boolean affected);
 }
