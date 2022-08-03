@@ -7,18 +7,20 @@ import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import java.util.List;
 import java.util.function.Predicate;
 
 public class EntityDivineSmite extends LightningBoltEntity {
-
     int aoe;
     boolean sensitive;
 
@@ -31,6 +33,11 @@ public class EntityDivineSmite extends LightningBoltEntity {
     }
     public void setSensitive(boolean bool){
         sensitive = bool;
+    }
+
+    @Override
+    public IPacket<?> getAddEntityPacket() {
+        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
@@ -72,20 +79,19 @@ public class EntityDivineSmite extends LightningBoltEntity {
                     List<Entity> list = this.level.getEntities(this, new AxisAlignedBB(this.getX() - 3.0D, this.getY() - 3.0D, this.getZ() - 3.0D, this.getX() + 3.0D, this.getY() + 6.0D + 3.0D, this.getZ() + 3.0D).inflate(aoe), test);
 
                     for (Entity entity : list) {
-                        if (!net.minecraftforge.event.ForgeEventFactory.onEntityStruckByLightning(entity, this))
+                        if (!net.minecraftforge.event.ForgeEventFactory.onEntityStruckByLightning(entity, this)) {
+                            if (entity instanceof MobEntity && ((MobEntity) entity).getMobType() == CreatureAttribute.UNDEAD) {
+                                entity.hurt(DamageSource.MAGIC, getDamage() * 2);//smite the entity for double damage
 
-                        if(entity instanceof MobEntity && ((MobEntity)entity).getMobType() == CreatureAttribute.UNDEAD){
-                            entity.hurt(DamageSource.MAGIC,getDamage()*2);//smite the entity for double damage
-
-                            //activate any thunder hit overrides or similar, but don't damage again.
-                            //we don't just damage twice in case something gets i-frames from damage.
-                            float damage = getDamage();
-                            this.setDamage(0);
-                            entity.thunderHit((ServerWorld) this.level, this);
-                            this.setDamage(damage);
-                        }
-                        else{
-                            entity.thunderHit((ServerWorld) this.level, this);
+                                //activate any thunder hit overrides or similar, but don't damage again.
+                                //we don't just damage twice in case something gets i-frames from damage.
+                                float damage = getDamage();
+                                this.setDamage(0);
+                                entity.thunderHit((ServerWorld) this.level, this);
+                                this.setDamage(damage);
+                            } else {
+                                entity.thunderHit((ServerWorld) this.level, this);
+                            }
                         }
                     }
 
@@ -103,5 +109,4 @@ public class EntityDivineSmite extends LightningBoltEntity {
             throw new RuntimeException(e);
         }
     }
-
 }

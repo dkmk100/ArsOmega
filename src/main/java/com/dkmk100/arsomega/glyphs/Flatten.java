@@ -51,6 +51,11 @@ public class Flatten extends AbstractEffect {
             float tier = field2.getFloat(properties);
             tier = (float) Math.sqrt(tier) * 4f;
 
+            //deal with bedrock
+            if(tier < 0){
+                tier = 50;
+            }
+
             //nerf obsidian:
             if(tier>10){
                 tier = 10 + ((tier-10)/4f);

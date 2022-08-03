@@ -14,7 +14,7 @@
       "tier": "FOUR",
       "mana_cost": "Impossibly High",
       "clay_type": "ars_nouveau:mythical_clay",
-      "reagent": "minecraft:netherite_block"
+      "reagent": "arsomega:arcane_totem"
     }
   ]
 }

@@ -9,7 +9,6 @@ import com.dkmk100.arsomega.books.CustomSpellBook;
 import com.dkmk100.arsomega.entities.*;
 import com.dkmk100.arsomega.glyphs.*;
 import com.dkmk100.arsomega.init.ExperimentalStructureInit;
-import com.dkmk100.arsomega.init.StructureInit;
 import com.dkmk100.arsomega.items.*;
 import com.dkmk100.arsomega.rituals.*;
 import com.dkmk100.arsomega.tools.BasicItemTier;
@@ -18,8 +17,6 @@ import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
 import com.hollingsworth.arsnouveau.client.renderer.item.SpellBookRenderer;
-import com.hollingsworth.arsnouveau.common.block.CreativeManaJar;
-import com.hollingsworth.arsnouveau.common.block.ManaJar;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -27,31 +24,30 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
 
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 
 
 public class RegistryHandler{
@@ -76,6 +72,23 @@ public class RegistryHandler{
         ENTITIES.register(bus);
         //StructureInit.RegisterStructures(bus);
         ExperimentalStructureInit.RegisterStructures(bus);
+        generateExtraConfig("arsomega", configurableGyphs);
+    }
+    static ArrayList<AbstractSpellPart> glyphs = new ArrayList<>();
+
+    static ArrayList<IConfigurable> configurableGyphs = new ArrayList<>();
+
+    private static void generateExtraConfig(String modID, List<IConfigurable> glyphs) {
+        FMLPaths.getOrCreateGameRelativePath(FMLPaths.CONFIGDIR.get().resolve(modID), modID);
+        Iterator<IConfigurable> var2 = glyphs.iterator();
+
+        while(var2.hasNext()) {
+            IConfigurable spellPart = (IConfigurable) var2.next();
+            ForgeConfigSpec.Builder spellBuilder = new ForgeConfigSpec.Builder();
+            spellPart.buildExtraConfig(spellBuilder);
+            ForgeConfigSpec spec = spellBuilder.build();
+            ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, spec, modID + "/" + spellPart.getTag() + ".toml");
+        }
     }
 
     public static void registerBlocks(final RegistryEvent.Register<Block> event){
@@ -142,6 +155,10 @@ public class RegistryHandler{
 
     public static void register(AbstractSpellPart spellPart) {
         ArsNouveauAPI.getInstance().registerSpell(spellPart.tag, spellPart);
+        glyphs.add(spellPart);
+        if(spellPart instanceof IConfigurable){
+            configurableGyphs.add((IConfigurable) spellPart);
+        }
         registeredSpells.add(spellPart);
     }
     public static void register(AbstractRitual ritual) {

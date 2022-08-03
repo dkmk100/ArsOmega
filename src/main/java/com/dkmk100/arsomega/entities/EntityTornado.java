@@ -30,7 +30,7 @@ import java.util.Optional;
 
 public class EntityTornado extends ColoredProjectile {
 
-    public static final DataParameter<Integer> AOE = EntityDataManager.defineId(WitherEntity.class, DataSerializers.INT);
+    public static final DataParameter<Integer> AOE = EntityDataManager.defineId(EntityTornado.class, DataSerializers.INT);
 
     int amplify = 0;
 

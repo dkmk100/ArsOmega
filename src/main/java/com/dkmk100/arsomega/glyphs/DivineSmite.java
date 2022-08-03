@@ -3,11 +3,8 @@ package com.dkmk100.arsomega.glyphs;
 import com.dkmk100.arsomega.entities.EntityDivineSmite;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
-import com.hollingsworth.arsnouveau.api.spell.AbstractEffect;
 import com.hollingsworth.arsnouveau.api.spell.SpellContext;
 import com.hollingsworth.arsnouveau.api.spell.SpellStats;
-import com.hollingsworth.arsnouveau.common.entity.LightningEntity;
-import com.hollingsworth.arsnouveau.common.entity.ModEntities;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSensitive;
@@ -22,7 +19,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Set;
 
-public class DivineSmite extends TierFourEffect {
+public class DivineSmite extends TierFourEffect implements IConfigurable{
 
     public static DivineSmite INSTANCE = new DivineSmite("divine_smite","Divine Smite");
 
@@ -43,8 +40,7 @@ public class DivineSmite extends TierFourEffect {
     }
 
     @Override
-    public void buildConfig(ForgeConfigSpec.Builder builder) {
-        super.buildConfig(builder);
+    public void buildExtraConfig(ForgeConfigSpec.Builder builder) {
         this.addDamageConfig(builder, 9.0);
         this.addAmpConfig(builder, 4.0);
     }

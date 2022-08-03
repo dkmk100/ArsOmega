@@ -110,7 +110,6 @@ public class ArsOmega
 
         RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.TORNADO.get(), (EntityRendererManager managerIn) -> new PlainRenderer<EntityTornado>(managerIn));
         RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.DIVINE_SMITE.get(), (EntityRendererManager managerIn) -> new LightningBoltRenderer(managerIn));
-
         RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.WITHER_BOUND.get(), (EntityRendererManager managerIn) -> new WitherRenderer(managerIn));
     }
     @OnlyIn(Dist.CLIENT)

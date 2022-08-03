@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.Set;
 
-public class Fireball extends TierFourEffect {
+public class Fireball extends TierFourEffect implements IConfigurable{
     public static Fireball INSTANCE = new Fireball("fireball", "fireball");
     public ForgeConfigSpec.DoubleValue BASE;
     public ForgeConfigSpec.DoubleValue AOE_BONUS;
@@ -47,13 +47,7 @@ public class Fireball extends TierFourEffect {
     public void onResolve(RayTraceResult rayTraceResult, World world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         Vector3d vec = this.safelyGetHitPos(rayTraceResult);
         double intensity;
-        try {
-            intensity = (Double) this.BASE.get() + (Double) this.AMP_VALUE.get() * spellStats.getAmpMultiplier() + (Double) this.AOE_BONUS.get() * (double) spellStats.getBuffCount(AugmentAOE.INSTANCE);
-        }
-        catch (Exception e){
-            intensity = 1.2 + 0.6*spellStats.getAmpMultiplier() + 1.6 * spellStats.getBuffCount(AugmentAOE.INSTANCE);
-            ArsOmega.LOGGER.error("null config for Fireball!");
-        }
+        intensity = (Double) this.BASE.get() + (Double) this.AMP_VALUE.get() * spellStats.getAmpMultiplier() + (Double) this.AOE_BONUS.get() * (double) spellStats.getBuffCount(AugmentAOE.INSTANCE);
         int dampen = spellStats.getBuffCount(AugmentDampen.INSTANCE);
         intensity -= 0.5D * (double)dampen;
         Explosion.Mode mode = dampen > 0 ? Explosion.Mode.NONE : Explosion.Mode.DESTROY;
@@ -88,8 +82,7 @@ public class Fireball extends TierFourEffect {
     }
 
     @Override
-    public void buildConfig(ForgeConfigSpec.Builder builder) {
-        super.buildConfig(builder);
+    public void buildExtraConfig(ForgeConfigSpec.Builder builder) {
         this.addAmpConfig(builder, 0.6D);
         this.BASE = builder.comment("Explosion base intensity").defineInRange("base", 1.2D, 0.0D, 100.0D);
         this.AOE_BONUS = builder.comment("AOE intensity bonus").defineInRange("aoe_bonus", 1.8D, 0.0D, 100.0D);

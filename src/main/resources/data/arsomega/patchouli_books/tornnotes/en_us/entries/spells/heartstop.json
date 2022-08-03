@@ -14,7 +14,7 @@
       "tier": "THREE",
       "mana_cost": "High",
       "clay_type": "ars_nouveau:mythical_clay",
-      "reagent": "ars_nouveau:glyph_heartstop"
+      "reagent": "ars_nouveau:glyph_harm"
     }
   ]
 }
