@@ -5,16 +5,17 @@ import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 public abstract class AbstractEmpathyIngredient {
-    protected Item item;
+    protected Supplier<Item> item;
     public String regName;
-    public AbstractEmpathyIngredient(Item item){
+    public AbstractEmpathyIngredient(Supplier<Item> item){
         this.item = item;
     }
 
     public Item GetItem(){
-        return item;
+        return item.get();
     }
 
     /**
@@ -26,8 +27,20 @@ public abstract class AbstractEmpathyIngredient {
      * @return
      * Whether the ingredient should be added to the spell. The default implementation returns true when the ingredient hasn't been added yet.
      */
-    public boolean canAdd(EmpathySpell currentSpell, @Nullable EmpathyIngredientInstance currentInstance){
-        return currentInstance == null || currentInstance.getAmount() == 0;
+    public AddResult canAdd(EmpathySpell currentSpell, @Nullable EmpathyIngredientInstance currentInstance){
+        if(currentInstance != null  && currentInstance.getAmount() > 0){
+            return new AddResult(false,"max amount reached");
+        }
+        return new AddResult(true,"added item");
+    }
+
+    public static class AddResult{
+        public String message;
+        public boolean succeded;
+        public AddResult(boolean suc, String mes){
+            this.succeded = suc;
+            this.message = mes;
+        }
     }
 
     /**

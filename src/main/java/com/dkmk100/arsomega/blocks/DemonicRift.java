@@ -42,6 +42,7 @@ public class DemonicRift extends Block {
     }
 
     void teleportEntity(ServerLevel dest, Entity target, BlockPos pos, ServerLevel oldWorld){
+        pos = new BlockPos(pos.getX(),Math.min(dest.getMinBuildHeight(),Math.max(pos.getY(),dest.getMaxBuildHeight())),pos.getZ());
         if((oldWorld.dimensionType()!=dest.dimensionType())) {
             BlockPos pos2 = new BlockPos(target.getX(), pos.getY() - 1, target.getZ());
             CommonEvents.teleportEntity(target, pos2, dest, oldWorld);

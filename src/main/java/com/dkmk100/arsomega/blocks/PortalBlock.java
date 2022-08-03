@@ -5,6 +5,8 @@ import com.dkmk100.arsomega.events.CommonEvents;
 import com.hollingsworth.arsnouveau.common.block.TickableModBlock;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -49,6 +51,9 @@ public class PortalBlock extends Block implements EntityBlock {
                 ResourceKey<Level> registrykey = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(target));
                 ServerLevel dest = world.getServer().getLevel(registrykey);
                 teleportEntity(dest, entity, pos, (ServerLevel) world);
+                //play in both worlds lol, why not
+                dest.playSound(null,pos, SoundEvents.PORTAL_TRAVEL, SoundSource.MASTER, 1.0f, 1.0f);
+                world.playSound(null,pos, SoundEvents.PORTAL_TRAVEL, SoundSource.MASTER, 1.0f, 1.0f);
             }
             catch (Exception e){
                 ArsOmega.LOGGER.error("Error on portal block");
@@ -58,8 +63,8 @@ public class PortalBlock extends Block implements EntityBlock {
     }
 
     void teleportEntity(ServerLevel dest, Entity target, BlockPos pos, ServerLevel oldWorld){
+        pos = new BlockPos(pos.getX(),Math.min(dest.getMinBuildHeight(),Math.max(pos.getY(),dest.getMaxBuildHeight())),pos.getZ());
         if((oldWorld.dimensionType()!=dest.dimensionType())) {
-            ArsOmega.LOGGER.info("attempting to teleport");
             BlockPos pos2 = new BlockPos(target.getX(), pos.getY(), target.getZ());
             CommonEvents.teleportEntity(target, pos2, dest, oldWorld);
 

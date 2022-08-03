@@ -22,11 +22,13 @@ public class ClientEvents {
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onTooltip(final ItemTooltipEvent event){
         ItemStack stack = event.getItemStack();
-        int level = EnchantmentHelper.getItemEnchantmentLevel(RegistryHandler.PROACTIVE_ENCHANT.get(), stack);
-        Spell spell = new ProactiveSpellcaster(stack).getSpell();
-        if(level > 0 && spell.isValid()){
-            event.getToolTip().add(new TextComponent("Proactive spell: "));
-            event.getToolTip().add(new TextComponent(spell.getDisplayString()));
+        if(stack.hasTag()) {
+            int level = EnchantmentHelper.getItemEnchantmentLevel(RegistryHandler.PROACTIVE_ENCHANT.get(), stack);
+            Spell spell = new ProactiveSpellcaster(stack).getSpell();
+            if (level > 0 && spell.isValid()) {
+                event.getToolTip().add(new TextComponent("Proactive spell: "));
+                event.getToolTip().add(new TextComponent(spell.getDisplayString()));
+            }
         }
     }
 }

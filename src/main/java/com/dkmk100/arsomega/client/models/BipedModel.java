@@ -1,4 +1,4 @@
-package com.dkmk100.arsomega.client.renderer;
+package com.dkmk100.arsomega.client.models;
 
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;

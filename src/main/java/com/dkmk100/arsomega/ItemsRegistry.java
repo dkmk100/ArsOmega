@@ -66,4 +66,12 @@ public class ItemsRegistry {
     public static Item ENCHANTERS_CLOAK;
     @ObjectHolder("stability_cloak")
     public static Item STABILITY_CLOAK;
+
+    @ObjectHolder("splash_bottle")
+    public static Item SPLASH_BOTTLE;
+    @ObjectHolder("lingering_bottle")
+    public static Item LINGERING_BOTTLE;
+
+    @ObjectHolder("sigil_binding_active")
+    public static Item SIGIL_BINDING_ACTIVE;
 }

@@ -51,14 +51,24 @@ public class ModPotions {
         ItemStack poison2Pot = PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.STRONG_POISON);
         ItemStack poison3Pot = PotionUtils.setPotion(new ItemStack(Items.POTION), PotionsRegistry.POISON_3_POT);
 
+
         BrewingRecipeRegistry.addRecipe(new BrewingRecipe(new PotionIngredient(AWKWARD), Ingredient.of(ItemsRegistry.ALCHEMY_ESSENCE),  dispellantPot));
         BrewingRecipeRegistry.addRecipe(new BrewingRecipe(new PotionIngredient(dispellantPot), Ingredient.of(Items.REDSTONE),  dispellantLongPot));
         BrewingRecipeRegistry.addRecipe(new BrewingRecipe(new PotionIngredient(poison2Pot), Ingredient.of(ItemsRegistry.POISON_FLOWER),  poison3Pot));
 
         ItemStack health1Pot = PotionUtils.setPotion(new ItemStack(Items.POTION), PotionsRegistry.HEALTH_1_POT);
         ItemStack health2Pot = PotionUtils.setPotion(new ItemStack(Items.POTION), PotionsRegistry.HEALTH_2_POT);
+
         BrewingRecipeRegistry.addRecipe(new BrewingRecipe(new PotionIngredient(AWKWARD), Ingredient.of(ItemsRegistry.LIFE_ESSENCE), health1Pot));
         BrewingRecipeRegistry.addRecipe(new BrewingRecipe(new PotionIngredient(health1Pot), Ingredient.of(Items.ENCHANTED_GOLDEN_APPLE), health2Pot));
+
+        ItemStack absPot = PotionUtils.setPotion(new ItemStack(Items.POTION), PotionsRegistry.ABS_POT);
+        BrewingRecipeRegistry.addRecipe(new BrewingRecipe(new PotionIngredient(AWKWARD), Ingredient.of(Items.GOLDEN_APPLE), absPot));
+
+
+        BrewingRecipeRegistry.addRecipe(new BrewingRecipe(Ingredient.of(new ItemStack(Items.GLASS_BOTTLE)), Ingredient.of(Items.GUNPOWDER), new ItemStack(ItemsRegistry.SPLASH_BOTTLE)));
+        BrewingRecipeRegistry.addRecipe(new BrewingRecipe(Ingredient.of(new ItemStack(ItemsRegistry.SPLASH_BOTTLE)), Ingredient.of(Items.DRAGON_BREATH),new ItemStack(ItemsRegistry.LINGERING_BOTTLE)));
+
     }
 
     @ObjectHolder(ArsOmega.MOD_ID)
@@ -75,6 +85,9 @@ public class ModPotions {
         public static Potion HEALTH_1_POT;
         @ObjectHolder("health_2_potion")
         public static Potion HEALTH_2_POT;
+
+        @ObjectHolder("absorption_potion")
+        public static Potion ABS_POT;
 
         @ObjectHolder("blended_potion")
         public static Potion BLENDED_POT;
@@ -102,7 +115,8 @@ public class ModPotions {
             registry.register((new Potion(new MobEffectInstance[]{new MobEffectInstance(DISPELLANT, 9600,0)})).setRegistryName("dispellant_extended_potion"));
             registry.register((new Potion(new MobEffectInstance[]{new MobEffectInstance(MobEffects.HEALTH_BOOST, 18000,0)})).setRegistryName("health_1_potion"));
             registry.register((new Potion(new MobEffectInstance[]{new MobEffectInstance(MobEffects.HEALTH_BOOST, 18000,1)})).setRegistryName("health_2_potion"));
-        registry.register((new Potion(new MobEffectInstance[]{})).setRegistryName("blended_potion"));
+            registry.register((new Potion(new MobEffectInstance[]{new MobEffectInstance(MobEffects.ABSORPTION, 9600,0)})).setRegistryName("absorption_potion"));
+            registry.register((new Potion(new MobEffectInstance[]{})).setRegistryName("blended_potion"));
         }
     }
 }

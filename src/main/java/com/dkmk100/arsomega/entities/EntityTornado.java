@@ -14,6 +14,8 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -104,6 +106,9 @@ public class EntityTornado extends ColoredProjectile {
                 ParticleUtil.spawnRitualAreaEffect(new BlockPos(this.position().add(0, 3 + 2 * aoe, 0)), this.level, this.random, this.getParticleColor(), 3 + (aoe * 2));
             }
         }  else {
+            if(level.getGameTime() % 15 == 0){
+                level.playSound(null,this.position().x,this.position().y,this.position().z, SoundEvents.ARROW_SHOOT, SoundSource.BLOCKS, 1.0f, 1.0f);
+            }
             int radius = 12 + (aoe * 5);
             checkTicks--;
             if (checkTicks <= 0) {

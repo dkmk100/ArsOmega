@@ -2,6 +2,7 @@ package com.dkmk100.arsomega.events;
 
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.empathy_api.EmpathySpell;
 import com.dkmk100.arsomega.enchants.ProactiveSpellcaster;
 import com.dkmk100.arsomega.items.ModSpawnEggItem;
 import com.dkmk100.arsomega.potions.ModPotions;
@@ -11,6 +12,7 @@ import com.hollingsworth.arsnouveau.common.enchantment.EnchantmentRegistry;
 import com.hollingsworth.arsnouveau.common.spell.casters.ReactiveCaster;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.client.gui.screens.social.PlayerEntry;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
@@ -151,10 +153,13 @@ public class CommonEvents {
     }
 
     public static boolean castSpell(Player playerIn, ItemStack s) {
-        ProactiveSpellcaster proCaster = new ProactiveSpellcaster(s);
-        if ((double) EnchantmentHelper.getItemEnchantmentLevel(RegistryHandler.PROACTIVE_ENCHANT.get(), s) * 0.25 >= Math.random() && proCaster.getSpell().isValid()) {
-            proCaster.castSpell(playerIn.getCommandSenderWorld(), playerIn, InteractionHand.MAIN_HAND, null);
-            return true;
+        //to not make tags if there are none
+        if(s.hasTag()) {
+            ProactiveSpellcaster proCaster = new ProactiveSpellcaster(s);
+            if ((double) EnchantmentHelper.getItemEnchantmentLevel(RegistryHandler.PROACTIVE_ENCHANT.get(), s) * 0.25 >= Math.random() && proCaster.getSpell().isValid()) {
+                proCaster.castSpell(playerIn.getCommandSenderWorld(), playerIn, InteractionHand.MAIN_HAND, null);
+                return true;
+            }
         }
         return false;
     }
@@ -189,6 +194,23 @@ public class CommonEvents {
     public static void useEvent(LivingEntityUseItemEvent.Start e) {
         if (e.getEntityLiving().hasEffect(ModPotions.STONE_PETRIFICATION)) {
             e.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent()
+    public static void finishUseEvent(LivingEntityUseItemEvent.Finish e) {
+        ItemStack stack = e.getItem();
+
+        if(stack.isEdible()){
+            if(stack.hasTag() && stack.getTag().contains("hasEmpathy")){
+                CompoundTag tag = stack.getTag();
+                if(tag.getBoolean("hasEmpathy") && tag.contains("empathySpell")){
+                    EmpathySpell spell = new EmpathySpell(tag.getCompound("empathySpell"),e.getEntityLiving().getLevel());
+                    float strength = tag.contains("empathyStrength") ? tag.getFloat("empathyStrength") : 0.6f;
+                    float alignment = tag.contains("empathyAlignment") ? tag.getFloat("empathyAlignment") : 0.0f;
+                    spell.CastSpell(e.getEntityLiving(),strength,alignment);
+                }
+            }
         }
     }
 

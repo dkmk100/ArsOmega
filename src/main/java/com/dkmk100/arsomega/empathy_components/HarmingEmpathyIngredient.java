@@ -3,6 +3,7 @@ package com.dkmk100.arsomega.empathy_components;
 import com.dkmk100.arsomega.empathy_api.AbstractEmpathyIngredient;
 import com.dkmk100.arsomega.empathy_api.EmpathyIngredientInstance;
 import com.dkmk100.arsomega.empathy_api.EmpathySpell;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
@@ -10,38 +11,44 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.IntFunction;
+import java.util.function.Supplier;
 
-public class HarmingEmpathyIngredient extends AbstractEmpathyIngredient {
+public class HarmingEmpathyIngredient extends GenericEmpathyIngredient {
     int amount = 0;
-    final int maxAmount;
 
     @FunctionalInterface
     public interface EffectInterface{
         MobEffectInstance apply(int amount, float mult);
     }
-    final EffectInterface effect;
-    public HarmingEmpathyIngredient(Item item, int amount) {
-        this(item,amount,1,null);
+    @FunctionalInterface
+    public interface AdvancedEffectInterface{
+        MobEffectInstance apply(int amount, float mult, EmpathySpell spell);
+    }
+    AdvancedEffectInterface effect;
+    public HarmingEmpathyIngredient(Supplier<Item> item, int amount) {
+        this(item,amount,1, (EffectInterface) null);
     }
 
-    public HarmingEmpathyIngredient(Item item, int amount, int maxAmount) {
-        this(item,amount,maxAmount,null);
+    public HarmingEmpathyIngredient(Supplier<Item> item, int amount, int maxAmount) {
+        this(item,amount,maxAmount, (EffectInterface) null);
     }
 
-    public HarmingEmpathyIngredient(Item item, int amount, EffectInterface instance) {
+    public HarmingEmpathyIngredient(Supplier<Item> item, int amount, EffectInterface instance) {
         this(item,amount,1,instance);
     }
 
-    public HarmingEmpathyIngredient(Item item, int amount, int maxAmount, EffectInterface instance) {
-        super(item);
+    public HarmingEmpathyIngredient(Supplier<Item> item, int amount, int maxAmount, EffectInterface instance) {
+        this(item,amount,maxAmount, instance == null ? null : (a, m, s) -> instance.apply(a,m));
+    }
+
+    public HarmingEmpathyIngredient(Supplier<Item> item, int amount, int maxAmount, AdvancedEffectInterface instance) {
+        super(item,maxAmount);
         this.amount = amount;
-        this.maxAmount = maxAmount;
         this.effect = instance;
     }
 
-    @Override
-    public boolean canAdd(EmpathySpell currentSpell, @Nullable EmpathyIngredientInstance currentInstance) {
-        return currentInstance == null || currentInstance.getAmount() < maxAmount;
+    public void setEffect(AdvancedEffectInterface effect){
+        this.effect = effect;
     }
 
     @Override
@@ -52,7 +59,10 @@ public class HarmingEmpathyIngredient extends AbstractEmpathyIngredient {
     @Override
     public void onCastEntity(LivingEntity target, EmpathySpell spell, EmpathyIngredientInstance instance, float percentage, boolean affected) {
         if(effect!=null && affected) {
-            target.addEffect(new MobEffectInstance(effect.apply(instance.getAmount(),percentage)), spell.getCaster());
+            MobEffectInstance effect2 = effect.apply(instance.getAmount(),percentage,spell);
+            if(effect2!=null) {
+                target.addEffect(new MobEffectInstance(effect2), spell.getCaster());
+            }
         }
     }
 }

@@ -44,7 +44,7 @@ public class PropagateProjectile extends AbstractEffect {
                 offset = offset.getOpposite();
             }
 
-            BlockPos projPos = new BlockPos(pos.x,pos.y,pos.z).relative(offset, i);
+            BlockPos projPos = new BlockPos(pos.x,pos.y + 1,pos.z).relative(offset, i);
             projPos = projPos.offset(0.0D, 1.5D, 0.0D);
             EntityProjectileSpell spell = new EntityProjectileSpell(world, resolver);
             spell.setPos((double)projPos.getX(), (double)projPos.getY(), (double)projPos.getZ());
@@ -53,20 +53,18 @@ public class PropagateProjectile extends AbstractEffect {
 
         Iterator var14 = projectiles.iterator();
 
+        float velocity = Math.max(0.1F, 1.0F + stats.getAccMultiplier() / 2.0F);
+
         while(var14.hasNext()) {
             EntityProjectileSpell proj = (EntityProjectileSpell)var14.next();
             Vec3 shooterPos = shooter.position();
             Vec3 currentPos = new Vec3(pos.x,pos.y,pos.z);
             Vec3 direction = currentPos.subtract(shooterPos);
             if(direction.distanceTo(Vec3.ZERO)<0.25f){
-                try {
-                    proj.shoot(shooter, ReflectionHandler.xRot.getFloat(shooter), ReflectionHandler.yRot.getFloat(shooter), 0.0F, 1.0f, 0.8F);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                    proj.shoot(shooter, shooter.getXRot(), shooter.getYRot(), 0.0F, velocity, 0.8F);
             }
             else {
-                proj.shoot(direction.x, direction.y, direction.z, 1.0f, 0.8F);
+                    proj.shoot(direction.x, direction.y, direction.z, velocity, 0.8F);
             }
             world.addFreshEntity(proj);
         }

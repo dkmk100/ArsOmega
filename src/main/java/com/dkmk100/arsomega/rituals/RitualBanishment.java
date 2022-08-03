@@ -7,6 +7,8 @@ import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -54,6 +56,10 @@ public class RitualBanishment  extends AbstractRitual {
                     dest.setBlockAndUpdate(pos.above(),Blocks.AIR.defaultBlockState());
                     dest.setBlockAndUpdate(pos.above(2),Blocks.AIR.defaultBlockState());
                     dest.setBlockAndUpdate(pos.below(),Blocks.OBSIDIAN.defaultBlockState());
+
+                    //play in both worlds lol, why not
+                    dest.playSound(null,pos, SoundEvents.PORTAL_TRAVEL, SoundSource.MASTER, 2.0f, 1.0f);
+                    world.playSound(null,pos, SoundEvents.PORTAL_TRAVEL, SoundSource.MASTER, 2.0f, 1.0f);
                 }
                 this.setFinished();
             }

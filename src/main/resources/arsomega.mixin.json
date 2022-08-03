@@ -11,7 +11,8 @@
     "BlinkMixin",
     "BlockUtilMixin",
     "ScrollMixin",
-    "EffectMixin"
+    "EffectMixin",
+    "PotionJarMixin"
   ],
   "client": [
     "ManaGUIMixin"

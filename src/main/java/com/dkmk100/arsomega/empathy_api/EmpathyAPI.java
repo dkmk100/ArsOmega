@@ -2,6 +2,7 @@ package com.dkmk100.arsomega.empathy_api;
 
 import com.dkmk100.arsomega.ArsOmega;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
@@ -24,7 +25,8 @@ public class EmpathyAPI {
     @Nullable
     public static AbstractEmpathyIngredient getIngredient(Item item){
         for(AbstractEmpathyIngredient ingredient : INSTANCE.ingredientMap.values()){
-            if(ingredient.item == item){
+            ArsOmega.LOGGER.info("checking ingredient: " + ingredient.GetItem() + " with item: "+item);
+            if(ingredient.GetItem() == item){
                 return ingredient;
             }
         }

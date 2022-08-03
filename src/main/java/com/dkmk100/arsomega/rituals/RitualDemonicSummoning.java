@@ -7,6 +7,8 @@ import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -47,8 +49,11 @@ public class RitualDemonicSummoning  extends AbstractRitual {
 
                 for (int i = 0; i < 5; i++)
                     target.spawn((ServerLevel) world, null, null, pos.above(), MobSpawnType.MOB_SUMMONED, false, false);
-                this.setFinished();
+                    world.playSound(null,pos, SoundEvents.LAVA_POP, SoundSource.BLOCKS, 2.0f, 1.0f);
+                    this.setFinished();
+
             }
+
 
         }
     }

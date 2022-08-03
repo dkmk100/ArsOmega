@@ -5,6 +5,7 @@ import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.BlockUtil;
 import com.hollingsworth.arsnouveau.api.util.SpellUtil;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
+import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,7 +25,14 @@ import java.util.Set;
 
 public class Hellfire extends TierFourEffect {
 
-    public static DamageSource HELLFIRE = new DamageSource("hellfire").setIsFire();
+    private static DamageSource HELLFIRE = new DamageSource("hellfire").setIsFire();
+
+    public static DamageSource makeHellfire(LivingEntity shooter){
+        if(shooter == null){
+            return HELLFIRE;
+        }
+        return new EntityDamageSource("hellfire",shooter).setIsFire();
+    }
 
     public static Hellfire INSTANCE = new Hellfire("hellfire", "hellfire");
 
@@ -42,7 +50,7 @@ public class Hellfire extends TierFourEffect {
             living.setRemainingFireTicks(living.getRemainingFireTicks()+time);
             living.addEffect(new MobEffectInstance(ModPotions.BURNED,20));
         }
-        this.dealDamage(world,shooter,(float)amp*3f,spellStats,rayTraceResult.getEntity(),HELLFIRE);
+        this.dealDamage(world,shooter,(float)amp*3f,spellStats,rayTraceResult.getEntity(),makeHellfire(shooter));
     }
 
     @Override

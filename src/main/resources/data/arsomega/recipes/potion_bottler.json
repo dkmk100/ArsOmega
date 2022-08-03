@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ghg",
+    "gMg",
+    "ghg"
+  ],
+  "key": {
+    "g": {
+      "tag": "forge:ingots/gold"
+    },
+    "M": {
+      "item": "ars_nouveau:potion_jar"
+    },
+    "h": {
+      "item": "minecraft:hopper"
+    }
+  },
+  "result": {
+    "item": "arsomega:potion_bottler"
+  }
+}

@@ -35,6 +35,12 @@ public class Flatten extends AbstractEffect {
             BlockBehaviour.Properties properties = ((BlockBehaviour.Properties) field.get(block));
             Field field2 = ReflectionHandler.destroyTime;
             float tier = field2.getFloat(properties);
+
+            //deal with bedrock
+            if(tier < 0){
+                tier = 50;
+            }
+
             tier = (float) Math.sqrt(tier) * 4f;
 
             //nerf obsidian:

@@ -9,6 +9,7 @@ import com.dkmk100.arsomega.blocks.*;
 import com.dkmk100.arsomega.crafting.*;
 import com.dkmk100.arsomega.empathy_api.AbstractEmpathyIngredient;
 import com.dkmk100.arsomega.empathy_api.EmpathyAPI;
+import com.dkmk100.arsomega.empathy_components.GenericEmpathyIngredient;
 import com.dkmk100.arsomega.empathy_components.HarmingEmpathyIngredient;
 import com.dkmk100.arsomega.empathy_components.HealingEmpathyIngredient;
 import com.dkmk100.arsomega.empathy_components.MultiplierIngredient;
@@ -35,6 +36,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
@@ -42,6 +44,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.GlassBlock;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -68,6 +71,7 @@ import net.minecraft.world.level.block.OreBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import org.apache.commons.lang3.NotImplementedException;
 
 public class RegistryHandler{
     public static final ResourceLocation DIMTYPE = new ResourceLocation(ArsOmega.MOD_ID, "demon_realm");
@@ -216,6 +220,8 @@ public class RegistryHandler{
         register(TemporalCollapse.INSTANCE);
         register(ClotGlyph.INSTANCE);
         register(LesserAOE.INSTANCE);
+        register(GreaterAOE.INSTANCE);
+        register(Absorption.INSTANCE);
     }
 
     public static void registerRituals()
@@ -240,14 +246,48 @@ public class RegistryHandler{
     }
 
     public static void registerEmpathyIngredients(){
-        register(new HarmingEmpathyIngredient(Items.SPIDER_EYE,2,2));
-        register(new HarmingEmpathyIngredient(Items.FERMENTED_SPIDER_EYE,3,2,(a,m) -> new MobEffectInstance(MobEffects.POISON,Math.round(80*m),a-1)));
-        register(new HarmingEmpathyIngredient(Items.WITHER_ROSE,0,(a,m) -> new MobEffectInstance(MobEffects.WITHER,100 + Math.round(100 * a * m),1)));
-        register(new HealingEmpathyIngredient(Items.GLISTERING_MELON_SLICE,2,2,(a,m) -> new MobEffectInstance(MobEffects.REGENERATION,80 + Math.round(50 * a*m),0)));
-        register(new HealingEmpathyIngredient(Items.MELON_SLICE,1));
-        register(new HealingEmpathyIngredient(Items.BREAD,1));
-        register(new HealingEmpathyIngredient(ItemsRegistry.LIFE_ESSENCE,2,2,(a,m) -> new MobEffectInstance(MobEffects.REGENERATION,50 + Math.round(100 * m),a)));
-        register(new MultiplierIngredient(Items.GHAST_TEAR,0.75f,true,true));
+        register(new HarmingEmpathyIngredient(() -> Items.SPIDER_EYE,2,2));
+        register(new HarmingEmpathyIngredient(() -> Items.FERMENTED_SPIDER_EYE,3,2,(a,m) -> new MobEffectInstance(MobEffects.POISON,Math.round(80*m),a-1)));
+        register(new HarmingEmpathyIngredient(() -> ItemsRegistry.POISON_FLOWER,0,5,(a,m) -> new MobEffectInstance(MobEffects.POISON,150 + Math.round(130* m * a),4)));
+        register(new HarmingEmpathyIngredient(() -> Items.WITHER_ROSE,0,(a,m) -> new MobEffectInstance(MobEffects.WITHER,100 + Math.round(100 * a * m),1)));
+        register(new HealingEmpathyIngredient(() -> Items.GLISTERING_MELON_SLICE,2,2,(a,m) -> new MobEffectInstance(MobEffects.REGENERATION,80 + Math.round(50 * a*m),0)));
+        register(new HealingEmpathyIngredient(() -> Items.MELON_SLICE,1));
+        register(new HealingEmpathyIngredient(() -> Items.BREAD,1));
+        register(new HealingEmpathyIngredient(() -> ItemsRegistry.LIFE_ESSENCE,2,2,(a,m) -> new MobEffectInstance(MobEffects.REGENERATION,50 + Math.round(100 * m),a)));
+        register(new MultiplierIngredient(() -> Items.GHAST_TEAR,0.75f,true,true));
+        register(new MultiplierIngredient(() -> Items.GUNPOWDER,0.25f, 3,true,true));
+        register(new MultiplierIngredient(() -> Items.COAL,-0.5f, true,true));
+        register(new HarmingEmpathyIngredient(() -> Items.ROTTEN_FLESH,3,1));
+        HarmingEmpathyIngredient gorgon_gem = (new HarmingEmpathyIngredient(() -> ItemsRegistry.GORGON_GEM,0,10, (a, m) -> {throw new NotImplementedException("");}));
+        GenericEmpathyIngredient binding_sigil = (new HarmingEmpathyIngredient(() -> ItemsRegistry.SIGIL_BINDING_ACTIVE,0,1,
+                (a,m,s) ->
+                {
+                    ArsOmega.LOGGER.info("binding sigil curse activated, amount: " + a + ", strength: " + m);
+                    if(s.getIngredient(gorgon_gem)!=null){
+                        int a2 = s.getIngredient(gorgon_gem).getAmount();
+                        if(a2 > 5) {
+                            return new MobEffectInstance(ModPotions.STONE_PETRIFICATION, 100, m >= 0.5 ? 1 : 0);
+                        }
+                        else{
+                            return new MobEffectInstance(ModPotions.STONE_PETRIFICATION, 120 + Math.round(50*m*(a+a2)), 0);
+                        }
+                    }
+                    else {
+                        return new MobEffectInstance(ModPotions.STONE_PETRIFICATION, 120, 0);
+                    }
+                }
+        ));
+        gorgon_gem.setEffect((a,m,s) -> {
+            if(s.getIngredient(binding_sigil)!=null){
+                return null;
+            }
+            else {
+                return new MobEffectInstance(ModPotions.STONE_PETRIFICATION,80 + Math.round(50*m*a), 0);
+            }
+        });
+        //no longer incompatible, synergy instead!
+        register(gorgon_gem);
+        register(binding_sigil);
     }
 
     public static void addAugments(){
@@ -263,6 +303,9 @@ public class RegistryHandler{
             }
             if(part.compatibleAugments.contains(AugmentAOE.INSTANCE)&&!part.compatibleAugments.contains(LesserAOE.INSTANCE)){
                 part.compatibleAugments.add(LesserAOE.INSTANCE);
+            }
+            if(part.compatibleAugments.contains(AugmentAOE.INSTANCE)&&!part.compatibleAugments.contains(GreaterAOE.INSTANCE)){
+                part.compatibleAugments.add(GreaterAOE.INSTANCE);
             }
         }
     }
@@ -283,7 +326,6 @@ public class RegistryHandler{
         if(spellPart instanceof ConfigurableGlyph){
             configurableGlyphs.add((ConfigurableGlyph) spellPart);
         }
-
     }
     public static void register(AbstractRitual ritual) {
         ArsNouveauAPI.getInstance().registerRitual(ritual.getID(),ritual);
@@ -533,6 +575,7 @@ public class RegistryHandler{
         //ITEMS.add(new DescribedItem("spell_sigil_smite", ITEM_PROPERTIES,"This spell sigil currently has no functionality, it will be implemented in another beta for the update."));
 
         ITEMS.add(new BlockItem(INFUSED_GLASS.get(),ITEM_PROPERTIES).setRegistryName("infused_glass"));
+        ITEMS.add(new BlockItem(CURSE_ALTAR.get(),ITEM_PROPERTIES).setRegistryName("curse_altar"));
         ITEMS.add(new BasicItem(ITEM_PROPERTIES,"reflective_coating"));
         ITEMS.add(new BasicItem(ITEM_PROPERTIES, "enchanted_mirror_shard",true));
 
@@ -543,6 +586,12 @@ public class RegistryHandler{
 
         ITEMS.add(new BasicItem((new Item.Properties()).tab(CreativeModeTab.TAB_FOOD).rarity(Rarity.EPIC).food(ENCHANTED_DIAMOND_APPLE), "enchanted_diamond_apple",true) );
         ITEMS.add(new BasicItem((new Item.Properties()).tab(CreativeModeTab.TAB_FOOD).rarity(Rarity.EPIC).food(ARCANE_APPLE), "arcane_apple",true));
+
+        ITEMS.add(new BlockItem(POTION_BOTTLER.get(),ITEM_PROPERTIES).setRegistryName("potion_bottler"));
+
+        ITEMS.add(new BasicItem(ITEM_PROPERTIES, "splash_bottle"));
+        ITEMS.add(new BasicItem(ITEM_PROPERTIES, "lingering_bottle"));
+
 
         for (Item item : ITEMS) {
             event.getRegistry().register(item);
@@ -593,7 +642,7 @@ public class RegistryHandler{
 
     public static final RegistryObject<Block> POTION_EXTENDER = BLOCKS.register("potion_extender",() -> new PotionExtender(STONE_PROPERTIES));
     public static final RegistryObject<Block> POTION_AMPLIFIER = BLOCKS.register("potion_amplifier",() -> new PotionAmplifier(STONE_PROPERTIES));
-    //public static final RegistryObject<Block> POTION_BOTTLER = BLOCKS.register("potion_bottler",() -> new PotionBottler(STONE_PROPERTIES));
+    public static final RegistryObject<Block> POTION_BOTTLER = BLOCKS.register("potion_bottler",() -> new PotionBottler(STONE_PROPERTIES));
 
     public static final RegistryObject<Block> CURSE_ALTAR = BLOCKS.register("curse_altar",() -> new CurseAltarBlock(UNBREAKABLE_BLOCK_PROPERTIES));
 
@@ -644,7 +693,7 @@ public class RegistryHandler{
 
     public static RegistryObject<BlockEntityType<PotionExtenderTile>> PotionExtenderType = TILE_ENTITIES.register("potion_extender_tile",() -> BlockEntityType.Builder.of(PotionExtenderTile::new,POTION_EXTENDER.get()).build(null));
     public static RegistryObject<BlockEntityType<PotionAmplifierTile>> PotionAmplifierType = TILE_ENTITIES.register("potion_amplifier_tile",() -> BlockEntityType.Builder.of(PotionAmplifierTile::new,POTION_AMPLIFIER.get()).build(null));
-    //public static RegistryObject<BlockEntityType<BottlerTile>> PotionBottlerType = TILE_ENTITIES.register("potion_bottler_tile",() -> BlockEntityType.Builder.of(BottlerTile::new,POTION_BOTTLER.get()).build(null));
+    public static RegistryObject<BlockEntityType<BottlerTile>> PotionBottlerType = TILE_ENTITIES.register("potion_bottler_tile",() -> BlockEntityType.Builder.of(BottlerTile::new,POTION_BOTTLER.get()).build(null));
 
     public static RegistryObject<BlockEntityType<InfinityCrystalTile>> InfinityCrystalType = TILE_ENTITIES.register("infinity_crystal_tile",() -> BlockEntityType.Builder.of(InfinityCrystalTile::new, ItemsRegistry.INFINITY_JAR).build(null));
 
@@ -654,11 +703,11 @@ public class RegistryHandler{
     public static RegistryObject<BlockEntityType<PortalBlockEntity>> PortalType = TILE_ENTITIES.register("portal_tile",() -> BlockEntityType.Builder.of(PortalBlockEntity::new, PORTAL_BLOCK.get()).build(null));
     public static RegistryObject<BlockEntityType<CurseAltarTile>> CurseAltarType = TILE_ENTITIES.register("curse_altar_tile",() -> BlockEntityType.Builder.of(CurseAltarTile::new, CURSE_ALTAR.get()).build(null));
 
-    public static final RegistryObject<EntityType<? extends Mob>> BASIC_DEMON = ENTITIES.register("demon_basic", () -> EntityType.Builder.of(EntityDemonBasic::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_basic").toString()));
-    public static final RegistryObject<EntityType<? extends Mob>> STRONG_DEMON = ENTITIES.register("demon_strong", () -> EntityType.Builder.of(EntityDemonStrong::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_strong").toString()));
-    public static final RegistryObject<EntityType<? extends Mob>> BOSS_DEMON_KING = ENTITIES.register("boss_demon_king", () -> EntityType.Builder.of(EntityBossDemonKing::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "boss_demon_king").toString()));
+    public static final RegistryObject<EntityType<? extends Monster>> BASIC_DEMON = ENTITIES.register("demon_basic", () -> EntityType.Builder.of(EntityDemonBasic::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_basic").toString()));
+    public static final RegistryObject<EntityType<?  extends Monster>> STRONG_DEMON = ENTITIES.register("demon_strong", () -> EntityType.Builder.of(EntityDemonStrong::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_strong").toString()));
+    public static final RegistryObject<EntityType<?  extends Monster>> BOSS_DEMON_KING = ENTITIES.register("boss_demon_king", () -> EntityType.Builder.of(EntityBossDemonKing::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "boss_demon_king").toString()));
 
-    public static final RegistryObject<EntityType<? extends Mob>> RAPTOR_DEMON = ENTITIES.register("demon_raptor", () -> EntityType.Builder.of(EntityDemonRaptor::new, MobCategory.MONSTER).sized(0.6F, 1.4F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_raptor").toString()));
+    public static final RegistryObject<EntityType<?  extends Monster>> RAPTOR_DEMON = ENTITIES.register("demon_raptor", () -> EntityType.Builder.of(EntityDemonRaptor::new, MobCategory.MONSTER).sized(0.6F, 1.4F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_raptor").toString()));
     public static final RegistryObject<EntityType<? extends Mob>> RAY_DEMON = ENTITIES.register("demon_ray", () -> EntityType.Builder.of(EntityDemonRay::new, MobCategory.AMBIENT).sized(1.5F, 1.1F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_ray").toString()));
 
     public static final RegistryObject<EntityType<? extends Mob>> CLAY_GOLEM = ENTITIES.register("clay_golem", () -> EntityType.Builder.of(EntityClayGolemLegacy::new, MobCategory.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem").toString()));
@@ -674,4 +723,11 @@ public class RegistryHandler{
     public static final RegistryObject<EntityType<? extends EntityDivineSmite>> DIVINE_SMITE = ENTITIES.register("divine_smite", () -> EntityType.Builder.<EntityDivineSmite>of(EntityDivineSmite::new, MobCategory.MISC).noSave().sized(0.0F, 0.0F).clientTrackingRange(16).updateInterval(Integer.MAX_VALUE).build(new ResourceLocation(ArsOmega.MOD_ID, "divine_smite").toString()));
 
     public static final RegistryObject<EntityType<EntityWitherBound>> WITHER_BOUND = ENTITIES.register("bound_wither", () -> EntityType.Builder.<EntityWitherBound>of(EntityWitherBound::new, MobCategory.MISC).sized(0.9F, 3.0F).build(new ResourceLocation(ArsOmega.MOD_ID, "bound_wither").toString()));
+
+    public static void RegisterMobSpawns(){
+        SpawnPlacements.register(BASIC_DEMON.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
+        SpawnPlacements.register(STRONG_DEMON.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
+        SpawnPlacements.register(BOSS_DEMON_KING.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
+        SpawnPlacements.register(RAPTOR_DEMON.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
+    }
 }

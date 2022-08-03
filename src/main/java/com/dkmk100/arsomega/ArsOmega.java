@@ -102,11 +102,14 @@ public class ArsOmega
         RegistryHandler.addAugments();
         event.enqueueWork(() -> {
             RegistryHandler.RegisterFunctions();
+            RegistryHandler.RegisterMobSpawns();
             ModPotions.RegisterPotionRecipes();
         });
 
         //structures?
     }
+
+
     private void RegisterEntityAttributes(EntityAttributeCreationEvent event){
         event.put(RegistryHandler.BASIC_DEMON.get(), EntityDemonBasic.createAttributes().build());
         event.put(RegistryHandler.STRONG_DEMON.get(), EntityDemonBasic.createAttributes().build());

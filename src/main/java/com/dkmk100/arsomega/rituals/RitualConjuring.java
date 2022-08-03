@@ -7,6 +7,8 @@ import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
@@ -65,6 +67,8 @@ public class RitualConjuring extends AbstractRitual {
                     if (itementity != null) {
                         itementity.setExtendedLifetime();
                         world.addFreshEntity(itementity);
+                        //play in both worlds lol, why not
+                        world.playSound(null,pos, SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0f, 1.0f);
                     }
                 }
                 this.setFinished();

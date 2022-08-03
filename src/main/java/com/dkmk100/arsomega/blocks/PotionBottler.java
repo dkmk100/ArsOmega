@@ -15,7 +15,6 @@ public class PotionBottler extends TickableModBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        //return new BottlerTile(pos,state);
-        throw new NotImplementedException();
+        return new BottlerTile(pos,state);
     }
 }

@@ -10,7 +10,7 @@
     },
     {
       "type": "relations",
-      "entries":["arsomega:rituals/ritual_shaping"]
+      "entries":["arsomega:rituals/ritual_shaping","arsomega:items/chalk"]
     }
   ]
 }

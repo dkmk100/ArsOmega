@@ -38,9 +38,14 @@ public class EntityDemonRay extends FlyingMob implements Enemy, IAnimatable {
     private AnimationFactory factory = new AnimationFactory(this);
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_33126_, DifficultyInstance p_33127_, MobSpawnType p_33128_, @Nullable SpawnGroupData p_33129_, @Nullable CompoundTag p_33130_) {
-        this.anchorPoint = this.blockPosition().above(5);
-        return super.finalizeSpawn(p_33126_, p_33127_, p_33128_, p_33129_, p_33130_);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_33126_, DifficultyInstance p_33127_, MobSpawnType type, @Nullable SpawnGroupData p_33129_, @Nullable CompoundTag p_33130_) {
+        if(type == MobSpawnType.SPAWN_EGG) {
+            this.anchorPoint = this.blockPosition().above(5);
+        }
+        else{
+            this.anchorPoint = new BlockPos(this.blockPosition().getX(), Math.min(75,Math.max(65,this.blockPosition().getY() + 5)),this.blockPosition().getZ());
+        }
+        return super.finalizeSpawn(p_33126_, p_33127_, type, p_33129_, p_33130_);
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {

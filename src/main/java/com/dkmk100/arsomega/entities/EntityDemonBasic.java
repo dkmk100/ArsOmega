@@ -1,6 +1,9 @@
 package com.dkmk100.arsomega.entities;
 
 import com.dkmk100.arsomega.ArsOmega;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -17,19 +20,26 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 
+import java.util.Random;
+
 public class EntityDemonBasic extends Monster {
     public EntityDemonBasic(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
         this.xpReward = 12;
+    }
+
+    public static boolean canSpawn(EntityType<? extends Monster> entity, LevelAccessor levelAccess, MobSpawnType spawnType, BlockPos pos, Random random){
+        if(levelAccess instanceof ServerLevelAccessor)
+            return Monster.checkMonsterSpawnRules(entity,(ServerLevelAccessor) levelAccess,spawnType,pos,random);
+        else{
+            return false;
+        }
     }
 
     @Override
