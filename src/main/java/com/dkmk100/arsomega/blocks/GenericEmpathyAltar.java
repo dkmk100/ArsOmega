@@ -11,9 +11,11 @@ import com.hollingsworth.arsnouveau.api.client.ITooltipProvider;
 import com.hollingsworth.arsnouveau.common.block.tile.ModdedTile;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.locale.Language;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -31,6 +33,16 @@ public abstract class GenericEmpathyAltar extends ModdedTile implements ITooltip
 
     public GenericEmpathyAltar(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
         super(tileEntityTypeIn, pos, state);
+    }
+
+    String LocName(Item item){
+        Component comp = item.getName(item.getDefaultInstance());
+        if(comp instanceof TranslatableComponent){
+            return Language.getInstance().getOrDefault(((TranslatableComponent) comp).getKey());
+        }
+        else{
+            return comp.getContents();
+        }
     }
 
     public String getAltarType(){
@@ -126,7 +138,7 @@ public abstract class GenericEmpathyAltar extends ModdedTile implements ITooltip
             final int maxUniqueIngredients = 5;
             if (ingredient == null) {
                 if(!stack.isEmpty()) {
-                    PortUtil.sendMessage(player, "no ingredient for item: " + stack.getItem().getRegistryName());
+                    PortUtil.sendMessage(player, new TextComponent("no ingredient for item: ").append(stack.getHoverName().getContents()));
                 }
                 this.updateBlock();
                 return InteractionResult.PASS;
@@ -189,7 +201,7 @@ public abstract class GenericEmpathyAltar extends ModdedTile implements ITooltip
         if(spell != null && spell.getIngredients().size() > 0) {
             list.add(new TextComponent("Current Recipe: "));
             for (EmpathyIngredientInstance ingredient : spell.getIngredients()) {
-                list.add(new TextComponent("Item: " + ingredient.getIngredient().GetItem() + ",  count: "+ingredient.getAmount()));
+                list.add(new TextComponent("Item: " ).append(LocName(ingredient.getIngredient().GetItem())).append( ",  count: "+ingredient.getAmount()));
             }
             if(hasShard){
                 list.add(new TextComponent("Has mirror shard"));
@@ -199,7 +211,7 @@ public abstract class GenericEmpathyAltar extends ModdedTile implements ITooltip
                 list.add(new TextComponent("Add a food item add the " + getAltarType() + " to it, or use an iron needle to weakly affect  "));
             }
             else{
-                list.add(new TextComponent("Right-click with a(n) " + getFinalizeItem().getRegistryName() +" to finalize the curse, making it castable"));
+                list.add(new TextComponent("Right-click with a(n) " + LocName(getFinalizeItem()) +" to finalize the curse, making it castable"));
                 if(!hasShard){
                     list.add(new TextComponent("Add an enchanted mirror shard to increase strength, but affect the caster equally. "));
                 }

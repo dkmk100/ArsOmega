@@ -100,14 +100,13 @@ public class ReflectionHandler {
             modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
         }
         catch (Exception e){
-            //ArsOmega.LOGGER.error(e.getMessage());
             try {
                 var lookup = MethodHandles.privateLookupIn(Field.class, MethodHandles.lookup());
                 VarHandle MODIFIERS = lookup.findVarHandle(Field.class, "modifiers", int.class);
                 MODIFIERS.set(field, field.getModifiers() & ~Modifier.FINAL);
             }
             catch (Exception e2){
-                ArsOmega.LOGGER.error(e2.getMessage());
+                ArsOmega.LOGGER.warn("error in final removal");
             }
         }
     }

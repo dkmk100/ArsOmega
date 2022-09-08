@@ -1,0 +1,18 @@
+{
+  "blocky_hills": {
+    "sounds": [
+      {
+        "name": "arsomega:blocky_hills",
+        "stream": true
+      }
+    ]
+  },
+  "demon_king": {
+    "sounds": [
+      {
+        "name": "arsomega:demon_king",
+        "stream": true
+      }
+    ]
+  }
+}

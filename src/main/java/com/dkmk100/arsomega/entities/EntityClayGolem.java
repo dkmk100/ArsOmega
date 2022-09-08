@@ -45,7 +45,15 @@ import software.bernie.geckolib3.core.IAnimatable;
 import java.util.List;
 
 public class EntityClayGolem extends AbstractGolem implements IDispellable, ITooltipProvider, IWandable {
+
+    public enum Mode{
+        COMBAT, HUNT, PATROL
+    };
+
     protected static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(EntityClayGolem.class, EntityDataSerializers.BYTE);
+
+    protected Mode mode;
+    protected int
 
     public EntityClayGolem(EntityType<? extends AbstractGolem> p_i50267_1_, Level p_i50267_2_) {
         super(p_i50267_1_, p_i50267_2_);

@@ -31,6 +31,8 @@ import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDurationDown;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtendTime;
 import net.minecraft.core.Registry;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.stats.StatsCounter;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffect;
@@ -104,6 +106,8 @@ public class RegistryHandler{
 
     public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, ArsOmega.MOD_ID);
 
+    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, ArsOmega.MOD_ID);
+
     public static final String FIRE_FOCUS_DAMAGE = "hellflare";
 
     public static void RegisterRecipeTypes(){
@@ -131,9 +135,15 @@ public class RegistryHandler{
         TILE_ENTITIES.register(bus);
         ENTITIES.register(bus);
         ENCHANTMENTS.register(bus);
+        SOUNDS.register(bus);
         //StructureInit.RegisterStructures(bus);
         //ExperimentalStructureInit.RegisterStructures(bus);
     }
+
+    public static final RegistryObject<SoundEvent> HILLS_MUSIC = SOUNDS.register("blocky_hills",
+            () -> new SoundEvent(new ResourceLocation(ArsOmega.MOD_ID,"blocky_hills")));
+    public static final RegistryObject<SoundEvent> DEMON_KING_MUSIC = SOUNDS.register("demon_king",
+            () -> new SoundEvent(new ResourceLocation(ArsOmega.MOD_ID,"demon_king")));
 
     public static void registerBlocks(final RegistryEvent.Register<Block> event){
         event.getRegistry().register(new InfinityCrystal(UNBREAKABLE_BLOCK_PROPERTIES,"infinity_crystal"));
@@ -591,7 +601,8 @@ public class RegistryHandler{
 
         ITEMS.add(new BasicItem(ITEM_PROPERTIES, "splash_bottle"));
         ITEMS.add(new BasicItem(ITEM_PROPERTIES, "lingering_bottle"));
-
+        ITEMS.add(new RecordItem(7,HILLS_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC)).setRegistryName("blocky_hills_music_disc"));
+        ITEMS.add(new DescribedItem("ancient_mirror_shard",ITEM_PROPERTIES_FIRE,"A shard from an ancient mirror.",true));
 
         for (Item item : ITEMS) {
             event.getRegistry().register(item);

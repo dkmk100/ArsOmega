@@ -97,9 +97,7 @@ public class GlyphRaiseEarth  extends TierFourEffect {
                 double speed = 2 + (0.3f * spellStats.getAmpMultiplier()) + (0.5f * spellStats.getBuffCount(AugmentPierce.INSTANCE) + spellStats.getBuffCount(AugmentAccelerate.INSTANCE));
                 entity.hurtMarked = true;
                 entity.hasImpulse = true;
-                if(entity instanceof LivingEntity) {
-                    EffectKnockback.INSTANCE.knockback((LivingEntity) entity, shooter, (float)speed);
-                }
+                EffectKnockback.INSTANCE.knockback(entity, shooter, (float)speed);
             }
             this.dealDamage(world, shooter, 4 + 2*(float)spellStats.getAmpMultiplier(), spellStats, entity, DamageSource.FALL);
         }

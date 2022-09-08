@@ -13,6 +13,9 @@ import com.hollingsworth.arsnouveau.common.spell.effect.EffectFlare;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectHarm;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectIgnite;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodProjectile;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -40,6 +43,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.world.entity.EntityDimensions;
@@ -52,10 +56,14 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.entity.IEntityAdditionalSpawnData;
+import net.minecraftforge.network.NetworkHooks;
 
 import java.util.List;
 
-public class EntityBossDemonKing extends Monster {
+public class EntityBossDemonKing extends Monster implements IEntityAdditionalSpawnData {
     private int minionTimer = 100;
     private int rangedMinionTimer = 0;
     private int minionsSpawned;
@@ -135,7 +143,7 @@ public class EntityBossDemonKing extends Monster {
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.EVOKER_DEATH;
+        return SoundEvents.WITHER_DEATH;
     }
 
     @Override
@@ -252,5 +260,22 @@ public class EntityBossDemonKing extends Monster {
     protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
         return 1.75F;
     }
+
+    @Nonnull
+    @Override
+    public Packet<?> getAddEntityPacket() {
+        return NetworkHooks.getEntitySpawningPacket(this);
+    }
+
+    @Override
+    public void writeSpawnData(FriendlyByteBuf buffer) {}
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void readSpawnData(FriendlyByteBuf additionalData) {
+        Minecraft.getInstance().getSoundManager().play(new BossMusic(this, RegistryHandler.DEMON_KING_MUSIC.get()));
+    }
+
+
 
 }
