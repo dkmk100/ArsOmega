@@ -11,6 +11,10 @@
     {
       "type": "ars_nouveau:glyph_recipe",
       "recipe": "ars_nouveau:glyph_animate_block"
+    },
+    {
+      "type": "relations",
+      "entries":["arsomega:items/clay_golems"]
     }
   ]
 }

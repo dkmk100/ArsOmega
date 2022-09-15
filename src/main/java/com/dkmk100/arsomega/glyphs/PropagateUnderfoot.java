@@ -19,7 +19,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class PropagateUnderfoot extends AbstractEffect {
+public class PropagateUnderfoot extends AbstractEffect implements IIgnoreBuffs {
     public static PropagateUnderfoot INSTANCE = new PropagateUnderfoot("propagate_underfoot","Propagate Underfoot");
 
     private PropagateUnderfoot(String tag, String description) {

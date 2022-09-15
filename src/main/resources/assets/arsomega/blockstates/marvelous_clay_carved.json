@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "arsomega:block/marvelous_clay_carved",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "arsomega:block/marvelous_clay_carved"
+    },
+    "facing=south": {
+      "model": "arsomega:block/marvelous_clay_carved",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "arsomega:block/marvelous_clay_carved",
+      "y": 270
+    }
+  }
+}

@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.items;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.glyphs.IIgnoreBuffs;
 import com.hollingsworth.arsnouveau.ArsNouveau;
 import com.hollingsworth.arsnouveau.api.item.ICasterTool;
 import com.hollingsworth.arsnouveau.api.spell.*;
@@ -124,7 +125,10 @@ public class Staff extends SwordItem implements IAnimatable, ICasterTool {
             int boostsLeft = augmentAmount;
             if(part instanceof AbstractEffect && part.compatibleAugments.contains(augmentAdded)) {
                 boolean valid = true;
-                if (i + 1 < spell.recipe.size()) {
+                if(part instanceof IIgnoreBuffs){
+                    valid = false;
+                }
+                else if (i + 1 < spell.recipe.size()) {
                     AbstractSpellPart part2 = spell.recipe.get(i + 1);
                     int i2 = i + 1;
                     while (valid && i2 < spell.recipe.size() && part2 instanceof AbstractAugment) {

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:mystic_clay_block"
+    }
+  ],
+  "result": {
+    "item": "arsomega:mystic_clay",
+    "count": 4
+  }
+}

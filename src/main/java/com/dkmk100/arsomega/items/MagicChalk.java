@@ -47,7 +47,7 @@ public class MagicChalk extends BasicItem{
 
                 world.setBlockAndUpdate(pos.above(), chalkBlock.get().getStateForPlacement(blockContext));
                 ChalkTile rune = (ChalkTile)world.getBlockEntity(pos.above());
-                rune.uuid = context.getPlayer().getUUID();//so the player who places it owns it and others can't edit it
+                rune.data.owner = context.getPlayer().getUUID();//so the player who places it owns it and others can't edit it
                 chalkBlock.get().RequestAdjacentUpdates(world,pos.above());
 
 

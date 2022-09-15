@@ -106,6 +106,16 @@
           "name": "arsomega:demon_staff"
         }
       ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 3,
+          "name": "arsomega:demon_dance_music_disc"
+        }
+      ]
     }
   ]
 }

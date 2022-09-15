@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:marvelous_clay_block"
+    }
+  ],
+  "result": {
+    "item": "arsomega:marvelous_clay",
+    "count": 4
+  }
+}

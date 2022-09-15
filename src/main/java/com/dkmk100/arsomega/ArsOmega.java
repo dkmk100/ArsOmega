@@ -116,8 +116,10 @@ public class ArsOmega
         event.put(RegistryHandler.BOSS_DEMON_KING.get(), EntityBossDemonKing.createAttributes().build());
         event.put(RegistryHandler.RAPTOR_DEMON.get(), EntityDemonRaptor.createAttributes().build());
         event.put(RegistryHandler.RAY_DEMON.get(), EntityDemonRay.createAttributes().build());
-        event.put(RegistryHandler.CLAY_GOLEM.get(), EntityClayGolemLegacy.createAttributes().build());
-        event.put(RegistryHandler.CLAY_GOLEM_BETA.get(), EntityClayGolem.createAttributes().build());
+        event.put(RegistryHandler.CLAY_GOLEM_BETA.get(), EntityClayGolem.createAttributes(EntityClayGolem.Tier.MAGIC).build());
+        event.put(RegistryHandler.CLAY_GOLEM_MARVELOUS.get(), EntityClayGolem.createAttributes(EntityClayGolem.Tier.MARVELOUS).build());
+        event.put(RegistryHandler.CLAY_GOLEM_MYSTIC.get(), EntityClayGolem.createAttributes(EntityClayGolem.Tier.MYSTIC).build());
+        event.put(RegistryHandler.CLAY_GOLEM_ARCANE.get(), EntityClayGolem.createAttributes(EntityClayGolem.Tier.ARCANE).build());
         event.put(RegistryHandler.WITHER_BOUND.get(), WitherBoss.createAttributes().build());
     }
     private void clientSetup(final FMLClientSetupEvent event)
@@ -149,15 +151,16 @@ public class ArsOmega
         event.registerEntityRenderer(RegistryHandler.RAY_DEMON.get(), (EntityRendererProvider.Context context) -> new RayRenderer(context));
 
         RegisterMobRenderer(RegistryHandler.BOSS_DEMON_KING.get(),"boss_demon_king",event);
-        RegisterMobRenderer(RegistryHandler.CLAY_GOLEM.get(),"clay_golem",event);
         RegisterMobRenderer(RegistryHandler.CLAY_GOLEM_BETA.get(),"clay_golem",event);
+        RegisterMobRenderer(RegistryHandler.CLAY_GOLEM_MARVELOUS.get(),"clay_golem_marvelous",event);
+        RegisterMobRenderer(RegistryHandler.CLAY_GOLEM_MYSTIC.get(),"clay_golem_mystic",event);
+        RegisterMobRenderer(RegistryHandler.CLAY_GOLEM_ARCANE.get(),"clay_golem_arcane",event);
 
         event.registerEntityRenderer(RegistryHandler.WITHER_BOUND.get(), (EntityRendererProvider.Context context) -> new WitherBossRenderer(context));
         event.registerEntityRenderer(RegistryHandler.TORNADO.get(), (EntityRendererProvider.Context context) -> new PlainRenderer(context));
         event.registerEntityRenderer(RegistryHandler.EARTHQUAKE.get(), (EntityRendererProvider.Context context) -> new PlainRenderer(context));
         event.registerEntityRenderer(RegistryHandler.DIVINE_SMITE.get(), (EntityRendererProvider.Context context) -> new LightningBoltRenderer(context));
         event.registerEntityRenderer(RegistryHandler.WHIRLPOOL.get(), (EntityRendererProvider.Context context) -> new PlainRenderer(context));
-
 
         event.registerBlockEntityRenderer(RegistryHandler.PortalType.get(), PortalRenderer::new);
     }

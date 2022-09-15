@@ -38,6 +38,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.food.Foods;
@@ -142,6 +143,9 @@ public class RegistryHandler{
 
     public static final RegistryObject<SoundEvent> HILLS_MUSIC = SOUNDS.register("blocky_hills",
             () -> new SoundEvent(new ResourceLocation(ArsOmega.MOD_ID,"blocky_hills")));
+
+    public static final RegistryObject<SoundEvent> DEMON_DANCE_MUSIC = SOUNDS.register("demon_dance",
+            () -> new SoundEvent(new ResourceLocation(ArsOmega.MOD_ID,"demon_dance")));
     public static final RegistryObject<SoundEvent> DEMON_KING_MUSIC = SOUNDS.register("demon_king",
             () -> new SoundEvent(new ResourceLocation(ArsOmega.MOD_ID,"demon_king")));
 
@@ -268,6 +272,8 @@ public class RegistryHandler{
         register(new MultiplierIngredient(() -> Items.GUNPOWDER,0.25f, 3,true,true));
         register(new MultiplierIngredient(() -> Items.COAL,-0.5f, true,true));
         register(new HarmingEmpathyIngredient(() -> Items.ROTTEN_FLESH,3,1));
+        register(new HarmingEmpathyIngredient(() -> Items.BONE,3,1));
+
         HarmingEmpathyIngredient gorgon_gem = (new HarmingEmpathyIngredient(() -> ItemsRegistry.GORGON_GEM,0,10, (a, m) -> {throw new NotImplementedException("");}));
         GenericEmpathyIngredient binding_sigil = (new HarmingEmpathyIngredient(() -> ItemsRegistry.SIGIL_BINDING_ACTIVE,0,1,
                 (a,m,s) ->
@@ -604,6 +610,15 @@ public class RegistryHandler{
         ITEMS.add(new RecordItem(7,HILLS_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC)).setRegistryName("blocky_hills_music_disc"));
         ITEMS.add(new DescribedItem("ancient_mirror_shard",ITEM_PROPERTIES_FIRE,"A shard from an ancient mirror.",true));
 
+        ITEMS.add(new BlockItem(MARVELOUS_CLAY_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("marvelous_clay_block"));
+        ITEMS.add(new BlockItem(MARVELOUS_CLAY_CARVED.get(),ITEM_PROPERTIES).setRegistryName("marvelous_clay_carved"));
+        ITEMS.add(new BlockItem(MYSTIC_CLAY_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("mystic_clay_block"));
+        ITEMS.add(new BlockItem(MYSTIC_CLAY_CARVED.get(),ITEM_PROPERTIES).setRegistryName("mystic_clay_carved"));
+        ITEMS.add(new BlockItem(ARCANE_CLAY_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("arcane_clay_block"));
+        ITEMS.add(new BlockItem(ARCANE_CLAY_CARVED.get(),ITEM_PROPERTIES).setRegistryName("arcane_clay_carved"));
+
+        ITEMS.add(new RecordItem(8,DEMON_DANCE_MUSIC,new Item.Properties().fireResistant().stacksTo(1).rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC)).setRegistryName("demon_dance_music_disc"));
+
         for (Item item : ITEMS) {
             event.getRegistry().register(item);
         }
@@ -659,10 +674,29 @@ public class RegistryHandler{
 
 
     static EntityType<? extends Entity> getClayGolem(){
-        return CLAY_GOLEM.get();
+        return CLAY_GOLEM_BETA.get();
+    }
+    static EntityType<? extends Entity> getMarvelousGolem(){
+        return CLAY_GOLEM_MARVELOUS.get();
+    }
+    static EntityType<? extends Entity> getMysticGolem(){
+        return CLAY_GOLEM_MYSTIC.get();
+    }
+    static EntityType<? extends Entity> getArcaneGolem(){
+        return CLAY_GOLEM_ARCANE.get();
     }
     public static final RegistryObject<Block> MAGIC_CLAY_BLOCK = BLOCKS.register("magic_clay_block",() -> new Block(CLAY_PROPERTIES));
     public static final RegistryObject<Block> MAGIC_CLAY_CARVED = BLOCKS.register("magic_clay_carved",() -> new CarvedClay(CLAY_PROPERTIES,false,MAGIC_CLAY_BLOCK.get(), RegistryHandler::getClayGolem));
+
+    public static final RegistryObject<Block> MARVELOUS_CLAY_BLOCK = BLOCKS.register("marvelous_clay_block",() -> new Block(CLAY_PROPERTIES));
+    public static final RegistryObject<Block> MARVELOUS_CLAY_CARVED = BLOCKS.register("marvelous_clay_carved",() -> new CarvedClay(CLAY_PROPERTIES,false,MARVELOUS_CLAY_BLOCK.get(), RegistryHandler::getMarvelousGolem));
+
+    public static final RegistryObject<Block> MYSTIC_CLAY_BLOCK = BLOCKS.register("mystic_clay_block",() -> new Block(CLAY_PROPERTIES));
+    public static final RegistryObject<Block> MYSTIC_CLAY_CARVED = BLOCKS.register("mystic_clay_carved",() -> new CarvedClay(CLAY_PROPERTIES,false,MYSTIC_CLAY_BLOCK.get(), RegistryHandler::getMysticGolem));
+
+    public static final RegistryObject<Block> ARCANE_CLAY_BLOCK = BLOCKS.register("arcane_clay_block",() -> new Block(CLAY_PROPERTIES));
+    public static final RegistryObject<Block> ARCANE_CLAY_CARVED = BLOCKS.register("arcane_clay_carved",() -> new CarvedClay(CLAY_PROPERTIES,false, ARCANE_CLAY_BLOCK.get(), RegistryHandler::getArcaneGolem));
+
 
     public static final RegistryObject<Block> ENCHANTERS_WOOL = BLOCKS.register("enchanters_wool",() -> new Block(WOOL_PROPERTIES));
     public static final RegistryObject<Block> ARCANE_BLOOM = BLOCKS.register("arcane_bloom_crop",() -> new ArcaneBloomCrop());
@@ -721,8 +755,10 @@ public class RegistryHandler{
     public static final RegistryObject<EntityType<?  extends Monster>> RAPTOR_DEMON = ENTITIES.register("demon_raptor", () -> EntityType.Builder.of(EntityDemonRaptor::new, MobCategory.MONSTER).sized(0.6F, 1.4F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_raptor").toString()));
     public static final RegistryObject<EntityType<? extends Mob>> RAY_DEMON = ENTITIES.register("demon_ray", () -> EntityType.Builder.of(EntityDemonRay::new, MobCategory.AMBIENT).sized(1.5F, 1.1F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_ray").toString()));
 
-    public static final RegistryObject<EntityType<? extends Mob>> CLAY_GOLEM = ENTITIES.register("clay_golem", () -> EntityType.Builder.of(EntityClayGolemLegacy::new, MobCategory.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem").toString()));
-    public static final RegistryObject<EntityType<? extends Mob>> CLAY_GOLEM_BETA = ENTITIES.register("clay_golem_beta", () -> EntityType.Builder.of(EntityClayGolem::new, MobCategory.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem_beta").toString()));
+    public static final RegistryObject<EntityType<? extends EntityClayGolem>> CLAY_GOLEM_BETA = ENTITIES.register("clay_golem", () -> EntityType.Builder.<EntityClayGolem>of((e,l) -> new EntityClayGolem(e,l, EntityClayGolem.Tier.MAGIC), MobCategory.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem").toString()));
+    public static final RegistryObject<EntityType<? extends EntityClayGolem>> CLAY_GOLEM_MARVELOUS = ENTITIES.register("clay_golem_marvelous", () -> EntityType.Builder.<EntityClayGolem>of((e,l) -> new EntityClayGolem(e,l, EntityClayGolem.Tier.MARVELOUS), MobCategory.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem_marvelous").toString()));
+    public static final RegistryObject<EntityType<? extends EntityClayGolem>> CLAY_GOLEM_MYSTIC = ENTITIES.register("clay_golem_mystic", () -> EntityType.Builder.<EntityClayGolem>of((e,l) -> new EntityClayGolem(e,l, EntityClayGolem.Tier.MYSTIC), MobCategory.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem_mystic").toString()));
+    public static final RegistryObject<EntityType<? extends EntityClayGolem>> CLAY_GOLEM_ARCANE = ENTITIES.register("clay_golem_arcane", () -> EntityType.Builder.<EntityClayGolem>of((e,l) -> new EntityClayGolem(e,l, EntityClayGolem.Tier.ARCANE), MobCategory.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem_arcane").toString()));
 
     public static final RegistryObject<EntityType<? extends EntityTornado>> TORNADO = ENTITIES.register("tornado", () -> EntityType.Builder.<EntityTornado>of(EntityTornado::new, MobCategory.MISC).sized(0.3F, 0.3F).clientTrackingRange(20).build(new ResourceLocation(ArsOmega.MOD_ID, "tornado").toString()));
 

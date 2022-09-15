@@ -182,14 +182,22 @@ public class EntityBossDemonKing extends Monster implements IEntityAdditionalSpa
             LivingEntity target = getTarget();
             int frequency = 50;
             if (level.getGameTime() % frequency == 0) {
-                if (target != null) {
+                if(level.getBlockState(this.blockPosition()).getBlock() == Blocks.WATER){
+                    level.setBlockAndUpdate(this.blockPosition(), Blocks.SPONGE.defaultBlockState());
+                }
+                else if (target != null) {
                     float lavaRange = 4f;
                     float minRange = 1.5f;
                     float shootRange = 8.5f;
                     double dist2 = target.position().distanceToSqr(this.position());
                     //too close, lava bucket
                     if (dist2 < lavaRange * lavaRange && dist2 > minRange * minRange) {
-                        level.setBlockAndUpdate(target.blockPosition(), Blocks.LAVA.defaultBlockState());
+                        if(level.getBlockState(target.blockPosition()).getBlock() == Blocks.WATER){
+                            level.setBlockAndUpdate(target.blockPosition(), Blocks.SPONGE.defaultBlockState());
+                        }
+                        else {
+                            level.setBlockAndUpdate(target.blockPosition(), Blocks.LAVA.defaultBlockState());
+                        }
                     }
                     //too far, shoot at
                     else if (dist2 > shootRange * shootRange) {

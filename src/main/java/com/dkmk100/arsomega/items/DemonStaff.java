@@ -3,6 +3,7 @@ package com.dkmk100.arsomega.items;
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.ISpellCaster;
+import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.TooltipFlag;
@@ -35,6 +36,7 @@ public class DemonStaff extends BasicItem {
         if(worldIn instanceof ServerLevel) {
             if(!worldIn.dimension().equals(ResourceKey.create(Registry.DIMENSION_REGISTRY, RegistryHandler.DIMTYPE)) && !playerIn.getAbilities().instabuild){
                 //not in demon realm
+                PortUtil.sendMessage(playerIn,"Must be used in the demon realm!");
                 return new InteractionResultHolder<>(InteractionResult.FAIL,stack);
             }
             Entity ent = RegistryHandler.BOSS_DEMON_KING.get().spawn((ServerLevel) worldIn, stack, playerIn, playerIn.blockPosition(), MobSpawnType.MOB_SUMMONED, true, false);

@@ -2,6 +2,7 @@ package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.base_blocks.MagicAnimatable;
 import com.hollingsworth.arsnouveau.api.spell.*;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.core.BlockPos;
@@ -27,7 +28,9 @@ public class AnimateGlyph extends AbstractEffect {
             Block block = world.getBlockState(pos).getBlock();
             if(block instanceof MagicAnimatable){
                 MagicAnimatable anim = (MagicAnimatable) block;
-                anim.Animate(pos,(ServerLevel)world);
+                if(shooter != null && shooter instanceof Player) {
+                    anim.Animate(pos, (ServerLevel) world, (Player)shooter);
+                }
             }
 
         }

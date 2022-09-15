@@ -19,6 +19,12 @@ public class ItemsRegistry {
 
     @ObjectHolder("magic_clay")
     public static Item MAGIC_CLAY;
+    @ObjectHolder("marvelous_clay")
+    public static Item MARVELOUS_CLAY;
+    @ObjectHolder("mystic_clay")
+    public static Item MYSTIC_CLAY;
+    @ObjectHolder("arcane_clay")
+    public static Item ARCANE_CLAY;
     @ObjectHolder("infinity_crystal")
     public static Block INFINITY_JAR;
 

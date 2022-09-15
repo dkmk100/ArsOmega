@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "arsomega:items/demon_dance_music_disc"
+  }
+}

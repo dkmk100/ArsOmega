@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.blocks;
 
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.util.ChalkColor;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
@@ -136,8 +137,10 @@ public class ChalkLineBlock extends TickableModBlock {
     public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
         super.entityInside(state, worldIn, pos, entityIn);
         if (worldIn.getBlockEntity(pos) instanceof ChalkTile && entityIn instanceof LivingEntity) {
+            ArsOmega.LOGGER.info("entity inside");
             ChalkTile rune = (ChalkTile)worldIn.getBlockEntity(pos);
             if(rune.canCastSpell() && rune.shouldHitEntity(entityIn)) {
+                ArsOmega.LOGGER.info("can cast on entity");
                 rune.touchedEntity = entityIn;
             }
             worldIn.scheduleTick(pos, this, 1);
@@ -150,20 +153,18 @@ public class ChalkLineBlock extends TickableModBlock {
         if(worldIn.getBlockEntity(pos) instanceof ChalkTile && ((ChalkTile) worldIn.getBlockEntity(pos)).touchedEntity != null)
         {
             ChalkTile rune = (ChalkTile) worldIn.getBlockEntity(pos);
-
+            ArsOmega.LOGGER.info("casting spell");
             rune.castSpell(rune.touchedEntity);
-            if (rune.uuid != null && rune.touchedEntity instanceof LivingEntity && rune.charges > 0) {
-                Player player = worldIn.getPlayerByUUID(rune.uuid);
+            if (rune.data.owner != null && rune.touchedEntity instanceof LivingEntity && rune.data.charges > 0) {
+                Player player = worldIn.getPlayerByUUID(rune.data.owner);
                 if(player!=null) {
-                    EffectKnockback.INSTANCE.knockback((LivingEntity) rune.touchedEntity, player, 0.25f);
+                    EffectKnockback.INSTANCE.knockback(rune.touchedEntity, player, 0.3f);
                 }
             }
             UpdateAdjacentSpells(worldIn, pos);
 
             rune.touchedEntity = null;
-
         }
-
     }
 
     public boolean SetSpell(ItemStack stack, @Nullable Player player, Level worldIn, BlockPos pos) {
@@ -178,7 +179,7 @@ public class ChalkLineBlock extends TickableModBlock {
 
         boolean flag = false;
         ChalkTile tile = ((ChalkTile)worldIn.getBlockEntity(pos));
-        if(tile.uuid != null && player.getUUID() != tile.uuid){
+        if(tile.data.owner != null && player != worldIn.getPlayerByUUID(tile.data.owner)){
             PortUtil.sendMessageNoSpam(player, new TextComponent("Cannot modify another player's spell circle..."));
             flag = true;
         }
@@ -193,11 +194,11 @@ public class ChalkLineBlock extends TickableModBlock {
             SpellResolver resolver = new SpellResolver(caster2,player);
             if(enoughMana(player,resolver)) {
 
-                boolean setSpell = tile.spell.recipe != spell.recipe;
+                boolean setSpell = tile.data.spell.recipe != spell.recipe;
                 tile.setSpell(spell);
                 tile.setSpellColor(caster.getColor().toParticleColor());
                 if (player != null) {
-                    tile.uuid = player.getUUID();
+                    tile.data.owner = player.getUUID();
                 }
 
                 boolean charges = tile.tryAddCharges(1, maxCharges);
@@ -235,7 +236,7 @@ public class ChalkLineBlock extends TickableModBlock {
                     if (isValidChalk(state)) {
                         ChalkTile tile = ((ChalkTile) worldIn.getBlockEntity(pos1));
                         //set own spell based on new pos
-                        if (SetSpell(tile.spell, tile.color, tile.uuid, worldIn, pos, tile.charges)) {
+                        if (SetData(tile.data, worldIn, pos)) {
                             if(changed){
                                 worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                                 return;
@@ -256,6 +257,7 @@ public class ChalkLineBlock extends TickableModBlock {
     }
 
     public void UpdateAdjacentSpells(Level worldIn, BlockPos pos) {
+        ArsOmega.LOGGER.info("updating adjacent from: "+pos);
         ChalkTile tile = ((ChalkTile) worldIn.getBlockEntity(pos));
         if(tile==null){
             return;
@@ -266,39 +268,31 @@ public class ChalkLineBlock extends TickableModBlock {
                     BlockPos pos1 = pos.above(i).relative(dir);
                     BlockState state = worldIn.getBlockState(pos1);
                     if (isValidChalk(state)) {
-                        if (SetSpell(tile.spell, tile.color, tile.uuid, worldIn, pos1, tile.charges)) {
+
+                        if(SetData(tile.data, worldIn, pos1)) {
                             UpdateAdjacentSpells(worldIn, pos1);//propagate changes
-                            break;//break the for loop to not check further vertically, we are done
                         }
+
+                        break;//break the for loop to not check further vertically, we are done
                     }
                 }
             }
         }
     }
 
-    public boolean SetSpell(Spell spell, ParticleColor color, UUID player, Level worldIn, BlockPos pos, int charges){
-
+    public boolean SetData(ChalkLineData data, Level worldIn, BlockPos pos){
         ChalkTile tile = ((ChalkTile)worldIn.getBlockEntity(pos));
+        BlockState state = worldIn.getBlockState(pos);
+        int oldPower = state.getValue(POWER);
+        if(tile.SetData(data)){
+            tile.savesData = false;
+            worldIn.setBlockAndUpdate(pos, state.setValue(ChalkLineBlock.POWER,data.charges));
+            return true;
+        }
+        else if(oldPower!=data.charges) {
+            worldIn.setBlockAndUpdate(pos, state.setValue(ChalkLineBlock.POWER,data.charges));
+            return true;
 
-        if (spell.isEmpty()) {
-            return false;
-        } else if (!(spell.recipe.get(0) instanceof MethodTouch)) {
-            return false;
-        }
-        else if(tile.charges == charges && tile.spell.recipe == spell.recipe){
-            return false;//no change in spell or charges
-        }
-        else{
-            boolean changedSpell = spell.recipe != tile.spell.recipe;
-            tile.setSpell(spell);
-            tile.setSpellColor(color);
-            if(player!=null) {
-                tile.uuid = player;
-            }
-            boolean changedCharges = tile.setCharges(charges);
-            if(changedSpell || changedCharges){
-                return true;
-            }
         }
         return false;
     }
@@ -309,6 +303,9 @@ public class ChalkLineBlock extends TickableModBlock {
         if (stack.getItem() instanceof SpellParchment || stack.getItem() instanceof SpellBook && !worldIn.isClientSide) {
 
             if(SetSpell(stack,player, worldIn, pos)){
+                ChalkTile tile = ((ChalkTile)worldIn.getBlockEntity(pos));
+                tile.savesData = true;
+                ArsOmega.LOGGER.info("set new spell and flagged as saves data");
                 UpdateAdjacentSpells(worldIn,pos);//propagate spell change
                 return InteractionResult.SUCCESS;
             }

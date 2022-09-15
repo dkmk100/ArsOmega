@@ -14,5 +14,13 @@
         "stream": true
       }
     ]
+  },
+  "demon_dance": {
+    "sounds": [
+      {
+        "name": "arsomega:demon_dance",
+        "stream": true
+      }
+    ]
   }
 }

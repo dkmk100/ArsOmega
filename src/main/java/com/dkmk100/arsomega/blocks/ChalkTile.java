@@ -1,7 +1,9 @@
 package com.dkmk100.arsomega.blocks;
 
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
+import com.hollingsworth.arsnouveau.api.client.ITooltipProvider;
 import com.hollingsworth.arsnouveau.api.spell.EntitySpellResolver;
 import com.hollingsworth.arsnouveau.api.spell.Spell;
 import com.hollingsworth.arsnouveau.api.spell.SpellContext;
@@ -15,6 +17,8 @@ import com.hollingsworth.arsnouveau.common.spell.method.MethodTouch;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -35,68 +39,70 @@ import java.util.UUID;
 
 public class ChalkTile extends ModdedTile implements ITickable {
 
-    public Spell spell;
-    public int charges;
-    public UUID uuid;
-    public ParticleColor color;
-
-    long lastHit = 0;
-
-    final int hitDelay = 11;
+    public ChalkLineData data;
 
     public Entity touchedEntity;
 
+    public boolean savesData = false;
+
     public ChalkTile(BlockPos pos, BlockState state) {
         super(RegistryHandler.ChalkTileType.get(), pos, state);
-        this.spell = new Spell();
+        data = new ChalkLineData(new Spell());
     }
 
+    public boolean SetData(ChalkLineData newData){
+        if(data != newData) {
+            data = newData;
+            return true;
+        }
+        return false;
+    }
+
+
     public void setSpell(Spell spell) {
-        this.spell = spell;
+        data.spell = spell;
     }
 
     public void setSpellColor(ParticleColor color) {
-        this.color = color;
+        data.color = color;
     }
 
     public boolean setCharges(int charges2){
-        int oldc = this.charges;
-        this.charges = charges2;
+        int oldc = data.charges;
+        data.charges = Math.max(Math.min(charges2,15),0);
 
-        this.charges = Math.max(Math.min(this.charges,15),0);
-
-        this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(ChalkLineBlock.POWER,charges));
-        return oldc!=this.charges;
+        this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(ChalkLineBlock.POWER,data.charges));
+        return oldc!= data.charges;
     }
 
     public boolean tryAddCharges(int charges2,int maxCharges){
-        int oldc = this.charges;
-        this.charges += charges2;
+        int oldc = data.charges;
+        data.charges += charges2;
 
-        this.charges = Math.max(Math.min(this.charges,Math.min(maxCharges,15)),0);
+        data.charges = Math.max(Math.min(data.charges,15),0);
 
-        this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(ChalkLineBlock.POWER,charges));
-        return oldc!=this.charges;
+        this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(ChalkLineBlock.POWER,data.charges));
+        return oldc!= data.charges;
     }
 
     public boolean canCastSpell(){
-        return spell!=null && this.level.getGameTime() - hitDelay > lastHit;
+        return data.spell!=null;
     }
 
     public boolean shouldHitEntity(Entity entity){
-        return uuid == null || entity.getUUID() != uuid;
+        return (data.owner == null || entity.getUUID() != data.owner);
     }
 
     public void castSpell(Entity entity) {
         if (entity != null) {
-            if (this.charges > 0 && !this.spell.isEmpty() && this.level instanceof ServerLevel && this.spell.recipe.get(0) instanceof MethodTouch) {
+            if (data.charges > 0 && !data.spell.isEmpty() && this.level instanceof ServerLevel && data.CanHitEntity(entity,level.getGameTime())) {
                 try {
-                    Player playerEntity = this.uuid != null ? this.level.getPlayerByUUID(this.uuid) : FakePlayerFactory.getMinecraft((ServerLevel)this.level);
+                    Player playerEntity = data.owner != null ? this.level.getPlayerByUUID(data.owner) : FakePlayerFactory.getMinecraft((ServerLevel)this.level);
                     playerEntity = playerEntity == null ? FakePlayerFactory.getMinecraft((ServerLevel)this.level) : playerEntity;
-                    EntitySpellResolver resolver = new EntitySpellResolver((new SpellContext(this.spell, (LivingEntity)playerEntity)).withCastingTile(this).withType(SpellContext.CasterType.RUNE).withColors(this.color.toWrapper()));
+                    EntitySpellResolver resolver = new EntitySpellResolver((new SpellContext(data.spell, (LivingEntity)playerEntity)).withCastingTile(this).withType(SpellContext.CasterType.RUNE).withColors(data.color.toWrapper()));
                     resolver.onCastOnEntity(ItemStack.EMPTY, (LivingEntity)playerEntity, entity, InteractionHand.MAIN_HAND);
 
-                    charges-=1;
+                    data.charges-=1;
 
                     //keeping just in case but probably won't ever self destruct
                     if (false) {
@@ -105,11 +111,13 @@ public class ChalkTile extends ModdedTile implements ITickable {
                     }
                     int maxCharges = 15;
                     //clamp
-                    charges = Math.max(Math.min(charges,maxCharges),0);
-                    lastHit = this.level.getGameTime();
-                    this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(ChalkLineBlock.POWER,charges));
+                    data.charges = Math.max(Math.min(data.charges,maxCharges),0);
+
+                    data.AddEntity(entity,level.getGameTime());
+
+                    this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(ChalkLineBlock.POWER,data.charges));
                 } catch (Exception var4) {
-                    PortUtil.sendMessage(entity, new TranslatableComponent("ars_nouveau.rune.error"));
+                    PortUtil.sendMessage(entity, new TextComponent("Chalk line error, please report on the Ars Omega github!"));
                     var4.printStackTrace();
                     this.level.destroyBlock(this.worldPosition, false);
                 }
@@ -120,28 +128,25 @@ public class ChalkTile extends ModdedTile implements ITickable {
 
     public void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
-        tag.putString("spell", this.spell.serialize());
-        tag.putInt("charges", this.charges);
-        if (this.uuid != null) {
-            tag.putUUID("uuid", this.uuid);
+        if(savesData) {
+            data.Serialize(tag);
         }
-
-        if (this.color != null) {
-            tag.putString("color", this.color.toWrapper().serialize());
-        }
+        tag.putBoolean("savesData",savesData);
 
     }
 
     public void load(CompoundTag tag) {
-        this.spell = Spell.deserialize(tag.getString("spell"));
-        this.charges = tag.getInt("charges");
-        if (tag.contains("uuid")) {
-            this.uuid = tag.getUUID("uuid");
+        if(tag.getBoolean("savesData")) {
+            savesData = true;
+            data = new ChalkLineData(tag);
+            this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(ChalkLineBlock.POWER,data.charges));
+            ArsOmega.LOGGER.info("loaded from pos: " + this.getBlockPos());
+            ArsOmega.LOGGER.info("loaded charges:: " + data.charges);
         }
-
-        this.color = ParticleColor.IntWrapper.deserialize(tag.getString("color")).toParticleColor();
+        else{
+            savesData = false;
+            data = new ChalkLineData(new Spell());
+        }
         super.load(tag);
     }
-
-
 }

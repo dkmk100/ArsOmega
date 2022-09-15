@@ -106,7 +106,7 @@ public class ReflectionHandler {
                 MODIFIERS.set(field, field.getModifiers() & ~Modifier.FINAL);
             }
             catch (Exception e2){
-                ArsOmega.LOGGER.warn("error in final removal");
+                //ArsOmega.LOGGER.warn("error in final removal");
             }
         }
     }
