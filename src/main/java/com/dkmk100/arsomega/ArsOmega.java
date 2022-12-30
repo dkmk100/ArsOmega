@@ -3,12 +3,14 @@ package com.dkmk100.arsomega;
 import com.dkmk100.arsomega.blocks.ChalkLineBlock;
 import com.dkmk100.arsomega.client.renderer.*;
 import com.dkmk100.arsomega.entities.*;
+import com.dkmk100.arsomega.items.ModSpawnEggItem;
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LightningBoltRenderer;
 import net.minecraft.client.renderer.entity.WitherBossRenderer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.item.CreativeModeTab;
@@ -25,7 +27,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
@@ -34,8 +35,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
-import org.apache.logging.log4j.Level;
+import net.minecraftforge.registries.RegisterEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -62,7 +64,7 @@ public class ArsOmega
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueue);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::createRegistries);
-        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(RecipeSerializer.class,this::registerSerializers);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerStuff);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Block.class,RegistryHandler::registerBlocks);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::finalSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
@@ -80,9 +82,24 @@ public class ArsOmega
         RegistryHandler.registerRitualConfig();
     }
 
-    private void registerSerializers(final RegistryEvent.Register<RecipeSerializer<?>> event){
-        RegistryHandler.RegisterRecipeTypes();
-        RegistryHandler.RegisterRecipeSerializers(event);
+    private void registerStuff(final RegisterEvent event){
+        event.register(ForgeRegistries.Keys.RECIPE_TYPES,
+                helper -> {
+                    RegistryHandler.RegisterRecipeTypes();
+                }
+        );
+        event.register(ForgeRegistries.Keys.RECIPE_SERIALIZERS,
+                helper -> {
+                    RegistryHandler.RegisterRecipeSerializers(helper);
+
+                }
+        );
+        event.register(ForgeRegistries.Keys.ENTITY_TYPES,
+                helper -> {
+                    ModSpawnEggItem.initSpawnEggs();
+                }
+        );
+
     }
     private void enqueue(final InterModEnqueueEvent evt) {
         InterModComms.sendTo(CuriosApi.MODID, SlotTypeMessage.REGISTER_TYPE,
@@ -114,8 +131,8 @@ public class ArsOmega
         event.put(RegistryHandler.BASIC_DEMON.get(), EntityDemonBasic.createAttributes().build());
         event.put(RegistryHandler.STRONG_DEMON.get(), EntityDemonBasic.createAttributes().build());
         event.put(RegistryHandler.BOSS_DEMON_KING.get(), EntityBossDemonKing.createAttributes().build());
-        event.put(RegistryHandler.RAPTOR_DEMON.get(), EntityDemonRaptor.createAttributes().build());
-        event.put(RegistryHandler.RAY_DEMON.get(), EntityDemonRay.createAttributes().build());
+        //event.put(RegistryHandler.RAPTOR_DEMON.get(), EntityDemonRaptor.createAttributes().build());
+        //event.put(RegistryHandler.RAY_DEMON.get(), EntityDemonRay.createAttributes().build());
         event.put(RegistryHandler.CLAY_GOLEM_BETA.get(), EntityClayGolem.createAttributes(EntityClayGolem.Tier.MAGIC).build());
         event.put(RegistryHandler.CLAY_GOLEM_MARVELOUS.get(), EntityClayGolem.createAttributes(EntityClayGolem.Tier.MARVELOUS).build());
         event.put(RegistryHandler.CLAY_GOLEM_MYSTIC.get(), EntityClayGolem.createAttributes(EntityClayGolem.Tier.MYSTIC).build());
@@ -147,8 +164,11 @@ public class ArsOmega
     private void RegisterMobRenderers(EntityRenderersEvent.RegisterRenderers event){
         RegisterMobRenderer(RegistryHandler.BASIC_DEMON.get(),"demon_basic",event);
         RegisterMobRenderer(RegistryHandler.STRONG_DEMON.get(),"demon_strong",event);
+        /*
         event.registerEntityRenderer(RegistryHandler.RAPTOR_DEMON.get(), (EntityRendererProvider.Context context) -> new RaptorRenderer(context));
         event.registerEntityRenderer(RegistryHandler.RAY_DEMON.get(), (EntityRendererProvider.Context context) -> new RayRenderer(context));
+
+         */
 
         RegisterMobRenderer(RegistryHandler.BOSS_DEMON_KING.get(),"boss_demon_king",event);
         RegisterMobRenderer(RegistryHandler.CLAY_GOLEM_BETA.get(),"clay_golem",event);

@@ -7,24 +7,19 @@ import com.google.common.collect.Maps;
 import com.hollingsworth.arsnouveau.api.mana.IManaCap;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.CasterUtil;
-import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.common.block.TickableModBlock;
-import com.hollingsworth.arsnouveau.common.block.tile.RuneTile;
 import com.hollingsworth.arsnouveau.common.capability.CapabilityRegistry;
-import com.hollingsworth.arsnouveau.common.items.RunicChalk;
 import com.hollingsworth.arsnouveau.common.items.SpellBook;
 import com.hollingsworth.arsnouveau.common.items.SpellParchment;
-import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectKnockback;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodTouch;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -148,7 +143,7 @@ public class ChalkLineBlock extends TickableModBlock {
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, Random rand) {
+    public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand) {
         super.tick(state, worldIn, pos, rand);
         if(worldIn.getBlockEntity(pos) instanceof ChalkTile && ((ChalkTile) worldIn.getBlockEntity(pos)).touchedEntity != null)
         {
@@ -180,14 +175,14 @@ public class ChalkLineBlock extends TickableModBlock {
         boolean flag = false;
         ChalkTile tile = ((ChalkTile)worldIn.getBlockEntity(pos));
         if(tile.data.owner != null && player != worldIn.getPlayerByUUID(tile.data.owner)){
-            PortUtil.sendMessageNoSpam(player, new TextComponent("Cannot modify another player's spell circle..."));
+            PortUtil.sendMessageNoSpam(player, Component.literal("Cannot modify another player's spell circle..."));
             flag = true;
         }
 
         if (spell.isEmpty() || flag) {
             return false;
         } else if (!(spell.recipe.get(0) instanceof MethodTouch)) {
-            PortUtil.sendMessage(player, new TranslatableComponent("ars_nouveau.rune.touch"));
+            PortUtil.sendMessage(player, Component.translatable("ars_nouveau.rune.touch"));
             return true;
         }
         else{
@@ -219,7 +214,7 @@ public class ChalkLineBlock extends TickableModBlock {
         } else {
             boolean canCast = (double)totalCost <= manaCap.getCurrentMana() || entity instanceof Player && ((Player)entity).isCreative();
             if (!canCast && !entity.getCommandSenderWorld().isClientSide) {
-                PortUtil.sendMessageNoSpam(entity, new TranslatableComponent("ars_nouveau.spell.no_mana"));
+                PortUtil.sendMessageNoSpam(entity, Component.translatable("ars_nouveau.spell.no_mana"));
             }
 
             return canCast;

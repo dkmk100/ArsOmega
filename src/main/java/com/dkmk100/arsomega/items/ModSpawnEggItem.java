@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.items;
 
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.BlockSource;
@@ -18,7 +19,8 @@ import java.util.Map;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.RegistryObject;
 
-public class ModSpawnEggItem extends SpawnEggItem {
+public class ModSpawnEggItem extends SpawnEggItem implements INamedItem {
+    String myName;
     public ModSpawnEggItem(RegistryObject<? extends EntityType<?>> entityTypeIn, int primaryColorIn, int secondaryColorIn, Properties builder) {
         super(null, primaryColorIn, secondaryColorIn, builder);
         entityTypeSupplier=Lazy.of(entityTypeIn);
@@ -48,6 +50,23 @@ public class ModSpawnEggItem extends SpawnEggItem {
         }
         UNADDED_EGGS.clear();
     }
+
+    @Override
+    public INamedItem setRegistryName(String name){
+        myName = name;
+        return this;
+    }
+
+    @Override
+    public String getNameForReg(){
+        return myName;
+    }
+
+    @Override
+    public Item getItem() {
+        return this;
+    }
+
     @Override
     public EntityType<?> getType(CompoundTag nbt){
         return this.entityTypeSupplier.get();

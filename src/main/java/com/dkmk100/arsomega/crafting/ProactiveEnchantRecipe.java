@@ -6,7 +6,6 @@ import com.dkmk100.arsomega.util.RegistryHandler;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.hollingsworth.arsnouveau.api.enchanting_apparatus.EnchantingApparatusRecipe;
 import com.hollingsworth.arsnouveau.api.enchanting_apparatus.EnchantmentRecipe;
 import com.hollingsworth.arsnouveau.api.enchanting_apparatus.ReactiveEnchantmentRecipe;
 import com.hollingsworth.arsnouveau.api.spell.ISpellCaster;
@@ -21,8 +20,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -88,7 +85,7 @@ public class ProactiveEnchantRecipe extends EnchantmentRecipe {
         return (RecipeType) Registry.RECIPE_TYPE.get(new ResourceLocation(ArsOmega.MOD_ID, RECIPE_ID));
     }
 
-    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<ProactiveEnchantRecipe> {
+    public static class Serializer implements RecipeSerializer<ProactiveEnchantRecipe> {
         public Serializer() {
         }
 

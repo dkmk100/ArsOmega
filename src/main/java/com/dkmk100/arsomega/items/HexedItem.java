@@ -17,7 +17,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.network.chat.TranslatableComponent;
+  
 import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class HexedItem extends BasicItem implements ICasterTool {
         ItemStack stack = playerIn.getItemInHand(handIn);
         ISpellCaster caster = this.getSpellCaster(stack);
 
-        InteractionResultHolder<ItemStack> cast = cast(worldIn,playerIn,handIn, new TranslatableComponent("ars_nouveau.wand.invalid"),caster.getSpell(),caster.getColor());
+        InteractionResultHolder<ItemStack> cast = cast(worldIn,playerIn,handIn, Component.translatable("ars_nouveau.wand.invalid"),caster.getSpell(),caster.getColor());
         playerIn.getItemInHand(handIn).shrink(1);
         return cast;
     }

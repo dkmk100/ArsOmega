@@ -1,5 +1,5 @@
 package com.dkmk100.arsomega.client.renderer;
-
+/*
 import com.dkmk100.arsomega.client.models.RaptorModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
@@ -10,3 +10,4 @@ public class RaptorRenderer extends GeoEntityRenderer {
         super(renderManager, new RaptorModel());
     }
 }
+ */

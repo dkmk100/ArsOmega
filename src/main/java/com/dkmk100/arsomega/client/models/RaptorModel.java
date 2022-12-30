@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.client.models;
 
+/*
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.entities.EntityDemonRaptor;
 import net.minecraft.resources.ResourceLocation;
@@ -24,3 +25,4 @@ public class RaptorModel extends AnimatedGeoModel<EntityDemonRaptor> {
         return new ResourceLocation(ArsOmega.MOD_ID, "animations/dino.animation.json");
     }
 }
+*/

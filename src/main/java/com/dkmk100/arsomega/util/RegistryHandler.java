@@ -30,6 +30,7 @@ import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDurationDown;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtendTime;
+import com.ibm.icu.impl.Pair;
 import net.minecraft.core.Registry;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.StatsCounter;
@@ -47,6 +48,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.GlassBlock;
+import net.minecraft.world.level.block.RedStoneOreBlock;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.effect.MobEffects;
@@ -58,7 +60,6 @@ import net.minecraft.world.level.storage.loot.Serializer;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
@@ -66,11 +67,9 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.OreBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -84,9 +83,9 @@ public class RegistryHandler{
 
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, ArsOmega.MOD_ID);
 
-    public static final DeferredRegister<BlockEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES,ArsOmega.MOD_ID);
+    public static final DeferredRegister<BlockEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES,ArsOmega.MOD_ID);
 
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, ArsOmega.MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, ArsOmega.MOD_ID);
 
     public static final TagKey<Block> GORGON_FIRE_BURNABLES = BlockTags.create(new ResourceLocation("arsomega", "gorgon_fire_burnables"));
 
@@ -120,12 +119,12 @@ public class RegistryHandler{
         ArsNouveauAPI.getInstance().getEnchantingRecipeTypes().add(WRITE_PROACTIVE_TYPE);
         ArsNouveauAPI.getInstance().getEnchantingRecipeTypes().add(PROACTIVE_ENCHANT_TYPE);
     }
-    public static void RegisterRecipeSerializers(RegistryEvent.Register<RecipeSerializer<?>> event){
-        event.getRegistry().register(TRANSMUTE_SERIALIZER.setRegistryName(new ResourceLocation("arsomega", "transmute")));
-        event.getRegistry().register(ENCHANT_SERIALIZER.setRegistryName(new ResourceLocation("arsomega", "enchant")));
-        event.getRegistry().register(SIGIL_SERIALIZER.setRegistryName(new ResourceLocation("arsomega", "sigil")));
-        event.getRegistry().register(WRITE_PROACTIVE_SERIALIZER.setRegistryName(new ResourceLocation("arsomega", "write_proactive")));
-        event.getRegistry().register(PROACTIVE_ENCHANT_SERIALIZER.setRegistryName(new ResourceLocation("arsomega", "proactive_enchant")));
+    public static void RegisterRecipeSerializers(RegisterEvent.RegisterHelper<RecipeSerializer<?>> helper){
+        helper.register(new ResourceLocation("arsomega", "transmute"),TRANSMUTE_SERIALIZER);
+        helper.register(new ResourceLocation("arsomega", "enchant"),ENCHANT_SERIALIZER);
+        helper.register(new ResourceLocation("arsomega", "sigil"),SIGIL_SERIALIZER);
+        helper.register(new ResourceLocation("arsomega", "write_proactive"),WRITE_PROACTIVE_SERIALIZER);
+        helper.register(new ResourceLocation("arsomega", "proactive_enchant"),PROACTIVE_ENCHANT_SERIALIZER);
     }
 
     public static final RegistryObject<Enchantment> PROACTIVE_ENCHANT = ENCHANTMENTS.register("proactive",ProactiveEnchant::new);
@@ -149,8 +148,8 @@ public class RegistryHandler{
     public static final RegistryObject<SoundEvent> DEMON_KING_MUSIC = SOUNDS.register("demon_king",
             () -> new SoundEvent(new ResourceLocation(ArsOmega.MOD_ID,"demon_king")));
 
-    public static void registerBlocks(final RegistryEvent.Register<Block> event){
-        event.getRegistry().register(new InfinityCrystal(UNBREAKABLE_BLOCK_PROPERTIES,"infinity_crystal"));
+    public static void registerBlocks(final RegisterEvent.RegisterHelper<Block> helper){
+        helper.register(new ResourceLocation(ArsOmega.MOD_ID,"infinity_crystal"),new InfinityCrystal(UNBREAKABLE_BLOCK_PROPERTIES,"infinity_crystal"));
     }
 
     static final List<ConfigurableGlyph> configurableGlyphs = new ArrayList<>();
@@ -337,14 +336,14 @@ public class RegistryHandler{
     }
 
     public static void register(AbstractSpellPart spellPart) {
-        ArsNouveauAPI.getInstance().registerSpell(spellPart.getId(), spellPart);
+        ArsNouveauAPI.getInstance().registerSpell(spellPart);
         registeredSpells.add(spellPart);
         if(spellPart instanceof ConfigurableGlyph){
             configurableGlyphs.add((ConfigurableGlyph) spellPart);
         }
     }
     public static void register(AbstractRitual ritual) {
-        ArsNouveauAPI.getInstance().registerRitual(ritual.getID(),ritual);
+        ArsNouveauAPI.getInstance().registerRitual(ritual);
         registeredRituals.add(ritual);
         if(ritual instanceof ConfigurableRitual){
             configurableRituals.add((ConfigurableRitual) ritual);
@@ -371,100 +370,103 @@ public class RegistryHandler{
     public static final FoodProperties ENCHANTED_DIAMOND_APPLE = (new FoodProperties.Builder()).nutrition(5).saturationMod(1.2F).effect(() -> new MobEffectInstance(MobEffects.HEALTH_BOOST, 8000, 4),1).effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 800, 1), 1.0F).effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 8000, 0), 1.0F).effect(() -> new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 7000, 0), 1.0F).effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 5000, 5), 1.0F).alwaysEat().build();
     public static final FoodProperties ARCANE_APPLE = (new FoodProperties.Builder()).nutrition(7).saturationMod(1.5F).effect(() -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 8000, 1),1).effect(() -> new MobEffectInstance(ModPotions.LEAD_SKIN, 8000, 1),1).effect(() -> new MobEffectInstance(MobEffects.HEALTH_BOOST, 8000, 6),1).effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 800, 2), 1.0F).effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 10000, 1), 1.0F).effect(() -> new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 9000, 0), 1.0F).effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 9000, 8), 1.0F).alwaysEat().build();
 
-    public static final List<Item> ITEMS = new ArrayList<>();
-    public static void RegisterItems(RegistryEvent.Register<Item> event){
-        final Item GREATER_MANA_AMULET = new MagicCurio("greater_mana_amulet",500,1);
-        final Item GREATER_REGEN_AMULET = new MagicCurio("greater_regen_amulet",10,25);
-        final Item FOCUS_OF_MANA = new MagicCurio("focus_of_mana",3250,-30);
-        final Item FOCUS_OF_ALCHEMY = new MagicCurio("focus_of_alchemy",-50,-4);
-        final Item FOCUS_OF_ALCHEMY_2 = new MagicCurio("focus_of_advanced_alchemy",-300,-13);
-        final Item FOCUS_OF_REGEN = new MagicCurio("focus_of_regen",-300,100);
-        final Item RING_REGEN = new MagicCurio("ring_regen",0,5,5);
-        final Item RING_BOOST = new MagicCurio("ring_boost",100,0,5);
-        final Item RING_ARCANE_DISCOUNT = new MagicCurio("ring_arcane_discount",20,1,50);
+    private static final List<INamedItem> ITEMS = new ArrayList<>();
+    public static final Hashtable<String,Item> REG_ITEMS = new Hashtable<>();
+    public static void RegisterItems(RegisterEvent.RegisterHelper<Item> event){
+        final INamedItem GREATER_MANA_AMULET = new MagicCurio("greater_mana_amulet",500,1);
+        final INamedItem GREATER_REGEN_AMULET = new MagicCurio("greater_regen_amulet",10,25);
+        final INamedItem FOCUS_OF_MANA = new MagicCurio("focus_of_mana",3250,-30);
+        final INamedItem FOCUS_OF_ALCHEMY = new MagicCurio("focus_of_alchemy",-50,-4);
+        final INamedItem FOCUS_OF_ALCHEMY_2 = new MagicCurio("focus_of_advanced_alchemy",-300,-13);
+        final INamedItem FOCUS_OF_REGEN = new MagicCurio("focus_of_regen",-300,100);
+        final INamedItem RING_REGEN = new MagicCurio("ring_regen",0,5,5);
+        final INamedItem RING_BOOST = new MagicCurio("ring_boost",100,0,5);
+        final INamedItem RING_ARCANE_DISCOUNT = new MagicCurio("ring_arcane_discount",20,1,50);
+        /*
+        final INamedItem STAFF = new Staff("staff", BasicItemTier.Staff,2,-2.4f,2, AugmentAmplify.INSTANCE,2);
+        final INamedItem STAFF_2 = new Staff("archmage_staff", BasicItemTier.Staff2,2,-2.4f,3, AdvancedAmplify.INSTANCE,2);
+        final INamedItem STAFF_3 = new Staff("arcane_staff", BasicItemTier.Staff3,2,-2.4f,3, AdvancedAmplify.INSTANCE,3,true);
+        */
+        REG_ITEMS.put("arcane_book", new SpellBook(TierFourEffect.FOUR));
 
-        final Item STAFF = new Staff("staff", BasicItemTier.Staff,2,-2.4f,2, AugmentAmplify.INSTANCE,2);
-        final Item STAFF_2 = new Staff("archmage_staff", BasicItemTier.Staff2,2,-2.4f,3, AdvancedAmplify.INSTANCE,2);
-        final Item STAFF_3 = new Staff("arcane_staff", BasicItemTier.Staff3,2,-2.4f,3, AdvancedAmplify.INSTANCE,3,true);
-        final Item SPELLBOOK_FOUR = new SpellBook(TierFourEffect.FOUR).setRegistryName("arcane_book");
-        final Item POISON_FLOWER_ITEM = new BlockItem(POISON_FLOWER.get(),ITEM_PROPERTIES).setRegistryName("poison_flower");
-        final Item DEMONIC_STONE_ITEM = new BlockItem(DEMONIC_STONE.get(),ITEM_PROPERTIES).setRegistryName("demonic_stone");
-        final Item DEMONIC_ORE_ITEM = new BlockItem(DEMONIC_ORE.get(),ITEM_PROPERTIES).setRegistryName("demonic_ore");
-        final Item DEMON_GEM = new Item(ITEM_PROPERTIES_FIRE).setRegistryName("demonic_gem");
-        final Item CLEANSING_GEM = new Item(ITEM_PROPERTIES_FIRE).setRegistryName("cleansing_gem");
-        final Item DEMON_CRYSTAL = new DescribedItem("demonic_crystal",ITEM_PROPERTIES_FIRE,"Drops from the Demon King boss, who can be summond with a demonic staff.");
-        final Item ARCANE_BLOOM_CROP = new BlockItem(ARCANE_BLOOM.get(),ITEM_PROPERTIES).setRegistryName("arcane_bloom_crop");
-        final Item ENCHANTERS_WOOL_ITEM = new BlockItem(ENCHANTERS_WOOL.get(),ITEM_PROPERTIES).setRegistryName("enchanters_wool");
-        final Item GORGON_GEM = new DescribedItem("gorgon_gem",ITEM_PROPERTIES_FIRE,"Found in gorgon caves");
+        final INamedItem POISON_FLOWER_ITEM = new BasicBlockItem(POISON_FLOWER.get(),ITEM_PROPERTIES).setRegistryName("poison_flower");
+        final INamedItem DEMONIC_STONE_ITEM = new BasicBlockItem(DEMONIC_STONE.get(),ITEM_PROPERTIES).setRegistryName("demonic_stone");
+        final INamedItem DEMONIC_ORE_ITEM = new BasicBlockItem(DEMONIC_ORE.get(),ITEM_PROPERTIES).setRegistryName("demonic_ore");
+        final INamedItem DEMON_GEM = new BasicItem(ITEM_PROPERTIES_FIRE).setRegistryName("demonic_gem");
+        final INamedItem CLEANSING_GEM = new BasicItem(ITEM_PROPERTIES_FIRE).setRegistryName("cleansing_gem");
+        final INamedItem DEMON_CRYSTAL = new DescribedItem("demonic_crystal",ITEM_PROPERTIES_FIRE,"Drops from the Demon King boss, who can be summond with a demonic staff.");
+        final INamedItem ARCANE_BLOOM_CROP = new BasicBlockItem(ARCANE_BLOOM.get(),ITEM_PROPERTIES).setRegistryName("arcane_bloom_crop");
+        final INamedItem ENCHANTERS_WOOL_ITEM = new BasicBlockItem(ENCHANTERS_WOOL.get(),ITEM_PROPERTIES).setRegistryName("enchanters_wool");
+        final INamedItem GORGON_GEM = new DescribedItem("gorgon_gem",ITEM_PROPERTIES_FIRE,"Found in gorgon caves");
 
-        final Item ARCANE_BLOOM = new Item(ITEM_PROPERTIES).setRegistryName("arcane_bloom");
-        final Item ARCANE_FIBER = new Item(ITEM_PROPERTIES).setRegistryName("arcane_fiber");
-        final Item ARCANE_CLOTH = new Item(ITEM_PROPERTIES_FIRE).setRegistryName("arcane_cloth");
-        final Item MAGIC_CLAY = new Item(ITEM_PROPERTIES).setRegistryName("magic_clay");
-        final Item MARVELOUS_CLAY = new Item(ITEM_PROPERTIES).setRegistryName("marvelous_clay");
-        final Item MYSTIC_CLAY = new Item(ITEM_PROPERTIES).setRegistryName("mystic_clay");
-        final Item ARCANE_CLAY = new Item(ITEM_PROPERTIES).setRegistryName("arcane_clay");
+        final INamedItem ARCANE_BLOOM = new BasicItem(ITEM_PROPERTIES).setRegistryName("arcane_bloom");
+        final INamedItem ARCANE_FIBER = new BasicItem(ITEM_PROPERTIES).setRegistryName("arcane_fiber");
+        final INamedItem ARCANE_CLOTH = new BasicItem(ITEM_PROPERTIES_FIRE).setRegistryName("arcane_cloth");
+        final INamedItem MAGIC_CLAY = new BasicItem(ITEM_PROPERTIES).setRegistryName("magic_clay");
+        final INamedItem MARVELOUS_CLAY = new BasicItem(ITEM_PROPERTIES).setRegistryName("marvelous_clay");
+        final INamedItem MYSTIC_CLAY = new BasicItem(ITEM_PROPERTIES).setRegistryName("mystic_clay");
+        final INamedItem ARCANE_CLAY = new BasicItem(ITEM_PROPERTIES).setRegistryName("arcane_clay");
 
-        final Item INFUSED_DIAMOND = new BasicItem(ITEM_PROPERTIES,"infused_diamond");
-        final Item ENCHANTED_DIAMOND = new BasicItem(ITEM_PROPERTIES,"enchanted_diamond",true);
-        final Item ARCANE_DIAMOND = new BasicItem(ITEM_PROPERTIES_FIRE,"arcane_diamond",true);
-        final Item ENCHANTED_DEMONIC_GEM = new BasicItem(ITEM_PROPERTIES_FIRE,"enchanted_demonic_gem",true);
-        final Item SEARING_FLESH = new DescribedItem("searing_flesh",ITEM_PROPERTIES_FIRE,"Dropped by demons from the demon realm");
-        final Item DEMONIC_TOOTH = new DescribedItem("demonic_tooth",ITEM_PROPERTIES,"Dropped by demons from the demon realm");
-        final Item DEMONIC_GEM_BLOCK_ITEM = new BlockItem(DEMONIC_GEM_BLOCK.get(),ITEM_PROPERTIES_FIRE).setRegistryName("demonic_gem_block");
+        final INamedItem INFUSED_DIAMOND = new BasicItem(ITEM_PROPERTIES,"infused_diamond");
+        final INamedItem ENCHANTED_DIAMOND = new BasicItem(ITEM_PROPERTIES,"enchanted_diamond",true);
+        final INamedItem ARCANE_DIAMOND = new BasicItem(ITEM_PROPERTIES_FIRE,"arcane_diamond",true);
+        final INamedItem ENCHANTED_DEMONIC_GEM = new BasicItem(ITEM_PROPERTIES_FIRE,"enchanted_demonic_gem",true);
+        final INamedItem SEARING_FLESH = new DescribedItem("searing_flesh",ITEM_PROPERTIES_FIRE,"Dropped by demons from the demon realm");
+        final INamedItem DEMONIC_TOOTH = new DescribedItem("demonic_tooth",ITEM_PROPERTIES,"Dropped by demons from the demon realm");
+        final INamedItem DEMONIC_GEM_BLOCK_ITEM = new BasicBlockItem(DEMONIC_GEM_BLOCK.get(),ITEM_PROPERTIES_FIRE).setRegistryName("demonic_gem_block");
 
-        final Item INFUSED_DIAMOND_BLOCK_ITEM = new BlockItem(INFUSED_DIAMOND_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("infused_diamond_block");
-        final Item ENCHANTED_DIAMOND_BLOCK_ITEM =  new BlockItem(ENCHANTED_DIAMOND_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("enchanted_diamond_block");
-        final Item ARCANE_DIAMOND_BLOCK_ITEM = new BlockItem(ARCANE_DIAMOND_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("arcane_diamond_block");
+        final INamedItem INFUSED_DIAMOND_BLOCK_ITEM = new BasicBlockItem(INFUSED_DIAMOND_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("infused_diamond_block");
+        final INamedItem ENCHANTED_DIAMOND_BLOCK_ITEM =  new BasicBlockItem(ENCHANTED_DIAMOND_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("enchanted_diamond_block");
+        final INamedItem ARCANE_DIAMOND_BLOCK_ITEM = new BasicBlockItem(ARCANE_DIAMOND_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("arcane_diamond_block");
 
-        final Item ROPE = new Item(ITEM_PROPERTIES_FIRE).setRegistryName("rope");
-        final Item MAGIC_ROPE = new Item(ITEM_PROPERTIES_FIRE).setRegistryName("magic_rope");
-        final Item ENCHANTED_ROPE = new Item(ITEM_PROPERTIES_FIRE).setRegistryName("enchanted_rope");
+        final INamedItem ROPE = new BasicItem(ITEM_PROPERTIES_FIRE).setRegistryName("rope");
+        final INamedItem MAGIC_ROPE = new BasicItem(ITEM_PROPERTIES_FIRE).setRegistryName("magic_rope");
+        final INamedItem ENCHANTED_ROPE = new BasicItem(ITEM_PROPERTIES_FIRE).setRegistryName("enchanted_rope");
 
-        final Item ESSENCE_ARCANE = new EssenceItem(ITEM_PROPERTIES,"arcane_essence");
-        final Item ESSENCE_LIFE = new EssenceItem(ITEM_PROPERTIES,"life_essence");
-        final Item ESSENCE_ALCHEMY = new EssenceItem(ITEM_PROPERTIES,"alchemy_essence");
-        final Item ESSENCE_NATURE = new EssenceItem(ITEM_PROPERTIES,"nature_essence");
-        final Item ESSENCE_DEMONIC = new EssenceItem(ITEM_PROPERTIES,"demonic_essence");
-        final Item ESSENCE_ELEMENTAL_BASIC = new EssenceItem(ITEM_PROPERTIES,"basic_elemental_essence");
-        final Item ESSENCE_ELEMENTAL_ADVANCED = new EssenceItem(ITEM_PROPERTIES,"advanced_elemental_essence");
+        final INamedItem ESSENCE_ARCANE = new EssenceItem(ITEM_PROPERTIES,"arcane_essence");
+        final INamedItem ESSENCE_LIFE = new EssenceItem(ITEM_PROPERTIES,"life_essence");
+        final INamedItem ESSENCE_ALCHEMY = new EssenceItem(ITEM_PROPERTIES,"alchemy_essence");
+        final INamedItem ESSENCE_NATURE = new EssenceItem(ITEM_PROPERTIES,"nature_essence");
+        final INamedItem ESSENCE_DEMONIC = new EssenceItem(ITEM_PROPERTIES,"demonic_essence");
+        final INamedItem ESSENCE_ELEMENTAL_BASIC = new EssenceItem(ITEM_PROPERTIES,"basic_elemental_essence");
+        final INamedItem ESSENCE_ELEMENTAL_ADVANCED = new EssenceItem(ITEM_PROPERTIES,"advanced_elemental_essence");
 
-        final Item INFINITY_CRYSTAL_BLOCK = new BlockItem(ItemsRegistry.INFINITY_JAR,ITEM_PROPERTIES).setRegistryName("infinity_crystal");
-        final Item FLESH_BLOCK_ITEM = new BlockItem(FLESH_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("flesh_block");
-        final Item DEMONIC_RIFT_ITEM = new BlockItem(DEMONIC_RIFT.get(),ITEM_PROPERTIES).setRegistryName("demonic_rift");
+        final INamedItem INFINITY_CRYSTAL_BLOCK = new BasicBlockItem(ItemsRegistry.INFINITY_JAR,ITEM_PROPERTIES).setRegistryName("infinity_crystal");
+        final INamedItem FLESH_BLOCK_ITEM = new BasicBlockItem(FLESH_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("flesh_block");
+        final INamedItem DEMONIC_RIFT_ITEM = new BasicBlockItem(DEMONIC_RIFT.get(),ITEM_PROPERTIES).setRegistryName("demonic_rift");
 
-        final Item MAGIC_CLAY_BLOCK_ITEM = new BlockItem(MAGIC_CLAY_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("magic_clay_block");
-        final Item MAGIC_CLAY_CARVED_ITEM = new BlockItem(MAGIC_CLAY_CARVED.get(),ITEM_PROPERTIES).setRegistryName("magic_clay_carved");
-        final Item GORGON_STONE_ITEM = new BlockItem(GORGON_STONE.get(),ITEM_PROPERTIES).setRegistryName("gorgon_stone");
-        final Item DEMONIC_GLOWSTONE_ITEM = new BlockItem(DEMONIC_GLOWSTONE.get(),ITEM_PROPERTIES).setRegistryName("demonic_glowstone");
-        final Item DEMONIC_GLOWSTONE_DUST = new Item(ITEM_PROPERTIES).setRegistryName("demonic_glowstone_dust");
+        final INamedItem MAGIC_CLAY_BLOCK_ITEM = new BasicBlockItem(MAGIC_CLAY_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("magic_clay_block");
+        final INamedItem MAGIC_CLAY_CARVED_ITEM = new BasicBlockItem(MAGIC_CLAY_CARVED.get(),ITEM_PROPERTIES).setRegistryName("magic_clay_carved");
+        final INamedItem GORGON_STONE_ITEM = new BasicBlockItem(GORGON_STONE.get(),ITEM_PROPERTIES).setRegistryName("gorgon_stone");
+        final INamedItem DEMONIC_GLOWSTONE_ITEM = new BasicBlockItem(DEMONIC_GLOWSTONE.get(),ITEM_PROPERTIES).setRegistryName("demonic_glowstone");
+        final INamedItem DEMONIC_GLOWSTONE_DUST = new BasicItem(ITEM_PROPERTIES).setRegistryName("demonic_glowstone_dust");
 
-        final Item HEXED_BOOK = new HexedItem(UNSTACKABLE_FIRE,"hexed_book",false);
-        final Item HEXED_WRITABLE_BOOK = new HexedItem(UNSTACKABLE_FIRE,"hexed_writable_book",false);
-        final Item HEXED_WRITTEN_BOOK = new HexedItem(UNSTACKABLE_FIRE,"hexed_written_book",true);
-        final Item POTION_EXTENDER_ITEM = new BlockItem(POTION_EXTENDER.get(),ITEM_PROPERTIES).setRegistryName("potion_extender");
-        final Item POTION_AMPLIFIER_ITEM = new BlockItem(POTION_AMPLIFIER.get(),ITEM_PROPERTIES).setRegistryName("potion_amplifier");
-        final Item POTION_RELAY_ITEM = new BlockItem(POTION_RELAY.get(),ITEM_PROPERTIES).setRegistryName("potion_relay");
+        final INamedItem HEXED_BOOK = new HexedItem(UNSTACKABLE_FIRE,"hexed_book",false);
+        final INamedItem HEXED_WRITABLE_BOOK = new HexedItem(UNSTACKABLE_FIRE,"hexed_writable_book",false);
+        final INamedItem HEXED_WRITTEN_BOOK = new HexedItem(UNSTACKABLE_FIRE,"hexed_written_book",true);
+        final INamedItem POTION_EXTENDER_ITEM = new BasicBlockItem(POTION_EXTENDER.get(),ITEM_PROPERTIES).setRegistryName("potion_extender");
+        final INamedItem POTION_AMPLIFIER_ITEM = new BasicBlockItem(POTION_AMPLIFIER.get(),ITEM_PROPERTIES).setRegistryName("potion_amplifier");
+        final INamedItem POTION_RELAY_ITEM = new BasicBlockItem(POTION_RELAY.get(),ITEM_PROPERTIES).setRegistryName("potion_relay");
 
-        //final Item CHALK_LINE_ITEM = new BlockItem(CHALK_LINE_1.get(),ITEM_PROPERTIES).setRegistryName("chalk_line");
+        //final INamedItem CHALK_LINE_ITEM = new BlockItem(CHALK_LINE_1.get(),ITEM_PROPERTIES).setRegistryName("chalk_line");
 
-        final Item DEMON_STAFF = new DemonStaff(UNSTACKABLE_FIRE,"demon_staff");
+        final INamedItem DEMON_STAFF = new DemonStaff(UNSTACKABLE_FIRE,"demon_staff");
 
-        final Item ARCANE_HELMET = new EnchantedArmor("arcane_helmet",EquipmentSlot.HEAD,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
-        final Item ARCANE_CHEST = new EnchantedArmor("arcane_chestplate",EquipmentSlot.CHEST,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
-        final Item ARCANE_LEGGINGS = new EnchantedArmor("arcane_leggings",EquipmentSlot.LEGS,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
-        final Item ARCANE_BOOTS = new EnchantedArmor("arcane_boots",EquipmentSlot.FEET,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
+        final INamedItem ARCANE_HELMET = new EnchantedArmor("arcane_helmet",EquipmentSlot.HEAD,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
+        final INamedItem ARCANE_CHEST = new EnchantedArmor("arcane_chestplate",EquipmentSlot.CHEST,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
+        final INamedItem ARCANE_LEGGINGS = new EnchantedArmor("arcane_leggings",EquipmentSlot.LEGS,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
+        final INamedItem ARCANE_BOOTS = new EnchantedArmor("arcane_boots",EquipmentSlot.FEET,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
 
-        final Item DEFENSE_HELMET = new EnchantedArmor("defense_helmet",EquipmentSlot.HEAD,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
-        final Item DEFENSE_CHEST = new EnchantedArmor("defense_chestplate",EquipmentSlot.CHEST,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
-        final Item DEFENSE_LEGGINGS = new EnchantedArmor("defense_leggings",EquipmentSlot.LEGS,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
-        final Item DEFENSE_BOOTS = new EnchantedArmor("defense_boots",EquipmentSlot.FEET,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
+        final INamedItem DEFENSE_HELMET = new EnchantedArmor("defense_helmet",EquipmentSlot.HEAD,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
+        final INamedItem DEFENSE_CHEST = new EnchantedArmor("defense_chestplate",EquipmentSlot.CHEST,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
+        final INamedItem DEFENSE_LEGGINGS = new EnchantedArmor("defense_leggings",EquipmentSlot.LEGS,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
+        final INamedItem DEFENSE_BOOTS = new EnchantedArmor("defense_boots",EquipmentSlot.FEET,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
 
-        final Item DEMON_SPAWN_EGG = new ModSpawnEggItem(BASIC_DEMON,0x000000,0x000000,EGG_PROPERTIES).setRegistryName("basic_demon_spawn_egg");
-        final Item DEMON_STRONG_SPAWN_EGG = new ModSpawnEggItem(STRONG_DEMON,0x000000,0x000000,EGG_PROPERTIES).setRegistryName("strong_demon_spawn_egg");
-        final Item DEMON_RAPTOR_SPAWN_EGG = new ModSpawnEggItem(RAPTOR_DEMON,0x000000,0x000000,EGG_PROPERTIES).setRegistryName("demon_raptor_spawn_egg");
+        final INamedItem DEMON_SPAWN_EGG = new ModSpawnEggItem(BASIC_DEMON,0x000000,0x000000,EGG_PROPERTIES).setRegistryName("basic_demon_spawn_egg");
+        final INamedItem DEMON_STRONG_SPAWN_EGG = new ModSpawnEggItem(STRONG_DEMON,0x000000,0x000000,EGG_PROPERTIES).setRegistryName("strong_demon_spawn_egg");
+        //final INamedItem DEMON_RAPTOR_SPAWN_EGG = new ModSpawnEggItem(RAPTOR_DEMON,0x000000,0x000000,EGG_PROPERTIES).setRegistryName("demon_raptor_spawn_egg");
 
-        final Item BIOME_CRYSTAL = new BiomeCrystal("biome_crystal",ITEM_PROPERTIES);
+        final INamedItem BIOME_CRYSTAL = new BiomeCrystal("biome_crystal",ITEM_PROPERTIES);
 
         ITEMS.add(GREATER_MANA_AMULET);
         ITEMS.add(GREATER_REGEN_AMULET);
@@ -475,10 +477,11 @@ public class RegistryHandler{
         ITEMS.add(RING_REGEN);
         ITEMS.add(RING_BOOST);
         ITEMS.add(RING_ARCANE_DISCOUNT);
+        /*
         ITEMS.add(STAFF);
         ITEMS.add(STAFF_2);
         ITEMS.add(STAFF_3);
-        ITEMS.add(SPELLBOOK_FOUR);
+         */
 
         ITEMS.add(POISON_FLOWER_ITEM);
         ITEMS.add(DEMONIC_STONE_ITEM);
@@ -550,7 +553,7 @@ public class RegistryHandler{
 
         ITEMS.add(DEMON_SPAWN_EGG);
         ITEMS.add(DEMON_STRONG_SPAWN_EGG);
-        ITEMS.add(DEMON_RAPTOR_SPAWN_EGG);
+        //ITEMS.add(DEMON_RAPTOR_SPAWN_EGG);
         ITEMS.add(BIOME_CRYSTAL);
 
         //magic chalk items
@@ -564,9 +567,9 @@ public class RegistryHandler{
 
         ITEMS.add(new DescribedItem("alchemical_diamond",ITEM_PROPERTIES,"A diamond created using arcane alchemical processes. \nPhysically, it is a perfect gem, but it cannot withstand strong magical energies, and thus cannot be used to craft many advanced magical items."));
 
-        ITEMS.add(new BlockItem(ALCHEMICAL_DIAMOND_ORE.get(),ITEM_PROPERTIES).setRegistryName("alchemical_diamond_ore"));
-        ITEMS.add(new BlockItem(ALCHEMICAL_DIAMOND_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("alchemical_diamond_block"));
-        ITEMS.add(new BlockItem(ALCHEMICAL_STONE.get(),ITEM_PROPERTIES).setRegistryName("alchemical_stone"));
+        ITEMS.add(new BasicBlockItem(ALCHEMICAL_DIAMOND_ORE.get(),ITEM_PROPERTIES).setRegistryName("alchemical_diamond_ore"));
+        ITEMS.add(new BasicBlockItem(ALCHEMICAL_DIAMOND_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("alchemical_diamond_block"));
+        ITEMS.add(new BasicBlockItem(ALCHEMICAL_STONE.get(),ITEM_PROPERTIES).setRegistryName("alchemical_stone"));
         ITEMS.add(new DimensionCrystal("dimension_crystal",ITEM_PROPERTIES));
 
         ITEMS.add(new SigilItem("sigil_water", ITEM_PROPERTIES));
@@ -590,8 +593,8 @@ public class RegistryHandler{
         ITEMS.add(new PetrifySigil("spell_sigil_petrify"));
         //ITEMS.add(new DescribedItem("spell_sigil_smite", ITEM_PROPERTIES,"This spell sigil currently has no functionality, it will be implemented in another beta for the update."));
 
-        ITEMS.add(new BlockItem(INFUSED_GLASS.get(),ITEM_PROPERTIES).setRegistryName("infused_glass"));
-        ITEMS.add(new BlockItem(CURSE_ALTAR.get(),ITEM_PROPERTIES).setRegistryName("curse_altar"));
+        ITEMS.add(new BasicBlockItem(INFUSED_GLASS.get(),ITEM_PROPERTIES).setRegistryName("infused_glass"));
+        ITEMS.add(new BasicBlockItem(CURSE_ALTAR.get(),ITEM_PROPERTIES).setRegistryName("curse_altar"));
         ITEMS.add(new BasicItem(ITEM_PROPERTIES,"reflective_coating"));
         ITEMS.add(new BasicItem(ITEM_PROPERTIES, "enchanted_mirror_shard",true));
 
@@ -603,24 +606,29 @@ public class RegistryHandler{
         ITEMS.add(new BasicItem((new Item.Properties()).tab(CreativeModeTab.TAB_FOOD).rarity(Rarity.EPIC).food(ENCHANTED_DIAMOND_APPLE), "enchanted_diamond_apple",true) );
         ITEMS.add(new BasicItem((new Item.Properties()).tab(CreativeModeTab.TAB_FOOD).rarity(Rarity.EPIC).food(ARCANE_APPLE), "arcane_apple",true));
 
-        ITEMS.add(new BlockItem(POTION_BOTTLER.get(),ITEM_PROPERTIES).setRegistryName("potion_bottler"));
+        ITEMS.add(new BasicBlockItem(POTION_BOTTLER.get(),ITEM_PROPERTIES).setRegistryName("potion_bottler"));
 
         ITEMS.add(new BasicItem(ITEM_PROPERTIES, "splash_bottle"));
         ITEMS.add(new BasicItem(ITEM_PROPERTIES, "lingering_bottle"));
-        ITEMS.add(new RecordItem(7,HILLS_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC)).setRegistryName("blocky_hills_music_disc"));
+
+        //REG_ITEMS.put("blocky_hills_music_disc", new RecordItem(7,HILLS_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC),));
+
         ITEMS.add(new DescribedItem("ancient_mirror_shard",ITEM_PROPERTIES_FIRE,"A shard from an ancient mirror.",true));
 
-        ITEMS.add(new BlockItem(MARVELOUS_CLAY_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("marvelous_clay_block"));
-        ITEMS.add(new BlockItem(MARVELOUS_CLAY_CARVED.get(),ITEM_PROPERTIES).setRegistryName("marvelous_clay_carved"));
-        ITEMS.add(new BlockItem(MYSTIC_CLAY_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("mystic_clay_block"));
-        ITEMS.add(new BlockItem(MYSTIC_CLAY_CARVED.get(),ITEM_PROPERTIES).setRegistryName("mystic_clay_carved"));
-        ITEMS.add(new BlockItem(ARCANE_CLAY_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("arcane_clay_block"));
-        ITEMS.add(new BlockItem(ARCANE_CLAY_CARVED.get(),ITEM_PROPERTIES).setRegistryName("arcane_clay_carved"));
+        ITEMS.add(new BasicBlockItem(MARVELOUS_CLAY_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("marvelous_clay_block"));
+        ITEMS.add(new BasicBlockItem(MARVELOUS_CLAY_CARVED.get(),ITEM_PROPERTIES).setRegistryName("marvelous_clay_carved"));
+        ITEMS.add(new BasicBlockItem(MYSTIC_CLAY_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("mystic_clay_block"));
+        ITEMS.add(new BasicBlockItem(MYSTIC_CLAY_CARVED.get(),ITEM_PROPERTIES).setRegistryName("mystic_clay_carved"));
+        ITEMS.add(new BasicBlockItem(ARCANE_CLAY_BLOCK.get(),ITEM_PROPERTIES).setRegistryName("arcane_clay_block"));
+        ITEMS.add(new BasicBlockItem(ARCANE_CLAY_CARVED.get(),ITEM_PROPERTIES).setRegistryName("arcane_clay_carved"));
 
-        ITEMS.add(new RecordItem(8,DEMON_DANCE_MUSIC,new Item.Properties().fireResistant().stacksTo(1).rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC)).setRegistryName("demon_dance_music_disc"));
+        //ITEMS.add(new RecordItem(8,DEMON_DANCE_MUSIC,new Item.Properties().fireResistant().stacksTo(1).rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC)).setRegistryName("demon_dance_music_disc"));
 
-        for (Item item : ITEMS) {
-            event.getRegistry().register(item);
+        for (INamedItem item : ITEMS) {
+            REG_ITEMS.put(item.getNameForReg(),item.getItem());
+        }
+        for (Map.Entry<String,Item> pair : REG_ITEMS.entrySet()) {
+            event.register(pair.getKey(),pair.getValue());
         }
     }
 
@@ -650,13 +658,13 @@ public class RegistryHandler{
     private static boolean never(BlockState p_235436_0_, BlockGetter p_235436_1_, BlockPos p_235436_2_) {
         return false;
     }
-    static final Block.Properties UNBREAKABLE_BLOCK_PROPERTIES = blockPropertiesCreator.create(Material.STONE,-1,12000f, SoundType.STONE, true).noDrops().noOcclusion().isValidSpawn(RegistryHandler::never).isRedstoneConductor(RegistryHandler::never).isSuffocating(RegistryHandler::never).isViewBlocking(RegistryHandler::never);
+    static final Block.Properties UNBREAKABLE_BLOCK_PROPERTIES = blockPropertiesCreator.create(Material.STONE,-1,12000f, SoundType.STONE, true).requiresCorrectToolForDrops().noOcclusion().isValidSpawn(RegistryHandler::never).isRedstoneConductor(RegistryHandler::never).isSuffocating(RegistryHandler::never).isViewBlocking(RegistryHandler::never);
 
-    static final Block.Properties PORTAL_PROPERTIES = blockPropertiesCreator.create(Material.PORTAL,-1,120000f, SoundType.NETHERITE_BLOCK, false).noDrops().noOcclusion();
+    static final Block.Properties PORTAL_PROPERTIES = blockPropertiesCreator.create(Material.PORTAL,-1,120000f, SoundType.NETHERITE_BLOCK, false).requiresCorrectToolForDrops().noOcclusion();
 
 
     public static final RegistryObject<Block> DEMONIC_STONE = BLOCKS.register("demonic_stone",() -> new Block(STONE_PROPERTIES));
-    public static final RegistryObject<Block> DEMONIC_ORE = BLOCKS.register("demonic_ore",() -> new OreBlock(STONE_PROPERTIES));
+    public static final RegistryObject<Block> DEMONIC_ORE = BLOCKS.register("demonic_ore",() -> new Block(STONE_PROPERTIES));
 
     public static final RegistryObject<Block> DEMONIC_RIFT = BLOCKS.register("demonic_rift",() -> new DemonicRift(STONE_PROPERTIES));
     public static final RegistryObject<Block> GORGON_STONE = BLOCKS.register("gorgon_stone",() -> new Block(STONE_PROPERTIES));
@@ -752,9 +760,11 @@ public class RegistryHandler{
     public static final RegistryObject<EntityType<?  extends Monster>> STRONG_DEMON = ENTITIES.register("demon_strong", () -> EntityType.Builder.of(EntityDemonStrong::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_strong").toString()));
     public static final RegistryObject<EntityType<?  extends Monster>> BOSS_DEMON_KING = ENTITIES.register("boss_demon_king", () -> EntityType.Builder.of(EntityBossDemonKing::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "boss_demon_king").toString()));
 
+    /*
     public static final RegistryObject<EntityType<?  extends Monster>> RAPTOR_DEMON = ENTITIES.register("demon_raptor", () -> EntityType.Builder.of(EntityDemonRaptor::new, MobCategory.MONSTER).sized(0.6F, 1.4F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_raptor").toString()));
     public static final RegistryObject<EntityType<? extends Mob>> RAY_DEMON = ENTITIES.register("demon_ray", () -> EntityType.Builder.of(EntityDemonRay::new, MobCategory.AMBIENT).sized(1.5F, 1.1F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_ray").toString()));
 
+     */
     public static final RegistryObject<EntityType<? extends EntityClayGolem>> CLAY_GOLEM_BETA = ENTITIES.register("clay_golem", () -> EntityType.Builder.<EntityClayGolem>of((e,l) -> new EntityClayGolem(e,l, EntityClayGolem.Tier.MAGIC), MobCategory.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem").toString()));
     public static final RegistryObject<EntityType<? extends EntityClayGolem>> CLAY_GOLEM_MARVELOUS = ENTITIES.register("clay_golem_marvelous", () -> EntityType.Builder.<EntityClayGolem>of((e,l) -> new EntityClayGolem(e,l, EntityClayGolem.Tier.MARVELOUS), MobCategory.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem_marvelous").toString()));
     public static final RegistryObject<EntityType<? extends EntityClayGolem>> CLAY_GOLEM_MYSTIC = ENTITIES.register("clay_golem_mystic", () -> EntityType.Builder.<EntityClayGolem>of((e,l) -> new EntityClayGolem(e,l, EntityClayGolem.Tier.MYSTIC), MobCategory.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem_mystic").toString()));
@@ -772,9 +782,12 @@ public class RegistryHandler{
     public static final RegistryObject<EntityType<EntityWitherBound>> WITHER_BOUND = ENTITIES.register("bound_wither", () -> EntityType.Builder.<EntityWitherBound>of(EntityWitherBound::new, MobCategory.MISC).sized(0.9F, 3.0F).build(new ResourceLocation(ArsOmega.MOD_ID, "bound_wither").toString()));
 
     public static void RegisterMobSpawns(){
+        /*
         SpawnPlacements.register(BASIC_DEMON.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
         SpawnPlacements.register(STRONG_DEMON.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
         SpawnPlacements.register(BOSS_DEMON_KING.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
         SpawnPlacements.register(RAPTOR_DEMON.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
+
+         */
     }
 }

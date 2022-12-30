@@ -1,41 +1,25 @@
 package com.dkmk100.arsomega.blocks;
 
 import com.dkmk100.arsomega.ArsOmega;
-import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
-import com.hollingsworth.arsnouveau.api.client.ITooltipProvider;
 import com.hollingsworth.arsnouveau.api.spell.EntitySpellResolver;
 import com.hollingsworth.arsnouveau.api.spell.Spell;
 import com.hollingsworth.arsnouveau.api.spell.SpellContext;
-import com.hollingsworth.arsnouveau.api.util.BlockUtil;
-import com.hollingsworth.arsnouveau.api.util.SourceUtil;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.common.block.ITickable;
-import com.hollingsworth.arsnouveau.common.block.RuneBlock;
 import com.hollingsworth.arsnouveau.common.block.tile.ModdedTile;
-import com.hollingsworth.arsnouveau.common.spell.method.MethodTouch;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.items.IItemHandler;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
-
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.UUID;
 
 public class ChalkTile extends ModdedTile implements ITickable {
 
@@ -117,7 +101,7 @@ public class ChalkTile extends ModdedTile implements ITickable {
 
                     this.level.setBlockAndUpdate(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(ChalkLineBlock.POWER,data.charges));
                 } catch (Exception var4) {
-                    PortUtil.sendMessage(entity, new TextComponent("Chalk line error, please report on the Ars Omega github!"));
+                    PortUtil.sendMessage(entity, Component.literal("Chalk line error, please report on the Ars Omega github!"));
                     var4.printStackTrace();
                     this.level.destroyBlock(this.worldPosition, false);
                 }

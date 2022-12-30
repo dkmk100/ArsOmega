@@ -13,8 +13,8 @@ import com.hollingsworth.arsnouveau.common.spell.casters.ReactiveCaster;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.client.gui.screens.social.PlayerEntry;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+ 
+  
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -30,15 +30,13 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.event.world.ExplosionEvent;
+import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -116,13 +114,8 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
-    public static void onRegisterEntities(final RegistryEvent.Register<EntityType<?>> event) {
-        ModSpawnEggItem.initSpawnEggs();
-    }
-
-    @SubscribeEvent
     public static void jumpEvent(LivingEvent.LivingJumpEvent e) {
-        LivingEntity living = e.getEntityLiving();
+        LivingEntity living = e.getEntity();
         if (living != null && ((living.hasEffect(ModPotions.VINE_BIND)&&!living.isOnFire())||living.hasEffect(ModPotions.STONE_PETRIFICATION))) {
             living.setDeltaMovement(0.0D, 0.0D, 0.0D);
             living.setNoActionTime(10);
@@ -139,17 +132,17 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void UseItemOnBlock(PlayerInteractEvent.RightClickBlock event){
-        castSpell(event.getPlayer(),event.getItemStack());
+        castSpell(event.getEntity(),event.getItemStack());
     }
 
     @SubscribeEvent
     public static void UseItemOnBlock(PlayerInteractEvent.EntityInteract event){
-        castSpell(event.getPlayer(),event.getItemStack());
+        castSpell(event.getEntity(),event.getItemStack());
     }
 
     @SubscribeEvent
     public static void UseItemOnBlock(PlayerInteractEvent.RightClickItem event){
-        castSpell(event.getPlayer(),event.getItemStack());
+        castSpell(event.getEntity(),event.getItemStack());
     }
 
     public static boolean castSpell(Player playerIn, ItemStack s) {
@@ -176,7 +169,7 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void breakEvent(PlayerEvent.BreakSpeed e){
-        if(e.getEntityLiving().hasEffect(ModPotions.STONE_PETRIFICATION)){
+        if(e.getEntity().hasEffect(ModPotions.STONE_PETRIFICATION)){
             e.setCanceled(true);
         }
     }
@@ -192,7 +185,7 @@ public class CommonEvents {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void useEvent(LivingEntityUseItemEvent.Start e) {
-        if (e.getEntityLiving().hasEffect(ModPotions.STONE_PETRIFICATION)) {
+        if (e.getEntity().hasEffect(ModPotions.STONE_PETRIFICATION)) {
             e.setCanceled(true);
         }
     }
@@ -205,10 +198,10 @@ public class CommonEvents {
             if(stack.hasTag() && stack.getTag().contains("hasEmpathy")){
                 CompoundTag tag = stack.getTag();
                 if(tag.getBoolean("hasEmpathy") && tag.contains("empathySpell")){
-                    EmpathySpell spell = new EmpathySpell(tag.getCompound("empathySpell"),e.getEntityLiving().getLevel());
+                    EmpathySpell spell = new EmpathySpell(tag.getCompound("empathySpell"),e.getEntity().getLevel());
                     float strength = tag.contains("empathyStrength") ? tag.getFloat("empathyStrength") : 0.6f;
                     float alignment = tag.contains("empathyAlignment") ? tag.getFloat("empathyAlignment") : 0.0f;
-                    spell.CastSpell(e.getEntityLiving(),strength,alignment);
+                    spell.CastSpell(e.getEntity(),strength,alignment);
                 }
             }
         }

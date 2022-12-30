@@ -12,7 +12,7 @@ import com.hollingsworth.arsnouveau.api.mana.IManaCap;
 import com.hollingsworth.arsnouveau.common.capability.CapabilityRegistry;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
+  
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -77,7 +77,7 @@ public abstract class AbstractSpellSigil extends DescribedItem implements IDispl
         } else {
             boolean canCast = (double)totalCost <= manaCap.getCurrentMana() || entity instanceof Player && ((Player)entity).isCreative();
             if (!canCast && !entity.getCommandSenderWorld().isClientSide) {
-                PortUtil.sendMessageNoSpam(entity, new TranslatableComponent("ars_nouveau.spell.no_mana"));
+                PortUtil.sendMessageNoSpam(entity, Component.translatable("ars_nouveau.spell.no_mana"));
             }
 
             return canCast;

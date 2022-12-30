@@ -1,7 +1,7 @@
 package com.dkmk100.arsomega.items;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
+ 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,7 +21,7 @@ public class ItemPlayerStorage extends BasicItem {
 
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip2, TooltipFlag flagIn) {
         if (stack.hasTag() && stack.getTag().contains("target_name")) {
-            tooltip2.add(new TextComponent("Player: " + stack.getTag().getString("target_name")));
+            tooltip2.add(  Component.literal("Player: " + stack.getTag().getString("target_name")));
         }
         super.appendHoverText(stack, worldIn, tooltip2, flagIn);
     }

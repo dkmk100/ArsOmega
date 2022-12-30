@@ -1,5 +1,5 @@
 package com.dkmk100.arsomega.client.models;
-
+/*
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.entities.EntityDemonRay;
 import net.minecraft.resources.ResourceLocation;
@@ -23,3 +23,4 @@ public class RayModel extends AnimatedGeoModel<EntityDemonRay> {
         return new ResourceLocation(ArsOmega.MOD_ID, "animations/ray.animation.json");
     }
 }
+ */

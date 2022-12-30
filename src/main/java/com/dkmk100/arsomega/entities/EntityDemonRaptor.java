@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.entities;
 
+/*
 import com.dkmk100.arsomega.ItemsRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
@@ -118,3 +119,5 @@ public class EntityDemonRaptor  extends Monster implements IAnimatable {
         return this.factory;
     }
 }
+
+ */

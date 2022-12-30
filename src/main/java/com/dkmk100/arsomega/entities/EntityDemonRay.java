@@ -1,5 +1,5 @@
 package com.dkmk100.arsomega.entities;
-
+/*
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
@@ -203,3 +203,4 @@ public class EntityDemonRay extends FlyingMob implements Enemy, IAnimatable {
         }
     }
 }
+ */

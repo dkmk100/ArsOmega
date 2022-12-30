@@ -6,10 +6,10 @@ import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.entity.ISummon;
 import com.hollingsworth.arsnouveau.common.entity.IFollowingSummon;
 import net.minecraft.Util;
-import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
+
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -32,7 +32,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import software.bernie.shadowed.eliotlash.mclib.utils.MathHelper;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -181,15 +180,15 @@ public class EntityWitherBound extends WitherBoss implements IFollowingSummon, I
                 bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
                 if (myOwner != null) {
                     if(myOwner.getName()!=null) {
-                        bossEvent.setName(new TextComponent(myOwner.getName().getContents() + "'s Bound Wither"));
+                        bossEvent.setName(  Component.literal(myOwner.getName().getContents() + "'s Bound Wither"));
                     }
                     else{
-                        bossEvent.setName(new TextComponent("Unbound Wither"));
+                        bossEvent.setName( Component.literal("Unbound Wither"));
                     }
                 }
                 else{
 
-                    bossEvent.setName(new TextComponent("Unbound Wither"));
+                    bossEvent.setName(  Component.literal("Unbound Wither"));
                 }
                 ReflectionHandler.Entity.witherHeadUpdates.set(this, nextHeadUpdate);
                 ReflectionHandler.Entity.witherIdleHeads.set(this, idleHeadUpdates);

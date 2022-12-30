@@ -8,7 +8,7 @@ import com.hollingsworth.arsnouveau.setup.BlockRegistry;
 import com.hollingsworth.arsnouveau.setup.ItemsRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
+ 
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -62,7 +62,7 @@ public class MagicChalk extends BasicItem{
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip2, TooltipFlag flagIn) {
-        tooltip2.add(new TextComponent("Used to draw lines of magic chalk on the ground. " +
+        tooltip2.add(  Component.literal("Used to draw lines of magic chalk on the ground. " +
                 "\nThese can then be inscribed with a touch spell, which will affect the entire line. " +
                 "\nCan take multiple charges of a spell, and is good for defense in a pinch. "));
         super.appendHoverText(stack, worldIn, tooltip2, flagIn);

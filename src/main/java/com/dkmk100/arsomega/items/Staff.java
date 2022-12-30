@@ -1,11 +1,9 @@
 package com.dkmk100.arsomega.items;
-
+/*
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.glyphs.IIgnoreBuffs;
-import com.hollingsworth.arsnouveau.ArsNouveau;
 import com.hollingsworth.arsnouveau.api.item.ICasterTool;
 import com.hollingsworth.arsnouveau.api.spell.*;
-import com.hollingsworth.arsnouveau.client.renderer.item.WandRenderer;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodProjectile;
@@ -20,23 +18,13 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.minecraft.world.item.Item.Properties;
 
 public class Staff extends SwordItem implements IAnimatable, ICasterTool {
     public AnimationFactory factory = new AnimationFactory(this);
@@ -82,7 +70,7 @@ public class Staff extends SwordItem implements IAnimatable, ICasterTool {
         ItemStack stack = playerIn.getItemInHand(handIn);
         ISpellCaster caster = this.getSpellCaster(stack);
 
-        InteractionResultHolder<ItemStack> cast  = caster.castSpell(worldIn, playerIn, handIn, new TranslatableComponent("ars_nouveau.wand.invalid"));
+        InteractionResultHolder<ItemStack> cast  = caster.castSpell(worldIn, playerIn, handIn, Component.translatable("ars_nouveau.wand.invalid"));
         if(cast.getResult() == InteractionResult.CONSUME)//why you no work
         {
             //stack.setDamageValue(stack.getDamageValue() + 1);//damage staff
@@ -110,7 +98,7 @@ public class Staff extends SwordItem implements IAnimatable, ICasterTool {
 
     @Override
     public void sendInvalidMessage(Player player) {
-        PortUtil.sendMessageNoSpam(player, new TranslatableComponent("ars_nouveau.wand.invalid"));
+        PortUtil.sendMessageNoSpam(player, Component.translatable("ars_nouveau.wand.invalid"));
     }
 
     @Override
@@ -165,3 +153,5 @@ public class Staff extends SwordItem implements IAnimatable, ICasterTool {
         super.appendHoverText(stack, worldIn, tooltip2, flagIn);
     }
 }
+
+ */

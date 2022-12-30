@@ -1,12 +1,29 @@
 package com.dkmk100.arsomega.items;
 
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.BlockItem;
 
-import net.minecraft.world.item.Item.Properties;
+public class BasicBlockItem extends BlockItem implements INamedItem {
 
-public class BasicBlockItem extends BlockItem {
-    public BasicBlockItem(Properties properties, Block block) {
+    String myName;
+    public BasicBlockItem(Block block,Properties properties) {
         super(block,properties);
+    }
+
+    @Override
+    public INamedItem setRegistryName(String name){
+        myName = name;
+        return this;
+    }
+
+    @Override
+    public String getNameForReg(){
+        return myName;
+    }
+
+    @Override
+    public Item getItem() {
+        return this;
     }
 }

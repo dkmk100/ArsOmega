@@ -17,7 +17,6 @@ import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -122,10 +121,10 @@ public class PotionRelayTile extends ModdedTile implements ITooltipProvider, IWa
     public void onFinishedConnectionFirst(@Nullable BlockPos storedPos, @Nullable LivingEntity storedEntity, Player playerEntity) {
         if (storedPos != null && !this.level.isClientSide && !storedPos.equals(this.getBlockPos())) {
             if (this.setSendTo(storedPos.immutable())) {
-                PortUtil.sendMessage(playerEntity, new TranslatableComponent("ars_nouveau.connections.send", new Object[]{DominionWand.getPosString(storedPos)}));
+                PortUtil.sendMessage(playerEntity, Component.translatable("ars_nouveau.connections.send", new Object[]{DominionWand.getPosString(storedPos)}));
                 ParticleUtil.beam(storedPos, this.worldPosition, this.level);
             } else {
-                PortUtil.sendMessage(playerEntity, new TranslatableComponent("ars_nouveau.connections.fail"));
+                PortUtil.sendMessage(playerEntity, Component.translatable("ars_nouveau.connections.fail"));
             }
 
         }
@@ -135,9 +134,9 @@ public class PotionRelayTile extends ModdedTile implements ITooltipProvider, IWa
         if (storedPos != null && !storedPos.equals(this.getBlockPos())) {
             if (!(this.level.getBlockEntity(storedPos) instanceof RelayTile)) {
                 if (this.setTakeFrom(storedPos.immutable())) {
-                    PortUtil.sendMessage(playerEntity, new TranslatableComponent("ars_nouveau.connections.take", new Object[]{DominionWand.getPosString(storedPos)}));
+                    PortUtil.sendMessage(playerEntity, Component.translatable("ars_nouveau.connections.take", new Object[]{DominionWand.getPosString(storedPos)}));
                 } else {
-                    PortUtil.sendMessage(playerEntity, new TranslatableComponent("ars_nouveau.connections.fail"));
+                    PortUtil.sendMessage(playerEntity, Component.translatable("ars_nouveau.connections.fail"));
                 }
 
             }
@@ -146,7 +145,7 @@ public class PotionRelayTile extends ModdedTile implements ITooltipProvider, IWa
 
     public void onWanded(Player playerEntity) {
         this.clearPos();
-        PortUtil.sendMessage(playerEntity, new TranslatableComponent("ars_nouveau.connections.cleared"));
+        PortUtil.sendMessage(playerEntity, Component.translatable("ars_nouveau.connections.cleared"));
     }
 
     public void tick() {
@@ -229,19 +228,19 @@ public class PotionRelayTile extends ModdedTile implements ITooltipProvider, IWa
     @Override
     public void getTooltip(List<Component> tooltip) {
         if (this.toPos == null) {
-            tooltip.add(new TranslatableComponent("ars_nouveau.relay.no_to"));
+            tooltip.add(Component.translatable("ars_nouveau.relay.no_to"));
         } else {
-            tooltip.add(new TranslatableComponent("ars_nouveau.relay.one_to", new Object[]{1}));
+            tooltip.add(Component.translatable("ars_nouveau.relay.one_to", new Object[]{1}));
         }
 
         if (this.fromPos == null) {
-            tooltip.add(new TranslatableComponent("ars_nouveau.relay.no_from"));
+            tooltip.add(Component.translatable("ars_nouveau.relay.no_from"));
         } else {
-            tooltip.add(new TranslatableComponent("ars_nouveau.relay.one_from", new Object[]{1}));
+            tooltip.add(Component.translatable("ars_nouveau.relay.one_from", new Object[]{1}));
         }
 
         if (this.disabled) {
-            tooltip.add(new TranslatableComponent("ars_nouveau.tooltip.turned_off"));
+            tooltip.add(Component.translatable("ars_nouveau.tooltip.turned_off"));
         }
 
     }

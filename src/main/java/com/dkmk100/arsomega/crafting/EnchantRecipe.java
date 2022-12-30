@@ -14,7 +14,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -88,19 +88,19 @@ public class EnchantRecipe implements Recipe<Container> {
 
     public static JsonElement stackToJson(ItemStack stack){
         JsonObject element = new JsonObject();
-        element.addProperty("item", stack.getItem().getRegistryName().toString());
+        element.addProperty("item", ForgeRegistries.ITEMS.getKey(stack.getItem()).toString());
         element.addProperty("count", stack.getCount());
         return element;
     }
     public static ItemStack stackFromJson(JsonObject obj){
         int count = obj.has("count") ? GsonHelper.getAsInt(obj, "count") : 1;
         String itemId = GsonHelper.getAsString(obj, "item");
-        ItemStack stack = new ItemStack((ItemLike)Registry.ITEM.get(new ResourceLocation(itemId)), count);
+        ItemStack stack = new ItemStack(Registry.ITEM.get(new ResourceLocation(itemId)), count);
         return stack;
     }
 
 
-    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<EnchantRecipe> {
+    public static class Serializer implements RecipeSerializer<EnchantRecipe> {
         public Serializer() {
         }
 
