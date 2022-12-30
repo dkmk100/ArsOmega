@@ -25,6 +25,8 @@ import net.minecraft.world.level.block.Blocks;
 import org.apache.logging.log4j.core.jmx.Server;
 import org.apache.logging.log4j.core.tools.Generate;
 
+import net.minecraft.world.item.Item.Properties;
+
 public abstract class AbstractSpellSigil extends DescribedItem implements IDisplayMana {
     public final SigilPattern pattern;
 

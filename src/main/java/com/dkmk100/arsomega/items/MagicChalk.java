@@ -24,6 +24,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class MagicChalk extends BasicItem{
     Supplier<ChalkLineBlock> chalkBlock;
 

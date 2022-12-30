@@ -40,6 +40,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
 
+import net.minecraft.world.entity.ai.goal.Goal.Flag;
+
 public class EntityWitherBound extends WitherBoss implements IFollowingSummon, ISummon {
     private static final EntityDataAccessor<Optional<UUID>> OWNER_ID = SynchedEntityData.defineId(WitherBoss.class, EntityDataSerializers.OPTIONAL_UUID);
 

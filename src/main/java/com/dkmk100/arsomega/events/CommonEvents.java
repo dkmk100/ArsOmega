@@ -36,6 +36,7 @@ import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -219,8 +220,8 @@ public class CommonEvents {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void playerDamaged(LivingHurtEvent e) {
-        if (e.getEntityLiving() != null) {
-            LivingEntity living = e.getEntityLiving();
+        if (e.getEntity() != null) {
+            LivingEntity living = e.getEntity();
             if (living.hasEffect(ModPotions.STONE_PETRIFICATION) && !e.getSource().isBypassInvul()) {
                 e.setAmount(0);
                 e.setCanceled(true);
@@ -247,8 +248,8 @@ public class CommonEvents {
 
     @SubscribeEvent(priority = EventPriority.LOWEST,receiveCanceled = true)
     public static void playerDamagedFinal(LivingHurtEvent e) {
-        if (e.getEntityLiving() != null) {
-            LivingEntity living = e.getEntityLiving();
+        if (e.getEntity() != null) {
+            LivingEntity living = e.getEntity();
             if (living.hasEffect(ModPotions.STONE_PETRIFICATION) && !e.getSource().isBypassInvul()) {
                 //make sure to cancel it, this is important
                 e.setAmount(0);
@@ -259,8 +260,8 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void playerKnockback(LivingKnockBackEvent e) {
-        if (e.getEntityLiving() != null){
-            LivingEntity living = e.getEntityLiving();
+        if (e.getEntity() != null){
+            LivingEntity living = e.getEntity();
             if(living.hasEffect(ModPotions.STONE_PETRIFICATION)){
                 e.setCanceled(true);
             }

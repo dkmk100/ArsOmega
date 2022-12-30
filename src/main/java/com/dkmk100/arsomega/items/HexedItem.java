@@ -22,6 +22,8 @@ import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class HexedItem extends BasicItem implements ICasterTool {
 
     boolean alwaysShimmer;

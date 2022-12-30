@@ -14,6 +14,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class ItemPlayerStorage extends BasicItem {
     public ItemPlayerStorage(String name, Properties properties) {
         super(properties, name);

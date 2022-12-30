@@ -42,6 +42,8 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.PlayMessages;
 
+import net.minecraft.world.entity.Entity.RemovalReason;
+
 public class EntityMissileSpell extends EntityProjectileSpell {
     public int age;
     public SpellResolver spellResolver;

@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import net.minecraft.world.entity.Entity.RemovalReason;
+
 public class EntityTornado extends ColoredProjectile {
 
     public static final EntityDataAccessor<Integer> AOE = SynchedEntityData.defineId(EntityTornado.class, EntityDataSerializers.INT);

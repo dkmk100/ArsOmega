@@ -1,5 +1,7 @@
 package com.dkmk100.arsomega.items;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class SigilItem extends DescribedItem{
     public SigilItem(String name, Properties properties) {
         super(name, properties, "Sigils are made with the ritual of shaping, by drawing shapes with chalk and then activating the ritual. \nMore info on crafting sigils can be found in the worn notebook, and JEI support is planned.");

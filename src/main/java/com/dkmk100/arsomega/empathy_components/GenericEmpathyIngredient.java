@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Supplier;
 
+import com.dkmk100.arsomega.empathy_api.AbstractEmpathyIngredient.AddResult;
+
 public abstract class GenericEmpathyIngredient extends AbstractEmpathyIngredient {
 
     ConcurrentLinkedQueue<AbstractEmpathyIngredient> incompatibleIngredients = new ConcurrentLinkedQueue<>();

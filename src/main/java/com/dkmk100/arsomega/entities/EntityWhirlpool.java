@@ -23,6 +23,8 @@ import net.minecraftforge.network.NetworkHooks;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.world.entity.Entity.RemovalReason;
+
 public class EntityWhirlpool  extends ColoredProjectile {
 
     public static final EntityDataAccessor<Integer> AOE = SynchedEntityData.defineId(EntityWhirlpool.class, EntityDataSerializers.INT);

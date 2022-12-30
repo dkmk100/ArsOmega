@@ -4,6 +4,8 @@ import com.hollingsworth.arsnouveau.common.items.ModItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class EssenceItem extends ModItem implements INamedItem {
 
     String myName;
