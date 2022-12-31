@@ -1,13 +1,10 @@
 package com.dkmk100.arsomega.glyphs;
 
-import com.dkmk100.arsomega.ItemsRegistry;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 
@@ -25,7 +22,7 @@ public class Absorption extends AbstractEffect {
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
@@ -42,7 +39,7 @@ public class Absorption extends AbstractEffect {
                 }
             }
 
-            this.applyPotionWithCap(living, MobEffects.ABSORPTION, spellStats, 45,35,50);
+            this.applyPotion(living, MobEffects.ABSORPTION, spellStats, 45,35,true);
         }
     }
 

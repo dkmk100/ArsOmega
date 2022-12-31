@@ -167,7 +167,7 @@ public class ChalkLineBlock extends TickableModBlock {
         ISpellCaster caster = CasterUtil.getCaster(stack);
         Spell spell = caster.getSpell();
         Spell spell2 = spell.clone();
-        spell2.setCost((int)Math.ceil(spell2.getCastingCost() * costMultiplier));
+        spell2.setDiscount(spell2.getDiscount() + spell2.getDiscountedCost() - (int)Math.ceil(spell2.getDiscountedCost() * costMultiplier));
         ISpellCaster caster2 = CasterUtil.getCaster(stack);
         caster2.setSpell(spell2);
 
@@ -186,19 +186,20 @@ public class ChalkLineBlock extends TickableModBlock {
             return true;
         }
         else{
-            SpellResolver resolver = new SpellResolver(caster2,player);
+            SpellContext context = new SpellContext(worldIn,caster2.getSpell(),player);
+            SpellResolver resolver = new SpellResolver(context);
             if(enoughMana(player,resolver)) {
 
                 boolean setSpell = tile.data.spell.recipe != spell.recipe;
                 tile.setSpell(spell);
-                tile.setSpellColor(caster.getColor().toParticleColor());
+                tile.setSpellColor(caster.getColor());
                 if (player != null) {
                     tile.data.owner = player.getUUID();
                 }
 
                 boolean charges = tile.tryAddCharges(1, maxCharges);
                 if(setSpell || charges){
-                    resolver.expendMana(player);
+                    resolver.expendMana();
                     return true;
                 }
             }
@@ -207,7 +208,7 @@ public class ChalkLineBlock extends TickableModBlock {
     }
 
     boolean enoughMana(LivingEntity entity,SpellResolver resolver) {
-        int totalCost = resolver.getCastingCost(resolver.spell, entity);
+        int totalCost = resolver.getResolveCost();
         IManaCap manaCap = (IManaCap) CapabilityRegistry.getMana(entity).orElse((IManaCap)null);
         if (manaCap == null) {
             return false;

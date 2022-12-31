@@ -14,7 +14,7 @@ public abstract class BasicConfigRitual extends AbstractRitual implements Config
 
     public BasicConfigRitual(){
         ArsOmega.LOGGER.info("basic config ritual constructor called! ");
-        AbstractRitual ritual = ArsNouveauAPI.getInstance().getRitualMap().get(this.getID());
+        AbstractRitual ritual = ArsNouveauAPI.getInstance().getRitual(this.getRegistryName());
         if(ritual!=null && ritual instanceof BasicConfigRitual){
             ArsOmega.LOGGER.info("copying config!");
             BasicConfigRitual config = (BasicConfigRitual) ritual;
@@ -48,7 +48,7 @@ public abstract class BasicConfigRitual extends AbstractRitual implements Config
 
     @Override
     public void buildConfig(ForgeConfigSpec.Builder builder) {
-        ArsOmega.LOGGER.info("building config for ritual: "+getID());
+        ArsOmega.LOGGER.info("building config for ritual: "+getRegistryName());
         builder.comment("Can be used to disable the ritual globally.");
         ENABLED = builder.define("enabled",true);
         int dur = getDefaultDuration();
@@ -59,7 +59,7 @@ public abstract class BasicConfigRitual extends AbstractRitual implements Config
             DURATION = builder.defineInRange("duration", dur, 0, 100);
         }
         else{
-            ArsOmega.LOGGER.info("ritual "+getID()+" does not define duration.");
+            ArsOmega.LOGGER.info("ritual "+getRegistryName()+" does not define duration.");
         }
         if(ran > 0){
             builder.comment("Can be used to change the range of the ritual, in blocks away from the brazier");
@@ -67,13 +67,13 @@ public abstract class BasicConfigRitual extends AbstractRitual implements Config
             RANGE = builder.defineInRange("range", ran, 0, 100);
         }
         else{
-            ArsOmega.LOGGER.info("ritual "+getID()+" does not define range.");
+            ArsOmega.LOGGER.info("ritual "+getRegistryName()+" does not define range.");
         }
         buildExtraConfig(builder);
     }
 
     private boolean ConfirmEnabled(){
-        ArsOmega.LOGGER.info("ritual: "+getID());
+        ArsOmega.LOGGER.info("ritual: "+getRegistryName());
         ArsOmega.LOGGER.info("ritual enabled? "+ENABLED.get());
         if(!ENABLED.get()){
             double range = getDefaultRange() > 0 ? RANGE.get() : 5.0;
@@ -88,7 +88,7 @@ public abstract class BasicConfigRitual extends AbstractRitual implements Config
     }
 
     protected void buildExtraConfig(ForgeConfigSpec.Builder builder){
-        ArsOmega.LOGGER.info("ritual "+getID()+" does not define extra config. ");
+        ArsOmega.LOGGER.info("ritual "+getRegistryName()+" does not define extra config. ");
     }
 
     protected int getDefaultDuration(){

@@ -1,17 +1,12 @@
 package com.dkmk100.arsomega.util;
 
 import com.dkmk100.arsomega.ArsOmega;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
-import net.minecraft.world.entity.monster.ZombieVillager;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.chunk.LevelChunkSection;
-import net.minecraft.world.level.levelgen.flat.FlatLevelGeneratorSettings;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 

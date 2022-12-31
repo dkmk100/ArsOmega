@@ -1,6 +1,5 @@
 package com.dkmk100.arsomega.blocks;
 
-import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.empathy_api.AbstractEmpathyIngredient;
 import com.dkmk100.arsomega.empathy_api.EmpathyAPI;
 import com.dkmk100.arsomega.empathy_api.EmpathyIngredientInstance;
@@ -105,7 +104,7 @@ public abstract class GenericEmpathyAltar extends ModdedTile implements ITooltip
         }
         else {
             //altar interactions
-            if (stack.getItem() == ItemsRegistry.ENCHANTED_MIRROR_SHARD && !hasShard) {
+            if (stack.getItem() == RegistryHandler.ENCHANTED_MIRROR_SHARD.get() && !hasShard) {
                 this.hasShard = true;
                 this.updateBlock();
                 stack.shrink(1);

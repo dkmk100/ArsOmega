@@ -20,7 +20,7 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraft.world.item.Item.Properties;
 
-public class ModSpawnEggItem extends SpawnEggItem implements INamedItem {
+public class ModSpawnEggItem extends SpawnEggItem{
     String myName;
 
     public ModSpawnEggItem(RegistryObject<? extends EntityType<?>> entityTypeIn, int primaryColorIn, int secondaryColorIn, Properties builder) {
@@ -51,22 +51,6 @@ public class ModSpawnEggItem extends SpawnEggItem implements INamedItem {
             DispenserBlock.registerBehavior(spawnEgg,dispenseBehavior);
         }
         UNADDED_EGGS.clear();
-    }
-
-    @Override
-    public INamedItem setRegistryName(String name){
-        myName = name;
-        return this;
-    }
-
-    @Override
-    public String getNameForReg(){
-        return myName;
-    }
-
-    @Override
-    public Item getItem() {
-        return this;
     }
 
     @Override

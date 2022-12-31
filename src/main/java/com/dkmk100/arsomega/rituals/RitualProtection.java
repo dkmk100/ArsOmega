@@ -1,12 +1,14 @@
 package com.dkmk100.arsomega.rituals;
 
-import com.dkmk100.arsomega.ArsRegistry;
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.potions.ModPotions;
+import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
-import net.minecraft.world.entity.LivingEntity;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -31,11 +33,11 @@ public class RitualProtection extends AbstractRitual {
         }
 
         if (!world.isClientSide && world.getGameTime() % 40L == 0L) {
-            if(this.needsManaNow()){
+            if(this.needsSourceNow()){
                 return;
             }
             else{
-                this.setNeedsMana(true);
+                this.setNeedsSource(true);
             }
             this.incrementProgress();
             if (this.getProgress() % 2 == 0) {
@@ -58,7 +60,7 @@ public class RitualProtection extends AbstractRitual {
     }
 
     @Override
-    public int getManaCost() {
+    public int getSourceCost() {
         return 2;
     }
     @Override
@@ -66,16 +68,16 @@ public class RitualProtection extends AbstractRitual {
         return new ParticleColor(160,105,250);
     }
     @Override
-    public boolean consumesMana() {
+    public boolean consumesSource() {
         return true;
     }
     @Override
     public boolean canConsumeItem(ItemStack stack) {
-        return stack.getItem() == ArsRegistry.GLYPH_AOE;
+        return stack.getItem() == ArsNouveauAPI.getInstance().getGlyphItem(AugmentAOE.INSTANCE);
     }
 
     @Override
-    public String getID() {
-        return "protection";
+    public ResourceLocation getRegistryName() {
+        return new ResourceLocation(ArsOmega.MOD_ID,"protection");
     }
 }

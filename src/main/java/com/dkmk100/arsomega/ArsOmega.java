@@ -65,7 +65,7 @@ public class ArsOmega
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueue);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::createRegistries);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerStuff);
-        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Block.class,RegistryHandler::registerBlocks);
+        //FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Block.class,RegistryHandler::registerBlocks);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::finalSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::RegisterEntityAttributes);
@@ -148,7 +148,7 @@ public class ArsOmega
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BRAMBLE_3.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BRAMBLE_4.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.GORGON_FIRE.get(), RenderType.cutoutMipped());
-        ItemBlockRenderTypes.setRenderLayer(ItemsRegistry.INFINITY_JAR, RenderType.cutout());
+        //ItemBlockRenderTypes.setRenderLayer(ItemsRegistry.INFINITY_JAR, RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CHALK_LINE_1.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CHALK_LINE_2.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CHALK_LINE_3.get(), RenderType.cutout());
@@ -195,7 +195,7 @@ public class ArsOmega
 
     public static CreativeModeTab itemGroup = new CreativeModeTab(CreativeModeTab.getGroupCountSafe(), "arsomega") {
         public ItemStack makeIcon() {
-            return ItemsRegistry.ALCHEMY_FOCUS.getDefaultInstance();
+            return RegistryHandler.FOCUS_OF_ALCHEMY.get().getDefaultInstance();
         }
     };
 

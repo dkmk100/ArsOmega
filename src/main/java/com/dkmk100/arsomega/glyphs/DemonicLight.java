@@ -1,6 +1,5 @@
 package com.dkmk100.arsomega.glyphs;
 
-import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ANFakePlayer;
 import com.hollingsworth.arsnouveau.api.spell.*;
@@ -34,7 +33,7 @@ public class DemonicLight extends TierFourEffect {
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if (rayTraceResult.getEntity() instanceof ILightable) {
             ((ILightable)rayTraceResult.getEntity()).onLight(rayTraceResult, world, shooter, spellStats, spellContext);
         }
@@ -51,7 +50,7 @@ public class DemonicLight extends TierFourEffect {
 
     //to change later
     @Override
-    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         BlockPos pos = rayTraceResult.getBlockPos().relative(rayTraceResult.getDirection());
         if (BlockUtil.destroyRespectsClaim(this.getPlayer(shooter, (ServerLevel)world), world, pos)) {
             BlockPos rawPos = rayTraceResult.getBlockPos();
@@ -70,9 +69,7 @@ public class DemonicLight extends TierFourEffect {
                     world.setBlockAndUpdate(pos, (BlockState)BlockRegistry.LIGHT_BLOCK.defaultBlockState().setValue(SconceBlock.LIGHT_LEVEL, Math.max(0, Math.min(15, 14 + (int)spellStats.getAmpMultiplier()))));
                     LightTile tile = (LightTile)world.getBlockEntity(pos);
                     if (tile != null) {
-                        tile.red = spellContext.colors.r;
-                        tile.green = spellContext.colors.g;
-                        tile.blue = spellContext.colors.b;
+                        tile.color = spellContext.getColors();
                     }
                 }
 

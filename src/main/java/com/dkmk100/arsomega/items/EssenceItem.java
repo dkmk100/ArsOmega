@@ -6,7 +6,7 @@ import net.minecraft.world.item.Item;
 
 import net.minecraft.world.item.Item.Properties;
 
-public class EssenceItem extends ModItem implements INamedItem {
+public class EssenceItem extends ModItem {
 
     String myName;
     public EssenceItem(Properties properties) {
@@ -14,25 +14,4 @@ public class EssenceItem extends ModItem implements INamedItem {
         this.withTooltip(Component.translatable("tooltip.essences"));
     }
 
-    public EssenceItem(Properties properties, String registryName) {
-        super(properties);
-        this.withTooltip(Component.translatable("tooltip.essences"));
-        this.setRegistryName(registryName);
-    }
-
-    @Override
-    public INamedItem setRegistryName(String name){
-        myName = name;
-        return this;
-    }
-
-    @Override
-    public String getNameForReg(){
-        return myName;
-    }
-
-    @Override
-    public Item getItem() {
-        return this;
-    }
 }

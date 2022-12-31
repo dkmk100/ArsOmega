@@ -1,8 +1,6 @@
 package com.dkmk100.arsomega.rituals;
 
 import com.dkmk100.arsomega.ArsOmega;
-import com.dkmk100.arsomega.ItemsRegistry;
-import com.dkmk100.arsomega.blocks.PortalBlockEntity;
 import com.dkmk100.arsomega.crafting.SigilRecipe;
 import com.dkmk100.arsomega.crafting.SigilValidator;
 import com.dkmk100.arsomega.util.RegistryHandler;
@@ -12,10 +10,10 @@ import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
@@ -41,7 +39,7 @@ public class RitualShaping extends AbstractRitual {
 
         //40 to make it slightly less annoying tps wise lol
         if (!world.isClientSide && world.getGameTime() % 40L == 0L) {
-            if(this.needsManaNow()){
+            if(this.needsSourceNow()){
                 return;
             }
             if(chosenRecipe == null){
@@ -55,18 +53,18 @@ public class RitualShaping extends AbstractRitual {
                         sigilResult = result;
 
                         if(chosenRecipe.pattern.sourceCost == 0){
-                            this.setNeedsMana(false);
+                            this.setNeedsSource(false);
                         }
                         else{
                             //quick check for mana to not delay craft on mana things
                             //we don't do this every time so we can get the ritual brazier to say missing mana lol
                             //range of 6 for parity with normal brazier range
                             if(SourceUtil.takeSourceNearbyWithParticles(pos,world,6,chosenRecipe.pattern.sourceCost) != null){
-                                this.setNeedsMana(false);
+                                this.setNeedsSource(false);
                             }
                             else {
                                 sourceNeeded = chosenRecipe.pattern.sourceCost;
-                                this.setNeedsMana(true);
+                                this.setNeedsSource(true);
                             }
                         }
                         break;
@@ -74,7 +72,7 @@ public class RitualShaping extends AbstractRitual {
 
                 }
             }
-            if(!this.needsManaNow() && chosenRecipe != null){
+            if(!this.needsSourceNow() && chosenRecipe != null){
                 SigilValidator validator = SigilValidator.INSTANCE;
                 if(validator.isSigilValid(world,pos,chosenRecipe,sigilResult)) {
                     this.spawnAtLocation(chosenRecipe.output, 1.0f, pos);
@@ -117,17 +115,17 @@ public class RitualShaping extends AbstractRitual {
 
 
     @Override
-    public int getManaCost() {
+    public int getSourceCost() {
         return sourceNeeded;
     }
 
     @Override
-    public boolean consumesMana() {
+    public boolean consumesSource() {
         return true;
     }
 
     @Override
-    public String getID() {
-        return "shaping";
+    public ResourceLocation getRegistryName() {
+        return new ResourceLocation(ArsOmega.MOD_ID, "shaping");
     }
 }

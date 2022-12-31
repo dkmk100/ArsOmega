@@ -35,7 +35,7 @@ public class InvisibleAspectGlyph extends AbstractEffect {
     }
 
     @Override
-    public int getManaCost() {
+    public int getSourceCost() {
         return 650;
     }
 

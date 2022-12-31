@@ -46,11 +46,11 @@ public class RitualDispel extends AbstractRitual {
         }
 
         if (!world.isClientSide && world.getGameTime() % 20L == 0L) {
-            if(this.needsManaNow()){
+            if(this.needsSourceNow()){
                 return;
             }
             else{
-                this.setNeedsMana(true);
+                this.setNeedsSource(true);
             }
             this.incrementProgress();
             if (this.getProgress() > 5) {
@@ -105,7 +105,7 @@ public class RitualDispel extends AbstractRitual {
     }
 
     @Override
-    public int getManaCost() {
+    public int getSourceCost() {
         return 10;
     }
 

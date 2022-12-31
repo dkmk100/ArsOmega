@@ -18,12 +18,8 @@ public class DescribedItem extends BasicItem {
         super(properties);
         this.description = description;
     }
-    public DescribedItem(String name, Properties properties, String description) {
-        super(properties,name);
-        this.description = description;
-    }
-    public DescribedItem(String name, Properties properties, String description, boolean showEnch) {
-        super(properties,name,showEnch);
+    public DescribedItem(Properties properties, String description, boolean showEnch) {
+        super(properties,showEnch);
         this.description = description;
     }
 

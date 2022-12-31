@@ -1,6 +1,6 @@
 package com.dkmk100.arsomega.blocks;
 
-import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.CropBlock;
@@ -12,8 +12,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.level.BlockGetter;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class ArcaneBloomCrop extends CropBlock {
     public static final IntegerProperty AGE_0_4 = IntegerProperty.create("age", 0, 4);
@@ -30,7 +28,7 @@ public class ArcaneBloomCrop extends CropBlock {
 
     @Override
     protected ItemLike getBaseSeedId() {
-        return ItemsRegistry.ARCANE_BLOOM_CROP;
+        return RegistryHandler.ARCANE_BLOOM_CROP.get();
     }
 
 }

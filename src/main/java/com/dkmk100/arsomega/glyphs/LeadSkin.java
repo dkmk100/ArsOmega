@@ -1,8 +1,7 @@
 package com.dkmk100.arsomega.glyphs;
 
-import com.dkmk100.arsomega.ArsRegistry;
-import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.potions.ModPotions;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,20 +22,21 @@ public class LeadSkin extends AbstractEffect {
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         Entity entity = rayTraceResult.getEntity();
         int focusLevel = 0;
         if(shooter!=null) {
-            if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, ItemsRegistry.ALCHEMY_FOCUS_ADVANCED).isPresent()) {
+            if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_ADVANCED_ALCHEMY.get()).isPresent()) {
                 focusLevel = 2;
-            } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, ItemsRegistry.ALCHEMY_FOCUS).isPresent()) {
+            } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_ALCHEMY.get()).isPresent()) {
                 focusLevel = 1;
             }
         }
 
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
-            this.applyPotionWithCap(living, ModPotions.LEAD_SKIN, spellStats, 30,15,1 + focusLevel);
+
+            this.applyPotion(living, ModPotions.LEAD_SKIN, spellStats, 30,15,true);
         }
     }
 

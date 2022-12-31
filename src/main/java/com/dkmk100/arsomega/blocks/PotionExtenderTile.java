@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.blocks;
 
+/*
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.util.SourceUtil;
@@ -83,7 +84,7 @@ public class PotionExtenderTile extends BlockEntity implements ITickable {
                                 this.level.addFreshEntity(item);
                             }
 
-                            if (!this.level.isClientSide /* && this.timeMixing >= 120*/) {
+                            if (!this.level.isClientSide) {
                                 ++this.timeMixing;
                                 if (this.timeMixing >= 120) {
                                     this.timeMixing = 0;
@@ -91,7 +92,7 @@ public class PotionExtenderTile extends BlockEntity implements ITickable {
 
                                 Potion jar1Potion = tile1.getPotion();
                                 if (combJar.getAmount() == 0) {
-                                    combJar.setPotion(ModPotions.PotionsRegistry.BLENDED_POT, combined);
+                                    combJar.setPotion(ModPotions.BLENDED_POT, combined);
                                     combJar.setFill(100);
                                     tile1.addAmount(-100);
                                     this.hasMana = false;
@@ -170,3 +171,4 @@ public class PotionExtenderTile extends BlockEntity implements ITickable {
         compound.putBoolean("hasMana", this.hasMana);
     }
 }
+ */

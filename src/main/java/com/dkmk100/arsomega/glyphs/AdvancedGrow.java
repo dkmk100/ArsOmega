@@ -11,6 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.item.ItemStack;
@@ -24,6 +25,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.FakePlayerFactory;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -53,7 +55,7 @@ public class AdvancedGrow extends AbstractEffect {
     public static boolean GrowBlock(BlockPos pos, ServerLevel world){
         BlockState state = world.getBlockState(pos);
         Block block = state.getBlock();
-        ArsOmega.LOGGER.info("checking block for flower: " + block.getRegistryName());
+        ArsOmega.LOGGER.info("checking block for flower: " + ForgeRegistries.BLOCKS.getKey(block).toString());
         if(block == Blocks.CACTUS || block == Blocks.SUGAR_CANE){
             //I know that you can just hit a higher block to keep growing them, I just don't care
             //seems fair enough to just let you do that as a player
@@ -133,7 +135,7 @@ public class AdvancedGrow extends AbstractEffect {
     }
 
     public static void GrowChorusFlower(BlockState state, BlockPos pos, ServerLevel world){
-        Random random = world.getRandom();
+        RandomSource random = world.getRandom();
         BlockPos blockpos = pos.above();
         if (world.isEmptyBlock(blockpos) && blockpos.getY() < world.getMaxBuildHeight()) {
             int i = state.getValue(ChorusFlowerBlock.AGE);

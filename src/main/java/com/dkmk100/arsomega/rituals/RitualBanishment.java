@@ -38,10 +38,10 @@ public class RitualBanishment  extends AbstractRitual {
         }
 
         if (!world.isClientSide && world.getGameTime() % 20L == 0L) {
-            if (this.needsManaNow()) {
+            if (this.needsSourceNow()) {
                 return;
             } else {
-                this.setNeedsMana(true);
+                this.setNeedsSource(true);
             }
 
             this.incrementProgress();
@@ -67,12 +67,12 @@ public class RitualBanishment  extends AbstractRitual {
     }
 
     @Override
-    public int getManaCost() {
+    public int getSourceCost() {
         return 2000;
     }
 
     @Override
-    public boolean consumesMana() {
+    public boolean consumesSource() {
         return true;
     }
 

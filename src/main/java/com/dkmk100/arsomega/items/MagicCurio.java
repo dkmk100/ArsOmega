@@ -6,43 +6,24 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class MagicCurio extends ArsNouveauCurio implements IManaEquipment, INamedItem {
+public class MagicCurio extends ArsNouveauCurio implements IManaEquipment {
     int boost;
     int regen;
 
     int discount;
 
-    String myName;
-    public MagicCurio(String reg, int boost, int regen) {
+    public MagicCurio(int boost, int regen) {
         super();
-        this.setRegistryName(reg);
         this.boost = boost;
         this.regen = regen;
         this.discount = 0;
     }
 
-    public MagicCurio(String reg, int boost, int regen, int discount) {
+    public MagicCurio(int boost, int regen, int discount) {
         super();
-        this.setRegistryName(reg);
         this.boost = boost;
         this.regen = regen;
         this.discount = discount;
-    }
-
-    @Override
-    public INamedItem setRegistryName(String name){
-        myName = name;
-        return this;
-    }
-
-    @Override
-    public String getNameForReg(){
-        return myName;
-    }
-
-    @Override
-    public Item getItem() {
-        return this;
     }
 
     @Override

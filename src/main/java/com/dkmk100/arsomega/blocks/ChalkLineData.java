@@ -55,24 +55,20 @@ public class ChalkLineData {
         this.color = new ParticleColor(255,255,255);
     }
     public ChalkLineData(CompoundTag tag){
-        this.spell = Spell.deserialize(tag.getString("spell"));
+        this.spell = Spell.fromTag(tag.getCompound("spell"));
         this.charges = tag.getInt("charges");
         if (tag.contains("uuid")) {
             this.owner = tag.getUUID("uuid");
         }
 
-        this.color = ParticleColor.IntWrapper.deserialize(tag.getString("color")).toParticleColor();
+        this.color = spell.color;
     }
 
     public void Serialize(CompoundTag tag){
-        tag.putString("spell", this.spell.serialize());
+        tag.put("spell", this.spell.serialize());
         tag.putInt("charges", this.charges);
         if (this.owner != null) {
             tag.putUUID("uuid", this.owner);
-        }
-
-        if (this.color != null) {
-            tag.putString("color", this.color.toWrapper().serialize());
         }
     }
 }

@@ -1,13 +1,11 @@
 package com.dkmk100.arsomega.glyphs;
 
-import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
-import top.theillusivec4.curios.api.CuriosApi;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -22,12 +20,12 @@ public class Dispellant extends AbstractEffect {
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
             //low time cause the effect is sorta OP lol
-            this.applyPotionWithCap(living, ModPotions.DISPELLANT, spellStats, 6,3,0);
+            this.applyPotion(living, ModPotions.DISPELLANT, spellStats, 6,3,true);
         }
     }
 

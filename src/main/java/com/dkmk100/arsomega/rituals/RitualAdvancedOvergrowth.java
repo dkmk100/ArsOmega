@@ -62,7 +62,7 @@ public class RitualAdvancedOvergrowth extends BasicConfigRitual {
                 }
             }
             if (didWorkOnce) {
-                this.setNeedsMana(true);
+                this.setNeedsSource(true);
             }
         }
 
@@ -78,7 +78,7 @@ public class RitualAdvancedOvergrowth extends BasicConfigRitual {
         return this.didConsumeItem(Items.BONE_BLOCK);
     }
 
-    public int getManaCost() {
+    public int getSourceCost() {
         //slightly higher cost
         return 750;
     }

@@ -1,8 +1,5 @@
 package com.dkmk100.arsomega.glyphs;
 
-import com.dkmk100.arsomega.ArsOmega;
-import com.dkmk100.arsomega.ArsRegistry;
-import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
@@ -16,9 +13,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.Tags;
 import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.util.ISlotHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -39,7 +34,7 @@ public class DiamondGlyph extends TierFourEffect implements ConfigurableGlyph {
     }
 
     @Override
-    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if ((world instanceof ServerLevel) && rayTraceResult instanceof BlockHitResult) {
             BlockPos pos = new BlockPos(((BlockHitResult) rayTraceResult).getBlockPos());
 
@@ -51,9 +46,9 @@ public class DiamondGlyph extends TierFourEffect implements ConfigurableGlyph {
             int cost = extraAmpCost.get();
 
 
-            if (shooter != null && CuriosApi.getCuriosHelper().findFirstCurio(shooter, ItemsRegistry.ALCHEMY_FOCUS_ADVANCED).isPresent()) {
+            if (shooter != null && CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_ADVANCED_ALCHEMY.get()).isPresent()) {
                 amp += Math.max(advancedFocusBonus.get(), focusBonus.get());
-            } else if (shooter != null && CuriosApi.getCuriosHelper().findFirstCurio(shooter, ItemsRegistry.ALCHEMY_FOCUS).isPresent()) {
+            } else if (shooter != null && CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_ALCHEMY.get()).isPresent()) {
                 amp += focusBonus.get();
             }
 

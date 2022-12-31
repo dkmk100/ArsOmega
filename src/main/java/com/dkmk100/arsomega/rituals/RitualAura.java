@@ -1,21 +1,25 @@
 package com.dkmk100.arsomega.rituals;
 
-import com.dkmk100.arsomega.ArsRegistry;
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ANFakePlayer;
-import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
+import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import com.hollingsworth.arsnouveau.api.spell.EntitySpellResolver;
 import com.hollingsworth.arsnouveau.api.spell.Spell;
 import com.hollingsworth.arsnouveau.api.spell.SpellContext;
-import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
-import com.hollingsworth.arsnouveau.api.util.ManaUtil;
 import com.hollingsworth.arsnouveau.api.util.SourceUtil;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import com.hollingsworth.arsnouveau.common.block.tile.RuneTile;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAccelerate;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtract;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSensitive;
 import com.hollingsworth.arsnouveau.setup.BlockRegistry;
+import com.hollingsworth.arsnouveau.setup.ItemsRegistry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.entity.LivingEntity;
@@ -65,8 +69,8 @@ public class RitualAura extends BasicConfigRitual {
     }
 
     @Override
-    public String getID() {
-        return "aura";
+    public ResourceLocation getRegistryName() {
+        return new ResourceLocation(ArsOmega.MOD_ID,"aura");
     }
     @Override
     protected void tick() {
@@ -93,22 +97,22 @@ public class RitualAura extends BasicConfigRitual {
                     List<ItemStack> items = this.getConsumedItems();
                     //if lag becomes an issue I can always make a static ritual manager to save this data like flight does, but that seems difficult
                     for (ItemStack stack : items) {
-                        if (stack.getItem() == ArsRegistry.GLYPH_AOE) {
+                        if (stack.getItem() == ArsNouveauAPI.getInstance().getGlyphItem(AugmentAOE.INSTANCE)) {
                             if (stack.getCount() <= 0) {
                                 aoe += 1;
                             } else {
                                 aoe += stack.getCount();
                             }
                         }
-                        else if (stack.getItem() == ArsRegistry.GLYPH_ACCELERATE) {
+                        else if (stack.getItem() == ArsNouveauAPI.getInstance().getGlyphItem(AugmentAccelerate.INSTANCE)) {
                             if (stack.getCount() <= 0) {
                                 accelerate += 1;
                             } else {
                                 accelerate += stack.getCount();
                             }
-                        } else if (stack.getItem() == ArsRegistry.GLYPH_SENSITIVE) {
+                        } else if (stack.getItem() == ArsNouveauAPI.getInstance().getGlyphItem(AugmentSensitive.INSTANCE)) {
                             sensitive = true;
-                        } else if (stack.getItem() == ArsRegistry.GLYPH_EXTRACT) {
+                        } else if (stack.getItem() == ArsNouveauAPI.getInstance().getGlyphItem(AugmentExtract.INSTANCE)) {
                             extract = true;
                         }
                     }
@@ -172,7 +176,7 @@ public class RitualAura extends BasicConfigRitual {
                 //initial value is extra/min cost
                 int totalCost = 3;
                 for(Spell spell : spells){
-                    totalCost+= Math.max(spell.getCastingCost() - discount, 0);//discount is per-spell, but can never take it below 0
+                    totalCost+= Math.max(spell.getDiscountedCost() - discount, 0);//discount is per-spell, but can never take it below 0
                 }
                 if(SourceUtil.takeSourceNearbyWithParticles(pos, world, 6, totalCost) != null) {
                     List<LivingEntity> entities = this.getWorld().getEntitiesOfClass(LivingEntity.class, (new AABB(this.getPos())).inflate(5.0D + aoe * 2).inflate(12, 0, 12));
@@ -180,7 +184,7 @@ public class RitualAura extends BasicConfigRitual {
                         boolean player = entity instanceof Player;
                         if ((!player && extract) || (!extract && (player || !sensitive))) {
                             for (Spell spell : spells) {
-                                EntitySpellResolver resolver = new EntitySpellResolver((new SpellContext(spell, fakePlayer)).withCastingTile(world.getBlockEntity(pos)).withType(SpellContext.CasterType.TURRET).withColors(new ParticleColor.IntWrapper(255, 255, 255)));
+                                EntitySpellResolver resolver = new EntitySpellResolver((new SpellContext(getWorld(),spell, fakePlayer)).withCastingTile(world.getBlockEntity(pos)).withType(SpellContext.CasterType.TURRET).withColors(new ParticleColor(255, 255, 255)));
                                 resolver.onCastOnEntity(entity);
                             }
                         }
@@ -196,6 +200,6 @@ public class RitualAura extends BasicConfigRitual {
     }
     @Override
     public boolean canConsumeItem(ItemStack stack) {
-        return stack.getItem() == ArsRegistry.GLYPH_AOE || stack.getItem() == ArsRegistry.GLYPH_SENSITIVE || stack.getItem() == ArsRegistry.GLYPH_EXTRACT || stack.getItem() == ArsRegistry.GLYPH_ACCELERATE;
+        return stack.getItem() == ArsNouveauAPI.getInstance().getGlyphItem(AugmentAOE.INSTANCE) || stack.getItem() == ArsNouveauAPI.getInstance().getGlyphItem(AugmentSensitive.INSTANCE) || stack.getItem() == ArsNouveauAPI.getInstance().getGlyphItem(AugmentExtract.INSTANCE) || stack.getItem() == ArsNouveauAPI.getInstance().getGlyphItem(AugmentExtract.INSTANCE);
     }
 }

@@ -5,37 +5,16 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.ItemStack;
 
-public class BasicItem extends Item implements INamedItem {
+public class BasicItem extends Item {
     boolean showEnch = false;
     String myName;
     public BasicItem(Properties properties) {
         super(properties);
     }
-    public BasicItem(Properties properties, String name)
+    public BasicItem(Properties properties, boolean showEnch)
     {
         super(properties);
-        setRegistryName(name);
-    }
-    public BasicItem(Properties properties, String name, boolean showEnch)
-    {
-        super(properties);
-        setRegistryName(name);
         this.showEnch = showEnch;
-    }
-    @Override
-    public INamedItem setRegistryName(String name){
-        myName = name;
-        return this;
-    }
-
-    @Override
-    public String getNameForReg(){
-        return myName;
-    }
-
-    @Override
-    public Item getItem() {
-        return this;
     }
 
     @Override

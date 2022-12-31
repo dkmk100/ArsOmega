@@ -1,15 +1,10 @@
 package com.dkmk100.arsomega.entities;
 
-import com.dkmk100.arsomega.ArsOmega;
-import com.dkmk100.arsomega.ArsRegistry;
-import com.dkmk100.arsomega.ItemsRegistry;
-import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.client.ITooltipProvider;
 import com.hollingsworth.arsnouveau.api.entity.IDispellable;
 import com.hollingsworth.arsnouveau.api.item.IWandable;
 import com.hollingsworth.arsnouveau.api.util.NBTUtil;
-import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import com.hollingsworth.arsnouveau.common.entity.goal.GoBackHomeGoal;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.core.BlockPos;
@@ -257,14 +252,14 @@ public class EntityClayGolem extends AbstractGolem implements IDispellable, IToo
     protected Item getHealItem(){
         switch(tier){
             case ARCANE:
-                return ItemsRegistry.ARCANE_CLAY;
+                return RegistryHandler.ARCANE_CLAY.get();
             case MYSTIC:
-                return ItemsRegistry.MYSTIC_CLAY;
+                return RegistryHandler.MYSTIC_CLAY.get();
             case MARVELOUS:
-                return ItemsRegistry.MARVELOUS_CLAY;
+                return RegistryHandler.MARVELOUS_CLAY.get();
             case MAGIC:
             default:
-                return ItemsRegistry.MAGIC_CLAY;
+                return RegistryHandler.MAGIC_CLAY.get();
         }
     }
     protected float getHealPercent(){

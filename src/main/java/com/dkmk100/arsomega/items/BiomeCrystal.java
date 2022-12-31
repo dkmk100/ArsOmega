@@ -19,9 +19,8 @@ import net.minecraft.world.item.Item.Properties;
 
 public class BiomeCrystal extends BasicItem {
 
-    public BiomeCrystal(String name, Properties p_i48487_1_) {
+    public BiomeCrystal(Properties p_i48487_1_) {
         super(p_i48487_1_);
-        this.setRegistryName(name);
     }
 
     @OnlyIn(Dist.CLIENT)

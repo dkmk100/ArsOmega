@@ -1,8 +1,6 @@
 package com.dkmk100.arsomega.items;
 
-import com.dkmk100.arsomega.ArsOmega;
-import com.hollingsworth.arsnouveau.common.armor.MagicArmor;
-import com.hollingsworth.arsnouveau.common.armor.Materials;
+/*
 import com.hollingsworth.arsnouveau.setup.ItemsRegistry;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorMaterial;
@@ -53,6 +51,5 @@ public class EnchantedArmor extends MagicArmor implements INamedItem {
     public int getManaRegenBonus(ItemStack stack) {
         return regenBonus;
     }
-
-
 }
+ */

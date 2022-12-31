@@ -47,7 +47,7 @@ public class RitualFlowingTime extends AbstractRitual {
             }
 
             if (didWorkOnce) {
-                this.setNeedsMana(true);
+                this.setNeedsSource(true);
             }
         }
 
@@ -71,7 +71,7 @@ public class RitualFlowingTime extends AbstractRitual {
     }
 
 
-    public int getManaCost() {
+    public int getSourceCost() {
         //low cost only because it activates so often
         return 500;
     }

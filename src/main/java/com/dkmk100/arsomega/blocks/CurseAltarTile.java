@@ -1,6 +1,5 @@
 package com.dkmk100.arsomega.blocks;
 
-import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
@@ -28,7 +27,7 @@ public class CurseAltarTile extends GenericEmpathyAltar {
     @Override
 
     public Item getFinalizeItem(){
-        return ItemsRegistry.DEMONIC_GEM;
+        return RegistryHandler.DEMON_GEM.get();
     }
     @Override
 

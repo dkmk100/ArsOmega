@@ -1,17 +1,10 @@
 package com.dkmk100.arsomega.events;
 
 import com.dkmk100.arsomega.ArsOmega;
-import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.empathy_api.EmpathySpell;
 import com.dkmk100.arsomega.enchants.ProactiveSpellcaster;
-import com.dkmk100.arsomega.items.ModSpawnEggItem;
 import com.dkmk100.arsomega.potions.ModPotions;
-import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
-import com.hollingsworth.arsnouveau.common.enchantment.EnchantmentRegistry;
-import com.hollingsworth.arsnouveau.common.spell.casters.ReactiveCaster;
-import com.hollingsworth.arsnouveau.common.util.PortUtil;
-import net.minecraft.client.gui.screens.social.PlayerEntry;
 import net.minecraft.nbt.CompoundTag;
  
   
@@ -19,7 +12,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Abilities;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.core.BlockPos;
@@ -55,7 +47,7 @@ public class CommonEvents {
             Entity ent = ((EntityHitResult) result).getEntity();
             if(ent instanceof Player){
                 Player player = (Player)ent;
-                if (CuriosApi.getCuriosHelper().findFirstCurio(player, ItemsRegistry.ENCHANTERS_CLOAK).isPresent()) {
+                if (CuriosApi.getCuriosHelper().findFirstCurio(player, RegistryHandler.ENCHANTERS_CLOAK.get()).isPresent()) {
                     handleCloak(event,player);
                 }
             }

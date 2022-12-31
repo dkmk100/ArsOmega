@@ -1,12 +1,12 @@
 package com.dkmk100.arsomega.rituals;
 
-import com.dkmk100.arsomega.ArsRegistry;
-import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
@@ -52,11 +52,11 @@ public class RitualConjuring extends AbstractRitual {
         }
 
         if (!world.isClientSide && world.getGameTime() % 10L == 0L) {
-            if(this.needsManaNow()){
+            if(this.needsSourceNow()){
                 return;
             }
             else{
-                this.setNeedsMana(true);
+                this.setNeedsSource(true);
             }
             this.incrementProgress();
             if (this.getProgress() > 10) {
@@ -75,10 +75,16 @@ public class RitualConjuring extends AbstractRitual {
             }
         }
     }
+
+    @Override
+    public ResourceLocation getRegistryName() {
+        return new ResourceLocation(ArsOmega.MOD_ID, "conjuring");
+    }
+
     @Override
     public boolean canConsumeItem(ItemStack stack) {
 
-        return this.getConsumedItems().size() == 0 && (stack.getItem() == ItemsRegistry.DEMONIC_GEM || stack.getItem() == ItemsRegistry.GORGON_GEM);
+        return this.getConsumedItems().size() == 0 && (stack.getItem() == RegistryHandler.DEMON_GEM.get() || stack.getItem() == RegistryHandler.GORGON_GEM.get());
     }
 
     @Override
@@ -90,17 +96,12 @@ public class RitualConjuring extends AbstractRitual {
         return ForgeRegistries.ITEMS.tags().getTag(tag).contains(item);
     }
     @Override
-    public int getManaCost() {
+    public int getSourceCost() {
         return 500;
     }
 
     @Override
-    public boolean consumesMana() {
+    public boolean consumesSource() {
         return true;
-    }
-
-    @Override
-    public String getID() {
-        return "conjuring";
     }
 }

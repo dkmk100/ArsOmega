@@ -16,9 +16,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class DimensionCrystal extends BasicItem {
-    public DimensionCrystal(String name, Properties p_i48487_1_) {
+    public DimensionCrystal(Properties p_i48487_1_) {
         super(p_i48487_1_);
-        this.setRegistryName(name);
     }
 
     @OnlyIn(Dist.CLIENT)

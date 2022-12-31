@@ -1,14 +1,16 @@
 package com.dkmk100.arsomega.events;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = ArsOmega.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientRegisterEvents {
 
-    /*
+
     @SubscribeEvent()
     public static void registerSpawnEggColors(RegisterColorHandlersEvent.Block event)
     {
@@ -19,5 +21,5 @@ public class ClientRegisterEvents {
 
     }
 
-     */
+
 }

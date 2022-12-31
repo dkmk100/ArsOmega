@@ -37,10 +37,10 @@ public class RitualDemonicSummoning  extends AbstractRitual {
         }
 
         if (!world.isClientSide && world.getGameTime() % 20L == 0L) {
-            if (this.needsManaNow()) {
+            if (this.needsSourceNow()) {
                 return;
             } else {
-                this.setNeedsMana(true);
+                this.setNeedsSource(true);
             }
             this.incrementProgress();
             if (this.getProgress() > 10) {
@@ -64,7 +64,7 @@ public class RitualDemonicSummoning  extends AbstractRitual {
     }
 
     @Override
-    public int getManaCost() {
+    public int getSourceCost() {
         return 1000;
     }
 
@@ -74,7 +74,7 @@ public class RitualDemonicSummoning  extends AbstractRitual {
     }
 
     @Override
-    public boolean consumesMana() {
+    public boolean consumesSource() {
         return true;
     }
 

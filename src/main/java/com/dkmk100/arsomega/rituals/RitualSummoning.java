@@ -1,9 +1,11 @@
 package com.dkmk100.arsomega.rituals;
 
-import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -35,11 +37,11 @@ public class RitualSummoning extends AbstractRitual {
         }
 
         if (!world.isClientSide && world.getGameTime() % 20L == 0L) {
-            if(this.needsManaNow()){
+            if(this.needsSourceNow()){
                 return;
             }
             else{
-                this.setNeedsMana(true);
+                this.setNeedsSource(true);
             }
             this.incrementProgress();
             if (this.getProgress() > 10) {
@@ -60,7 +62,7 @@ public class RitualSummoning extends AbstractRitual {
                             amount+=stack.getCount();
                         }
                     }
-                    else if(item == Items.ENDER_EYE || item == ItemsRegistry.DEMONIC_GEM){
+                    else if(item == Items.ENDER_EYE || item == RegistryHandler.DEMON_GEM.get()){
                         cursed = true;
                     }
                     else if(item == Items.NETHERITE_INGOT)
@@ -192,7 +194,7 @@ public class RitualSummoning extends AbstractRitual {
         return stack.getItem()!=Items.DRAGON_EGG;//just in case lol
     }
     @Override
-    public int getManaCost() {
+    public int getSourceCost() {
         return 5;
     }
     boolean tagContains(TagKey<Item> tag, Item item){
@@ -200,12 +202,12 @@ public class RitualSummoning extends AbstractRitual {
     }
 
     @Override
-    public boolean consumesMana() {
+    public boolean consumesSource() {
         return true;
     }
 
     @Override
-    public String getID() {
-        return "summoning";
+    public ResourceLocation getRegistryName() {
+        return new ResourceLocation(ArsOmega.MOD_ID,"summoning");
     }
 }

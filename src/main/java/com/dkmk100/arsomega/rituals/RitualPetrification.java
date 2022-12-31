@@ -1,12 +1,14 @@
 package com.dkmk100.arsomega.rituals;
 
-import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.potions.BindEffect;
 import com.dkmk100.arsomega.potions.ModPotions;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -33,11 +35,11 @@ public class RitualPetrification extends AbstractRitual {
         }
 
         if (!world.isClientSide && world.getGameTime() % 20L == 0L) {
-            if(this.needsManaNow()){
+            if(this.needsSourceNow()){
                 return;
             }
             else{
-                this.setNeedsMana(true);
+                this.setNeedsSource(true);
             }
             this.incrementProgress();
             if (this.getProgress() > 30) {
@@ -50,7 +52,7 @@ public class RitualPetrification extends AbstractRitual {
 
                     for(int var11 = 0; var11 < var10; ++var11) {
                         MobEffectInstance e = var9[var11];
-                        if (e.isCurativeItem(new ItemStack(Items.MILK_BUCKET))||e.isCurativeItem(new ItemStack(ItemsRegistry.CLEANSING_GEM))||e.getEffect() instanceof BindEffect) {
+                        if (e.isCurativeItem(new ItemStack(Items.MILK_BUCKET))||e.isCurativeItem(new ItemStack(RegistryHandler.CLEANSING_GEM.get()))||e.getEffect() instanceof BindEffect) {
                             entity.removeEffect(e.getEffect());
                         }
                     }
@@ -61,14 +63,14 @@ public class RitualPetrification extends AbstractRitual {
             else if (this.getProgress() >= 5 && this.getProgress()<=27) {
                 List<LivingEntity> entities = this.getWorld().getEntitiesOfClass(LivingEntity.class, (new AABB(this.getPos())).inflate(5.0D));
                 for (LivingEntity entity : entities) {
-                    entity.addEffect(new MobEffectInstance(com.hollingsworth.arsnouveau.common.potions.ModPotions.SNARE_EFFECT, 40, 0, false, false));
+                    entity.addEffect(new MobEffectInstance(com.hollingsworth.arsnouveau.common.potions.ModPotions.SNARE_EFFECT.get(), 40, 0, false, false));
                 }
             }
         }
     }
 
     @Override
-    public int getManaCost() {
+    public int getSourceCost() {
         return 500;
     }
     @Override
@@ -76,12 +78,13 @@ public class RitualPetrification extends AbstractRitual {
         return new ParticleColor(24,255,25);
     }
     @Override
-    public boolean consumesMana() {
+    public boolean consumesSource() {
         return true;
     }
 
+
     @Override
-    public String getID() {
-        return "petrification";
+    public ResourceLocation getRegistryName() {
+        return new ResourceLocation(ArsOmega.MOD_ID,"petrification");
     }
 }

@@ -32,11 +32,11 @@ public class RitualPermaFlight extends BasicConfigRitual{
         }
 
         if (!world.isClientSide && world.getGameTime() % 20L == 0L) {
-            if(this.needsManaNow()){
+            if(this.needsSourceNow()){
                 return;
             }
             else{
-                this.setNeedsMana(true);
+                this.setNeedsSource(true);
             }
             this.incrementProgress();
             if (this.getProgress() > DURATION.get()) {
@@ -52,7 +52,7 @@ public class RitualPermaFlight extends BasicConfigRitual{
     }
 
     @Override
-    public int getManaCost() {
+    public int getSourceCost() {
         return 500;
     }
     @Override
@@ -60,7 +60,7 @@ public class RitualPermaFlight extends BasicConfigRitual{
         return new ParticleColor(240,245,255);
     }
     @Override
-    public boolean consumesMana() {
+    public boolean consumesSource() {
         return true;
     }
 
