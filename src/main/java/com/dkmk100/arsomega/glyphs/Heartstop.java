@@ -41,7 +41,7 @@ public class Heartstop extends AbstractEffect implements ConfigurableGlyph{
         return 550;
     }
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
@@ -57,14 +57,14 @@ public class Heartstop extends AbstractEffect implements ConfigurableGlyph{
                 mult -= 3;
                 add -= 3;
             }
-            if(living.hasEffect(com.hollingsworth.arsnouveau.common.potions.ModPotions.SHOCKED_EFFECT)){
+            if(living.hasEffect(com.hollingsworth.arsnouveau.common.potions.ModPotions.SHOCKED_EFFECT.get())){
                 mult += 3;
                 add += 1;
-                int amp = living.getEffect(com.hollingsworth.arsnouveau.common.potions.ModPotions.SHOCKED_EFFECT).getAmplifier();
+                int amp = living.getEffect(com.hollingsworth.arsnouveau.common.potions.ModPotions.SHOCKED_EFFECT.get()).getAmplifier();
                 mult += 1.75f * amp;
                 add += 2 * amp;
             }
-            if(living.hasEffect(com.hollingsworth.arsnouveau.common.potions.ModPotions.SNARE_EFFECT)){
+            if(living.hasEffect(com.hollingsworth.arsnouveau.common.potions.ModPotions.SNARE_EFFECT.get())){
                 mult += 2f;
                 add += 3;
             }

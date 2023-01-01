@@ -279,7 +279,7 @@ public class EntityBossDemonKing extends Monster implements IEntityAdditionalSpa
     @Override
     @OnlyIn(Dist.CLIENT)
     public void readSpawnData(FriendlyByteBuf additionalData) {
-        Minecraft.getInstance().getSoundManager().play(new BossMusic(this, RegistryHandler.DEMON_KING_MUSIC.get()));
+        Minecraft.getInstance().getSoundManager().play(new BossMusic(this, RegistryHandler.DEMON_KING_MUSIC.get(), this.level.getRandom()));
     }
 
 

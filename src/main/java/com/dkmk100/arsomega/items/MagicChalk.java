@@ -29,8 +29,8 @@ import net.minecraft.world.item.Item.Properties;
 public class MagicChalk extends BasicItem{
     Supplier<ChalkLineBlock> chalkBlock;
 
-    public MagicChalk(String name,Supplier<ChalkLineBlock> chalkSupplier,int durability) {
-        super(new Properties().tab(ArsOmega.itemGroup).durability(durability), name);
+    public MagicChalk(Supplier<ChalkLineBlock> chalkSupplier,int durability) {
+        super(new Properties().tab(ArsOmega.itemGroup).durability(durability));
         chalkBlock = chalkSupplier;
     }
 

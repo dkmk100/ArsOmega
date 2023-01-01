@@ -21,7 +21,6 @@ public class PetrificationEffect extends MobEffect {
 
     public PetrificationEffect(String name) {
         super(MobEffectCategory.HARMFUL, 9211020);
-        this.setRegistryName("arsomega", name);
         this.addAttributeModifier(Attributes.MOVEMENT_SPEED, "0dee8a21-f182-42c8-8361-1ad6186cac30", -1.0D, AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 

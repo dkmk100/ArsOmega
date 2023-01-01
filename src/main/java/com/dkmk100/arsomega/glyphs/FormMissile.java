@@ -3,9 +3,7 @@ package com.dkmk100.arsomega.glyphs;
 import com.dkmk100.arsomega.entities.EntityMissileSpell;
 import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
-import com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
-import com.hollingsworth.arsnouveau.common.spell.method.MethodProjectile;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,7 +20,6 @@ import net.minecraft.world.level.Level;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import org.jetbrains.annotations.NotNull;
@@ -110,50 +107,30 @@ public class FormMissile extends AbstractCastMethod {
     }
 
     @Override
-    public void onCast(ItemStack stack, LivingEntity shooter, Level world, SpellStats stats, SpellContext context, SpellResolver resolver) {
+    public CastResolveType onCast(ItemStack stack, LivingEntity shooter, Level world, SpellStats stats, SpellContext context, SpellResolver resolver) {
         this.summonProjectiles(world, shooter, stats, resolver);
-        resolver.expendMana(shooter);
+        return CastResolveType.SUCCESS;
     }
 
     @Override
-    public void onCastOnBlock(UseOnContext context, SpellStats stats, SpellContext spellContext, SpellResolver resolver) {
+    public CastResolveType onCastOnBlock(UseOnContext context, SpellStats stats, SpellContext spellContext, SpellResolver resolver) {
         Level world = context.getLevel();
         Player shooter = context.getPlayer();
         this.summonProjectiles(world, shooter, stats, resolver);
-        resolver.expendMana(shooter);
+        return CastResolveType.SUCCESS;
     }
 
     @Override
-    public void onCastOnBlock(BlockHitResult blockRayTraceResult, LivingEntity caster,  SpellStats stats, SpellContext spellContext, SpellResolver resolver) {
+    public CastResolveType onCastOnBlock(BlockHitResult blockRayTraceResult, LivingEntity caster,  SpellStats stats, SpellContext spellContext, SpellResolver resolver) {
         caster.lookAt(EntityAnchorArgument.Anchor.EYES, blockRayTraceResult.getLocation().add(0.0D, 0.0D, 0.0D));
         this.summonProjectiles(caster.getCommandSenderWorld(), blockRayTraceResult.getBlockPos(), caster, stats, resolver);
-        resolver.expendMana(caster);
+        return CastResolveType.SUCCESS;
     }
 
     @Override
-    public void onCastOnEntity(ItemStack stack, LivingEntity caster, Entity target, InteractionHand hand,  SpellStats stats, SpellContext spellContext, SpellResolver resolver) {
+    public CastResolveType onCastOnEntity(ItemStack stack, LivingEntity caster, Entity target, InteractionHand hand,  SpellStats stats, SpellContext spellContext, SpellResolver resolver) {
         this.summonProjectiles(caster.getCommandSenderWorld(), caster, stats, resolver);
-        resolver.expendMana(caster);
-    }
-
-    @Override
-    public boolean wouldCastSuccessfully(@Nullable ItemStack itemStack, LivingEntity livingEntity, Level level, SpellStats spellStats, SpellResolver spellResolver) {
-        return false;
-    }
-
-    @Override
-    public boolean wouldCastOnBlockSuccessfully(UseOnContext useOnContext, SpellStats spellStats, SpellResolver spellResolver) {
-        return false;
-    }
-
-    @Override
-    public boolean wouldCastOnBlockSuccessfully(BlockHitResult blockHitResult, LivingEntity livingEntity, SpellStats spellStats, SpellResolver spellResolver) {
-        return false;
-    }
-
-    @Override
-    public boolean wouldCastOnEntitySuccessfully(@Nullable ItemStack itemStack, LivingEntity livingEntity, Entity entity, InteractionHand interactionHand, SpellStats spellStats, SpellResolver spellResolver) {
-        return false;
+        return CastResolveType.SUCCESS;
     }
 
 

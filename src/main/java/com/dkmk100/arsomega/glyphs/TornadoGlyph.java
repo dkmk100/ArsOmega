@@ -30,13 +30,13 @@ public class TornadoGlyph extends TierFourEffect{
     }
 
     @Override
-    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if(!this.canSummon(shooter)){
             return;
         }
         EntityTornado tornado = new EntityTornado(world,shooter);
         Vec3 pos = rayTraceResult.getLocation();
-        tornado.setColor(spellContext.colors);
+        tornado.setColor(spellContext.getColors());
         tornado.setPos(pos.x,pos.y + 0.5,pos.z);
         int ticks = 250 + (int)Math.round(70 * spellStats.getDurationMultiplier());
         tornado.setDuration(ticks);
@@ -45,7 +45,7 @@ public class TornadoGlyph extends TierFourEffect{
         world.addFreshEntity(tornado);
 
         if(shooter!=null) {
-            shooter.addEffect(new MobEffectInstance(ModPotions.SUMMONING_SICKNESS,ticks));
+            shooter.addEffect(new MobEffectInstance(ModPotions.SUMMONING_SICKNESS_EFFECT.get(),ticks));
         }
     }
 

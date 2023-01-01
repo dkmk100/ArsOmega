@@ -21,11 +21,11 @@ public class DemonicAnchoring extends TierFourEffect {
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
-            this.applyPotionWithCap(living, ModPotions.DEMONIC_ANCHORING, spellStats, 25,12,0);
+            this.applyPotion(living, ModPotions.DEMONIC_ANCHORING, spellStats, 25,12,true);
         }
     }
 

@@ -17,7 +17,6 @@ import java.util.List;
 public class Adrenaline extends MobEffect {
     protected Adrenaline() {
         super(MobEffectCategory.NEUTRAL, 2039587);
-        this.setRegistryName("arsomega", "adrenaline");
     }
 
     @Override

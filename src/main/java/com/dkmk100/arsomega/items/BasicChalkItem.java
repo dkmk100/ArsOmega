@@ -28,13 +28,13 @@ import net.minecraft.world.item.Item.Properties;
 public class BasicChalkItem extends DescribedItem{
     Supplier<BasicChalk> chalkBlock;
 
-    public BasicChalkItem(String name,Supplier<BasicChalk> chalkSupplier,int durability,String description) {
-        super(name, new Item.Properties().tab(ArsOmega.itemGroup).durability(durability), description);
+    public BasicChalkItem(Supplier<BasicChalk> chalkSupplier,int durability,String description) {
+        super(new Item.Properties().tab(ArsOmega.itemGroup).durability(durability), description);
         chalkBlock = chalkSupplier;
     }
 
-    public BasicChalkItem(String name, Supplier<BasicChalk> chalkSupplier, Properties properties, String description) {
-        super(name, properties, description);
+    public BasicChalkItem(Supplier<BasicChalk> chalkSupplier, Properties properties, String description) {
+        super(properties, description);
         chalkBlock = chalkSupplier;
     }
 

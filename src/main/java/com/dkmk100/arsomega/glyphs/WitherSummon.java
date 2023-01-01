@@ -27,7 +27,7 @@ public class WitherSummon extends TierFourEffect {
     }
 
     @Override
-    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if(world instanceof ServerLevel && this.canSummon(shooter)) {
             Vec3 vector3d = this.safelyGetHitPos(rayTraceResult);
             BlockPos pos = new BlockPos(vector3d);
@@ -50,7 +50,7 @@ public class WitherSummon extends TierFourEffect {
                 wither.setOwner(shooter);
                 wither.setLimitedLife(ticks);
                 this.summonLivingEntity(rayTraceResult, world, shooter, spellStats, spellContext, wither);
-                shooter.addEffect(new MobEffectInstance(ModPotions.SUMMONING_SICKNESS, ticks));
+                shooter.addEffect(new MobEffectInstance(ModPotions.SUMMONING_SICKNESS_EFFECT.get(), ticks));
             }
             else {
                 double amp = spellStats.getAmpMultiplier();
@@ -62,7 +62,8 @@ public class WitherSummon extends TierFourEffect {
                 PathfinderMob test = (PathfinderMob) EntityType.WITHER.spawn((ServerLevel) world, null, null, pos, MobSpawnType.MOB_SUMMONED, true, false);
                 test.setHealth(test.getMaxHealth() * healthPercent);
                 world.addFreshEntity(test);
-                shooter.addEffect(new MobEffectInstance(ModPotions.SUMMONING_SICKNESS, 12000));
+                shooter.addEffect(new MobEffectInstance(ModPotions.SUMMONING_SICKNESS_EFFECT.get(),
+ 12000));
             }
         }
     }

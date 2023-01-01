@@ -36,7 +36,7 @@ public class DisenchantGlyph extends AbstractEffect implements ConfigurableGlyph
     }
 
     @Override
-    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if (world instanceof ServerLevel) {
             double aoeBuff = spellStats.getAoeMultiplier();
             int ampBuff = (int) Math.round(spellStats.getAmpMultiplier());
@@ -61,7 +61,7 @@ public class DisenchantGlyph extends AbstractEffect implements ConfigurableGlyph
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if(rayTraceResult.getEntity() instanceof Player && affectPlayers.get()) {
             int ampBuff = (int) Math.round(spellStats.getAmpMultiplier());
             Player entity = (Player)rayTraceResult.getEntity();

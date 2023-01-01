@@ -1,9 +1,11 @@
 package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.potions.ModPotions;
+import com.hollingsworth.arsnouveau.api.ANFakePlayer;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
+import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.core.particles.ParticleTypes;
@@ -20,7 +22,7 @@ import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.Set;
 
-public class HellFlare extends TierFourEffect {
+public class HellFlare extends TierFourEffect implements  IDamageEffect {
 
     public static HellFlare INSTANCE = new HellFlare("hell_flare", "hell_flare");
 
@@ -29,7 +31,14 @@ public class HellFlare extends TierFourEffect {
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public DamageSource buildDamageSource(Level world, LivingEntity shooter) {
+        EntityDamageSource damageSource = new EntityDamageSource("hell_flare", (Entity)(shooter == null ? ANFakePlayer.getPlayer((ServerLevel)world) : shooter));
+        damageSource.setMagic().setIsFire();
+        return damageSource;
+    }
+
+    @Override
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity) {
             LivingEntity livingEntity = (LivingEntity)entity;
@@ -37,7 +46,7 @@ public class HellFlare extends TierFourEffect {
             float damage = (float)(8 + 4 * spellStats.getAmpMultiplier());
             int range = 4 + (int)Math.round(1.5f * spellStats.getAoeMultiplier());
             int fireSec = (int)(5.0D + 1.2D * spellStats.getDurationMultiplier());
-            DamageSource source = this.buildDamageSource(world, shooter).setIsFire();
+            DamageSource source = buildDamageSource(world, shooter);
             if (livingEntity.isOnFire()) {
                 ((ServerLevel)world).sendParticles(ParticleTypes.FLAME, vec.x, vec.y + 0.5D, vec.z, 50, ParticleUtil.inRange(-0.1D, 0.1D), ParticleUtil.inRange(-0.1D, 0.1D), ParticleUtil.inRange(-0.1D, 0.1D), 0.3D);
                 Iterator var13 = world.getEntities(shooter, new AABB(livingEntity.blockPosition().north(range).east(range).above(range), livingEntity.blockPosition().south(range).west(range).below(range))).iterator();

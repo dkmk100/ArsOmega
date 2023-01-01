@@ -22,7 +22,7 @@ public class Soulfire extends AbstractEffect {
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         double amp = spellStats.getAmpMultiplier() + 1;
         int time = 80 + (int) Math.round(40 + spellStats.getDurationMultiplier());
 

@@ -75,17 +75,17 @@ public class PropagateMissile extends AbstractEffect {
         spellContext.setCanceled(true);
         if (spellContext.getCurrentIndex() < spellContext.getSpell().recipe.size()) {
             Spell newSpell = new Spell(new ArrayList(spellContext.getSpell().recipe.subList(spellContext.getCurrentIndex(), spellContext.getSpell().recipe.size())));
-            SpellContext newContext = (new SpellContext(newSpell, shooter)).withColors(spellContext.colors);
+            SpellContext newContext = spellContext.clone().withSpell(newSpell);
             SpellResolver resolver = new EntitySpellResolver(newContext);
             summonProjectiles(world, rayTraceResult.getLocation(),shooter, stats, resolver);
         }
     }
 
-    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         this.sendPacket(world, rayTraceResult, shooter, spellContext,spellStats);
     }
 
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         this.sendPacket(world, rayTraceResult, shooter, spellContext,spellStats);
     }
 

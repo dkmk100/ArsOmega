@@ -38,7 +38,7 @@ public class Fireball extends TierFourEffect implements ConfigurableGlyph {
     }
 
     @Override
-    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         Vec3 vec = this.safelyGetHitPos(rayTraceResult);
         double intensity;
         intensity = this.BASE.get() + this.AMP_BONUS.get() * spellStats.getAmpMultiplier() + this.AOE_BONUS.get() * (double) spellStats.getAoeMultiplier();

@@ -13,6 +13,7 @@ import com.hollingsworth.arsnouveau.api.spell.Spell;
 import com.hollingsworth.arsnouveau.api.util.CasterUtil;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
  
 import net.minecraft.util.GsonHelper;
@@ -43,9 +44,9 @@ public class SetSpellFunction extends LootItemConditionalFunction {
         ISpellCaster spellCaster = CasterUtil.getCaster(stack);
         spellCaster.setSpell(spell);
         if(hasColor) {
-            spellCaster.setColor(color);
+            spellCaster.setColor(color.toParticleColor());
         }
-        stack.setHoverName((  Component.literal(name)).setStyle(Style.EMPTY.withColor(ChatFormatting.DARK_PURPLE).withItalic(true)));
+        stack.setHoverName((Component.literal(name)).setStyle(Style.EMPTY.withColor(ChatFormatting.DARK_PURPLE).withItalic(true)));
         return stack;
     }
 

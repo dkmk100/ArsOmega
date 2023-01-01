@@ -12,6 +12,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -112,7 +113,7 @@ public class EntityEarthquake extends ColoredProjectile {
 
     public static void applyEarthquake(ServerLevel level, int amp, int speed, float aoe, Vec3 position) {
         BlockPos quakePos = new BlockPos(position.x, position.y - 1, position.z);
-        Random rand = level.getRandom();
+        RandomSource rand = level.getRandom();
         int rarity = 25 - Math.min(speed*3, 15);
 
         int range = 5 + Math.round(2 * aoe);

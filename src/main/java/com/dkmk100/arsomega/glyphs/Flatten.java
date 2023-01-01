@@ -27,7 +27,7 @@ public class Flatten extends AbstractEffect {
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         try {
             BlockPos pos = new BlockPos(rayTraceResult.getEntity().getPosition(0)).below();
             Block block = world.getBlockState(pos).getBlock();

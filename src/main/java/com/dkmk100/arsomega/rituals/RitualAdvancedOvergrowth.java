@@ -1,10 +1,12 @@
 package com.dkmk100.arsomega.rituals;
 
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.glyphs.AdvancedGrow;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.item.BoneMealItem;
@@ -95,8 +97,9 @@ public class RitualAdvancedOvergrowth extends BasicConfigRitual {
         return "A more powerful version of Overgrowth that works faster and can affect more crops";
     }
 
-    public String getID() {
-        return "advanced_overgrowth";
+    @Override
+    public ResourceLocation getRegistryName() {
+        return new ResourceLocation(ArsOmega.MOD_ID,"advanced_overgrowth");
     }
 
     public ParticleColor getCenterColor() {

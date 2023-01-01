@@ -3,6 +3,7 @@ package com.dkmk100.arsomega.entities;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -13,8 +14,8 @@ public class BossMusic extends AbstractTickableSoundInstance {
     //Originaly from Botania.
     private final LivingEntity boss;
 
-    public BossMusic(LivingEntity boss, SoundEvent sound) {
-        super(sound, SoundSource.RECORDS);
+    public BossMusic(LivingEntity boss, SoundEvent sound, RandomSource random) {
+        super(sound, SoundSource.RECORDS,random);
         this.boss = boss;
         x = boss.getX();
         y = boss.getY();

@@ -22,7 +22,7 @@ public class VineGrab extends AbstractEffect {
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         double amp = spellStats.getAmpMultiplier() + 2;
         int time = 60 + (int)Math.round(30* spellStats.getDurationMultiplier());
 

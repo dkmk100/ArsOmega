@@ -41,7 +41,7 @@ public class Hellfire extends TierFourEffect {
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         double amp = spellStats.getAmpMultiplier() + 2;
         int time = 20 + (int) Math.round(10 * spellStats.getDurationMultiplier());
 
@@ -54,7 +54,7 @@ public class Hellfire extends TierFourEffect {
     }
 
     @Override
-    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if (!spellStats.hasBuff(AugmentSensitive.INSTANCE)) {
             if (world.getBlockState(rayTraceResult.getBlockPos().above()).getMaterial().isReplaceable()) {
                 Direction face = rayTraceResult.getDirection();

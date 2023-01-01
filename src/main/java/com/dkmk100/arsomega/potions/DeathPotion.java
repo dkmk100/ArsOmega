@@ -14,7 +14,6 @@ public class DeathPotion extends MobEffect {
     public static final DamageSource DEATH = (new DamageSource("death")).bypassArmor().bypassInvul().bypassMagic();
     public DeathPotion(String name) {
         super(MobEffectCategory.NEUTRAL, 2039587);
-        this.setRegistryName("arsomega", name);
     }
 
     @Override

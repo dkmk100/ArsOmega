@@ -33,7 +33,7 @@ public class GlyphRaiseEarth  extends TierFourEffect {
     final static int maxCheckUp = 4;
 
     @Override
-    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         //raise actual earth
         BlockPos pos1 = rayTraceResult.getBlockPos();
         double aoeBuff = spellStats.getAoeMultiplier();

@@ -4,6 +4,7 @@ import com.dkmk100.arsomega.entities.EntityDivineSmite;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
 import com.hollingsworth.arsnouveau.api.spell.SpellContext;
+import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
 import com.hollingsworth.arsnouveau.api.spell.SpellStats;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
@@ -28,7 +29,7 @@ public class DivineSmite  extends TierFourEffect implements ConfigurableGlyph{
     }
 
     @Override
-    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         Vec3 pos = this.safelyGetHitPos(rayTraceResult);
         EntityDivineSmite lightningBoltEntity = new EntityDivineSmite(RegistryHandler.DIVINE_SMITE.get(), world);
         lightningBoltEntity.setPos(pos.x(), pos.y(), pos.z());

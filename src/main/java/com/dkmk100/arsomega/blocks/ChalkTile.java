@@ -83,8 +83,8 @@ public class ChalkTile extends ModdedTile implements ITickable {
                 try {
                     Player playerEntity = data.owner != null ? this.level.getPlayerByUUID(data.owner) : FakePlayerFactory.getMinecraft((ServerLevel)this.level);
                     playerEntity = playerEntity == null ? FakePlayerFactory.getMinecraft((ServerLevel)this.level) : playerEntity;
-                    EntitySpellResolver resolver = new EntitySpellResolver((new SpellContext(data.spell, (LivingEntity)playerEntity)).withCastingTile(this).withType(SpellContext.CasterType.RUNE).withColors(data.color.toWrapper()));
-                    resolver.onCastOnEntity(ItemStack.EMPTY, (LivingEntity)playerEntity, entity, InteractionHand.MAIN_HAND);
+                    EntitySpellResolver resolver = new EntitySpellResolver((new SpellContext(level,data.spell, (LivingEntity)playerEntity)).withCastingTile(this).withType(SpellContext.CasterType.RUNE).withColors(data.color));
+                    resolver.onCastOnEntity(ItemStack.EMPTY, entity, InteractionHand.MAIN_HAND);
 
                     data.charges-=1;
 

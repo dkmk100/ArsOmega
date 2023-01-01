@@ -22,7 +22,7 @@ public class AnimateGlyph extends AbstractEffect {
 
 
     @Override
-    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if (world instanceof ServerLevel) {
             BlockPos pos = rayTraceResult.getBlockPos();
             Block block = world.getBlockState(pos).getBlock();

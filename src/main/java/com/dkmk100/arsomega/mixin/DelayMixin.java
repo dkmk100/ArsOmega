@@ -37,7 +37,7 @@ public abstract class DelayMixin extends AbstractEffect {
         spellContext.setCanceled(true);
         if (spellContext.getCurrentIndex() < spellContext.getSpell().recipe.size()) {
             Spell newSpell = new Spell(new ArrayList(spellContext.getSpell().recipe.subList(spellContext.getCurrentIndex(), spellContext.getSpell().recipe.size())));
-            SpellContext newContext = (new SpellContext(newSpell, shooter)).withColors(spellContext.colors);
+            SpellContext newContext = spellContext.clone().withSpell(newSpell);
             //add dilate time compat
             int duration = (Integer)this.GENERIC_INT.get() + (Integer)this.EXTEND_TIME.get() * (spellStats.getBuffCount(AugmentExtendTime.INSTANCE) + spellStats.getBuffCount(DilateTime.INSTANCE) * 2) * 20 - (Integer)this.EXTEND_TIME.get() / 2 * spellStats.getBuffCount(AugmentDurationDown.INSTANCE) * 20;
             EventQueue.getServerInstance().addEvent(new DelayedSpellEvent(duration, newSpell, rayTraceResult, world, shooter, newContext));

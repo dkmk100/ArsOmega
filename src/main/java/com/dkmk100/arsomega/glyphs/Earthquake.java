@@ -25,10 +25,10 @@ public class Earthquake  extends TierFourEffect{
 
 
     @Override
-    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         EntityEarthquake quake = new EntityEarthquake(world,shooter);
         Vec3 pos = rayTraceResult.getLocation();
-        quake.setColor(spellContext.colors);
+        quake.setColor(spellContext.getColors());
         quake.setPos(pos.x,pos.y + 0.5,pos.z);
         int ticks = 50 + (int)Math.round(25 * spellStats.getDurationMultiplier());
         quake.setDuration(ticks);

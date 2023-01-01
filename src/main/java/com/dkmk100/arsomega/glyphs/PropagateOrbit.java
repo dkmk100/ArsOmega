@@ -28,7 +28,7 @@ public class PropagateOrbit  extends AbstractEffect implements ConfigurableGlyph
         spellContext.setCanceled(true);
         if (spellContext.getCurrentIndex() < spellContext.getSpell().recipe.size()) {
             Spell newSpell = new Spell(new ArrayList(spellContext.getSpell().recipe.subList(spellContext.getCurrentIndex(), spellContext.getSpell().recipe.size())));
-            SpellContext newContext = (new SpellContext(newSpell, shooter)).withColors(spellContext.colors);
+            SpellContext newContext = spellContext.clone().withSpell(newSpell);
             SpellResolver resolver = new EntitySpellResolver(newContext);
             //List<AbstractAugment> newAugments = new ArrayList<AbstractAugment>();//stats.getAugments()
             MethodOrbit.INSTANCE.summonProjectiles(world,shooter,resolver,stats);
@@ -36,12 +36,12 @@ public class PropagateOrbit  extends AbstractEffect implements ConfigurableGlyph
     }
 
     @Override
-    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         PropagateProjectile.INSTANCE.sendPacket(world,rayTraceResult,shooter,spellContext,spellStats);
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         this.sendPacket(world, rayTraceResult, shooter, spellContext,spellStats);
     }
 

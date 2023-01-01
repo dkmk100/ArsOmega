@@ -26,7 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 import java.util.List;
-
+/*
 public class PotionRelayTile extends ModdedTile implements ITooltipProvider, IWandable, ITickable {
     private BlockPos toPos;
     private BlockPos fromPos;
@@ -245,3 +245,4 @@ public class PotionRelayTile extends ModdedTile implements ITooltipProvider, IWa
 
     }
 }
+ */

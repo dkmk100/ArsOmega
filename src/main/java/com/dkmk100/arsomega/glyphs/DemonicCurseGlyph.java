@@ -19,11 +19,11 @@ public class DemonicCurseGlyph extends TierFourEffect {
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
-            this.applyPotionWithCap(living, ModPotions.DEMONIC_CURSE, spellStats,5,5,4);
+            this.applyPotion(living, ModPotions.DEMONIC_CURSE, spellStats,5,5,true);
         }
     }
 

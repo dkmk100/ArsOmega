@@ -17,8 +17,8 @@ import java.util.UUID;
 import net.minecraft.world.item.Item.Properties;
 
 public class ItemPlayerStorage extends BasicItem {
-    public ItemPlayerStorage(String name, Properties properties) {
-        super(properties, name);
+    public ItemPlayerStorage(Properties properties) {
+        super(properties);
     }
 
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip2, TooltipFlag flagIn) {
@@ -40,7 +40,7 @@ public class ItemPlayerStorage extends BasicItem {
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         boolean changed = false;
         UUID id = player.getUUID();
-        String name = player.getName().getContents();
+        String name = player.getName().getString();
         ItemStack stack = player.getItemInHand(hand);
 
         if (stack.hasTag() && stack.getTag().hasUUID("player") && stack.getTag().getUUID("player") == id) {
@@ -64,7 +64,7 @@ public class ItemPlayerStorage extends BasicItem {
         if(targetAny || target instanceof Player)
         {
             UUID id = target.getUUID();
-            String name = target.getName().getContents();
+            String name = target.getName().getString();
 
             if (stack.hasTag() && stack.getTag().hasUUID("player") && stack.getTag().getUUID("player") == id) {
             } else {

@@ -23,7 +23,7 @@ import net.minecraft.server.level.ServerLevel;
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class RitualBanishment  extends AbstractRitual {
+public class RitualBanishment extends AbstractRitual {
     protected void tick() {
         Level world = this.getWorld();
         BlockEntity tile = world.getBlockEntity(this.getPos());
@@ -80,6 +80,8 @@ public class RitualBanishment  extends AbstractRitual {
     public ParticleColor getCenterColor() {
         return new ParticleColor(250,120,5);
     }
+
+    @
 
     @Override
     public String getID() {

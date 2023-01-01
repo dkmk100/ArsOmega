@@ -40,8 +40,4 @@ public class MagicCurio extends ArsNouveauCurio implements IManaEquipment {
         return discount;
     }
 
-    @Override
-    public void wearableTick(LivingEntity livingEntity) {
-
-    }
 }

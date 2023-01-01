@@ -21,7 +21,7 @@ public class ManaGUIMixin {
         ItemStack mainHand = minecraft.player.getMainHandItem();
         ItemStack offHand = minecraft.player.getOffhandItem();
         boolean result = mainHand.getItem() instanceof IDisplayMana && ((IDisplayMana)mainHand.getItem()).shouldDisplay(mainHand) || offHand.getItem() instanceof IDisplayMana && ((IDisplayMana)offHand.getItem()).shouldDisplay(offHand);
-        if(!result && EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.REACTIVE_ENCHANTMENT,minecraft.player)>0){
+        if(!result && EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.REACTIVE_ENCHANTMENT.get(),minecraft.player)>0){
             result = true;
         }
         if(!result && EnchantmentHelper.getEnchantmentLevel(RegistryHandler.PROACTIVE_ENCHANT.get(),minecraft.player)>0){

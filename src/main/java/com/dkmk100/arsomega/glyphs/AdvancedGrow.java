@@ -40,7 +40,7 @@ public class AdvancedGrow extends AbstractEffect {
         super("advanced_grow", "Advanced Grow");
     }
 
-    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         Iterator var6 = SpellUtil.calcAOEBlocks(shooter, rayTraceResult.getBlockPos(), rayTraceResult, spellStats).iterator();
 
         while(var6.hasNext()) {
