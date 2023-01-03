@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.base_blocks.MagicAnimatable;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import net.minecraft.world.entity.player.Player;
@@ -19,7 +20,6 @@ public class AnimateGlyph extends AbstractEffect {
     public AnimateGlyph(String tag, String description) {
         super(tag, description);
     }
-
 
     @Override
     public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {

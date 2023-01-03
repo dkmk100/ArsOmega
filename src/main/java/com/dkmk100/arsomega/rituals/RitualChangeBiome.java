@@ -2,27 +2,40 @@ package com.dkmk100.arsomega.rituals;
 
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.packets.PacketUtil;
+import com.dkmk100.arsomega.packets.ResetChunkColorsPacket;
 import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
+import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
+import com.hollingsworth.arsnouveau.api.util.BlockUtil;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import joptsimple.internal.Reflection;
 import net.minecraft.core.*;
+import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.*;
+import net.minecraft.util.DebugBuffer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.PalettedContainer;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.network.PacketDistributor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Ref;
+import java.util.List;
 
 public class RitualChangeBiome extends AbstractRitual {
 
@@ -35,13 +48,13 @@ public class RitualChangeBiome extends AbstractRitual {
         String biomeName = "minecraft:plains";
         boolean choseBiome = false;
         boolean canDoNether = false;
-        for(ItemStack stack : this.getConsumedItems()){
-            if(!choseBiome && stack.getItem() == ItemsRegistry.BIOME_CRYSTAL && stack.hasTag() && stack.getTag().contains("biome")){
+        for (ItemStack stack : this.getConsumedItems()) {
+            if (!choseBiome && stack.getItem() == ItemsRegistry.BIOME_CRYSTAL && stack.hasTag() && stack.getTag().contains("biome")) {
                 biomeName = stack.getTag().getString("biome");
                 choseBiome = true;
                 //don't break because we'll check for dim crystals later
             }
-            if(stack.getItem() == ItemsRegistry.DEMONIC_GEM){
+            if (stack.getItem() == ItemsRegistry.DEMONIC_GEM) {
                 canDoNether = true;
             }
         }
@@ -49,14 +62,14 @@ public class RitualChangeBiome extends AbstractRitual {
         Registry<Biome> a = reg.registry(Registry.BIOME_REGISTRY).get();
         ResourceLocation loc = new ResourceLocation(biomeName);
         //cache biome for better performance
-        if(biome==null) {
+        if (biome == null) {
             biome = a.get(loc);
         }
         //fix for wrong biome name
         boolean canConvert = true;
-        if(biome==null){
+        if (biome == null) {
             biome = a.get(new ResourceLocation("minecraft:plains"));
-            ArsOmega.LOGGER.error("Missing biome: "+biomeName);
+            ArsOmega.LOGGER.error("Missing biome: " + biomeName);
             canConvert = false;
         }
 
@@ -64,7 +77,7 @@ public class RitualChangeBiome extends AbstractRitual {
         int biomeColor = 0;
         try {
             Biome.BiomeCategory category = (Biome.BiomeCategory) ReflectionHandler.biomeCategory.get(biome);
-            if (category == Biome.BiomeCategory.NETHER|| category == Biome.BiomeCategory.THEEND) {
+            if (category == Biome.BiomeCategory.NETHER || category == Biome.BiomeCategory.THEEND) {
                 if (!canDoNether) {
                     canConvert = false;
                     this.setFinished();
@@ -89,44 +102,66 @@ public class RitualChangeBiome extends AbstractRitual {
                 particlePos = particlePos.add(ParticleUtil.pointInSphere().multiply(5.0D, 5.0D, 5.0D));
                 world.addParticle(ParticleLineData.createData(ParticleColor.fromInt(biomeColor)), particlePos.x(), particlePos.y(), particlePos.z(), (double) pos.getX() + 0.5D, (double) (pos.getY() + 1), (double) pos.getZ() + 0.5D);
             }
+            return;
         }
-
+        //everything down here is serverside
 
         //conversion
-        if(this.getProgress()>=10) {
-            if(canConvert) {
-                Holder<Biome> newBiome = a.getOrCreateHolder(ResourceKey.create(Registry.BIOME_REGISTRY,loc));
+        if (this.getProgress() >= 10) {
+            if (canConvert) {
+                Holder<Biome> newBiome = a.getOrCreateHolder(ResourceKey.create(Registry.BIOME_REGISTRY, loc));
 
-                //setBiome(world,pos,newBiome);
-
+                Player player = world.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 25, false);
                 //widen the area a bit lol
                 final int sidewaysRange = 7;
                 final int upRange = 6;
                 final int sideSpacing = 1;
                 final int upSpacing = 1;
-                for(int x=-1 * sidewaysRange;x<=sidewaysRange;x++) {
-                    for(int z=-1 * sidewaysRange;z<=sidewaysRange;z++) {
+                for (int x = -1 * sidewaysRange; x <= sidewaysRange; x++) {
+                    for (int z = -1 * sidewaysRange; z <= sidewaysRange; z++) {
                         for (int i = -1 * upRange; i <= upRange; i++) {
-                            BlockPos newPos = new BlockPos(pos.getX() + sideSpacing * x, pos.getY() + upSpacing * i, pos.getZ() + sideSpacing*z);
-                            setBiome(world, newPos, newBiome);
+                            BlockPos newPos = new BlockPos(pos.getX() + sideSpacing * x, pos.getY() + upSpacing * i, pos.getZ() + sideSpacing * z);
+                            if (player!= null && BlockUtil.destroyRespectsClaim(player, world, newPos))
+                            {
+                                setBiome(world, newPos, newBiome);
+                            }
                         }
                     }
                 }
             }
+            ChunkPos chunkPos = world.getChunkAt(pos).getPos();
+
+            updateChunkAfterBiomeChange(world, chunkPos);
+
             this.setFinished();
-        }
-        else if (!world.isClientSide && world.getGameTime() % 20L == 0L) {
-            if(this.needsManaNow()){
+        } else if (world.getGameTime() % 20L == 0L) {
+            if (this.needsManaNow()) {
                 return;
-            }
-            else{
+            } else {
                 this.setNeedsMana(true);
             }
             this.incrementProgress();
         }
     }
 
-    private static void setBiome(Level world, BlockPos pos, Holder<Biome> biome){
+    //adapted from EvilCraft
+    public static void updateChunkAfterBiomeChange(Level world, ChunkPos chunkPos) {
+        ArsOmega.LOGGER.info("updating colors in chunk: "+chunkPos.toString());
+        LevelChunk chunkSafe = world.getChunkSource().getChunk(chunkPos.x, chunkPos.z, false);
+        ChunkMap chunkMap = ((ServerChunkCache) world.getChunkSource()).chunkMap;
+        ((ServerChunkCache) world.getChunkSource()).chunkMap.getPlayers(chunkPos, false).forEach((player) -> {
+            try {
+                ThreadedLevelLightEngine lightEngine = (ThreadedLevelLightEngine) ReflectionHandler.getLightEngine.invoke(chunkMap);
+                player.connection.send(new ClientboundLevelChunkWithLightPacket(chunkSafe, lightEngine, null, null, true));
+                PacketUtil.sendToPlayer(new ResetChunkColorsPacket(chunkPos.x, chunkPos.z), player);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+    }
+
+    public static void setBiome(Level world, BlockPos pos, Holder<Biome> biome){
         try {
             LevelChunk chunk = world.getChunkAt(pos);
 
@@ -147,46 +182,6 @@ public class RitualChangeBiome extends AbstractRitual {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    //pretty sure I don't want this but I'm gonna keep it just in case...
-    //seems useless though
-    private static BlockPos getNoisePos(BlockPos pos, BiomeManager manager) throws IllegalAccessException, InvocationTargetException {
-        int i = pos.getX() - 2;
-        int j = pos.getY() - 2;
-        int k = pos.getZ() - 2;
-        int l = i >> 2;
-        int i1 = j >> 2;
-        int j1 = k >> 2;
-        double d0 = (double)(i & 3) / 4.0D;
-        double d1 = (double)(j & 3) / 4.0D;
-        double d2 = (double)(k & 3) / 4.0D;
-        int k1 = 0;
-        double d3 = Double.POSITIVE_INFINITY;
-
-        for(int l1 = 0; l1 < 8; ++l1) {
-            boolean flag = (l1 & 4) == 0;
-            boolean flag1 = (l1 & 2) == 0;
-            boolean flag2 = (l1 & 1) == 0;
-            int i2 = flag ? l : l + 1;
-            int j2 = flag1 ? i1 : i1 + 1;
-            int k2 = flag2 ? j1 : j1 + 1;
-            double d4 = flag ? d0 : d0 - 1.0D;
-            double d5 = flag1 ? d1 : d1 - 1.0D;
-            double d6 = flag2 ? d2 : d2 - 1.0D;
-            long biomeZoomSeed = ReflectionHandler.zoomSeed.getLong(manager);
-            double d7 = (double) ReflectionHandler.getFiddledDistance.invoke(null, biomeZoomSeed, i2, j2, k2, d4, d5, d6);
-            if (d3 > d7) {
-                k1 = l1;
-                d3 = d7;
-            }
-        }
-
-        int l2 = (k1 & 4) == 0 ? l : l + 1;
-        int i3 = (k1 & 2) == 0 ? i1 : i1 + 1;
-        int j3 = (k1 & 1) == 0 ? j1 : j1 + 1;
-
-        return new BlockPos(l2,i3,j3);
     }
 
     @Override
@@ -241,6 +236,11 @@ public class RitualChangeBiome extends AbstractRitual {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean canStart() {
+        return super.canStart() && this.getConsumedItems().size() > 0;
     }
 
     @Override

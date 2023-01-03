@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.rituals;
 
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.ArsRegistry;
 import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.blocks.PortalBlockEntity;
@@ -7,6 +8,7 @@ import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
+import com.hollingsworth.arsnouveau.common.items.WarpScroll;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
@@ -53,6 +55,17 @@ public class RitualOpenPortal extends AbstractRitual {
                     BlockEntity tile = world.getBlockEntity(pos);
                     if (tile != null && tile instanceof PortalBlockEntity) {
                         ((PortalBlockEntity) tile).targetDim = crystal.getTag().getString("dimension");
+                        if(this.getConsumedItems().size() > 1){
+                            ItemStack scroll = this.getConsumedItems().get(1);
+                            BlockPos targetPos = WarpScroll.getPos(scroll);
+                            ((PortalBlockEntity) tile).targetPos = targetPos == BlockPos.ZERO ? pos : targetPos;
+                        }
+                        else{
+                            ((PortalBlockEntity) tile).targetPos = pos;
+                        }
+                    }
+                    else{
+                        ArsOmega.LOGGER.error("no portal tile...");
                     }
                 }
 
@@ -66,6 +79,10 @@ public class RitualOpenPortal extends AbstractRitual {
         int consumed = this.getConsumedItems().size();
         if(consumed==0){
             return stack.getItem()== ItemsRegistry.DIMENSION_CRYSTAL;
+        }
+        else if(consumed==1){
+            boolean scroll = stack.getItem() == com.hollingsworth.arsnouveau.setup.ItemsRegistry.WARP_SCROLL;
+            return scroll && stack.hasTag() && WarpScroll.getPos(stack) != BlockPos.ZERO;
         }
 
         return false;

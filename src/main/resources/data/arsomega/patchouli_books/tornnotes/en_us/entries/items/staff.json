@@ -14,10 +14,6 @@
     {
       "type": "apparatus_recipe",
       "recipe": "arsomega:archmage_staff"
-    },
-    {
-      "type": "apparatus_recipe",
-      "recipe": "arsomega:arcane_staff"
     }
   ]
 }

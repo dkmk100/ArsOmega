@@ -25,13 +25,13 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.ars_nouveau.geckolib3.core.IAnimatable;
+import software.bernie.ars_nouveau.geckolib3.core.PlayState;
+import software.bernie.ars_nouveau.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.ars_nouveau.geckolib3.core.controller.AnimationController;
+import software.bernie.ars_nouveau.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.ars_nouveau.geckolib3.core.manager.AnimationData;
+import software.bernie.ars_nouveau.geckolib3.core.manager.AnimationFactory;
 
 public class EntityDemonRaptor  extends Monster implements IAnimatable {
     public EntityDemonRaptor(EntityType<? extends Monster> type, Level worldIn) {

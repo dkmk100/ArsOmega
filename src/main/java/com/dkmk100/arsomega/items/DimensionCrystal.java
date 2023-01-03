@@ -1,6 +1,8 @@
 package com.dkmk100.arsomega.items;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
+import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -44,11 +46,18 @@ public class DimensionCrystal extends Item {
             //String dimension = "minecraft:overworld";
             String dimension = world.dimension().location().toString();
 
-            if (stack.hasTag() && stack.getTag().getString("dimension") == dimension) {
+            if (stack.hasTag() && stack.getTag().contains("dimension") && stack.getTag().getString("dimension") == dimension) {
                 changed = false;
             } else {
-                changed = true;
-                stack.getOrCreateTag().putString("dimension", dimension);
+                //don't override dimension crystals
+                if(!stack.hasTag() || !stack.getTag().contains("dimension") || stack.getTag().getString("dimension") == "") {
+                    changed = true;
+                    stack.getOrCreateTag().putString("dimension", dimension);
+                }
+                else{
+                    changed = false;
+                    //hmm, no idea what do do here lol
+                }
             }
 
             if (changed) {

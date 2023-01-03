@@ -201,6 +201,10 @@ public class EntityTornado extends ColoredProjectile {
                     if(this.tickCount % 6 == 0 && entity instanceof LivingEntity)//no item damage
                     {
                         entity.hurt(TornadoGlyph.TORNADO_DAMAGE,2.0f);
+                        if(((LivingEntity) entity).getHealth() < 0){
+                            toRemove.add(entity);
+                            entity.setNoGravity(false);
+                        }
                     }
                 } else {
                     toRemove.add(entity);

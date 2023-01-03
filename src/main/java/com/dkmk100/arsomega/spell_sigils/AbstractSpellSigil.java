@@ -31,7 +31,7 @@ public abstract class AbstractSpellSigil extends DescribedItem implements IDispl
     private static Properties properties = ItemPropertiesCreator.creator.create(ArsOmega.itemGroup,64);
 
     public AbstractSpellSigil(String name) {
-        super(name, properties, "Note: still WIP! Spell sigils are activated on chalk, and if the correct shape has been drawn, will cast a powerful effect at the location. For more information, check the worn notebook.");
+        super(name, properties, "Spell sigils are activated on chalk, and if the correct shape has been drawn, will cast a powerful effect at the location. To learn more, read the Arcane Compendium.");
         this.pattern = GeneratePattern();
     }
 

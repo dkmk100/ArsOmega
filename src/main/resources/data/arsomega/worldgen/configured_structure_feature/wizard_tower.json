@@ -2,7 +2,7 @@
   "type": "minecraft:village",
   "config": {
     "start_pool": "arsomega:wizard_tower",
-    "size": 1
+    "size": 3
   },
   "biomes": "#minecraft:has_structure/mineshaft",
   "adapt_noise": true,

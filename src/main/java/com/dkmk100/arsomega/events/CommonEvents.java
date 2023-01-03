@@ -4,10 +4,12 @@ import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.empathy_api.EmpathySpell;
 import com.dkmk100.arsomega.enchants.ProactiveSpellcaster;
+import com.dkmk100.arsomega.items.CursedPendant;
 import com.dkmk100.arsomega.items.ModSpawnEggItem;
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
+import com.hollingsworth.arsnouveau.api.event.EffectResolveEvent;
 import com.hollingsworth.arsnouveau.common.enchantment.EnchantmentRegistry;
 import com.hollingsworth.arsnouveau.common.spell.casters.ReactiveCaster;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
@@ -43,7 +45,9 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotResult;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 @Mod.EventBusSubscriber(modid = ArsOmega.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -60,6 +64,21 @@ public class CommonEvents {
                     handleCloak(event,player);
                 }
             }
+        }
+    }
+    @SubscribeEvent
+    public static void OnEffectResolvePre(EffectResolveEvent.Pre event){
+        Optional<SlotResult> curio = CuriosApi.getCuriosHelper().findFirstCurio(event.shooter, (stack) -> stack.getItem() instanceof CursedPendant);
+        if(event.shooter != null && curio.isPresent()){
+            CursedPendant.ApplyCursePre(curio.get().stack(),event);
+        }
+    }
+
+    @SubscribeEvent
+    public static void OnEffectResolvePost(EffectResolveEvent.Post event){
+        Optional<SlotResult> curio = CuriosApi.getCuriosHelper().findFirstCurio(event.shooter, (stack) -> stack.getItem() instanceof CursedPendant);
+        if(event.shooter != null && curio.isPresent()){
+            CursedPendant.ApplyCursePost(curio.get().stack(),event);
         }
     }
 
@@ -297,7 +316,6 @@ public class CommonEvents {
                     entity.getRotationVector().x);
         }
         else {
-            //Entity entity2 = entity.getType().create(destinationWorld);
             Entity entity2 = EntityType.loadEntityRecursive(entity.serializeNBT(),destinationWorld,Function.identity());
             if (entity2 != null) {
                 entity2.setPos(destPos.getX(),destPos.getY(),destPos.getZ());
@@ -305,10 +323,6 @@ public class CommonEvents {
                 destinationWorld.addDuringTeleport(entity2);
             }
             entity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
-            //destinationWorld.getProfiler().endTick();
-            //originalWorld.entity ;
-            //destinationWorld.resetUpdateEntityTick();
-            //destinationWorld.getProfiler().endTick();
         }
     }
     /*

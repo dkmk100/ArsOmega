@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "arsomega:arcane_clay"
+    }
+  },
+  "result": {
+    "item": "arsomega:arcane_clay_block"
+  }
+}

@@ -1,6 +1,8 @@
 package com.dkmk100.arsomega.util;
 
 import com.dkmk100.arsomega.ArsOmega;
+import net.minecraft.server.level.ChunkMap;
+import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
@@ -34,6 +36,8 @@ public class ReflectionHandler {
 
     public static Method getFiddledDistance;
     public static Field zoomSeed;
+
+    public static Method getLightEngine;
 
 
 
@@ -69,6 +73,8 @@ public class ReflectionHandler {
             lightningFlash = ObfuscationReflectionHelper.findField(LightningBolt.class,"f_20861_");
             lightningCause = ObfuscationReflectionHelper.findField(LightningBolt.class,"f_20863_");
             powerRod = ObfuscationReflectionHelper.findMethod(LightningBolt.class,"m_147161_");
+
+            getLightEngine = ObfuscationReflectionHelper.findMethod(ChunkMap.class,"m_140166_");
         }
     }
 

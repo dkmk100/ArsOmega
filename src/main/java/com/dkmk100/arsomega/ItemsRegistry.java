@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ObjectHolder;
 
+//todo: get rid of this entire space and actually use deferred registrer
 @ObjectHolder("arsomega")
 public class ItemsRegistry {
     @ObjectHolder("staff")
@@ -80,4 +81,31 @@ public class ItemsRegistry {
 
     @ObjectHolder("sigil_binding_active")
     public static Item SIGIL_BINDING_ACTIVE;
+
+    @ObjectHolder("salt")
+    public static Item SALT;
+
+    @ObjectHolder("ancient_mirror_shard")
+    public static Item ANCIENT_SHARD;
+
+    @ObjectHolder("celestial_staff")
+    public static Item CELESTIAL_STAFF;
+
+    @ObjectHolder("arcane_staff")
+    public static Item ARCANE_STAFF;
+
+    @ObjectHolder("demonic_stone")
+    public static Block DEMONIC_STONE;
+
+    @ObjectHolder("infused_diamond")
+    public static Item INFUSED_DIAMOND;
+
+    @ObjectHolder("enchanters_wool")
+    public static Item ENCHANTERS_WOOL_ITEM;
+
+    @ObjectHolder("arcane_cloth")
+    public static Item ARCANE_CLOTH;
+
+    @ObjectHolder("arcane_apple")
+    public static Item ARCANE_APPLE;
 }

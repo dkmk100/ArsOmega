@@ -175,7 +175,7 @@ repositories {
         //for blame
         url "https://nexus.resourcefulbees.com/repository/maven-public/"
     }
-    maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+    //maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
     jcenter()
 }
 
@@ -188,8 +188,8 @@ dependencies {
 
     runtimeOnly fg.deobf("curse.maven:exp-407174:3544525")  // Shutup experimental settings
 
-    runtimeOnly fg.deobf("curse.maven:exp-401955:3950802")  // Ars Nouveau 2.7.7
-    compileOnly fg.deobf("curse.maven:exp-401955:3950802")
+    runtimeOnly fg.deobf("curse.maven:exp-401955:4052851")  // Ars Nouveau 2.8.0
+    compileOnly fg.deobf("curse.maven:exp-401955:4052851")
 
     //runtimeOnly fg.deobf("curse.maven:exp-541676:3594181") //cyanide, for some reason it doesn't work lol
 
@@ -203,8 +203,7 @@ dependencies {
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.18.2-5.0.6.3:api")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.18.2-5.0.6.3")
 
-
-    implementation fg.deobf('software.bernie.geckolib:geckolib-1.18-forge:3.0.13')
+    //implementation fg.deobf('software.bernie.geckolib:geckolib-1.18-forge:3.0.13')
 
     runtimeOnly fg.deobf("top.theillusivec4.caelus:caelus-forge:1.18.1-3.0.0.2")
     compileOnly fg.deobf("top.theillusivec4.caelus:caelus-forge:1.18.1-3.0.0.2:api")

@@ -3,7 +3,7 @@ package com.dkmk100.arsomega.client.models;
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.entities.EntityDemonRay;
 import net.minecraft.resources.ResourceLocation;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
+import software.bernie.ars_nouveau.geckolib3.model.AnimatedGeoModel;
 
 public class RayModel extends AnimatedGeoModel<EntityDemonRay> {
 

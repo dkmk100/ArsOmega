@@ -111,7 +111,7 @@ public class SigilValidator {
                     //missing chalk
                     return new SigilValidationResult(false);
                 }
-                else if(!value && !state.isAir() && !BlockAllowed(state)){
+                else if(!value && !BlockAllowed(state, world, centerPos.offset(test))){
                     //extra block in empty space on recipe
                     return new SigilValidationResult(false);
                 }
@@ -120,7 +120,7 @@ public class SigilValidator {
         return new SigilValidationResult(rotation);
     }
 
-    public boolean BlockAllowed(BlockState state){
-        return state.getBlock() instanceof SourceJar;
+    public boolean BlockAllowed(BlockState state, Level world, BlockPos pos){
+        return state.isAir() || state.getBlock() instanceof SourceJar || (!state.isFaceSturdy(world, pos, Direction.UP) && state.getBlock() != RegistryHandler.CHALK_BLOCK.get());
     }
 }

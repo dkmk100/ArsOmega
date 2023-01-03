@@ -116,6 +116,15 @@
           "name": "arsomega:demon_dance_music_disc"
         }
       ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "arsomega:kaz_carter"
+        }
+      ]
     }
   ]
 }

@@ -5,6 +5,7 @@ import com.hollingsworth.arsnouveau.api.spell.Spell;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodTouch;
 import com.ibm.icu.impl.Pair;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,6 +26,8 @@ public class ChalkLineData {
 
     final int hitDelay = 20;
     final int playerHitDelay = 10;
+
+    public BlockPos dataPos;
 
     public boolean CanHitEntity(Entity entity, long gameTime){
         boolean blocked = false;
