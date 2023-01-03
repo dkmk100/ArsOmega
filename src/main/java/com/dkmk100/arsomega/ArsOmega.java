@@ -85,7 +85,7 @@ public class ArsOmega
     private void registerStuff(final RegisterEvent event){
         event.register(ForgeRegistries.Keys.RECIPE_TYPES,
                 helper -> {
-                    RegistryHandler.RegisterRecipeTypes();
+                    RegistryHandler.RegisterRecipeTypes(helper);
                 }
         );
         event.register(ForgeRegistries.Keys.RECIPE_SERIALIZERS,
@@ -131,8 +131,8 @@ public class ArsOmega
         event.put(RegistryHandler.BASIC_DEMON.get(), EntityDemonBasic.createAttributes().build());
         event.put(RegistryHandler.STRONG_DEMON.get(), EntityDemonBasic.createAttributes().build());
         event.put(RegistryHandler.BOSS_DEMON_KING.get(), EntityBossDemonKing.createAttributes().build());
-        //event.put(RegistryHandler.RAPTOR_DEMON.get(), EntityDemonRaptor.createAttributes().build());
-        //event.put(RegistryHandler.RAY_DEMON.get(), EntityDemonRay.createAttributes().build());
+        event.put(RegistryHandler.RAPTOR_DEMON.get(), EntityDemonRaptor.createAttributes().build());
+        event.put(RegistryHandler.RAY_DEMON.get(), EntityDemonRay.createAttributes().build());
         event.put(RegistryHandler.CLAY_GOLEM_BETA.get(), EntityClayGolem.createAttributes(EntityClayGolem.Tier.MAGIC).build());
         event.put(RegistryHandler.CLAY_GOLEM_MARVELOUS.get(), EntityClayGolem.createAttributes(EntityClayGolem.Tier.MARVELOUS).build());
         event.put(RegistryHandler.CLAY_GOLEM_MYSTIC.get(), EntityClayGolem.createAttributes(EntityClayGolem.Tier.MYSTIC).build());
@@ -164,11 +164,8 @@ public class ArsOmega
     private void RegisterMobRenderers(EntityRenderersEvent.RegisterRenderers event){
         RegisterMobRenderer(RegistryHandler.BASIC_DEMON.get(),"demon_basic",event);
         RegisterMobRenderer(RegistryHandler.STRONG_DEMON.get(),"demon_strong",event);
-        /*
         event.registerEntityRenderer(RegistryHandler.RAPTOR_DEMON.get(), (EntityRendererProvider.Context context) -> new RaptorRenderer(context));
         event.registerEntityRenderer(RegistryHandler.RAY_DEMON.get(), (EntityRendererProvider.Context context) -> new RayRenderer(context));
-
-         */
 
         RegisterMobRenderer(RegistryHandler.BOSS_DEMON_KING.get(),"boss_demon_king",event);
         RegisterMobRenderer(RegistryHandler.CLAY_GOLEM_BETA.get(),"clay_golem",event);

@@ -1,16 +1,13 @@
 {
-  "depth": 0.128,
-  "scale": 0.1,
   "temperature": 0.8,
   "downfall": 0,
   "precipitation": "none",
-  "category": "nether",
   "effects": {
     "mood_sound": {
       "sound": "minecraft:ambient.cave",
       "tick_delay": 6000,
       "block_search_extent": 8,
-      "offset": 2.0
+      "offset": 2
     },
     "sky_color": 16711680,
     "foliage_color": 16711680,
@@ -29,12 +26,15 @@
     [],
     [],
     [],
-    ["arsomega:demonic_ore","arsomega:demonic_rift"],
+    [
+      "arsomega:demonic_ore",
+      "arsomega:demonic_rift"
+    ],
+    [],
     [],
     [],
     []
   ],
-  "starts": [],
   "spawners": {
     "monster": [
       {

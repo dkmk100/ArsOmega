@@ -1,27 +1,4 @@
 {
-  "feature": "arsomega:demonic_rift",
-  "placement": [
-    {
-      "count": 5,
-      "type": "minecraft:count"
-    },
-    {
-      "type": "minecraft:in_square"
-    },
-    {
-      "height": {
-        "min_inclusive": {
-          "absolute": 25
-        },
-        "max_inclusive": {
-          "absolute": 50
-        },
-        "type": "minecraft:trapezoid"
-      },
-      "type": "minecraft:height_range"
-    },
-    {
-      "type": "minecraft:biome"
-    }
-  ]
+    "feature": "arsomega:demonic_rift",
+    "placement": []
 }

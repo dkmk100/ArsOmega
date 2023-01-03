@@ -1,40 +1,11 @@
 {
-  "type": {
-    "ultrawarm": false,
-    "natural": true,
-    "piglin_safe": false,
-    "respawn_anchor_works": false,
-    "bed_works": false,
-    "has_raids": false,
-    "has_skylight": false,
-    "has_ceiling": false,
-    "coordinate_scale": 1,
-    "ambient_light": 0,
-    "logical_height": 256,
-    "infiniburn": "#minecraft:infiniburn_overworld",
-    "min_y": 0,
-    "height": 256
-  },
+  "type": "arsomega:demon_realm",
   "generator": {
     "type": "minecraft:noise",
-    "seed": 0,
     "settings": "arsomega:demon_realm",
     "biome_source": {
-      "type": "minecraft:multi_noise",
-      "biomes": [
-        {
-          "biome": "arsomega:demon_biome",
-          "parameters": {
-            "temperature": 0.14,
-            "humidity": 0.14,
-            "continentalness": 0,
-            "erosion": 0.15,
-            "weirdness": 0.15,
-            "depth": 0.15,
-            "offset": 0.1
-          }
-        }
-      ]
+      "type": "minecraft:fixed",
+      "biome": "arsomega:demon_biome"
     }
   }
 }

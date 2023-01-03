@@ -142,7 +142,7 @@ public class CommonEvents {
         //to not make tags if there are none
         if(s.hasTag()) {
             ProactiveSpellcaster proCaster = new ProactiveSpellcaster(s);
-            if ((double) EnchantmentHelper.getItemEnchantmentLevel(RegistryHandler.PROACTIVE_ENCHANT.get(), s) * 0.25 >= Math.random() && proCaster.getSpell().isValid()) {
+            if ((double) s.getEnchantmentLevel(RegistryHandler.PROACTIVE_ENCHANT.get()) * 0.25 >= Math.random() && proCaster.getSpell().isValid()) {
                 proCaster.castSpell(playerIn.getCommandSenderWorld(), playerIn, InteractionHand.MAIN_HAND, null);
                 return true;
             }

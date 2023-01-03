@@ -1,27 +1,4 @@
 {
-  "feature": "arsomega:demonic_ore",
-  "placement": [
-    {
-      "count": 7,
-      "type": "minecraft:count"
-    },
-    {
-      "type": "minecraft:in_square"
-    },
-    {
-      "height": {
-        "min_inclusive": {
-          "absolute": 0
-        },
-        "max_inclusive": {
-          "absolute": 64
-        },
-        "type": "minecraft:trapezoid"
-      },
-      "type": "minecraft:height_range"
-    },
-    {
-      "type": "minecraft:biome"
-    }
-  ]
+    "feature": "arsomega:demonic_ore",
+    "placement": []
 }

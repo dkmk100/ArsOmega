@@ -1,12 +1,17 @@
 package com.dkmk100.arsomega.enchants;
 
+import com.dkmk100.arsomega.ArsOmega;
 import com.hollingsworth.arsnouveau.api.sound.ConfiguredSpellSound;
-import com.hollingsworth.arsnouveau.api.spell.Spell;
-import com.hollingsworth.arsnouveau.api.spell.SpellCaster;
+import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.common.util.FakePlayer;
 import org.jetbrains.annotations.NotNull;
 
 public class ProactiveSpellcaster extends SpellCaster {
@@ -32,6 +37,11 @@ public class ProactiveSpellcaster extends SpellCaster {
     }
 
     @Override
+    public SpellResolver getSpellResolver(SpellContext context, Level worldIn, LivingEntity playerIn, InteractionHand handIn) {
+        return (SpellResolver)(playerIn instanceof Player && !(playerIn instanceof FakePlayer) ? super.getSpellResolver(context, worldIn, playerIn, handIn) : new EntitySpellResolver(context));
+    }
+
+    @Override
     public CompoundTag writeTag(CompoundTag tag) {
         tag.putInt("current_slot", this.getCurrentSlot());
         tag.putString("flavor", this.getFlavorText());
@@ -44,7 +54,7 @@ public class ProactiveSpellcaster extends SpellCaster {
 
     @Override
     public ResourceLocation getTagID() {
-        return new ResourceLocation("arsomega:proactiveCaster");
+        return new ResourceLocation(ArsOmega.MOD_ID,"proactive_caster");
     }
 
     @Override

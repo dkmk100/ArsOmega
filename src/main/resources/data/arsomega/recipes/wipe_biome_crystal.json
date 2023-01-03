@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:biome_crystal"
+    }
+  ],
+  "result": {
+    "item": "arsomega:biome_crystal"
+  }
+}

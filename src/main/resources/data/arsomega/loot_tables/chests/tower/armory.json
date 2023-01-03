@@ -72,6 +72,15 @@
           "name": "minecraft:leather_horse_armor"
         }
       ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "arsomega:maria_rosa"
+        }
+      ]
     }
   ]
 }

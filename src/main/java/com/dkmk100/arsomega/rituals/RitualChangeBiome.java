@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.rituals;
 
+/*
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
@@ -77,9 +78,9 @@ public class RitualChangeBiome extends AbstractRitual {
                     biomeColor = biome.getFoliageColor();
                 }
             }
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        //} catch (IllegalAccessException e) {
+            //throw new RuntimeException(e);
+        //}
 
         //particles
         if (world.isClientSide) {
@@ -247,4 +248,4 @@ public class RitualChangeBiome extends AbstractRitual {
         return new ResourceLocation(ArsOmega.MOD_ID, "change_biome");
     }
 }
-
+ */

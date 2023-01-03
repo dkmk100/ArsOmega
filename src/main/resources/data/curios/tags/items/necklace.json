@@ -2,6 +2,11 @@
   "replace": "false",
   "values": [
     "arsomega:greater_mana_amulet",
-    "arsomega:greater_regen_amulet"
+    "arsomega:greater_regen_amulet",
+    "arsomega:cursed_pendant",
+    "arsomega:cursed_pendant_double",
+    "arsomega:cursed_pendant_strong",
+    "arsomega:cursed_pendant_double_strong",
+    "arsomega:cursed_pendant_ultimate"
   ]
 }

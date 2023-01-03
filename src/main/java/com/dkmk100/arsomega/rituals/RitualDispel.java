@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.rituals;
 
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.blocks.PortalBlock;
 import com.dkmk100.arsomega.blocks.PortalBlockEntity;
 import com.dkmk100.arsomega.potions.ModPotions;
@@ -9,9 +10,11 @@ import com.hollingsworth.arsnouveau.api.event.DispelEvent;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.api.spell.Spell;
 import com.hollingsworth.arsnouveau.api.spell.SpellContext;
+import com.hollingsworth.arsnouveau.api.spell.SpellStats;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -72,7 +75,7 @@ public class RitualDispel extends AbstractRitual {
                 }
 
                 List<LivingEntity> entities = this.getWorld().getEntitiesOfClass(LivingEntity.class, (new AABB(this.getPos().above(upRange-downRange))).inflate(sideRange*2 + 1, downRange + upRange,sideRange*2 + 1));
-                SpellContext context = new SpellContext(new Spell(),null);
+                SpellContext context = new SpellContext(world,new Spell(),null);
                 for (LivingEntity entity : entities) {
                     if(entity.hasEffect(ModPotions.DISPELLANT)){
                         continue;
@@ -80,7 +83,9 @@ public class RitualDispel extends AbstractRitual {
                     //dispel code
                     Collection<MobEffectInstance> effects = entity.getActiveEffects();
                     MobEffectInstance[] array = effects.toArray(new MobEffectInstance[0]);
-                    if (MinecraftForge.EVENT_BUS.post(new DispelEvent(new EntityHitResult(entity), world, null, new ArrayList<>(), context))) {
+                    SpellStats.Builder builder = new SpellStats.Builder();
+                    SpellStats stats = builder.build();
+                    if (MinecraftForge.EVENT_BUS.post(new DispelEvent(new EntityHitResult(entity), world, null, stats, context))) {
                         continue;
                     }
 
@@ -110,7 +115,7 @@ public class RitualDispel extends AbstractRitual {
     }
 
     @Override
-    public String getID() {
-        return "dispel";
+    public ResourceLocation getRegistryName() {
+        return new ResourceLocation(ArsOmega.MOD_ID,"dispel");
     }
 }

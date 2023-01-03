@@ -22,8 +22,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class PetrifySigil extends AbstractSpellSigil {
-    public PetrifySigil(String name) {
-        super(name);
+    public PetrifySigil() {
+        super();
     }
 
     protected int range = 11;

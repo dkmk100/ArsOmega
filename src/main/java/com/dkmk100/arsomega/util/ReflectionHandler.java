@@ -24,11 +24,14 @@ public class ReflectionHandler {
     public static Field xRot;
     public static Field yRot;
 
+    /*
     public static Field biomeCategory;
     public static Field biomes;
 
     public static Method getFiddledDistance;
     public static Field zoomSeed;
+
+     */
 
 
 
@@ -79,11 +82,11 @@ public class ReflectionHandler {
         yRot.setAccessible(true);
         RemoveFinal(yRot);
 
-        biomeCategory = ObfuscationReflectionHelper.findField(Biome.class, "f_47442_");
-        biomes = ObfuscationReflectionHelper.findField(LevelChunkSection.class, "f_187995_");
+        //biomeCategory = ObfuscationReflectionHelper.findField(Biome.class, "f_47442_");
+        //biomes = ObfuscationReflectionHelper.findField(LevelChunkSection.class, "f_187995_");
 
-        getFiddledDistance = ObfuscationReflectionHelper.findMethod(BiomeManager.class, "m_186679_",long.class,int.class,int.class,int.class,double.class,double.class,double.class);
-        zoomSeed = ObfuscationReflectionHelper.findField(BiomeManager.class, "f_47863_");
+        //getFiddledDistance = ObfuscationReflectionHelper.findMethod(BiomeManager.class, "m_186679_",long.class,int.class,int.class,int.class,double.class,double.class,double.class);
+        //zoomSeed = ObfuscationReflectionHelper.findField(BiomeManager.class, "f_47863_");
 
         Entity.Initialize();
     }

@@ -1,11 +1,13 @@
 package com.dkmk100.arsomega.rituals;
 
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -65,8 +67,8 @@ public class RitualPermaFlight extends BasicConfigRitual{
     }
 
     @Override
-    public String getID() {
-        return "perma_flight";
+    public ResourceLocation getRegistryName() {
+        return new ResourceLocation(ArsOmega.MOD_ID,"perma_flight");
     }
 
     @Override
