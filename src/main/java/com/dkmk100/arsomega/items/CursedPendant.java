@@ -4,25 +4,19 @@ import com.dkmk100.arsomega.potions.ModPotions;
 import com.hollingsworth.arsnouveau.ArsNouveau;
 import com.hollingsworth.arsnouveau.api.event.EffectResolveEvent;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectBlink;
-import com.hollingsworth.arsnouveau.common.spell.effect.EffectDispel;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectExplosion;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Explosion;
-import net.minecraft.world.level.ExplosionDamageCalculator;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
-import top.theillusivec4.curios.api.CuriosApi;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -31,8 +25,8 @@ public class CursedPendant extends BasicItem implements Vanishable {
     final int defSeed;
     final float intensity;
 
-    public CursedPendant(String reg, int effects, int defaultSeed, float intensityMult) {
-        super((new Item.Properties()).stacksTo(1).tab(ArsNouveau.itemGroup).rarity(Rarity.values()[Math.min(Rarity.values().length - 1, Math.round(intensityMult))]),reg);
+    public CursedPendant(int effects, int defaultSeed, float intensityMult) {
+        super((new Item.Properties()).stacksTo(1).tab(ArsNouveau.itemGroup).rarity(Rarity.values()[Math.min(Rarity.values().length - 1, Math.round(intensityMult))]));
         defSeed = defaultSeed;
         effectCount = effects;
         intensity = intensityMult;
@@ -54,12 +48,12 @@ public class CursedPendant extends BasicItem implements Vanishable {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip2, TooltipFlag flagIn) {
-        tooltip2.add(new TextComponent("Adds adverse effects to every effect in the wearer's spells."));
-        tooltip2.add(new TextComponent("Has no practical purpose, fun for challenges though"));
-        tooltip2.add(new TextComponent("Curse count: "+effectCount));
-        tooltip2.add(new TextComponent("Curse strength: "+intensity));
+        tooltip2.add(Component.literal("Adds adverse effects to every effect in the wearer's spells."));
+        tooltip2.add(Component.literal("Has no practical purpose, fun for challenges though"));
+        tooltip2.add(Component.literal("Curse count: "+effectCount));
+        tooltip2.add(Component.literal("Curse strength: "+intensity));
         if(effectCount >3){
-            tooltip2.add(new TextComponent("Not for the faint of heart"));
+            tooltip2.add(Component.literal("Not for the faint of heart"));
         }
         super.appendHoverText(stack, worldIn, tooltip2, flagIn);
     }
@@ -143,9 +137,9 @@ public class CursedPendant extends BasicItem implements Vanishable {
 
             public static Effect dispellant = new Effect(ModPotions.DISPELLANT,30,0);
 
-            public static Effect hex = new Effect(com.hollingsworth.arsnouveau.common.potions.ModPotions.HEX_EFFECT,30,0);
+            public static Effect hex = new Effect(com.hollingsworth.arsnouveau.common.potions.ModPotions.HEX_EFFECT.get(),30,0);
 
-            public static Effect gravity = new Effect(com.hollingsworth.arsnouveau.common.potions.ModPotions.GRAVITY_EFFECT,30,0);
+            public static Effect gravity = new Effect(com.hollingsworth.arsnouveau.common.potions.ModPotions.GRAVITY_EFFECT.get(),30,0);
 
             MobEffect effect;
             int dur;

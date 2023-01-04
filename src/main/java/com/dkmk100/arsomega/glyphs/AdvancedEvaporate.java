@@ -1,14 +1,11 @@
 package com.dkmk100.arsomega.glyphs;
 
-import com.dkmk100.arsomega.ItemsRegistry;
-import com.dkmk100.arsomega.rituals.RitualTribute;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.SpellUtil;
-import com.hollingsworth.arsnouveau.common.items.curios.ShapersFocus;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentFortune;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentPierce;
-import com.hollingsworth.arsnouveau.common.spell.effect.EffectEvaporate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BiomeTags;
@@ -23,7 +20,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -79,7 +75,7 @@ public class AdvancedEvaporate extends AbstractEffect {
 
                     }
                     else{
-                        AddDrop(ItemsRegistry.SALT, toDrop,world,0.05f + 0.05f * stats.getBuffCount(AugmentFortune.INSTANCE));
+                        AddDrop(RegistryHandler.SALT.get(), toDrop,world,0.05f + 0.05f * stats.getBuffCount(AugmentFortune.INSTANCE));
                     }
                 }
                 else if(block == Blocks.LAVA){

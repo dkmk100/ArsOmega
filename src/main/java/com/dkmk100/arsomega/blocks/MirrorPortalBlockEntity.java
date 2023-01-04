@@ -1,7 +1,5 @@
 package com.dkmk100.arsomega.blocks;
 
-import com.dkmk100.arsomega.ItemsRegistry;
-import com.dkmk100.arsomega.items.CelestialStaff;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.client.ITooltipProvider;
 import com.hollingsworth.arsnouveau.common.block.tile.ModdedTile;
@@ -10,17 +8,14 @@ import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -43,11 +38,11 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
     boolean hasInteracted = false;
 
     static ItemRequest[] requestOptions = {
-            new ItemRequest(ItemsRegistry.INFUSED_DIAMOND, 128),
-            new ItemRequest(ItemsRegistry.GORGON_GEM, 8),
-            new ItemRequest(ItemsRegistry.DEMONIC_GEM, 64),
-            new ItemRequest(ItemsRegistry.ARCANE_CLAY, 4),
-            new ItemRequest(ItemsRegistry.ARCANE_ESSENCE, 32),
+            new ItemRequest(RegistryHandler.INFUSED_DIAMOND.get(), 128),
+            new ItemRequest(RegistryHandler.GORGON_GEM.get(), 8),
+            new ItemRequest(RegistryHandler.DEMON_GEM.get(), 64),
+            new ItemRequest(RegistryHandler.ARCANE_CLAY.get(), 4),
+            new ItemRequest(RegistryHandler.ESSENCE_ARCANE.get(), 32),
     };
     static final int requestsNeeded = 2;
 
@@ -95,7 +90,11 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
             if(powerAbsorbed > 200000){
                 TellNearby("<?> I don't need anymore help at the moment.");
             }
-            else if(stack.getItem() == ItemsRegistry.CELESTIAL_STAFF){
+            else if(requestsFilled >= requestsNeeded){
+                TellNearby("<?> I don't need anymore help at the moment.");
+            }
+            /*
+            else if(stack.getItem() == RegistryHandler.CELESTIAL_STAFF){
                 if(powerAbsorbed > 200000){
                     TellNearby("<?> Thank you! I've absorbed all the power I want. " +
                             "Feel free to use the Celestial Staff to absorb more demonic energy, but I have no need of it. " +
@@ -118,9 +117,12 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
                 }
                 return InteractionResult.SUCCESS;
             }
+
+             */
+            /*
             else if(requestsFilled >= requestsNeeded){
-                if(stack.getItem() == ItemsRegistry.ARCANE_STAFF){
-                    player.setItemInHand(hand,new ItemStack(ItemsRegistry.CELESTIAL_STAFF));
+                if(stack.getItem() == RegistryHandler.ARCANE_STAFF){
+                    player.setItemInHand(hand,new ItemStack(RegistryHandler.CELESTIAL_STAFF));
                     TellNearby("<?> Here is the Celestial Staff. Good luck on your quest, and may the stars guide you. ");
                     TellNearby("<?> If you succeed, please return with the energy you have absorbed so I can lock it away. It could be dangerous in the wrong hands. ");
                 }
@@ -133,6 +135,7 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
                 }
                 return InteractionResult.SUCCESS;
             }
+            */
             else if(hasInteracted){
                 if(hasRequest){
                     Item item =  requestOptions[currentRequest].requestedItem;
@@ -157,7 +160,7 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
             return InteractionResult.PASS;
         }
         else{
-            if(stack.getItem() == ItemsRegistry.ANCIENT_SHARD){
+            if(stack.getItem() == RegistryHandler.ANCIENT_MIRROR_SHARD.get()){
                 shards+=1;
                 if(shards>=8){
                     active = true;
@@ -165,7 +168,7 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
                 this.updateBlock();
                 return InteractionResult.SUCCESS;
             }
-            else if(stack.getItem() == ItemsRegistry.ENCHANTED_MIRROR_SHARD){
+            else if(stack.getItem() == RegistryHandler.ENCHANTED_MIRROR_SHARD.get()){
                 TellNearby("The mirror shard doesn't seem to fit... maybe there's another kind somewhere?");
                 return InteractionResult.PASS;
             }
@@ -174,13 +177,13 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
     }
 
     static ItemStack[] gifts = {
-            new ItemStack(ItemsRegistry.ENCHANTED_MIRROR_SHARD,4),
-            new ItemStack(ItemsRegistry.ENCHANTERS_WOOL_ITEM,2),
-            new ItemStack(ItemsRegistry.ARCANE_CLOTH,2),
+            new ItemStack(RegistryHandler.ENCHANTED_MIRROR_SHARD.get(),4),
+            new ItemStack(RegistryHandler.ENCHANTERS_WOOL_ITEM.get(),2),
+            new ItemStack(RegistryHandler.ARCANE_CLOTH.get(),2),
             new ItemStack(Items.WITHER_SKELETON_SKULL,8),
-            new ItemStack(ItemsRegistry.ARCANE_APPLE,2),
+            new ItemStack(RegistryHandler.ARCANE_APPLE_ITEM.get(),2),
             new ItemStack(Items.NETHER_STAR,1),
-            new ItemStack(ItemsRegistry.SIGIL_BINDING_ACTIVE,8),
+            new ItemStack(RegistryHandler.SIGIL_BINDING_ACTIVE.get(),8),
     };
     void SpawnGift(BlockPos pos){
         spawnAtLocation(gifts[level.random.nextInt(gifts.length)],pos);
@@ -233,7 +236,7 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
         BlockPos test2 = this.getBlockPos().offset(25,15,25);
         List<Player> toTell = level.getNearbyPlayers(TargetingConditions.forNonCombat().ignoreInvisibilityTesting().ignoreLineOfSight(),null,new AABB(test,test2));
         for (Player player : toTell){
-            PortUtil.sendMessage(player, new TextComponent(message));
+            PortUtil.sendMessage(player, Component.literal(message));
         }
     }
 
@@ -243,10 +246,10 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
         List<Player> toTell = level.getNearbyPlayers(TargetingConditions.forNonCombat().ignoreInvisibilityTesting().ignoreLineOfSight(),null,new AABB(test,test2));
         for (Player player : toTell){
             if(preventSpam){
-                PortUtil.sendMessageNoSpam(player, new TextComponent(message));
+                PortUtil.sendMessageNoSpam(player, Component.literal(message));
             }
             else {
-                PortUtil.sendMessage(player, new TextComponent(message));
+                PortUtil.sendMessage(player, Component.literal(message));
             }
         }
     }
@@ -294,25 +297,25 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
     public void getTooltip(List<Component> list) {
         if(active){
             if(hasInteracted){
-                list.add(new TextComponent("You can see dark colors swirling in the mirror."));
-                list.add(new TextComponent("There's something on the other side of the portal, but can't see it."));
-                list.add(new TextComponent("Right-click to communicate with the being."));
-                list.add(new TextComponent("You can also toss in an item as an offering."));
+                list.add(Component.literal("You can see dark colors swirling in the mirror."));
+                list.add(Component.literal("There's something on the other side of the portal, but can't see it."));
+                list.add(Component.literal("Right-click to communicate with the being."));
+                list.add(Component.literal("You can also toss in an item as an offering."));
             }
             else {
-                list.add(new TextComponent("You can see dark colors swirling in the mirror."));
-                list.add(new TextComponent("It appears to be a portal, but you can't seem to put your hand through..."));
-                list.add(new TextComponent("Maybe try throwing in an item?"));
+                list.add(Component.literal("You can see dark colors swirling in the mirror."));
+                list.add(Component.literal("It appears to be a portal, but you can't seem to put your hand through..."));
+                list.add(Component.literal("Maybe try throwing in an item?"));
             }
         }
         else{
             if(shards == 0){
-                list.add(new TextComponent("This is a mysterious broken mirror frame..."));
-                list.add(new TextComponent("Maybe some kind of mirror shard fits here?"));
+                list.add(Component.literal("This is a mysterious broken mirror frame..."));
+                list.add(Component.literal("Maybe some kind of mirror shard fits here?"));
             }
             else {
-                list.add(new TextComponent("This is a mysterious broken mirror frame..."));
-                list.add(new TextComponent("It can fit " + (8 - shards) + " more ancient mirror shards."));
+                list.add(Component.literal("This is a mysterious broken mirror frame..."));
+                list.add(Component.literal("It can fit " + (8 - shards) + " more ancient mirror shards."));
 
             }
         }

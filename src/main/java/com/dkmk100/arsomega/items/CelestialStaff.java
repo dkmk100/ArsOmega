@@ -1,18 +1,12 @@
 package com.dkmk100.arsomega.items;
 
-import com.dkmk100.arsomega.ArsOmega;
-import com.dkmk100.arsomega.ItemsRegistry;
-import com.dkmk100.arsomega.rituals.RitualChangeBiome;
-import com.hollingsworth.arsnouveau.api.util.BlockUtil;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -30,6 +24,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.List;
 
+/*
 public class CelestialStaff extends BasicItem{
     public CelestialStaff(Properties properties, String name) {
         super(properties, name,true);
@@ -85,7 +80,7 @@ public class CelestialStaff extends BasicItem{
                         }
                         for(int i = pos.getY() + 10; i > pos.getY() - 10; i--){
                             BlockPos newPos = new BlockPos(pos.getX() + x, i, pos.getZ() + z);
-                            if(world.getBlockState(newPos).getBlock() == ItemsRegistry.DEMONIC_STONE){
+                            if(world.getBlockState(newPos).getBlock() == RegistryHandler.DEMONIC_STONE.get()){
                                 world.setBlockAndUpdate(newPos, Blocks.COARSE_DIRT.defaultBlockState());
                                 power+=5;//gains power from consuming the stone, why not
                                 break;
@@ -94,7 +89,7 @@ public class CelestialStaff extends BasicItem{
                     }
                 }
 
-                PortUtil.sendMessageNoSpam(player,new TextComponent("Consumed Demonic Energy"));
+                PortUtil.sendMessageNoSpam(player,Component.literal("Consumed Demonic Energy"));
 
                 ChunkPos chunkPos = world.getChunkAt(pos).getPos();
                 RitualChangeBiome.updateChunkAfterBiomeChange(world, chunkPos);
@@ -108,3 +103,4 @@ public class CelestialStaff extends BasicItem{
         return super.use(level,player,hand);
     }
 }
+ */
