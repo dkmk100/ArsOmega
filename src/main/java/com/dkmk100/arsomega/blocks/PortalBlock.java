@@ -24,6 +24,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
+import org.jetbrains.annotations.Debug;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
@@ -48,26 +49,38 @@ public class PortalBlock extends Block implements EntityBlock {
             BlockEntity tile = world.getBlockEntity(pos);
             if(tile!=null && tile instanceof PortalBlockEntity){
                 target = ((PortalBlockEntity)tile).targetDim;
+                try {
+                    ResourceKey<Level> registrykey = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(target));
+                    ServerLevel dest = world.getServer().getLevel(registrykey);
+                    if(world == dest){
+                        ArsOmega.LOGGER.error("portal to own world at pos: "+pos.toString());
+                    }
+                    else {
+                        BlockPos targetPos = ((PortalBlockEntity) tile).targetPos;
+                        ArsOmega.LOGGER.info("target pos: "+targetPos);
+                        teleportEntity(dest, entity, targetPos, (ServerLevel) world);
+                        //play in both worlds lol, why not
+                        dest.playSound(null, targetPos, SoundEvents.PORTAL_TRAVEL, SoundSource.MASTER, 1.0f, 1.0f);
+                        world.playSound(null, targetPos, SoundEvents.PORTAL_TRAVEL, SoundSource.MASTER, 1.0f, 1.0f);
+                    }
+                }
+                catch (Exception e){
+                    ArsOmega.LOGGER.error("Error on portal block");
+                    ArsOmega.LOGGER.error(e);
+                }
             }
-            try {
-                ResourceKey<Level> registrykey = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(target));
-                ServerLevel dest = world.getServer().getLevel(registrykey);
-                teleportEntity(dest, entity, pos, (ServerLevel) world);
-                //play in both worlds lol, why not
-                dest.playSound(null,pos, SoundEvents.PORTAL_TRAVEL, SoundSource.MASTER, 1.0f, 1.0f);
-                world.playSound(null,pos, SoundEvents.PORTAL_TRAVEL, SoundSource.MASTER, 1.0f, 1.0f);
-            }
-            catch (Exception e){
+            else{
                 ArsOmega.LOGGER.error("Error on portal block");
-                e.printStackTrace();
             }
+
         }
     }
 
     void teleportEntity(ServerLevel dest, Entity target, BlockPos pos, ServerLevel oldWorld){
-        pos = new BlockPos(pos.getX(),Math.min(dest.getMinBuildHeight(),Math.max(pos.getY(),dest.getMaxBuildHeight())),pos.getZ());
+        pos = new BlockPos(pos.getX(),Math.min(dest.getMaxBuildHeight(),Math.max(pos.getY(),dest.getMinBuildHeight())),pos.getZ());
         if((oldWorld.dimensionType()!=dest.dimensionType())) {
-            BlockPos pos2 = new BlockPos(target.getX(), pos.getY(), target.getZ());
+            BlockPos pos2 = new BlockPos(pos.getX(), pos.getY(), pos.getZ());
+            ArsOmega.LOGGER.info("pos 2: "+pos2);
             CommonEvents.teleportEntity(target, pos2, dest, oldWorld);
 
             if(dest.getBlockState(pos2.below()).isAir()) {

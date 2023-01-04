@@ -21,9 +21,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
   
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import software.bernie.shadowed.fasterxml.jackson.databind.deser.std.UntypedObjectDeserializer;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;

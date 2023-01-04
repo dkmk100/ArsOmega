@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.blocks;
 
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.base_blocks.MagicAnimatable;
 import com.dkmk100.arsomega.entities.EntityClayGolem;
 import net.minecraft.world.entity.Entity;
@@ -61,7 +62,7 @@ public class CarvedClay extends HorizontalDirectionalBlock implements MagicAnima
     }
 
     void CheckGolem(BlockPos pos, ServerLevel world, @Nullable Player player) {
-        if (pos.getY() > 2) {
+        if (pos.getY() - 0 > world.getMinBuildHeight()) {
             BlockPos below = pos.below();
             Block block = world.getBlockState(below).getBlock();
             if (block == clayType) {

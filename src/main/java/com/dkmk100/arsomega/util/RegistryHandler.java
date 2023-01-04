@@ -225,6 +225,7 @@ public class RegistryHandler{
         register(LesserAOE.INSTANCE);
         register(GreaterAOE.INSTANCE);
         register(Absorption.INSTANCE);
+        register(AdvancedEvaporate.INSTANCE);
     }
 
     public static void registerRituals()
@@ -253,7 +254,7 @@ public class RegistryHandler{
         register(new HarmingEmpathyIngredient(() -> Items.FERMENTED_SPIDER_EYE,3,2,(a,m) -> new MobEffectInstance(MobEffects.POISON,Math.round(80*m),a-1)));
         register(new HarmingEmpathyIngredient(() -> POISON_FLOWER_ITEM.get(),0,5,(a,m) -> new MobEffectInstance(MobEffects.POISON,150 + Math.round(130* m * a),4)));
         register(new HarmingEmpathyIngredient(() -> Items.WITHER_ROSE,0,(a,m) -> new MobEffectInstance(MobEffects.WITHER,100 + Math.round(100 * a * m),1)));
-        register(new HealingEmpathyIngredient(() -> Items.GLISTERING_MELON_SLICE,2,2,(a,m) -> new MobEffectInstance(MobEffects.REGENERATION,80 + Math.round(50 * a*m),0)));
+        register(new HealingEmpathyIngredient(() -> Items.GLISTERING_MELON_SLICE,2,2,(a,m) -> new MobEffectInstance(MobEffects.REGENERATION,60 + Math.round(50 * a*m),0)));
         register(new HealingEmpathyIngredient(() -> Items.MELON_SLICE,1));
         register(new HealingEmpathyIngredient(() -> Items.BREAD,1));
         //register(new HealingEmpathyIngredient(() -> LIFE_ESSENCE.get(),2,2,(a,m) -> new MobEffectInstance(MobEffects.REGENERATION,50 + Math.round(100 * m),a)));
@@ -474,6 +475,7 @@ public class RegistryHandler{
     //public static final RegistryObject<Block> POTION_RELAY = BLOCKS.register("potion_relay",() -> new PotionRelay());
 
     public static final RegistryObject<PortalBlock> PORTAL_BLOCK = BLOCKS.register("portal_block",() -> new PortalBlock(PORTAL_PROPERTIES));
+    public static final RegistryObject<MirrorPortalBlock> MIRROR_PORTAL_BLOCK = BLOCKS.register("mirror_portal_block",() -> new MirrorPortalBlock(PORTAL_PROPERTIES));
 
 
     //public static RegistryObject<BlockEntityType<PotionExtenderTile>> PotionExtenderType = TILE_ENTITIES.register("potion_extender_tile",() -> BlockEntityType.Builder.of(PotionExtenderTile::new,POTION_EXTENDER.get()).build(null));
@@ -487,6 +489,8 @@ public class RegistryHandler{
 
     public static RegistryObject<BlockEntityType<ChalkTile>> ChalkTileType = TILE_ENTITIES.register("chalk_tile",() -> BlockEntityType.Builder.of(ChalkTile::new, CHALK_LINE_1.get(),CHALK_LINE_2.get(),CHALK_LINE_3.get(),CHALK_LINE_4.get()).build(null));
     public static RegistryObject<BlockEntityType<PortalBlockEntity>> PortalType = TILE_ENTITIES.register("portal_tile",() -> BlockEntityType.Builder.of(PortalBlockEntity::new, PORTAL_BLOCK.get()).build(null));
+    public static RegistryObject<BlockEntityType<MirrorPortalBlockEntity>> MirrorPortalType = TILE_ENTITIES.register("mirror_portal_tile",() -> BlockEntityType.Builder.of(MirrorPortalBlockEntity::new, MIRROR_PORTAL_BLOCK.get()).build(null));
+
     public static RegistryObject<BlockEntityType<CurseAltarTile>> CurseAltarType = TILE_ENTITIES.register("curse_altar_tile",() -> BlockEntityType.Builder.of(CurseAltarTile::new, CURSE_ALTAR.get()).build(null));
 
 

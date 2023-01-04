@@ -327,7 +327,7 @@ public class EntityClayGolem extends AbstractGolem implements IDispellable, IToo
         return entityData.get(owner).isPresent();
     }
 
-    Player getOwner(){
+    public Player getOwner(){
         if(!hasOwner()){
             return null;
         }

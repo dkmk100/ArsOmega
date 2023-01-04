@@ -51,8 +51,15 @@ public class BiomeCrystal extends BasicItem {
             if (stack.hasTag() && stack.getTag().getString("biome") == biome) {
                 changed = false;
             } else {
-                changed = true;
-                stack.getOrCreateTag().putString("biome", biome);
+                //don't override crystal
+                if(!stack.hasTag() || !stack.getTag().contains("biome") || stack.getTag().getString("biome") == "") {
+                    changed = true;
+                    stack.getOrCreateTag().putString("biome", biome);
+                }
+                else{
+                    changed = false;
+                    //not sure what do do here
+                }
             }
 
             if (changed) {

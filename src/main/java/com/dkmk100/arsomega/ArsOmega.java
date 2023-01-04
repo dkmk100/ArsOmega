@@ -1,9 +1,12 @@
 package com.dkmk100.arsomega;
 
-import com.dkmk100.arsomega.blocks.ChalkLineBlock;
+import com.dkmk100.arsomega.client.block.MirrorPortalRenderer;
+import com.dkmk100.arsomega.client.block.PortalRenderer;
 import com.dkmk100.arsomega.client.renderer.*;
 import com.dkmk100.arsomega.entities.*;
 import com.dkmk100.arsomega.items.ModSpawnEggItem;
+import com.dkmk100.arsomega.packets.PacketUtil;
+import com.dkmk100.arsomega.packets.ResetChunkColorsPacket;
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
@@ -16,7 +19,6 @@ import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -123,6 +125,9 @@ public class ArsOmega
             ModPotions.RegisterPotionRecipes();
         });
 
+        PacketUtil.init();
+        PacketUtil.register(ResetChunkColorsPacket.class);
+
         //structures?
     }
 
@@ -174,12 +179,15 @@ public class ArsOmega
         RegisterMobRenderer(RegistryHandler.CLAY_GOLEM_ARCANE.get(),"clay_golem_arcane",event);
 
         event.registerEntityRenderer(RegistryHandler.WITHER_BOUND.get(), (EntityRendererProvider.Context context) -> new WitherBossRenderer(context));
+
         event.registerEntityRenderer(RegistryHandler.TORNADO.get(), (EntityRendererProvider.Context context) -> new PlainRenderer(context));
         event.registerEntityRenderer(RegistryHandler.EARTHQUAKE.get(), (EntityRendererProvider.Context context) -> new PlainRenderer(context));
         event.registerEntityRenderer(RegistryHandler.DIVINE_SMITE.get(), (EntityRendererProvider.Context context) -> new LightningBoltRenderer(context));
         event.registerEntityRenderer(RegistryHandler.WHIRLPOOL.get(), (EntityRendererProvider.Context context) -> new PlainRenderer(context));
 
         event.registerBlockEntityRenderer(RegistryHandler.PortalType.get(), PortalRenderer::new);
+        event.registerBlockEntityRenderer(RegistryHandler.MirrorPortalType.get(), MirrorPortalRenderer::new);
+
     }
     @OnlyIn(Dist.CLIENT)
     private void RegisterMobRenderer(EntityType<? extends Mob> entity, String registryName, EntityRenderersEvent.RegisterRenderers event){

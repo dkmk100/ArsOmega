@@ -31,7 +31,6 @@ public class PetrifySigil extends AbstractSpellSigil {
     @Override
     public void OnActivateClient(Level world, BlockPos pos, Player player){
         world.playSound(player, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.PLAYERS,1.0f,1.0f);
-
         ParticleUtil.spawnRitualAreaEffect(pos, world, world.getRandom(), ParticleColor.makeRandomColor(5,255,50,world.getRandom()), range, 1, 18);
     }
 

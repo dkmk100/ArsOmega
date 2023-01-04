@@ -11,7 +11,10 @@ public class InfinityCrystalTile extends SourceJarTile {
     }
     @Override
     public void tick() {
+        if (!this.level.isClientSide) {
+            this.addSource(10);
+        }
         super.tick();
-        this.addSource(1);
+
     }
 }

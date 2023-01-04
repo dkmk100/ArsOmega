@@ -6,6 +6,7 @@ import com.dkmk100.arsomega.entities.EntityDemonRaptor;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.ars_nouveau.geckolib3.model.AnimatedGeoModel;
 
+import software.bernie.ars_nouveau.geckolib3.core.event.predicate.AnimationEvent;
 public class RaptorModel extends AnimatedGeoModel<EntityDemonRaptor> {
 
     @Override

@@ -179,7 +179,7 @@ repositories {
         //for blame
         url "https://nexus.resourcefulbees.com/repository/maven-public/"
     }
-    maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+    //maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
     jcenter()
     maven { url 'https://jitpack.io' }
 }

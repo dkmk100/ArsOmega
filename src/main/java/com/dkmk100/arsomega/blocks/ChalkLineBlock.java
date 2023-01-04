@@ -132,10 +132,8 @@ public class ChalkLineBlock extends TickableModBlock {
     public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
         super.entityInside(state, worldIn, pos, entityIn);
         if (worldIn.getBlockEntity(pos) instanceof ChalkTile && entityIn instanceof LivingEntity) {
-            ArsOmega.LOGGER.info("entity inside");
             ChalkTile rune = (ChalkTile)worldIn.getBlockEntity(pos);
             if(rune.canCastSpell() && rune.shouldHitEntity(entityIn)) {
-                ArsOmega.LOGGER.info("can cast on entity");
                 rune.touchedEntity = entityIn;
             }
             worldIn.scheduleTick(pos, this, 1);
@@ -148,7 +146,6 @@ public class ChalkLineBlock extends TickableModBlock {
         if(worldIn.getBlockEntity(pos) instanceof ChalkTile && ((ChalkTile) worldIn.getBlockEntity(pos)).touchedEntity != null)
         {
             ChalkTile rune = (ChalkTile) worldIn.getBlockEntity(pos);
-            ArsOmega.LOGGER.info("casting spell");
             rune.castSpell(rune.touchedEntity);
             if (rune.data.owner != null && rune.touchedEntity instanceof LivingEntity && rune.data.charges > 0) {
                 Player player = worldIn.getPlayerByUUID(rune.data.owner);
@@ -267,6 +264,8 @@ public class ChalkLineBlock extends TickableModBlock {
 
                         if(SetData(tile.data, worldIn, pos1)) {
                             UpdateAdjacentSpells(worldIn, pos1);//propagate changes
+                            tile.savesData = true;
+                            tile.data.dataPos = pos;
                         }
 
                         break;//break the for loop to not check further vertically, we are done
@@ -286,6 +285,7 @@ public class ChalkLineBlock extends TickableModBlock {
             return true;
         }
         else if(oldPower!=data.charges) {
+            tile.savesData = false;
             worldIn.setBlockAndUpdate(pos, state.setValue(ChalkLineBlock.POWER,data.charges));
             return true;
 
@@ -459,7 +459,11 @@ public class ChalkLineBlock extends TickableModBlock {
 
     public Boolean isValidChalk(BlockState state){
         //ensure equivalent max charges on a line
-        return state.getBlock() instanceof ChalkLineBlock && ((ChalkLineBlock)state.getBlock()).maxCharges == this.maxCharges;
+        return basicValidChalk(state) && ((ChalkLineBlock)state.getBlock()).maxCharges == this.maxCharges;
+    }
+
+    public static boolean basicValidChalk(BlockState state){
+        return state.getBlock() instanceof ChalkLineBlock;
     }
 
 

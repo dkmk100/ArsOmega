@@ -37,7 +37,7 @@ public class Melt extends AbstractEffect {
         if(world instanceof ServerLevel){
             double aoeBuff = spellStats.getAoeMultiplier();
             double amp = spellStats.getAmpMultiplier();
-            int passes = (int)Math.round((amp+1)/3) + 1;
+            int passes = (int)Math.round((amp)/2) + 1;
             BlockPos pos = rayTraceResult.getBlockPos();
             List<BlockPos> posList = SpellUtil.calcAOEBlocks(shooter, pos, rayTraceResult, aoeBuff, 0);
 
@@ -47,7 +47,7 @@ public class Melt extends AbstractEffect {
                 Block block = world.getBlockState(pos1).getBlock();
                 Block old = block;
                 for(int i=0;i<passes;i++) {
-                    if (block == Blocks.OBSIDIAN && passes>=6) {
+                    if (block == Blocks.OBSIDIAN && (passes-i)>=5) {
                         block = Blocks.COBBLESTONE;
                         i+=5;
                     }

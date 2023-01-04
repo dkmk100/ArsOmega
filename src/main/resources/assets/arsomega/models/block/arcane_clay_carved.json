@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "top": "arsomega:blocks/arcane_clay_carved_side",
+    "front": "arsomega:blocks/arcane_clay_carved",
+    "side": "arsomega:blocks/arcane_clay_carved_side"
+  }
+}
