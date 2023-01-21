@@ -9,6 +9,7 @@ import com.hollingsworth.arsnouveau.api.spell.SpellStats;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSensitive;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -18,14 +19,15 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Map;
 import java.util.Set;
 
-public class DivineSmite  extends TierFourEffect implements ConfigurableGlyph{
+public class DivineSmite  extends TierFourEffect {
 
     public static DivineSmite INSTANCE = new DivineSmite("divine_smite","Divine Smite");
 
     public DivineSmite(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
     @Override
@@ -41,7 +43,13 @@ public class DivineSmite  extends TierFourEffect implements ConfigurableGlyph{
     }
 
     @Override
-    public void buildExtraConfig(ForgeConfigSpec.Builder builder) {
+    protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
+        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 2);
+    }
+
+    @Override
+    public void buildConfig(ForgeConfigSpec.Builder builder) {
+        super.buildConfig(builder);
         this.addDamageConfig(builder, 9.0);
         this.addAmpConfig(builder, 4.0);
     }

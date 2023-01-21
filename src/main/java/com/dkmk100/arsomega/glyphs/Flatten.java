@@ -1,8 +1,10 @@
 package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.util.ReflectionHandler;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,13 +19,14 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;
+import java.util.Map;
 import java.util.Set;
 
 public class Flatten extends AbstractEffect {
     public static Flatten INSTANCE = new Flatten("flatten", "Flatten");
 
     private Flatten(String tag, String description) {
-        super(tag,description);
+        super(RegistryHandler.getGlyphName(tag),description);
     }
 
     @Override
@@ -59,6 +62,11 @@ public class Flatten extends AbstractEffect {
             e.printStackTrace();
             shooter.addEffect(new MobEffectInstance(MobEffects.POISON,200));
         }
+    }
+
+    @Override
+    protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
+        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 2);
     }
 
     @Override

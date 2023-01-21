@@ -80,7 +80,6 @@ public class ArsOmega
 
     private void createRegistries(final NewRegistryEvent event){
         //after constructor but well before anything can use them, seemed a good spot.
-        RegistryHandler.registerGlyphConfig();
         RegistryHandler.registerRitualConfig();
     }
 

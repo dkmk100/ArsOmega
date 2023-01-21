@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.util.ReflectionHandler;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
@@ -28,7 +29,7 @@ public class PropagateProjectile extends AbstractEffect {
     public static PropagateProjectile INSTANCE = new PropagateProjectile("propagate_projectile","Propagate Projectile");
 
     private PropagateProjectile(String tag, String description) {
-        super(tag,description);
+        super(RegistryHandler.getGlyphName(tag),description);
     }
 
     public void summonProjectiles(Level world, Vec3 pos, LivingEntity shooter, SpellStats stats, SpellResolver resolver) {
@@ -77,7 +78,7 @@ public class PropagateProjectile extends AbstractEffect {
             SpellContext newContext = spellContext.clone().withSpell(newSpell);
             SpellResolver resolver = new EntitySpellResolver(newContext);
             //List<AbstractAugment> newAugments = new ArrayList<AbstractAugment>();
-            summonProjectiles(world, rayTraceResult.getLocation(),shooter, stats, resolver);
+            summonProjectiles(world, rayTraceResult.getLocation(), shooter, stats, resolver);
         }
     }
 
@@ -88,7 +89,7 @@ public class PropagateProjectile extends AbstractEffect {
 
     @Override
     public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
-        this.sendPacket(world, rayTraceResult, shooter, spellContext,spellStats);
+        this.sendPacket(world, rayTraceResult, shooter, spellContext, spellStats);
     }
 
     @Override

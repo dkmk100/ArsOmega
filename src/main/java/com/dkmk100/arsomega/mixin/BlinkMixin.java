@@ -24,7 +24,7 @@ public class BlinkMixin {
     @Inject(at = @At("HEAD"), method = "Lcom/hollingsworth/arsnouveau/common/spell/effect/EffectBlink;warpEntity(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/core/BlockPos;)V", cancellable = true, remap = false)
     private static void warpEntity(Entity entity, BlockPos warpPos, CallbackInfo cr) {
         if (entity != null) {
-            if(entity instanceof LivingEntity && ((LivingEntity)entity).hasEffect(ModPotions.DEMONIC_ANCHORING)){
+            if(entity instanceof LivingEntity && ((LivingEntity)entity).hasEffect(ModPotions.DEMONIC_ANCHORING.get())){
                 cr.cancel();
             }
             else {

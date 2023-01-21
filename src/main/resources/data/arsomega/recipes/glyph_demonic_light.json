@@ -1,0 +1,48 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:demonic_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:conjuration_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:glyph_curse"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:lantern"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:lightning_rod"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:demonic_glowstone"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:demonic_glowstone"
+      }
+    }
+  ],
+  "exp": 200,
+  "output": "arsomega:glyph_demonic_light"
+}

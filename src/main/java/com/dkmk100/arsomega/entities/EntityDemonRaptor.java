@@ -94,7 +94,7 @@ public class EntityDemonRaptor extends Monster implements IAnimatable {
 
     @Override
     public boolean canBeAffected(MobEffectInstance effect) {
-        if (effect.getEffect() == MobEffects.POISON || effect.getEffect() == com.dkmk100.arsomega.potions.ModPotions.DEMONIC_CURSE) {
+        if (effect.getEffect() == MobEffects.POISON || effect.getEffect() == com.dkmk100.arsomega.potions.ModPotions.DEMONIC_CURSE.get()) {
             return false;
         }
         return super.canBeAffected(effect);

@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -18,7 +19,7 @@ public class TrueUnderfoot extends AbstractCastMethod {
     public static TrueUnderfoot INSTANCE = new TrueUnderfoot();
 
     public TrueUnderfoot() {
-        super("true_underfoot", "True Underfoot");
+        super(RegistryHandler.getGlyphName("true_underfoot"), "True Underfoot");
     }
 
     public CastResolveType onCast(@Nullable ItemStack stack, LivingEntity caster, Level world, SpellStats spellStats, SpellContext context, SpellResolver resolver) {

@@ -74,7 +74,7 @@ public class EntityDemonStrong extends Monster {
     }
 
     public boolean canBeAffected(MobEffectInstance effect) {
-        if (effect.getEffect() == MobEffects.POISON || effect.getEffect() == MobEffects.WITHER || effect.getEffect() == ModPotions.SNARE_EFFECT.get() || effect.getEffect() == com.dkmk100.arsomega.potions.ModPotions.DEMONIC_CURSE) {
+        if (effect.getEffect() == MobEffects.POISON || effect.getEffect() == MobEffects.WITHER || effect.getEffect() == ModPotions.SNARE_EFFECT.get() || effect.getEffect() == com.dkmk100.arsomega.potions.ModPotions.DEMONIC_CURSE.get()) {
             return false;
         }
         return super.canBeAffected(effect);

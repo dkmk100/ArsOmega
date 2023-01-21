@@ -2,6 +2,7 @@ package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.entities.EntityMissileSpell;
 import com.dkmk100.arsomega.util.ReflectionHandler;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -29,7 +30,7 @@ public class FormMissile extends AbstractCastMethod {
     public static FormMissile INSTANCE = new FormMissile("missile","Missile");
 
     private FormMissile(String tag, String description) {
-        super(tag,description);
+        super(RegistryHandler.getGlyphName(tag),description);
     }
 
     public int getDefaultManaCost() {

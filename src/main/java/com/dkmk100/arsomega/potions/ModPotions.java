@@ -10,6 +10,7 @@ import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.brewing.BrewingRecipe;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.*;
 
 import net.minecraft.world.effect.MobEffect;
@@ -19,27 +20,30 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.alchemy.Potion;
 
 public class ModPotions {
-
-    public static DemonicCurse DEMONIC_CURSE = new DemonicCurse();
-    public static PermaFlight PERMA_FLIGHT = new PermaFlight();
-    public static Adrenaline ADRENALINE = new Adrenaline();
-    public static MobEffect LEAD_SKIN = new GenericEffect(MobEffectCategory.BENEFICIAL,0,"lead_skin");
-    public static MobEffect NO_BREAK = new GenericEffect(MobEffectCategory.NEUTRAL,0,"no_magic_break",false);
-    public static MobEffect STONE_PETRIFICATION = new PetrificationEffect("stone_petrification");
-    public static MobEffect VINE_BIND = new BindEffect("vine_bind",2743808);
-    public static MobEffect BURNED = new GenericEffect(MobEffectCategory.HARMFUL,0,"burned",false);
-    public static MobEffect SOUL_FIRE = new GenericEffect(MobEffectCategory.HARMFUL,0,"soulfire",false);
-
-    public static MobEffect DISPELLANT = new GenericEffect(MobEffectCategory.NEUTRAL,0,"dispellant",true);
-
-    public static MobEffect DEMONIC_ANCHORING = new GenericEffect(MobEffectCategory.NEUTRAL,0,"demonic_anchoring",false);
-
-    public static MobEffect DEMONIC_CLEANSE = new GenericEffect(MobEffectCategory.NEUTRAL,0,"demonic_cleanse",false);
-
-    public static MobEffect BLOOD_CLOT = new GenericEffect(MobEffectCategory.HARMFUL,0,"blood_clot",false);
-
+    public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS,ArsOmega.MOD_ID);
     public static final DeferredRegister<Potion> POTIONS = DeferredRegister.create(ForgeRegistries.POTIONS,ArsOmega.MOD_ID);
+    public static RegistryObject<DemonicCurse> DEMONIC_CURSE = EFFECTS.register("demonic_curse", () -> new DemonicCurse());
+    public static RegistryObject<PermaFlight> PERMA_FLIGHT = EFFECTS.register("perma_flight", () -> new PermaFlight());
+    public static RegistryObject<Adrenaline> ADRENALINE = EFFECTS.register("adrenaline", () -> new Adrenaline());
+    public static RegistryObject<MobEffect> LEAD_SKIN = EFFECTS.register("lead_skin", () -> new GenericEffect(MobEffectCategory.BENEFICIAL,0));
+    public static RegistryObject<MobEffect> NO_BREAK = EFFECTS.register("no_magic_break", () -> new GenericEffect(MobEffectCategory.NEUTRAL,0,false));
+    public static RegistryObject<MobEffect> STONE_PETRIFICATION = EFFECTS.register("stone_petrification", () -> new PetrificationEffect());
+    public static RegistryObject<MobEffect> VINE_BIND = EFFECTS.register("vine_bind", () -> new BindEffect("",2743808));
+    public static RegistryObject<MobEffect> BURNED = EFFECTS.register("burned", () -> new GenericEffect(MobEffectCategory.HARMFUL,0,false));
+    public static RegistryObject<MobEffect> SOUL_FIRE = EFFECTS.register("soulfire", () -> new GenericEffect(MobEffectCategory.HARMFUL,0,false));
 
+    public static RegistryObject<MobEffect> DISPELLANT = EFFECTS.register("dispellant", () -> new GenericEffect(MobEffectCategory.NEUTRAL,0,true));
+
+    public static RegistryObject<MobEffect> DEMONIC_ANCHORING = EFFECTS.register("demonic_anchoring", () -> new GenericEffect(MobEffectCategory.NEUTRAL,0,false));
+
+    public static RegistryObject<MobEffect> DEMONIC_CLEANSE = EFFECTS.register("demonic_cleanse", () -> new GenericEffect(MobEffectCategory.NEUTRAL,0,false));
+
+    public static RegistryObject<MobEffect> BLOOD_CLOT = EFFECTS.register("blood_clot", () -> new GenericEffect(MobEffectCategory.HARMFUL,0,false));
+
+    public static void RegisterEffects(IEventBus bus){
+        EFFECTS.register(bus);
+        POTIONS.register(bus);
+    }
 
     public static void RegisterPotionRecipes(){
         ItemStack AWKWARD = PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD);
@@ -72,8 +76,8 @@ public class ModPotions {
 
     public static RegistryObject<Potion>POISON_3_POT = POTIONS.register("poison_3_potion", () -> new Potion(new MobEffectInstance[]{new MobEffectInstance(MobEffects.POISON, 3600,2)}));
 
-        public static RegistryObject<Potion> DISPELLANT_POT = POTIONS.register("dispellant_potion", () ->new Potion(new MobEffectInstance[]{new MobEffectInstance(DISPELLANT, 3600,0)}));
-    public static RegistryObject<Potion> DISPELLANT_LONG_POT = POTIONS.register("dispellant_extended_potion", () ->new Potion(new MobEffectInstance[]{new MobEffectInstance(DISPELLANT, 9600,0)}));
+        public static RegistryObject<Potion> DISPELLANT_POT = POTIONS.register("dispellant_potion", () ->new Potion(new MobEffectInstance[]{new MobEffectInstance(DISPELLANT.get(), 3600,0)}));
+    public static RegistryObject<Potion> DISPELLANT_LONG_POT = POTIONS.register("dispellant_extended_potion", () ->new Potion(new MobEffectInstance[]{new MobEffectInstance(DISPELLANT.get(), 9600,0)}));
 
     public static RegistryObject<Potion> HEALTH_1_POT = POTIONS.register("health_1_potion", () ->new Potion(new MobEffectInstance[]{new MobEffectInstance(MobEffects.HEALTH_BOOST, 18000,0)}));
     public static RegistryObject<Potion> HEALTH_2_POT = POTIONS.register("health_2_potion", () ->new Potion(new MobEffectInstance[]{new MobEffectInstance(MobEffects.HEALTH_BOOST, 18000,1)}));

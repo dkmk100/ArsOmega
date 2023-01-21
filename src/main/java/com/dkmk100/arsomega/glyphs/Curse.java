@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.SpellUtil;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
@@ -23,7 +24,7 @@ public class Curse extends AbstractEffect {
     public static Curse INSTANCE = new Curse("curse", "Curse");
 
     public Curse(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
     @Override

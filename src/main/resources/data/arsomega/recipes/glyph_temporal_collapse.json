@@ -1,0 +1,48 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "ars_nouveau:wixie_shards"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:clock"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:copper_block"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:enchanted_diamond_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:netherite_ingot"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:demonic_gem"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:demonic_gem"
+      }
+    }
+  ],
+  "exp": 300,
+  "output": "arsomega:glyph_temporal_collapse"
+}

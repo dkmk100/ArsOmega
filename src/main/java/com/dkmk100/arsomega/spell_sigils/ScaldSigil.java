@@ -35,7 +35,7 @@ public class ScaldSigil extends AbstractSpellSigil {
         for(LivingEntity target : targets){
             if(target!=player){
                 target.hurt(Scald.SCALD(player,player),45);
-                target.addEffect(new MobEffectInstance(ModPotions.BURNED,600));
+                target.addEffect(new MobEffectInstance(ModPotions.BURNED.get(),600));
             }
         }
         world.playSound(player,pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.PLAYERS,1.0f,1.0f);

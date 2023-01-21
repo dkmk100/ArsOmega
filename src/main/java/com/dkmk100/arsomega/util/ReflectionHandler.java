@@ -1,6 +1,8 @@
 package com.dkmk100.arsomega.util;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
+import com.hollingsworth.arsnouveau.common.spell.validation.SpellPhraseValidator;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
@@ -12,10 +14,7 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
-import java.lang.reflect.Field;
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.util.UUID;
 
 public class ReflectionHandler {
@@ -33,6 +32,7 @@ public class ReflectionHandler {
 
      */
 
+    public static Constructor phraseConstructor;
 
 
     public static class Entity{
@@ -70,7 +70,7 @@ public class ReflectionHandler {
         }
     }
 
-    public static void Initialize() {
+    public static void Initialize() throws NoSuchMethodException {
         blockProperties = ObfuscationReflectionHelper.findField(BlockBehaviour.class, "f_60439_");
         blockProperties.setAccessible(true);
         destroyTime = ObfuscationReflectionHelper.findField(BlockBehaviour.Properties.class, "f_60888_");
@@ -81,6 +81,10 @@ public class ReflectionHandler {
         yRot = ObfuscationReflectionHelper.findField(net.minecraft.world.entity.Entity.class, "f_19857_");
         yRot.setAccessible(true);
         RemoveFinal(yRot);
+
+
+        phraseConstructor = SpellPhraseValidator.SpellPhrase.class.getDeclaredConstructors()[0];
+        phraseConstructor.setAccessible(true);
 
         //biomeCategory = ObfuscationReflectionHelper.findField(Biome.class, "f_47442_");
         //biomes = ObfuscationReflectionHelper.findField(LevelChunkSection.class, "f_187995_");

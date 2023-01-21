@@ -18,7 +18,7 @@ public class ScrollMixin {
 
     @Inject(at = @At("HEAD"), method = "Lcom/hollingsworth/arsnouveau/common/items/WarpScroll;use(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/world/InteractionResultHolder;", cancellable = true, remap = false)
     public void use(Level world, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir) {
-        if(player.hasEffect(ModPotions.DEMONIC_ANCHORING)){
+        if(player.hasEffect(ModPotions.DEMONIC_ANCHORING.get())){
             cir.setReturnValue(new InteractionResultHolder(InteractionResult.FAIL, player.getItemInHand(hand)));
         }
     }

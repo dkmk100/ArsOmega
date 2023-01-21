@@ -5,6 +5,7 @@ import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -21,6 +22,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;
+import java.util.Map;
 import java.util.Set;
 
 public class AcidGlyph extends AbstractEffect {
@@ -30,7 +32,7 @@ public class AcidGlyph extends AbstractEffect {
     public static AcidGlyph INSTANCE = new AcidGlyph("acid", "Acid");
 
     public AcidGlyph(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
     @Override
@@ -86,6 +88,11 @@ public class AcidGlyph extends AbstractEffect {
             amp += 2;
         }
         rayTraceResult.getEntity().hurt(ACID,(float)amp*2);
+    }
+
+    @Override
+    protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
+        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 4);
     }
 
     @Override

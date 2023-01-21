@@ -1,0 +1,18 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "minecraft:iron_helmet"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:stone_button"
+      }
+    }
+  ],
+  "exp": 5,
+  "output": "arsomega:glyph_overhead"
+}

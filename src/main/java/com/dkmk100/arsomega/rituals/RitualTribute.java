@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.rituals;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
@@ -113,6 +114,6 @@ public class RitualTribute extends AbstractRitual {
 
     @Override
     public ResourceLocation getRegistryName() {
-        return new ResourceLocation(ArsOmega.MOD_ID,"tribute");
+        return RegistryHandler.getRitualName("tribute");
     }
 }

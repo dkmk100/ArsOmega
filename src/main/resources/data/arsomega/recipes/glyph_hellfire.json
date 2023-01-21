@@ -1,0 +1,48 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:fire_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:fire_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:sigil_fire_active"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:glyph_flare"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:magma_cream"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:blaze_rod"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:netherrack"
+      }
+    }
+  ],
+  "exp": 300,
+  "output": "arsomega:glyph_hellfire"
+}

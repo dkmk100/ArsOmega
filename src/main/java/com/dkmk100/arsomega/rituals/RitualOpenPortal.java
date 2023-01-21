@@ -86,6 +86,6 @@ public class RitualOpenPortal extends AbstractRitual {
 
     @Override
     public ResourceLocation getRegistryName() {
-        return new ResourceLocation(ArsOmega.MOD_ID,"open_portal");
+        return RegistryHandler.getRitualName("open_portal");
     }
 }

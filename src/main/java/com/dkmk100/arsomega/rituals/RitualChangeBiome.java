@@ -245,7 +245,7 @@ public class RitualChangeBiome extends AbstractRitual {
 
     @Override
     public ResourceLocation getRegistryName() {
-        return new ResourceLocation(ArsOmega.MOD_ID, "change_biome");
+        return RegistryHandler.getRitualName( "change_biome");
     }
 }
  */

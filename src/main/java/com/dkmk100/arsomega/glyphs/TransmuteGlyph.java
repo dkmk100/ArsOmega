@@ -28,7 +28,7 @@ public class TransmuteGlyph extends AbstractEffect {
     public static TransmuteGlyph INSTANCE = new TransmuteGlyph("transmute", "Transmute");
 
     public TransmuteGlyph(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
     public static int focusMax = 2;

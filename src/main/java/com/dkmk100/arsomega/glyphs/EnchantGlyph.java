@@ -37,7 +37,7 @@ public class EnchantGlyph extends AbstractEffect {
     public static EnchantGlyph INSTANCE = new EnchantGlyph("enchant", "Enchant");
 
     public EnchantGlyph(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
     static RandomSource random = RandomSource.create();

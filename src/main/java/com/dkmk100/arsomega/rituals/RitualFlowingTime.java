@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.rituals;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
@@ -83,7 +84,7 @@ public class RitualFlowingTime extends AbstractRitual {
     }
     @Override
     public ResourceLocation getRegistryName() {
-        return new ResourceLocation(ArsOmega.MOD_ID,"flowing_time");
+        return RegistryHandler.getRitualName("flowing_time");
     }
 
     public ParticleColor getCenterColor() {

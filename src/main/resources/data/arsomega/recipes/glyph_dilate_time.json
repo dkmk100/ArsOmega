@@ -1,0 +1,38 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "ars_nouveau:wixie_shards"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:clock"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:gold_block"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:infused_diamond_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:emerald_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:amethyst_block"
+      }
+    }
+  ],
+  "exp": 200,
+  "output": "arsomega:glyph_dilate_time"
+}

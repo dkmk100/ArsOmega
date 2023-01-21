@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -20,7 +21,7 @@ public class OverheadGlyph extends AbstractCastMethod {
     public static OverheadGlyph INSTANCE = new OverheadGlyph("overhead","overhead");
 
     public OverheadGlyph(String tag, String description) {
-        super(tag,description);
+        super(RegistryHandler.getGlyphName(tag),description);
     }
 
     public CastResolveType onCast(@Nullable ItemStack stack, LivingEntity caster, Level world, SpellStats stats, SpellContext context, SpellResolver resolver) {

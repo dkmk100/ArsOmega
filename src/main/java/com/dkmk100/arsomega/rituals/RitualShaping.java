@@ -126,6 +126,6 @@ public class RitualShaping extends AbstractRitual {
 
     @Override
     public ResourceLocation getRegistryName() {
-        return new ResourceLocation(ArsOmega.MOD_ID, "shaping");
+        return RegistryHandler.getRitualName( "shaping");
     }
 }

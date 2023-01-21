@@ -1,0 +1,18 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "minecraft:gunpowder"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:tnt"
+      }
+    }
+  ],
+  "exp": 80,
+  "output": "arsomega:glyph_greater_aoe"
+}

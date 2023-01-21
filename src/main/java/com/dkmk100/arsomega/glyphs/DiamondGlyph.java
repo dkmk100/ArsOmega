@@ -20,7 +20,7 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.Set;
 
-public class DiamondGlyph extends TierFourEffect implements ConfigurableGlyph {
+public class DiamondGlyph extends TierFourEffect {
 
     public static DiamondGlyph INSTANCE = new DiamondGlyph("diamond", "Diamond");
 
@@ -30,7 +30,7 @@ public class DiamondGlyph extends TierFourEffect implements ConfigurableGlyph {
     ForgeConfigSpec.IntValue extraAmpCost;
 
     public DiamondGlyph(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
     @Override
@@ -102,12 +102,14 @@ public class DiamondGlyph extends TierFourEffect implements ConfigurableGlyph {
     }
 
     @Override
-    public void buildExtraConfig(ForgeConfigSpec.Builder builder) {
+    public void buildConfig(ForgeConfigSpec.Builder builder) {
+        super.buildConfig(builder);
         this.maxTier = builder.comment("The max block tier that can be made, anything above this will never be made regardless of power leve (amp amount plus bonuses). Tier 0 is coal, order goes coal, copper, iron, redstone, gold, emerald, diamond, and netherite").defineInRange("maxTier",6,0,10);
         this.extraAmpCost = builder.comment("The extra power level required for each tier, a linear value. Numbers larger than 5 or smaller than -5 can break progression, so be careful.").defineInRange("extraAmpCost",0,-20,20);
         this.focusBonus = builder.comment("How many levels of amplify the focus of alchemy is worth").defineInRange("focusBonus",5,0,20);
         this.advancedFocusBonus = builder.comment("How many levels of amplify the advanced focus of alchemy is worth. Should be higher than the normal focus value.").defineInRange("advancedFocusBonus",10,0,20);
     }
+
 
     @Nonnull
     @Override

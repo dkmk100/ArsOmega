@@ -1,0 +1,13 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "minecraft:fire_charge"
+      }
+    }
+  ],
+  "exp": 40,
+  "output": "arsomega:glyph_lesser_aoe"
+}

@@ -31,7 +31,7 @@ public class AdvancedEvaporate extends AbstractEffect {
     public static AdvancedEvaporate INSTANCE = new AdvancedEvaporate();
 
     private AdvancedEvaporate() {
-        super("advanced_evaporate", "Advanced Evaporate");
+        super(RegistryHandler.getGlyphName("advanced_evaporate"), "Advanced Evaporate");
     }
 
 

@@ -1,0 +1,33 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:life_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:spider_eye"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:golden_apple"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:glistering_melon_slice"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:beetroot"
+      }
+    }
+  ],
+  "exp": 30,
+  "output": "arsomega:glyph_adrenaline"
+}

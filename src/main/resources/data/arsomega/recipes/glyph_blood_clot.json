@@ -1,0 +1,48 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:life_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:life_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:sigil_life_active"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:wixie_shards"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:wilden_spike"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:fermented_spider_eye"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:pufferfish"
+      }
+    }
+  ],
+  "exp": 250,
+  "output": "arsomega:glyph_blood_clot"
+}

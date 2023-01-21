@@ -51,7 +51,7 @@ public class PetrifySigil extends AbstractSpellSigil {
                     }
                 }
 
-                target.addEffect(new MobEffectInstance(ModPotions.STONE_PETRIFICATION, 800,1,false,false));
+                target.addEffect(new MobEffectInstance(ModPotions.STONE_PETRIFICATION.get(), 800,1,false,false));
             }
         }
         world.playSound(player, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.PLAYERS,1.0f,1.0f);

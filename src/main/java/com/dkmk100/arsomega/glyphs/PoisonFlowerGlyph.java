@@ -3,6 +3,7 @@ package com.dkmk100.arsomega.glyphs;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -22,12 +23,13 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Map;
 import java.util.Set;
 
 public class PoisonFlowerGlyph extends AbstractEffect {
     public static PoisonFlowerGlyph INSTANCE = new PoisonFlowerGlyph("poison_flower", "Poison Flower");
     public PoisonFlowerGlyph(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
     @Override
@@ -43,6 +45,11 @@ public class PoisonFlowerGlyph extends AbstractEffect {
     }
 
     @Override
+    protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
+        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 2);
+    }
+
+    @Override
     public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if (world instanceof ServerLevel) {
             BlockPos pos = rayTraceResult.getBlockPos();
@@ -52,7 +59,7 @@ public class PoisonFlowerGlyph extends AbstractEffect {
                 BlockPos above = pos.above();
                 Block block2 = world.getBlockState(above).getBlock();
                 if (block2 == Blocks.AIR) {
-                    world.setBlockAndUpdate(above,RegistryHandler.POISON_FLOWER.get().defaultBlockState().setValue(BlockStateProperties.LEVEL,Math.min(Math.round(amp),15)));
+                    world.setBlockAndUpdate(above,RegistryHandler.POISON_FLOWER.get().defaultBlockState().setValue(BlockStateProperties.LEVEL,Math.min(Math.round(amp * 3),15)));
                 }
             }
         }

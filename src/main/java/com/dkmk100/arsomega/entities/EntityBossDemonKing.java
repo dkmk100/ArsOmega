@@ -256,7 +256,7 @@ public class EntityBossDemonKing extends Monster implements IEntityAdditionalSpa
     @Override
     public boolean canBeAffected(MobEffectInstance effect) {
         MobEffect e = effect.getEffect();
-        if (e == MobEffects.POISON || e == MobEffects.MOVEMENT_SLOWDOWN || e == ModPotions.SNARE_EFFECT.get() || e == com.dkmk100.arsomega.potions.ModPotions.DEMONIC_CURSE || e == com.dkmk100.arsomega.potions.ModPotions.VINE_BIND) {
+        if (e == MobEffects.POISON || e == MobEffects.MOVEMENT_SLOWDOWN || e == ModPotions.SNARE_EFFECT.get() || e == com.dkmk100.arsomega.potions.ModPotions.DEMONIC_CURSE.get() || e == com.dkmk100.arsomega.potions.ModPotions.VINE_BIND.get()) {
             return false;
         }
         return super.canBeAffected(effect);

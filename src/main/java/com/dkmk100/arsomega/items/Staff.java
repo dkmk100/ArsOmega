@@ -1,5 +1,5 @@
 package com.dkmk100.arsomega.items;
-/*
+
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.glyphs.IIgnoreBuffs;
 import com.hollingsworth.arsnouveau.api.item.ICasterTool;
@@ -21,6 +21,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import software.bernie.ars_nouveau.geckolib3.core.IAnimatable;
+import software.bernie.ars_nouveau.geckolib3.core.PlayState;
+import software.bernie.ars_nouveau.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.ars_nouveau.geckolib3.core.controller.AnimationController;
+import software.bernie.ars_nouveau.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.ars_nouveau.geckolib3.core.manager.AnimationData;
+import software.bernie.ars_nouveau.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -35,26 +42,17 @@ public class Staff extends SwordItem implements IAnimatable, ICasterTool {
         this.augmentAdded = AugmentAmplify.INSTANCE;
         this.amountEach = 2;
     }
-    public Staff(String name, Tier iItemTier, int baseDamage, float baseAttackSpeed) {
-        super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsOmega.itemGroup));
-        this.setRegistryName(ArsOmega.MOD_ID, name);
-        this.augmentAmount = 2;
-        this.augmentAdded = AugmentAmplify.INSTANCE;
-        this.amountEach = 2;
-    }
     int augmentAmount;
     AbstractAugment augmentAdded;
     int amountEach;
-    public Staff(String name, Tier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach) {
+    public Staff(Tier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach) {
         super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsOmega.itemGroup));
-        this.setRegistryName(ArsOmega.MOD_ID, name);
         this.augmentAmount = augmentAmount;
         this.augmentAdded = augmentAdded;
         this.amountEach = amountEach;
     }
-    public Staff(String name, Tier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach, boolean fireResistant) {
+    public Staff(Tier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach, boolean fireResistant) {
         super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsOmega.itemGroup).fireResistant());
-        this.setRegistryName(ArsOmega.MOD_ID, name);
         this.augmentAmount = augmentAmount;
         this.augmentAdded = augmentAdded;
         this.amountEach = amountEach;
@@ -153,5 +151,3 @@ public class Staff extends SwordItem implements IAnimatable, ICasterTool {
         super.appendHoverText(stack, worldIn, tooltip2, flagIn);
     }
 }
-
- */

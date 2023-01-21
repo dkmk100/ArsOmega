@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.util.ReflectionHandler;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAccelerate;
@@ -31,7 +32,7 @@ public class FormProjectileBurst extends AbstractCastMethod {
     public static FormProjectileBurst INSTANCE = new FormProjectileBurst();
 
     private FormProjectileBurst() {
-        super("projectile_burst", "Projectile Burst");
+        super(RegistryHandler.getGlyphName("projectile_burst"), "Projectile Burst");
     }
 
     public int getDefaultManaCost() {

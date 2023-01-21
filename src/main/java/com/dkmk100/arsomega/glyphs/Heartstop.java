@@ -1,8 +1,10 @@
 package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.potions.ModPotions;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,9 +17,10 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Map;
 import java.util.Set;
 
-public class Heartstop extends AbstractEffect implements ConfigurableGlyph{
+public class Heartstop extends AbstractEffect{
 
     public static final DamageSource STATIC_HEARTSTOP_DAMAGE = new DamageSource("heartstop");
     public static final DamageSource HEARTSTOP_DAMAGE(Entity source){
@@ -33,7 +36,7 @@ public class Heartstop extends AbstractEffect implements ConfigurableGlyph{
     public ForgeConfigSpec.DoubleValue AMP_DAMAGE;
 
     public Heartstop(String tag, String description) {
-            super(tag, description);
+            super(RegistryHandler.getGlyphName(tag), description);
         }
 
     @Override
@@ -49,11 +52,11 @@ public class Heartstop extends AbstractEffect implements ConfigurableGlyph{
             float mult = 0;
             float add = 0;
             int ticks = 120 + (int)Math.round(120 * spellStats.getDurationMultiplier());
-            if(living.hasEffect(ModPotions.DEMONIC_CURSE)){
+            if(living.hasEffect(ModPotions.DEMONIC_CURSE.get())){
                 mult += 3;
                 add += 6;
             }
-            if(living.hasEffect(ModPotions.ADRENALINE)){
+            if(living.hasEffect(ModPotions.ADRENALINE.get())){
                 mult -= 3;
                 add -= 3;
             }
@@ -70,13 +73,13 @@ public class Heartstop extends AbstractEffect implements ConfigurableGlyph{
             }
 
             //should go last always
-            if(living.hasEffect(ModPotions.BLOOD_CLOT)){
+            if(living.hasEffect(ModPotions.BLOOD_CLOT.get())){
                 //lol, multiplying the multiplier so as to increase other effects, but not have the rest grow each other exponentially
                 //yea this is kinda silly but oh well
                 mult = mult*1.5f;
                 mult += 2;
                 add += 4;
-                int amp = living.getEffect(ModPotions.BLOOD_CLOT).getAmplifier();
+                int amp = living.getEffect(ModPotions.BLOOD_CLOT.get()).getAmplifier();
                 mult += 2f * amp;
                 add += 2 * amp;
 
@@ -94,13 +97,18 @@ public class Heartstop extends AbstractEffect implements ConfigurableGlyph{
     }
 
     @Override
+    protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
+        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 2);
+    }
+
+    @Override
     @Nonnull
     public Set<AbstractAugment> getCompatibleAugments() {
         return this.augmentSetOf(new AbstractAugment[]{AugmentAmplify.INSTANCE, AugmentDampen.INSTANCE, AugmentFortune.INSTANCE, AugmentExtendTime.INSTANCE});
     }
 
     @Override
-    public void buildExtraConfig(ForgeConfigSpec.Builder builder) {
+    public void buildConfig(ForgeConfigSpec.Builder builder) {
         super.buildConfig(builder);
         this.addDamageConfig(builder, 2.0D);
         this.AMP_DAMAGE = builder.comment("Additional damage per amplify").defineInRange("amp_damage", 0.5D, 0.0D, 2.147483647E9D);

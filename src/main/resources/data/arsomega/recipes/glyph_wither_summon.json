@@ -1,0 +1,43 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:conjuration_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:glyph_demonic_curse"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:nether_star"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:wither_skeleton_skull"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:wither_skeleton_skull"
+      }
+    }
+  ],
+  "exp": 400,
+  "output": "arsomega:glyph_wither_summon"
+}

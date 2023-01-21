@@ -56,7 +56,7 @@ public class RitualPetrification extends AbstractRitual {
                             entity.removeEffect(e.getEffect());
                         }
                     }
-                    entity.addEffect(new MobEffectInstance(ModPotions.STONE_PETRIFICATION, 800,1,false,false));
+                    entity.addEffect(new MobEffectInstance(ModPotions.STONE_PETRIFICATION.get(), 800,1,false,false));
                 }
                 this.setFinished();
             }
@@ -85,6 +85,6 @@ public class RitualPetrification extends AbstractRitual {
 
     @Override
     public ResourceLocation getRegistryName() {
-        return new ResourceLocation(ArsOmega.MOD_ID,"petrification");
+        return RegistryHandler.getRitualName("petrification");
     }
 }

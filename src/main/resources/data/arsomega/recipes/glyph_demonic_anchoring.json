@@ -1,0 +1,33 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "ars_nouveau:abjuration_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:demonic_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:anvil"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:netherite_ingot"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:deepslate"
+      }
+    }
+  ],
+  "exp": 50,
+  "output": "arsomega:glyph_demonic_anchoring"
+}

@@ -12,11 +12,11 @@ import java.util.List;
 public class GenericEffect extends MobEffect {
 
     boolean normalCure = true;
-    public GenericEffect(MobEffectCategory p_i50391_1_, int p_i50391_2_, String name) {
+    public GenericEffect(MobEffectCategory p_i50391_1_, int p_i50391_2_) {
         super(p_i50391_1_, p_i50391_2_);
         normalCure = true;
     }
-    public GenericEffect(MobEffectCategory p_i50391_1_, int p_i50391_2_, String name, boolean milkCure) {
+    public GenericEffect(MobEffectCategory p_i50391_1_, int p_i50391_2_, boolean milkCure) {
         super(p_i50391_1_, p_i50391_2_);
         normalCure = milkCure;
     }

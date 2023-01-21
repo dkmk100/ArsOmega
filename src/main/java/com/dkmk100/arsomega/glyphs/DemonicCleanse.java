@@ -23,13 +23,13 @@ public class DemonicCleanse extends TierFourEffect{
     public static DemonicCleanse INSTANCE = new DemonicCleanse("demonic_cleanse","Demonic Cleanse");
 
     public DemonicCleanse(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
     public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if (rayTraceResult.getEntity() instanceof LivingEntity) {
             LivingEntity entity = (LivingEntity)rayTraceResult.getEntity();
-            if(entity.hasEffect(ModPotions.DEMONIC_CLEANSE)){
+            if(entity.hasEffect(ModPotions.DEMONIC_CLEANSE.get())){
                 return;
             }
 
@@ -51,7 +51,7 @@ public class DemonicCleanse extends TierFourEffect{
                 }
             }
 
-            entity.addEffect(new MobEffectInstance(ModPotions.DEMONIC_CLEANSE,durationTicks));
+            entity.addEffect(new MobEffectInstance(ModPotions.DEMONIC_CLEANSE.get(),durationTicks));
         }
 
     }

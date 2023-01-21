@@ -2,6 +2,7 @@ package com.dkmk100.arsomega.rituals;
 
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.potions.ModPotions;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
@@ -53,7 +54,7 @@ public class RitualProtection extends AbstractRitual {
                 }
                 List<Player> entities = this.getWorld().getEntitiesOfClass(Player.class, (new AABB(this.getPos())).inflate(12.0D+aoe*2).inflate(10,0,10));
                 for (Player entity : entities) {
-                    entity.addEffect(new MobEffectInstance(ModPotions.NO_BREAK, 140));
+                    entity.addEffect(new MobEffectInstance(ModPotions.NO_BREAK.get(), 140));
                 }
             }
         }
@@ -78,6 +79,6 @@ public class RitualProtection extends AbstractRitual {
 
     @Override
     public ResourceLocation getRegistryName() {
-        return new ResourceLocation(ArsOmega.MOD_ID,"protection");
+        return RegistryHandler.getRitualName("protection");
     }
 }

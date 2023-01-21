@@ -18,14 +18,14 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class SwapTargetGlyph extends AbstractEffect implements ConfigurableGlyph {
+public class SwapTargetGlyph extends AbstractEffect {
     public static SwapTargetGlyph INSTANCE = new SwapTargetGlyph("swap_target","swap_target");
 
     ForgeConfigSpec.BooleanValue AFFECT_PLAYERS;
     ForgeConfigSpec.BooleanValue ALLOW_TOSS;
 
     private SwapTargetGlyph(String tag, String description) {
-        super(tag,description);
+        super(RegistryHandler.getGlyphName(tag),description);
     }
 
     @Override
@@ -79,7 +79,8 @@ public class SwapTargetGlyph extends AbstractEffect implements ConfigurableGlyph
     }
 
     @Override
-    public void buildExtraConfig(ForgeConfigSpec.Builder builder) {
+    public void buildConfig(ForgeConfigSpec.Builder builder) {
+        super.buildConfig(builder);
         builder.comment("If set to false, Swap Target will only affect non-player entities: ");
         AFFECT_PLAYERS = builder.define("affect_players", true);
         builder.comment("WARNING! THE FOLLOWING ALLOWS FOR MAJOR GRIEFING!!");

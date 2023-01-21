@@ -132,10 +132,10 @@ public class CursedPendant extends BasicItem implements Vanishable {
             public static Effect blindness = new Effect(MobEffects.BLINDNESS,80,0);
             public static Effect slow = new Effect(MobEffects.MOVEMENT_SLOWDOWN, 80,2);
             public static Effect weak = new Effect(MobEffects.BLINDNESS,80,1);
-            public static Effect no_break = new Effect(ModPotions.NO_BREAK,80,0);
+            public static Effect no_break = new Effect(ModPotions.NO_BREAK.get(),80,0);
             public static Effect fatigue = new Effect(MobEffects.DIG_SLOWDOWN,160,1);
 
-            public static Effect dispellant = new Effect(ModPotions.DISPELLANT,30,0);
+            public static Effect dispellant = new Effect(ModPotions.DISPELLANT.get(),30,0);
 
             public static Effect hex = new Effect(com.hollingsworth.arsnouveau.common.potions.ModPotions.HEX_EFFECT.get(),30,0);
 

@@ -77,7 +77,7 @@ public class RitualDispel extends AbstractRitual {
                 List<LivingEntity> entities = this.getWorld().getEntitiesOfClass(LivingEntity.class, (new AABB(this.getPos().above(upRange-downRange))).inflate(sideRange*2 + 1, downRange + upRange,sideRange*2 + 1));
                 SpellContext context = new SpellContext(world,new Spell(),null);
                 for (LivingEntity entity : entities) {
-                    if(entity.hasEffect(ModPotions.DISPELLANT)){
+                    if(entity.hasEffect(ModPotions.DISPELLANT.get())){
                         continue;
                     }
                     //dispel code
@@ -116,6 +116,6 @@ public class RitualDispel extends AbstractRitual {
 
     @Override
     public ResourceLocation getRegistryName() {
-        return new ResourceLocation(ArsOmega.MOD_ID,"dispel");
+        return RegistryHandler.getRitualName("dispel");
     }
 }

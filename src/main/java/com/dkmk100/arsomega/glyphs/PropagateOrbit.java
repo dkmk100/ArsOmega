@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodOrbit;
@@ -17,11 +18,11 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class PropagateOrbit  extends AbstractEffect implements ConfigurableGlyph{
+public class PropagateOrbit  extends AbstractEffect{
     public static PropagateOrbit INSTANCE = new PropagateOrbit("propagate_orbit","Propagate Orbit");
 
     private PropagateOrbit(String tag, String description) {
-        super(tag,description);
+        super(RegistryHandler.getGlyphName(tag),description);
     }
 
     public void sendPacket(Level world, HitResult rayTraceResult, @Nullable LivingEntity shooter, SpellContext spellContext, SpellStats stats) {
@@ -67,7 +68,8 @@ public class PropagateOrbit  extends AbstractEffect implements ConfigurableGlyph
     }
 
     @Override
-    public void buildExtraConfig(ForgeConfigSpec.Builder builder) {
+    public void buildConfig(ForgeConfigSpec.Builder builder) {
+        super.buildConfig(builder);
         this.PER_SPELL_LIMIT = builder.comment("The maximum number of times this glyph may appear in a single spell").defineInRange("per_spell_limit", 2, 2, 2);
     }
 

@@ -1,0 +1,48 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:air_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:sigil_air_active"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:glyph_lightning"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:nautilus_shell"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:fire_charge"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:copper_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:amethyst_shard"
+      }
+    }
+  ],
+  "exp": 200,
+  "output": "arsomega:glyph_divine_smite"
+}

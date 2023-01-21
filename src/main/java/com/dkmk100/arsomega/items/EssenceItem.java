@@ -11,7 +11,7 @@ public class EssenceItem extends ModItem {
     String myName;
     public EssenceItem(Properties properties) {
         super(properties);
-        this.withTooltip(Component.translatable("tooltip.essences"));
+        this.withTooltip(Component.translatable("tooltip.ars_nouveau.essences"));
     }
 
 }

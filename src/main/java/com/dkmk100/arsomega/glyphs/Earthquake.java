@@ -2,8 +2,10 @@ package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.entities.EntityEarthquake;
 import com.dkmk100.arsomega.entities.EntityTornado;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -12,6 +14,7 @@ import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Map;
 import java.util.Set;
 
 public class Earthquake  extends TierFourEffect{
@@ -20,7 +23,7 @@ public class Earthquake  extends TierFourEffect{
     public static Earthquake INSTANCE = new Earthquake("earthquake","Earthquake");
 
     public Earthquake(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
 
@@ -36,6 +39,11 @@ public class Earthquake  extends TierFourEffect{
         quake.setAoe((float) spellStats.getAoeMultiplier());
         quake.setAmp((int) Math.round(spellStats.getAmpMultiplier()));
         world.addFreshEntity(quake);
+    }
+
+    @Override
+    protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
+        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 2);
     }
 
     @Override

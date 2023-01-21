@@ -1,0 +1,53 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:earth_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:earth_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:sigil_earth_active"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:piston"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:piston"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:piston"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:deepslate"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:dispenser"
+      }
+    }
+  ],
+  "exp": 200,
+  "output": "arsomega:glyph_earthquake"
+}

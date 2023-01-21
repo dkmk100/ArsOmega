@@ -1,0 +1,43 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:alchemy_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:alchemy_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:sigil_alchemy_active"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:shield"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:iron_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:iron_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:diamond_block"
+      }
+    }
+  ],
+  "exp": 200,
+  "output": "arsomega:glyph_lead_skin"
+}

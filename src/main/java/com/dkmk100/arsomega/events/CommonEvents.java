@@ -133,7 +133,7 @@ public class CommonEvents {
     @SubscribeEvent
     public static void jumpEvent(LivingEvent.LivingJumpEvent e) {
         LivingEntity living = e.getEntity();
-        if (living != null && ((living.hasEffect(ModPotions.VINE_BIND)&&!living.isOnFire())||living.hasEffect(ModPotions.STONE_PETRIFICATION))) {
+        if (living != null && ((living.hasEffect(ModPotions.VINE_BIND.get())&&!living.isOnFire())||living.hasEffect(ModPotions.STONE_PETRIFICATION.get()))) {
             living.setDeltaMovement(0.0D, 0.0D, 0.0D);
             living.setNoActionTime(10);
         }
@@ -142,7 +142,7 @@ public class CommonEvents {
     @SubscribeEvent
     public static void Teleport(EntityTeleportEvent.EnderEntity e){
         LivingEntity entity = e.getEntityLiving();
-        if(entity.hasEffect(ModPotions.DEMONIC_ANCHORING)){
+        if(entity.hasEffect(ModPotions.DEMONIC_ANCHORING.get())){
             e.setCanceled(true);
         }
     }
@@ -178,7 +178,7 @@ public class CommonEvents {
     public static void attack(LivingAttackEvent e) {
         if (e.getSource().getEntity() instanceof LivingEntity) {
             LivingEntity living = (LivingEntity) e.getSource().getEntity();
-            if (living.hasEffect(ModPotions.STONE_PETRIFICATION)) {
+            if (living.hasEffect(ModPotions.STONE_PETRIFICATION.get())) {
                 e.setCanceled(true);
             }
         }
@@ -186,7 +186,7 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void breakEvent(PlayerEvent.BreakSpeed e){
-        if(e.getEntity().hasEffect(ModPotions.STONE_PETRIFICATION)){
+        if(e.getEntity().hasEffect(ModPotions.STONE_PETRIFICATION.get())){
             e.setCanceled(true);
         }
     }
@@ -194,7 +194,7 @@ public class CommonEvents {
     @SubscribeEvent
     public static void explodeEvent(ExplosionEvent.Start e){
         if(e.getExplosion().getSourceMob()!=null) {
-            if (e.getExplosion().getSourceMob().hasEffect(ModPotions.STONE_PETRIFICATION)) {
+            if (e.getExplosion().getSourceMob().hasEffect(ModPotions.STONE_PETRIFICATION.get())) {
                 e.setCanceled(true);
             }
         }
@@ -202,7 +202,7 @@ public class CommonEvents {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void useEvent(LivingEntityUseItemEvent.Start e) {
-        if (e.getEntity().hasEffect(ModPotions.STONE_PETRIFICATION)) {
+        if (e.getEntity().hasEffect(ModPotions.STONE_PETRIFICATION.get())) {
             e.setCanceled(true);
         }
     }
@@ -228,7 +228,7 @@ public class CommonEvents {
     public static void placeEvent(BlockEvent.EntityPlaceEvent e){
         if (e.getEntity() instanceof LivingEntity) {
             LivingEntity living = (LivingEntity) e.getEntity();
-            if (living.hasEffect(ModPotions.STONE_PETRIFICATION)) {
+            if (living.hasEffect(ModPotions.STONE_PETRIFICATION.get())) {
                 e.setCanceled(true);
             }
         }
@@ -238,22 +238,22 @@ public class CommonEvents {
     public static void playerDamaged(LivingHurtEvent e) {
         if (e.getEntity() != null) {
             LivingEntity living = e.getEntity();
-            if (living.hasEffect(ModPotions.STONE_PETRIFICATION) && !e.getSource().isBypassInvul()) {
+            if (living.hasEffect(ModPotions.STONE_PETRIFICATION.get()) && !e.getSource().isBypassInvul()) {
                 e.setAmount(0);
                 e.setCanceled(true);
             } else {
                 float damage = e.getAmount();
-                if (living.hasEffect(ModPotions.LEAD_SKIN) && !e.getSource().isBypassArmor()) {
-                    int amount = living.getEffect(ModPotions.LEAD_SKIN).getAmplifier() + 1;
+                if (living.hasEffect(ModPotions.LEAD_SKIN.get()) && !e.getSource().isBypassArmor()) {
+                    int amount = living.getEffect(ModPotions.LEAD_SKIN.get()).getAmplifier() + 1;
                     for (int i = 0; i <= amount; i++) {
                         damage = damage * 0.8f;
                     }
                 }
                 if (e.getSource().isFire() || e.getSource().msgId.equals(RegistryHandler.FIRE_FOCUS_DAMAGE)) {
-                    if (living.hasEffect(ModPotions.BURNED)) {
+                    if (living.hasEffect(ModPotions.BURNED.get())) {
                         damage = damage * 1.5f;
                     }
-                    if (living.hasEffect(ModPotions.SOUL_FIRE)) {
+                    if (living.hasEffect(ModPotions.SOUL_FIRE.get())) {
                         damage = damage * 2.0f;
                     }
                 }
@@ -266,7 +266,7 @@ public class CommonEvents {
     public static void playerDamagedFinal(LivingHurtEvent e) {
         if (e.getEntity() != null) {
             LivingEntity living = e.getEntity();
-            if (living.hasEffect(ModPotions.STONE_PETRIFICATION) && !e.getSource().isBypassInvul()) {
+            if (living.hasEffect(ModPotions.STONE_PETRIFICATION.get()) && !e.getSource().isBypassInvul()) {
                 //make sure to cancel it, this is important
                 e.setAmount(0);
                 e.setCanceled(true);
@@ -278,7 +278,7 @@ public class CommonEvents {
     public static void playerKnockback(LivingKnockBackEvent e) {
         if (e.getEntity() != null){
             LivingEntity living = e.getEntity();
-            if(living.hasEffect(ModPotions.STONE_PETRIFICATION)){
+            if(living.hasEffect(ModPotions.STONE_PETRIFICATION.get())){
                 e.setCanceled(true);
             }
         }
@@ -286,7 +286,7 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void entityTick(TickEvent.PlayerTickEvent e) {
-        if (e.phase == TickEvent.Phase.END && e.player.hasEffect(ModPotions.STONE_PETRIFICATION) && !e.player.isOnGround() && !e.player.isCreative()) {
+        if (e.phase == TickEvent.Phase.END && e.player.hasEffect(ModPotions.STONE_PETRIFICATION.get()) && !e.player.isOnGround() && !e.player.isCreative()) {
             e.player.getAbilities().flying = false;
         }
     }

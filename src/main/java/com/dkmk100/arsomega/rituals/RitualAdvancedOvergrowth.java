@@ -2,6 +2,7 @@ package com.dkmk100.arsomega.rituals;
 
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.glyphs.AdvancedGrow;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
@@ -99,7 +100,7 @@ public class RitualAdvancedOvergrowth extends BasicConfigRitual {
 
     @Override
     public ResourceLocation getRegistryName() {
-        return new ResourceLocation(ArsOmega.MOD_ID,"advanced_overgrowth");
+        return RegistryHandler.getRitualName("advanced_overgrowth");
     }
 
     public ParticleColor getCenterColor() {

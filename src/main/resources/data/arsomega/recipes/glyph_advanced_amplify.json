@@ -1,0 +1,28 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "minecraft:netherite_pickaxe"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:infused_diamond_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:emerald_block"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:source_gem_block"
+      }
+    }
+  ],
+  "exp": 80,
+  "output": "arsomega:glyph_advanced_amplify"
+}

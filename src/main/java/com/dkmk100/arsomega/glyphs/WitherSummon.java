@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.entities.EntityWitherBound;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.potions.ModPotions;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
@@ -23,7 +24,7 @@ public class WitherSummon extends TierFourEffect {
     public static WitherSummon INSTANCE = new WitherSummon("wither_summon", "Wither Summon");
 
     public WitherSummon(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
     @Override

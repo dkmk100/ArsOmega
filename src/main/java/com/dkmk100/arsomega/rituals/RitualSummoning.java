@@ -208,6 +208,6 @@ public class RitualSummoning extends AbstractRitual {
 
     @Override
     public ResourceLocation getRegistryName() {
-        return new ResourceLocation(ArsOmega.MOD_ID,"summoning");
+        return RegistryHandler.getRitualName("summoning");
     }
 }

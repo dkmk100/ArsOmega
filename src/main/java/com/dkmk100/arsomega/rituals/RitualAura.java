@@ -70,7 +70,7 @@ public class RitualAura extends BasicConfigRitual {
 
     @Override
     public ResourceLocation getRegistryName() {
-        return new ResourceLocation(ArsOmega.MOD_ID,"aura");
+        return RegistryHandler.getRitualName("aura");
     }
     @Override
     protected void tick() {

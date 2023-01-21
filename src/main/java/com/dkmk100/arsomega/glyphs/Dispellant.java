@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.potions.ModPotions;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,7 +17,7 @@ public class Dispellant extends AbstractEffect {
     public static Dispellant INSTANCE = new Dispellant("dispellant", "Dispellant");
 
     public Dispellant(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
     @Override
@@ -25,7 +26,7 @@ public class Dispellant extends AbstractEffect {
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
             //low time cause the effect is sorta OP lol
-            this.applyPotion(living, ModPotions.DISPELLANT, spellStats, 6,3,true);
+            this.applyPotion(living, ModPotions.DISPELLANT.get(), spellStats, 6,3,true);
         }
     }
 

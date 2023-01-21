@@ -25,7 +25,7 @@ public class DispelMixin {
     public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver, CallbackInfo ci) {
         if (rayTraceResult.getEntity() instanceof LivingEntity) {
             LivingEntity entity = (LivingEntity)rayTraceResult.getEntity();
-            if(entity.hasEffect(ModPotions.DISPELLANT)) {
+            if(entity.hasEffect(ModPotions.DISPELLANT.get())) {
                 ci.cancel();
             }
         }

@@ -5,7 +5,7 @@
   "refmap": "arsomega.refmap.json",
   "mixins": [
     "CustomFire",
-    "AugmentCompat",
+    "AugmentCompatNew",
     "DispelMixin",
     "DelayMixin",
     "BlinkMixin",

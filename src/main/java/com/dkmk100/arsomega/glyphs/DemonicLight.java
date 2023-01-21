@@ -8,6 +8,7 @@ import com.hollingsworth.arsnouveau.common.block.SconceBlock;
 import com.hollingsworth.arsnouveau.common.block.tile.LightTile;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
 import com.hollingsworth.arsnouveau.setup.BlockRegistry;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -23,13 +24,14 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Map;
 import java.util.Set;
 
 public class DemonicLight extends TierFourEffect {
     public static DemonicLight INSTANCE = new DemonicLight("demonic_light","Demonic Light");
 
     public DemonicLight(String name, String description) {
-        super(name,description);
+        super(RegistryHandler.getGlyphName(name),description);
     }
 
     @Override
@@ -46,6 +48,11 @@ public class DemonicLight extends TierFourEffect {
                 this.applyConfigPotion((LivingEntity) rayTraceResult.getEntity(), MobEffects.NIGHT_VISION, spellStats, false);
             }
         }
+    }
+
+    @Override
+    protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
+        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 2);
     }
 
     //to change later

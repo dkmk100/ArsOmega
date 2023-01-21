@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import net.minecraft.world.entity.Entity;
@@ -23,7 +24,7 @@ public class PropagateOverhead extends AbstractEffect implements IIgnoreBuffs {
     public static PropagateOverhead INSTANCE = new PropagateOverhead("propagate_overhead","Propagate Overhead");
 
     private PropagateOverhead(String tag, String description) {
-        super(tag,description);
+        super(RegistryHandler.getGlyphName(tag),description);
     }
 
     public void sendPacket(Level world, SpellStats stats, @Nullable LivingEntity shooter, SpellContext spellContext, Entity target) {

@@ -78,7 +78,7 @@ public class RitualConjuring extends AbstractRitual {
 
     @Override
     public ResourceLocation getRegistryName() {
-        return new ResourceLocation(ArsOmega.MOD_ID, "conjuring");
+        return RegistryHandler.getRitualName( "conjuring");
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.BlockUtil;
 import com.hollingsworth.arsnouveau.api.util.SpellUtil;
@@ -37,7 +38,7 @@ public class AdvancedGrow extends AbstractEffect {
     public static AdvancedGrow INSTANCE = new AdvancedGrow();
 
     private AdvancedGrow() {
-        super("advanced_grow", "Advanced Grow");
+        super(RegistryHandler.getGlyphName("advanced_grow"), "Advanced Grow");
     }
 
     public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {

@@ -2,6 +2,7 @@ package com.dkmk100.arsomega.rituals;
 
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.potions.ModPotions;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
@@ -45,7 +46,7 @@ public class RitualPermaFlight extends BasicConfigRitual{
                 List<LivingEntity> entities = this.getWorld().getEntitiesOfClass(LivingEntity.class, (new AABB(this.getPos())).inflate(RANGE.get() * 2));
                 for (LivingEntity entity : entities) {
                     if(entity instanceof Player){
-                        entity.addEffect(new MobEffectInstance(ModPotions.PERMA_FLIGHT, 999999,0,false,false));
+                        entity.addEffect(new MobEffectInstance(ModPotions.PERMA_FLIGHT.get(), 999999,0,false,false));
                         this.setFinished();
                     }
                 }
@@ -68,7 +69,7 @@ public class RitualPermaFlight extends BasicConfigRitual{
 
     @Override
     public ResourceLocation getRegistryName() {
-        return new ResourceLocation(ArsOmega.MOD_ID,"perma_flight");
+        return RegistryHandler.getRitualName("perma_flight");
     }
 
     @Override

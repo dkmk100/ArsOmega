@@ -80,6 +80,6 @@ public class RitualCleansing extends AbstractRitual {
 
     @Override
     public ResourceLocation getRegistryName() {
-        return new ResourceLocation(ArsOmega.MOD_ID, "cleansing");
+        return RegistryHandler.getRitualName( "cleansing");
     }
 }

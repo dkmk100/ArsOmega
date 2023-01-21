@@ -85,6 +85,6 @@ public class RitualBanishment extends AbstractRitual {
 
     @Override
     public ResourceLocation getRegistryName() {
-        return new ResourceLocation(ArsOmega.MOD_ID,"banishment");
+        return RegistryHandler.getRitualName("banishment");
     }
 }
