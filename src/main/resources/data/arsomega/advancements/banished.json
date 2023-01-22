@@ -1,5 +1,5 @@
 {
-  "parent": "arsomega:root",
+  "parent": "arsomega:restricted_knowledge",
   "criteria": {
     "arsomega:enter_demon_realm": {
       "trigger": "minecraft:changed_dimension",

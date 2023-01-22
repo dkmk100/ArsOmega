@@ -395,5 +395,7 @@
   "arsomega.advancement.title.root": "Ars Omega",
   "arsomega.advancement.desc.root": "Root achievement for the mod",
   "arsomega.advancement.title.banished": "Banished",
-  "arsomega.advancement.desc.banished": "End up in the demon realm"
+  "arsomega.advancement.desc.banished": "End up in the demon realm",
+  "arsomega.advancement.title.restricted_knowledge": "Restricted Knowledge",
+  "arsomega.advancement.desc.restricted_knowledge": "Obtain the Arcane Compendiumm"
 }
