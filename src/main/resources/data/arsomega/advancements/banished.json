@@ -1,0 +1,31 @@
+{
+  "parent": "arsomega:root",
+  "criteria": {
+    "arsomega:enter_demon_realm": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "arsomega:demon_realm"
+      }
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "arsomega.advancement.desc.banished"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "arsomega:demonic_stone"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "arsomega.advancement.title.banished"
+    }
+  },
+  "requirements": [
+    [
+      "arsomega:enter_demon_realm"
+    ]
+  ]
+}

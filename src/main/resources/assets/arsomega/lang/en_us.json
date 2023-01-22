@@ -391,5 +391,9 @@
   "arsomega.enchant_recipe": "Enchant Glyph",
   "arsomega.conjuring_recipe": "Ritual of Conjuring",
   "arsomega.tribute_recipe": "Ritual of Tribute",
-  "itemGroup.arsomega": "Ars Omega"
+  "itemGroup.arsomega": "Ars Omega",
+  "arsomega.advancement.title.root": "Ars Omega",
+  "arsomega.advancement.desc.root": "Root achievement for the mod",
+  "arsomega.advancement.title.banished": "Banished",
+  "arsomega.advancement.desc.banished": "End up in the demon realm"
 }
