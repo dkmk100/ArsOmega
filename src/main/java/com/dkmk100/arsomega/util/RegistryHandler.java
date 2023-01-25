@@ -627,9 +627,9 @@ public class RegistryHandler{
         ITEMS.add(new CursedPendant("cursed_pendant_double_strong",2,243543,2));
         ITEMS.add(new CursedPendant("cursed_pendant_ultimate",5,243543,3));
 
-        ITEMS.add(new GuideBookItem("arcane_compendium","The Arcane Library's collection of Arcane Magics."));
+        ITEMS.add(new DescribedItem("arcane_compendium",(new Item.Properties()).tab(ArsOmega.itemGroup).stacksTo(1),"The Arcane Library's collection of Arcane Magics."));
         ITEMS.add(new GuideBookItem("maria_rosa", "A damaged hand-written notebook..."));
-        ITEMS.add(new GuideBookItem("kaz_carter", "A scorched collection of notebook pages..."));
+        ITEMS.add(new DescribedItem("kaz_carter",(new Item.Properties()).tab(ArsOmega.itemGroup).stacksTo(1),"A scorched collection of notebook pages..."));
 
         ITEMS.add(new DescribedItem("salt",ITEM_PROPERTIES,"An item used in crafting."));
 

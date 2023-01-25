@@ -397,5 +397,7 @@
   "arsomega.advancement.title.banished": "Banished",
   "arsomega.advancement.desc.banished": "End up in the demon realm",
   "arsomega.advancement.title.restricted_knowledge": "Restricted Knowledge",
-  "arsomega.advancement.desc.restricted_knowledge": "Obtain the Arcane Compendiumm"
+  "arsomega.advancement.desc.restricted_knowledge": "Obtain the Arcane Compendiumm",
+  "arsomega.advancement.title.better_forgotten": "Better Left Forgotten",
+  "arsomega.advancement.desc.better_forgotten": "Some knowledge is better left not found..."
 }

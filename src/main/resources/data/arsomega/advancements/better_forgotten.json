@@ -1,0 +1,37 @@
+{
+  "parent": "arsomega:banished",
+  "criteria": {
+    "arsomega:kaz_carter": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "arsomega:kaz_carter"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "arsomega.advancement.desc.better_forgotten"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "arsomega:kaz_carter"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "arsomega.advancement.title.better_forgotten"
+    }
+  },
+  "requirements": [
+    [
+      "arsomega:kaz_carter"
+    ]
+  ]
+}

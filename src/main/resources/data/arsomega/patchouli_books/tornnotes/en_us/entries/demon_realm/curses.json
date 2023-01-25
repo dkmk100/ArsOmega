@@ -2,6 +2,7 @@
   "name": "Curses",
   "icon": "arsomega:curse_altar",
   "category": "arsomega:demon_realm",
+  "advancement": "arsomega:better_forgotten",
   "pages": [
     {
       "type": "text",

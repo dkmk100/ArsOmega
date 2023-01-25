@@ -2,6 +2,7 @@
   "name": "item.arsomega.spell_sigil_petrify",
   "icon": "arsomega:spell_sigil_petrify",
   "category": "arsomega:spell_sigils",
+  "advancement": "arsomega:better_forgotten",
   "pages": [
     {
       "type": "patchouli:spotlight",
