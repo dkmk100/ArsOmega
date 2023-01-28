@@ -1,0 +1,28 @@
+{
+  "parent": "arsomega:restoration",
+  "criteria": {
+    "arsomega:contact": {
+      "trigger": "arsomega:contact"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "arsomega.advancement.desc.contact"
+    },
+    "frame": "goal",
+    "hidden": true,
+    "icon": {
+      "item": "ars_nouveau:enchanters_mirror"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "arsomega.advancement.title.contact"
+    }
+  },
+  "requirements": [
+    [
+      "arsomega:contact"
+    ]
+  ]
+}

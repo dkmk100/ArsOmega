@@ -1,0 +1,37 @@
+{
+  "parent": "arsomega:root",
+  "criteria": {
+    "arsomega:maria_rosa": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "arsomega:maria_rosa"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "arsomega.advancement.desc.forbidden_knowledge"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "arsomega:maria_rosa"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "arsomega.advancement.title.forbidden_knowledge"
+    }
+  },
+  "requirements": [
+    [
+      "arsomega:maria_rosa"
+    ]
+  ]
+}

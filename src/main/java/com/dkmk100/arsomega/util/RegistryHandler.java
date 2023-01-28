@@ -2,6 +2,7 @@ package com.dkmk100.arsomega.util;
 
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.advancement.BasicTrigger;
 import com.dkmk100.arsomega.armors.BasicArmorMaterial;
 import com.dkmk100.arsomega.base_blocks.BasicBlock;
 import com.dkmk100.arsomega.base_blocks.BlockPropertiesCreator;
@@ -31,6 +32,7 @@ import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDurationDown;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtendTime;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.Registry;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.StatsCounter;
@@ -127,6 +129,24 @@ public class RegistryHandler{
         event.getRegistry().register(SIGIL_SERIALIZER.setRegistryName(new ResourceLocation("arsomega", "sigil")));
         event.getRegistry().register(WRITE_PROACTIVE_SERIALIZER.setRegistryName(new ResourceLocation("arsomega", "write_proactive")));
         event.getRegistry().register(PROACTIVE_ENCHANT_SERIALIZER.setRegistryName(new ResourceLocation("arsomega", "proactive_enchant")));
+    }
+
+    public static BasicTrigger USE_DEMON_STAFF;
+    public static BasicTrigger USE_CURSED_BIND;
+
+    public static BasicTrigger RESTORATION;
+
+    public static BasicTrigger CONTACT;
+    public static BasicTrigger POWERS;
+    public static BasicTrigger DESTINY;
+
+    public static void RegisterAdvancementTriggers(){
+        USE_DEMON_STAFF = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"use_demon_staff")));
+        USE_CURSED_BIND = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"use_cursed_bind")));
+        RESTORATION = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"restoration")));
+        CONTACT = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"contact")));
+        POWERS = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"powers")));
+        DESTINY = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"destiny")));
     }
 
     public static final RegistryObject<Enchantment> PROACTIVE_ENCHANT = ENCHANTMENTS.register("proactive",ProactiveEnchant::new);
@@ -628,7 +648,7 @@ public class RegistryHandler{
         ITEMS.add(new CursedPendant("cursed_pendant_ultimate",5,243543,3));
 
         ITEMS.add(new DescribedItem("arcane_compendium",(new Item.Properties()).tab(ArsOmega.itemGroup).stacksTo(1),"The Arcane Library's collection of Arcane Magics."));
-        ITEMS.add(new GuideBookItem("maria_rosa", "A damaged hand-written notebook..."));
+        ITEMS.add(new DescribedItem("maria_rosa", (new Item.Properties()).tab(ArsOmega.itemGroup).stacksTo(1),"A damaged hand-written notebook..."));
         ITEMS.add(new DescribedItem("kaz_carter",(new Item.Properties()).tab(ArsOmega.itemGroup).stacksTo(1),"A scorched collection of notebook pages..."));
 
         ITEMS.add(new DescribedItem("salt",ITEM_PROPERTIES,"An item used in crafting."));

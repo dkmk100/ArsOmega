@@ -9,6 +9,7 @@ import com.dkmk100.arsomega.packets.ResetChunkColorsPacket;
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LightningBoltRenderer;
 import net.minecraft.client.renderer.entity.WitherBossRenderer;
@@ -103,8 +104,11 @@ public class ArsOmega
         event.enqueueWork(() -> {
             RegistryHandler.RegisterFunctions();
             RegistryHandler.RegisterMobSpawns();
+            RegistryHandler.RegisterAdvancementTriggers();
             ModPotions.RegisterPotionRecipes();
         });
+
+
 
         PacketUtil.init();
         PacketUtil.register(ResetChunkColorsPacket.class);

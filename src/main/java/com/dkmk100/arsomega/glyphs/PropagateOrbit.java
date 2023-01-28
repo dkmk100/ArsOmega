@@ -28,7 +28,7 @@ public class PropagateOrbit  extends AbstractEffect implements ConfigurableGlyph
         spellContext.setCanceled(true);
         if (spellContext.getCurrentIndex() < spellContext.getSpell().recipe.size()) {
             Spell newSpell = new Spell(new ArrayList(spellContext.getSpell().recipe.subList(spellContext.getCurrentIndex(), spellContext.getSpell().recipe.size())));
-            SpellContext newContext = (new SpellContext(newSpell, shooter)).withColors(spellContext.colors);
+            SpellContext newContext = spellContext.clone().withSpell(newSpell).withCaster(shooter);
             SpellResolver resolver = new EntitySpellResolver(newContext);
             //List<AbstractAugment> newAugments = new ArrayList<AbstractAugment>();//stats.getAugments()
             MethodOrbit.INSTANCE.summonProjectiles(world,shooter,resolver,stats);

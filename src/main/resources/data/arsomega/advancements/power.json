@@ -1,0 +1,28 @@
+{
+  "parent": "arsomega:contact",
+  "criteria": {
+    "arsomega:power": {
+      "trigger": "arsomega:power"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "arsomega.advancement.desc.power"
+    },
+    "frame": "goal",
+    "hidden": true,
+    "icon": {
+      "item": "ars_nouveau:enchanters_mirror"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "arsomega.advancement.title.power"
+    }
+  },
+  "requirements": [
+    [
+      "arsomega:power"
+    ]
+  ]
+}

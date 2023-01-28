@@ -1,7 +1,8 @@
 {
   "name": "Infinity Crystal",
   "icon": "arsomega:infinity_crystal",
-  "category": "arsomega:arcane_phenomena",
+  "category": "ars_nouveau:resources",
+  "advancement": "arsomega:forbidden_knowledge",
   "pages": [
     {
       "type": "text",
