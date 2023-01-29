@@ -1,0 +1,28 @@
+{
+  "parent": "arsomega:shattered",
+  "criteria": {
+    "arsomega:restoration": {
+      "trigger": "arsomega:restoration"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "arsomega.advancement.desc.restoration"
+    },
+    "frame": "goal",
+    "hidden": true,
+    "icon": {
+      "item": "ars_nouveau:enchanters_mirror"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "arsomega.advancement.title.restoration"
+    }
+  },
+  "requirements": [
+    [
+      "arsomega:restoration"
+    ]
+  ]
+}

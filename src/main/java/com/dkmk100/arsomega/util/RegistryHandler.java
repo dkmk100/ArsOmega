@@ -2,6 +2,7 @@ package com.dkmk100.arsomega.util;
 
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.advancement.BasicTrigger;
 import com.dkmk100.arsomega.armors.BasicArmorMaterial;
 import com.dkmk100.arsomega.base_blocks.BasicBlock;
 import com.dkmk100.arsomega.base_blocks.BlockPropertiesCreator;
@@ -31,6 +32,7 @@ import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDurationDown;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtendTime;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.Registry;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.StatsCounter;
@@ -127,6 +129,24 @@ public class RegistryHandler{
         event.getRegistry().register(SIGIL_SERIALIZER.setRegistryName(new ResourceLocation("arsomega", "sigil")));
         event.getRegistry().register(WRITE_PROACTIVE_SERIALIZER.setRegistryName(new ResourceLocation("arsomega", "write_proactive")));
         event.getRegistry().register(PROACTIVE_ENCHANT_SERIALIZER.setRegistryName(new ResourceLocation("arsomega", "proactive_enchant")));
+    }
+
+    public static BasicTrigger USE_DEMON_STAFF;
+    public static BasicTrigger USE_CURSED_BIND;
+
+    public static BasicTrigger RESTORATION;
+
+    public static BasicTrigger CONTACT;
+    public static BasicTrigger POWERS;
+    public static BasicTrigger DESTINY;
+
+    public static void RegisterAdvancementTriggers(){
+        USE_DEMON_STAFF = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"use_demon_staff")));
+        USE_CURSED_BIND = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"use_cursed_bind")));
+        RESTORATION = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"restoration")));
+        CONTACT = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"contact")));
+        POWERS = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"powers")));
+        DESTINY = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"destiny")));
     }
 
     public static final RegistryObject<Enchantment> PROACTIVE_ENCHANT = ENCHANTMENTS.register("proactive",ProactiveEnchant::new);
@@ -627,13 +647,16 @@ public class RegistryHandler{
         ITEMS.add(new CursedPendant("cursed_pendant_double_strong",2,243543,2));
         ITEMS.add(new CursedPendant("cursed_pendant_ultimate",5,243543,3));
 
-        ITEMS.add(new GuideBookItem("arcane_compendium","The Arcane Library's collection of Arcane Magics."));
-        ITEMS.add(new GuideBookItem("maria_rosa", "A damaged hand-written notebook..."));
-        ITEMS.add(new GuideBookItem("kaz_carter", "A scorched collection of notebook pages..."));
+        ITEMS.add(new DescribedItem("arcane_compendium",(new Item.Properties()).tab(ArsOmega.itemGroup).stacksTo(1),"The Arcane Library's collection of Arcane Magics."));
+        ITEMS.add(new DescribedItem("maria_rosa", (new Item.Properties()).tab(ArsOmega.itemGroup).stacksTo(1),"A damaged hand-written notebook..."));
+        ITEMS.add(new DescribedItem("kaz_carter",(new Item.Properties()).tab(ArsOmega.itemGroup).stacksTo(1),"A scorched collection of notebook pages..."));
 
         ITEMS.add(new DescribedItem("salt",ITEM_PROPERTIES,"An item used in crafting."));
 
         ITEMS.add(new CelestialStaff(ITEM_PROPERTIES_FIRE,"celestial_staff"));
+
+        ITEMS.add(new BlockItem(CURSED_EARTH.get(),ITEM_PROPERTIES).setRegistryName("cursed_earth"));
+        ITEMS.add(new BlockItem(VENGEFUL_SOUL_SAND.get(),ITEM_PROPERTIES).setRegistryName("vengeful_soul_sand"));
 
         for (Item item : ITEMS) {
             event.getRegistry().register(item);
@@ -686,6 +709,8 @@ public class RegistryHandler{
 
     public static final RegistryObject<Block> CURSE_ALTAR = BLOCKS.register("curse_altar",() -> new CurseAltarBlock(UNBREAKABLE_BLOCK_PROPERTIES));
 
+    public static final RegistryObject<Block> CURSED_EARTH = BLOCKS.register("cursed_earth",() -> new CursedEarth(CLAY_PROPERTIES));
+    public static final RegistryObject<Block> VENGEFUL_SOUL_SAND = BLOCKS.register("vengeful_soul_sand",() -> new CursedEarth(CLAY_PROPERTIES));
 
     static EntityType<? extends Entity> getClayGolem(){
         return CLAY_GOLEM_BETA.get();
@@ -749,6 +774,12 @@ public class RegistryHandler{
 
     public static final RegistryObject<PortalBlock> PORTAL_BLOCK = BLOCKS.register("portal_block",() -> new PortalBlock(PORTAL_PROPERTIES));
     public static final RegistryObject<MirrorPortalBlock> MIRROR_PORTAL_BLOCK = BLOCKS.register("mirror_portal_block",() -> new MirrorPortalBlock(PORTAL_PROPERTIES));
+
+    public static final RegistryObject<DemonicLightBlock> DEMONIC_LIGHT = BLOCKS.register("demonic_light",() -> new DemonicLightBlock());
+
+
+    public static RegistryObject<BlockEntityType<DemonicLightTile>> DemonicLightType = TILE_ENTITIES.register("demonic_light_tile",() -> BlockEntityType.Builder.of(DemonicLightTile::new,DEMONIC_LIGHT.get()).build(null));
+
 
 
     public static RegistryObject<BlockEntityType<PotionExtenderTile>> PotionExtenderType = TILE_ENTITIES.register("potion_extender_tile",() -> BlockEntityType.Builder.of(PotionExtenderTile::new,POTION_EXTENDER.get()).build(null));

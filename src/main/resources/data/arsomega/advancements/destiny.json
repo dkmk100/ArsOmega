@@ -1,0 +1,28 @@
+{
+  "parent": "arsomega:power",
+  "criteria": {
+    "arsomega:destiny": {
+      "trigger": "arsomega:destiny"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "arsomega.advancement.desc.destiny"
+    },
+    "frame": "challenge",
+    "hidden": true,
+    "icon": {
+      "item": "ars_nouveau:enchanters_mirror"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "arsomega.advancement.title.destiny"
+    }
+  },
+  "requirements": [
+    [
+      "arsomega:destiny"
+    ]
+  ]
+}

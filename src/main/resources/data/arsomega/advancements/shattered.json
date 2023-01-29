@@ -1,0 +1,37 @@
+{
+  "parent": "arsomega:root",
+  "criteria": {
+    "arsomega:ancient_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "arsomega:ancient_mirror_shard"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "arsomega.advancement.desc.shattered"
+    },
+    "frame": "challenge",
+    "hidden": true,
+    "icon": {
+      "item": "arsomega:ancient_mirror_shard"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "arsomega.advancement.title.shattered"
+    }
+  },
+  "requirements": [
+    [
+      "arsomega:ancient_shard"
+    ]
+  ]
+}

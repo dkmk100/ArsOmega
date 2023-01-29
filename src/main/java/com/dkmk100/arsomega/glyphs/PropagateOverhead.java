@@ -30,7 +30,7 @@ public class PropagateOverhead extends AbstractEffect implements IIgnoreBuffs {
         spellContext.setCanceled(true);
         if (spellContext.getCurrentIndex() < spellContext.getSpell().recipe.size()) {
             Spell newSpell = new Spell(new ArrayList(spellContext.getSpell().recipe.subList(spellContext.getCurrentIndex(), spellContext.getSpell().recipe.size())));
-            SpellContext newContext = (new SpellContext(newSpell, shooter)).withColors(spellContext.colors);
+            SpellContext newContext = spellContext.clone().withSpell(newSpell).withCaster(shooter);
             SpellResolver resolver = new EntitySpellResolver(newContext);
             int offset = 3 + (int)Math.round(stats.getAmpMultiplier());
             resolver.onResolveEffect(shooter.getCommandSenderWorld(),shooter,new BlockHitResult(target.position(), Direction.DOWN, target.blockPosition().above(offset), true));
@@ -41,7 +41,7 @@ public class PropagateOverhead extends AbstractEffect implements IIgnoreBuffs {
         spellContext.setCanceled(true);
         if (spellContext.getCurrentIndex() < spellContext.getSpell().recipe.size()) {
             Spell newSpell = new Spell(new ArrayList(spellContext.getSpell().recipe.subList(spellContext.getCurrentIndex(), spellContext.getSpell().recipe.size())));
-            SpellContext newContext = (new SpellContext(newSpell, shooter)).withColors(spellContext.colors);
+            SpellContext newContext = spellContext.clone().withSpell(newSpell).withCaster(shooter);
             SpellResolver resolver = new EntitySpellResolver(newContext);
             int offset = 1 + (int)Math.round(stats.getAmpMultiplier());
             resolver.onResolveEffect(shooter.getCommandSenderWorld(),shooter,new BlockHitResult(new Vec3(pos.getX(),pos.getY(),pos.getZ()), Direction.DOWN, pos.above(offset), true));

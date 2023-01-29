@@ -1,11 +1,13 @@
 package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.entities.EntityWitherBound;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.potions.ModPotions;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtendTime;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.*;
@@ -32,6 +34,7 @@ public class WitherSummon extends TierFourEffect {
             Vec3 vector3d = this.safelyGetHitPos(rayTraceResult);
             BlockPos pos = new BlockPos(vector3d);
             if(spellStats.hasBuff(CursedBind.INSTANCE)) {
+
                 //to nerf wither minion
                 double amp = spellStats.getAmpMultiplier();
                 double amp2 = 0;//runnoff, currently unused but might add extra attack power or something later
@@ -51,6 +54,9 @@ public class WitherSummon extends TierFourEffect {
                 wither.setLimitedLife(ticks);
                 this.summonLivingEntity(rayTraceResult, world, shooter, spellStats, spellContext, wither);
                 shooter.addEffect(new MobEffectInstance(ModPotions.SUMMONING_SICKNESS, ticks));
+                if(shooter instanceof ServerPlayer) {
+                    RegistryHandler.USE_CURSED_BIND.Trigger((ServerPlayer) shooter);
+                }
             }
             else {
                 double amp = spellStats.getAmpMultiplier();

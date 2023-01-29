@@ -1,0 +1,37 @@
+{
+  "parent": "arsomega:root",
+  "criteria": {
+    "arsomega:enchanted_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "arsomega:enchanted_mirror_shard"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "arsomega.advancement.desc.true_reflection"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "arsomega:enchanted_mirror_shard"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "arsomega.advancement.title.true_reflection"
+    }
+  },
+  "requirements": [
+    [
+      "arsomega:enchanted_shard"
+    ]
+  ]
+}

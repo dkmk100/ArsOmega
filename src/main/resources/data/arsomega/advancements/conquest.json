@@ -1,0 +1,33 @@
+{
+  "parent": "arsomega:royalty",
+  "criteria": {
+    "arsomega:kill_king": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "arsomega:boss_demon_king"
+        }
+      }
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "arsomega.advancement.desc.conquest"
+    },
+    "frame": "challenge",
+    "hidden": false,
+    "icon": {
+      "item": "arsomega:demonic_crystal"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "arsomega.advancement.title.conquest"
+    }
+  },
+  "requirements": [
+    [
+      "arsomega:kill_king"
+    ]
+  ]
+}

@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.blocks;
 
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.items.CelestialStaff;
 import com.dkmk100.arsomega.util.RegistryHandler;
@@ -11,6 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -24,6 +26,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import org.apache.logging.log4j.core.jmx.Server;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -49,7 +52,8 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
             new ItemRequest(ItemsRegistry.ARCANE_CLAY, 4),
             new ItemRequest(ItemsRegistry.ARCANE_ESSENCE, 32),
     };
-    static final int requestsNeeded = 2;
+    static final int requestsNeeded = 4;
+    static final int powersRequests = 1;
 
     int requestsFilled = 0;
     int currentRequest = 0;
@@ -90,13 +94,22 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
             return itementity;
         }
     }
-    public InteractionResult OnRightClick(ItemStack stack, Player player, InteractionHand hand){
+    public InteractionResult OnRightClick(ItemStack stack, ServerPlayer player, InteractionHand hand){
+        int powerWanted = 20000;
         if(active){
-            if(powerAbsorbed > 200000){
-                TellNearby("<?> I don't need anymore help at the moment.");
+            RegistryHandler.RESTORATION.Trigger(player);
+            if(hasInteracted){
+                RegistryHandler.CONTACT.Trigger(player);
+                if(requestsFilled >= powersRequests) {
+                    RegistryHandler.POWERS.Trigger(player);
+                }
+            }
+            if(powerAbsorbed > powerWanted){
+                TellNearby("<?> I don't need anymore help at the moment, we can speak again later [[new content will come in a future update]]");
             }
             else if(stack.getItem() == ItemsRegistry.CELESTIAL_STAFF){
-                if(powerAbsorbed > 200000){
+                if(powerAbsorbed > powerWanted && false) //no message yet pls thx
+                {
                     TellNearby("<?> Thank you! I've absorbed all the power I want. " +
                             "Feel free to use the Celestial Staff to absorb more demonic energy, but I have no need of it. " +
                             "Do not fear, the staff can contain a fair bit of energy safely. Just don't hand it to anyone you don't trust.");
@@ -108,10 +121,11 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
                 }
                 powerAbsorbed += CelestialStaff.getPower(stack);
                 CelestialStaff.setPower(stack,0);
-                if(powerAbsorbed > 200000){
-                    TellNearby("<?> Thank you! I've absorbed all the power I want. " +
-                            "Feel free to use the Celestial Staff to absorb more demonic energy, but I have no need of it. " +
-                            "Do not fear, the staff can contain a fair bit of energy safely. Just don't hand it to anyone you don't trust.");
+                if(powerAbsorbed > powerWanted){
+                    TellNearby("<?> I don't need anymore help at the moment, we can speak again later [[new content will come in a future update]]");
+                    //TellNearby("<?> Thank you! I've absorbed all the power I want. " +
+                    //        "Feel free to use the Celestial Staff to absorb more demonic energy, but I have no need of it. " +
+                    //        "Do not fear, the staff can contain a fair bit of energy safely. Just don't hand it to anyone you don't trust.");
                 }
                 else{
                     TellNearby("<?> Thank you! Keep collecting more demonic energy, and return it to me for safekeeping. It can be dangerous in the wrong hands.");
@@ -120,11 +134,13 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
             }
             else if(requestsFilled >= requestsNeeded){
                 if(stack.getItem() == ItemsRegistry.ARCANE_STAFF){
+                    RegistryHandler.DESTINY.Trigger(player);
                     player.setItemInHand(hand,new ItemStack(ItemsRegistry.CELESTIAL_STAFF));
                     TellNearby("<?> Here is the Celestial Staff. Good luck on your quest, and may the stars guide you. ");
                     TellNearby("<?> If you succeed, please return with the energy you have absorbed so I can lock it away. It could be dangerous in the wrong hands. ");
                 }
                 else {
+                    RegistryHandler.DESTINY.Trigger(player);
                     TellNearby("<?> I have one final request that I believe can benefit us both. ");
                     TellNearby("<?> The demon realm you currently reside in, it is so dangerous. The very energy of the world is toxic to life. " +
                             "But I've found a way to fix it, to absorb that energy and lock it away safely. " +
@@ -160,6 +176,7 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
             if(stack.getItem() == ItemsRegistry.ANCIENT_SHARD){
                 shards+=1;
                 if(shards>=8){
+                    RegistryHandler.RESTORATION.Trigger(player);
                     active = true;
                 }
                 this.updateBlock();
@@ -187,24 +204,26 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
     }
     public boolean OnTossItem(ItemStack stack){
         if(hasInteracted) {
+            Player player = level.getNearestPlayer(TargetingConditions.forNonCombat(),getX(),getY(),getZ());
+            RegistryHandler.CONTACT.Trigger((ServerPlayer)player);
             if(hasRequest){
                 Item item =  requestOptions[currentRequest].requestedItem;
                 if(stack.getItem() == item){
                     int missing = requestOptions[currentRequest].amount - currentProgress;
                     if(stack.getCount() >= missing) {
-
                         TellNearby("<?> Thank you, that's all the items I need for now!");
                         requestsFilled+=1;
                         hasRequest = false;
                         TellNearby("<?> Here is your reward. If you wish to trade again, I'm always interested. ");
-                        Player player = level.getNearestPlayer(TargetingConditions.forNonCombat(),getX(),getY(),getZ());
+                        if(requestsFilled >= powersRequests) {
+                            RegistryHandler.POWERS.Trigger((ServerPlayer) player);
+                        }
                         SpawnGift(player.blockPosition().above(3));
                     }
                     else{
                         currentProgress += stack.getCount();
                         missing = requestOptions[currentRequest].amount - currentProgress;
                         TellNearby("<?> Thanks, but I still need "+missing+" more "+item.getName(item.getDefaultInstance()).getString(), false);
-
                     }
                     return true;
                 }
@@ -219,6 +238,8 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
             }
         }
         else{
+            Player player = level.getNearestPlayer(TargetingConditions.forNonCombat(),getX(),getY(),getZ());
+            RegistryHandler.CONTACT.Trigger((ServerPlayer)player);
             hasInteracted = true;
             TellNearby("<?> Thanks for the gift... it's been so long since I've received one!");
             return true;

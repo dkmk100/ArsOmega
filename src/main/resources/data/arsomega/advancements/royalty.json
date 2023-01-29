@@ -1,0 +1,28 @@
+{
+  "parent": "arsomega:banished",
+  "criteria": {
+    "arsomega:use_staff": {
+      "trigger": "arsomega:use_demon_staff"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "arsomega.advancement.desc.royalty"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "arsomega:demon_staff"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "arsomega.advancement.title.royalty"
+    }
+  },
+  "requirements": [
+    [
+      "arsomega:use_staff"
+    ]
+  ]
+}
