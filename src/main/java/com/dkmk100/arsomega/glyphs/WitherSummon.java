@@ -15,6 +15,8 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraftforge.common.ForgeConfigSpec;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Set;
@@ -25,6 +27,11 @@ public class WitherSummon extends TierFourEffect {
 
     public WitherSummon(String tag, String description) {
         super(RegistryHandler.getGlyphName(tag), description);
+    }
+
+    @Override
+    public void buildConfig(ForgeConfigSpec.Builder builder) {
+        super.buildConfig(builder);
     }
 
     @Override

@@ -604,19 +604,6 @@ public class RegistryHandler{
 
     public static final RegistryObject<Item> DEMON_STAFF = ITEMS.register("demon_staff", () -> new DemonStaff(UNSTACKABLE_FIRE));
 
-
-       // public static final RegistryObject<Item> ARCANE_HELMET = new EnchantedArmor("arcane_helmet",EquipmentSlot.HEAD,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
-       // public static final RegistryObject<Item> ARCANE_CHEST = new EnchantedArmor("arcane_chestplate",EquipmentSlot.CHEST,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
-       // public static final RegistryObject<Item> ARCANE_LEGGINGS = new EnchantedArmor("arcane_leggings",EquipmentSlot.LEGS,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
-       // public static final RegistryObject<Item> ARCANE_BOOTS = new EnchantedArmor("arcane_boots",EquipmentSlot.FEET,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE);
-
-        //public static final RegistryObject<Item> DEFENSE_HELMET = new EnchantedArmor("defense_helmet",EquipmentSlot.HEAD,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
-       // public static final RegistryObject<Item> DEFENSE_CHEST = new EnchantedArmor("defense_chestplate",EquipmentSlot.CHEST,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
-        //public static final RegistryObject<Item> DEFENSE_LEGGINGS = new EnchantedArmor("defense_leggings",EquipmentSlot.LEGS,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
-        //public static final RegistryObject<Item> DEFENSE_BOOTS = new EnchantedArmor("defense_boots",EquipmentSlot.FEET,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE);
-
-
-
     //magic chalk items
         public static final RegistryObject<Item> MAGIC_CHALK = ITEMS.register("magic_chalk", () -> new MagicChalk(() -> CHALK_LINE_1.get(),16));
         public static final RegistryObject<Item> MARVELOUS_CHALK = ITEMS.register("marvelous_chalk", () -> new MagicChalk(() -> CHALK_LINE_2.get(),32));
@@ -679,7 +666,7 @@ public class RegistryHandler{
     //public static final RegistryObject<Item>  = (new BasicBlockItem(POTION_BOTTLER.get(),ITEM_PROPERTIES).setRegistryName("potion_bottler"));
 
 
-    //REG_ITEMS.put("blocky_hills_music_disc", new RecordItem(7,HILLS_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC),));
+    public static final RegistryObject<Item> BLOCKY_HILLS_DISC = ITEMS.register("blocky_hills_music_disc", () -> new RecordItem(7,HILLS_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC),1020));
 
 
     public static final RegistryObject<Item> MARVELOUS_CLAY_BLOCK_ITEM = ITEMS.register("marvelous_clay_block", () ->(new BasicBlockItem(MARVELOUS_CLAY_BLOCK.get(),ITEM_PROPERTIES)));
@@ -690,7 +677,7 @@ public class RegistryHandler{
     public static final RegistryObject<Item> ARCANE_CLAY_CARVED_BLOCK_ITEM  = ITEMS.register("arcane_clay_carved", () ->(new BasicBlockItem(ARCANE_CLAY_CARVED.get(),ITEM_PROPERTIES)));
 
 
-    //public static final RegistryObject<Item>  = (new RecordItem(8,DEMON_DANCE_MUSIC,new Item.Properties().fireResistant().stacksTo(1).rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC)).setRegistryName("demon_dance_music_disc"));
+    public static final RegistryObject<Item> DEMON_DANCE_DISC = ITEMS.register("demon_dance_music_disc", () -> new RecordItem(8,DEMON_DANCE_MUSIC,new Item.Properties().fireResistant().stacksTo(1).rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC),1520));
 
     public static final RegistryObject<EntityType<? extends Monster>> BASIC_DEMON = ENTITIES.register("demon_basic", () -> EntityType.Builder.of(EntityDemonBasic::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_basic").toString()));
     public static final RegistryObject<EntityType<?  extends Monster>> STRONG_DEMON = ENTITIES.register("demon_strong", () -> EntityType.Builder.of(EntityDemonStrong::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_strong").toString()));
@@ -723,11 +710,11 @@ public class RegistryHandler{
 
 
     public static void RegisterMobSpawns(){
-        /*
+
         SpawnPlacements.register(BASIC_DEMON.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
         SpawnPlacements.register(STRONG_DEMON.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
         SpawnPlacements.register(BOSS_DEMON_KING.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
         SpawnPlacements.register(RAPTOR_DEMON.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
-    */
+
     }
 }

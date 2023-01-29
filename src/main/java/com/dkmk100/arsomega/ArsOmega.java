@@ -152,7 +152,7 @@ public class ArsOmega
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BRAMBLE_3.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BRAMBLE_4.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.GORGON_FIRE.get(), RenderType.cutoutMipped());
-        //ItemBlockRenderTypes.setRenderLayer(ItemsRegistry.INFINITY_JAR, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.INFINITY_CRYSTAL.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CHALK_LINE_1.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CHALK_LINE_2.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CHALK_LINE_3.get(), RenderType.cutout());

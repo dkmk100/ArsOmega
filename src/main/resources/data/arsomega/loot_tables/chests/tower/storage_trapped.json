@@ -47,11 +47,11 @@
         },
         {
           "type": "minecraft:item",
-          "name": "ars_nouveau:glyph_missile"
+          "name": "arsomega:glyph_missile"
         },
         {
           "type": "minecraft:item",
-          "name": "ars_nouveau:glyph_melt"
+          "name": "arsomega:glyph_melt"
         }
       ]
     },
@@ -72,7 +72,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "ars_nouveau:arcane_stone",
+          "name": "ars_nouveau:sourcestone",
           "functions": [
             {
               "function": "minecraft:set_count",

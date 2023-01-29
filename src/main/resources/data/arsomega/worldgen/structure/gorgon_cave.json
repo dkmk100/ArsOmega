@@ -1,6 +1,6 @@
 {
   "type": "minecraft:jigsaw",
-  "biomes": [],
+  "biomes": "#minecraft:has_structure/mineshaft",
   "spawn_overrides": {},
   "start_pool": "arsomega:gorgon_cave",
   "size": 1,

@@ -49,6 +49,6 @@ A an addon for Ars Nouveau that adds many new glyphs
     [[dependencies.arsomega]]
         modId="ars_nouveau"
         mandatory=true
-        versionRange="[2.5,]"
+        versionRange="[3.8.3,]"
         ordering="NONE"
         side="BOTH"

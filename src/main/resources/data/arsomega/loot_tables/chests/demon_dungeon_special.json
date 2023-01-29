@@ -125,6 +125,15 @@
           "name": "arsomega:kaz_carter"
         }
       ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "arsomega:ancient_mirror_shard"
+        }
+      ]
     }
   ]
 }

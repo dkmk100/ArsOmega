@@ -15,6 +15,5 @@ public class InfinityCrystalTile extends SourceJarTile {
             this.addSource(10);
         }
         super.tick();
-
     }
 }

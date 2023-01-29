@@ -175,6 +175,7 @@ repositories {
         name 'LDTTeam - Modding'
         url 'https://ldtteam.jfrog.io/ldtteam/modding/'
     }
+    maven { url 'https://modmaven.dev/' }
     maven {
         //for blame
         url "https://nexus.resourcefulbees.com/repository/maven-public/"
@@ -193,8 +194,7 @@ dependencies {
 
     runtimeOnly fg.deobf("curse.maven:exp-407174:3544525")  // Shutup experimental settings
 
-    runtimeOnly fg.deobf("curse.maven:exp-401955:4276865")  // Ars Nouveau 2.7.7
-    compileOnly fg.deobf("curse.maven:exp-401955:4276865")
+    implementation fg.deobf("curse.maven:exp-401955:4360583") //ars 3.8.3
 
     implementation fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 

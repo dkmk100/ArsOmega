@@ -1,6 +1,6 @@
 {
   "type": "minecraft:jigsaw",
-  "biomes": [],
+  "biomes": "arsomega:demon_biome",
   "spawn_overrides": {},
   "start_pool": "arsomega:demon_chair",
   "size": 1,

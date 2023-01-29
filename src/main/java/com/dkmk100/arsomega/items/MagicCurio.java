@@ -2,11 +2,12 @@ package com.dkmk100.arsomega.items;
 
 import com.hollingsworth.arsnouveau.api.item.ArsNouveauCurio;
 import com.hollingsworth.arsnouveau.api.mana.IManaEquipment;
+import com.hollingsworth.arsnouveau.common.items.curios.AbstractManaCurio;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class MagicCurio extends ArsNouveauCurio implements IManaEquipment {
+public class MagicCurio extends AbstractManaCurio implements IManaEquipment {
     int boost;
     int regen;
 

@@ -4,6 +4,17 @@
     "size": 3,
     "discard_chance_on_air_exposure": 0,
     "targets": [
+      {
+        "target": {
+          "predicate_type": "minecraft:blockstate_match",
+          "block_state": {
+            "Name": "arsomega:demonic_stone"
+          }
+        },
+        "state": {
+          "Name": "arsomega:demonic_rift"
+        }
+      }
     ]
   }
 }
