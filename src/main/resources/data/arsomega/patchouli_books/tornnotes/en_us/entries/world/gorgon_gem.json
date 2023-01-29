@@ -1,7 +1,7 @@
 {
   "name": "Gorgon Gem",
   "icon": "arsomega:gorgon_gem",
-  "category": "arsomega:arcane_equipment",
+  "category": "ars_nouveau:resources",
   "advancement": "arsomega:restricted_knowledge",
   "pages": [
     {

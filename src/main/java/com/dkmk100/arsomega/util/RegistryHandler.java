@@ -655,6 +655,9 @@ public class RegistryHandler{
 
         ITEMS.add(new CelestialStaff(ITEM_PROPERTIES_FIRE,"celestial_staff"));
 
+        ITEMS.add(new BlockItem(CURSED_EARTH.get(),ITEM_PROPERTIES).setRegistryName("cursed_earth"));
+        ITEMS.add(new BlockItem(VENGEFUL_SOUL_SAND.get(),ITEM_PROPERTIES).setRegistryName("vengeful_soul_sand"));
+
         for (Item item : ITEMS) {
             event.getRegistry().register(item);
         }
@@ -706,6 +709,8 @@ public class RegistryHandler{
 
     public static final RegistryObject<Block> CURSE_ALTAR = BLOCKS.register("curse_altar",() -> new CurseAltarBlock(UNBREAKABLE_BLOCK_PROPERTIES));
 
+    public static final RegistryObject<Block> CURSED_EARTH = BLOCKS.register("cursed_earth",() -> new CursedEarth(CLAY_PROPERTIES));
+    public static final RegistryObject<Block> VENGEFUL_SOUL_SAND = BLOCKS.register("vengeful_soul_sand",() -> new CursedEarth(CLAY_PROPERTIES));
 
     static EntityType<? extends Entity> getClayGolem(){
         return CLAY_GOLEM_BETA.get();

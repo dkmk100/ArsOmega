@@ -2,7 +2,7 @@
   "name": "item.ars_nouveau.ritual_petrification",
   "icon": "ars_nouveau:ritual_petrification",
   "category": "ars_nouveau:rituals",
-  "advancement": "arsomega:restricted_knowledge",
+  "advancement": "arsomega:forbidden_knowledge",
   "pages": [
     {
       "type": "text",

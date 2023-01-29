@@ -10,7 +10,7 @@
   "ars_nouveau.glyph_name.curse": "Curse",
   "ars_nouveau.glyph_desc.curse": "On entities, applies bad luck, and on blocks, turns them into silverfish variants",
   "ars_nouveau.glyph_name.demonic_curse": "Demonic Curse",
-  "ars_nouveau.glyph_desc.demonic_curse": "A powerful harming effect that is almost impossible to cure.",
+  "ars_nouveau.glyph_desc.demonic_curse": "A powerful harming effect that is almost impossible to cure. If augmented with sensitive, can convert dirt into cursed earth, as well as create vengeful soul sand.",
   "ars_nouveau.glyph_name.heartstop": "Heartstop",
   "ars_nouveau.glyph_desc.heartstop": "Disrupts target's heart, and can be combined with effects like shocked for massive damage.",
   "ars_nouveau.glyph_name.poison_flower": "Poison Flower",

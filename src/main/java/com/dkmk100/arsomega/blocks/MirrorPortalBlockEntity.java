@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.blocks;
 
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.items.CelestialStaff;
 import com.dkmk100.arsomega.util.RegistryHandler;
@@ -146,7 +147,6 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
                 return InteractionResult.SUCCESS;
             }
             else if(hasInteracted){
-
                 if(hasRequest){
                     Item item =  requestOptions[currentRequest].requestedItem;
                     int missing = requestOptions[currentRequest].amount - currentProgress;
@@ -201,6 +201,8 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
     }
     public boolean OnTossItem(ItemStack stack){
         if(hasInteracted) {
+            Player player = level.getNearestPlayer(TargetingConditions.forNonCombat(),getX(),getY(),getZ());
+            RegistryHandler.CONTACT.Trigger((ServerPlayer)player);
             if(hasRequest){
                 Item item =  requestOptions[currentRequest].requestedItem;
                 if(stack.getItem() == item){
@@ -210,7 +212,6 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
                         requestsFilled+=1;
                         hasRequest = false;
                         TellNearby("<?> Here is your reward. If you wish to trade again, I'm always interested. ");
-                        Player player = level.getNearestPlayer(TargetingConditions.forNonCombat(),getX(),getY(),getZ());
                         if(requestsFilled >= powersRequests) {
                             RegistryHandler.POWERS.Trigger((ServerPlayer) player);
                         }

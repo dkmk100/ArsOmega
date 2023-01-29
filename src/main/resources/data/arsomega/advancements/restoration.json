@@ -1,5 +1,5 @@
 {
-  "parent": "arsomega:forbidden_knowledge",
+  "parent": "arsomega:shattered",
   "criteria": {
     "arsomega:restoration": {
       "trigger": "arsomega:restoration"
