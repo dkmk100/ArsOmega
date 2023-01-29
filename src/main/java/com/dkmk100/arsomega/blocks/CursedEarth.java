@@ -107,6 +107,9 @@ public class CursedEarth extends GrassBlock {
 
     }
 
+
+    //Adapted from the Doomed Grass mod
+    //https://github.com/embeddedt/DoomedGrass/tree/main
     private Mob findMonsterToSpawn(ServerLevel world, BlockPos pos, Random rand) {
         var potentialData = NaturalSpawner.getRandomSpawnMobAt(world, world.structureFeatureManager(), world.getChunkSource().getGenerator(), MobCategory.MONSTER, rand, pos);
         if (potentialData.isPresent()) {

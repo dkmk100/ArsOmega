@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega;
 
+import com.dkmk100.arsomega.client.block.DemonicLightRenderer;
 import com.dkmk100.arsomega.client.block.MirrorPortalRenderer;
 import com.dkmk100.arsomega.client.block.PortalRenderer;
 import com.dkmk100.arsomega.client.renderer.*;
@@ -172,6 +173,8 @@ public class ArsOmega
 
         event.registerBlockEntityRenderer(RegistryHandler.PortalType.get(), PortalRenderer::new);
         event.registerBlockEntityRenderer(RegistryHandler.MirrorPortalType.get(), MirrorPortalRenderer::new);
+        event.registerBlockEntityRenderer(RegistryHandler.DemonicLightType.get(), DemonicLightRenderer::new);
+
 
     }
     @OnlyIn(Dist.CLIENT)

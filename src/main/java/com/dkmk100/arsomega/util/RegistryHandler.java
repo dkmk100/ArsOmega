@@ -775,6 +775,12 @@ public class RegistryHandler{
     public static final RegistryObject<PortalBlock> PORTAL_BLOCK = BLOCKS.register("portal_block",() -> new PortalBlock(PORTAL_PROPERTIES));
     public static final RegistryObject<MirrorPortalBlock> MIRROR_PORTAL_BLOCK = BLOCKS.register("mirror_portal_block",() -> new MirrorPortalBlock(PORTAL_PROPERTIES));
 
+    public static final RegistryObject<DemonicLightBlock> DEMONIC_LIGHT = BLOCKS.register("demonic_light",() -> new DemonicLightBlock());
+
+
+    public static RegistryObject<BlockEntityType<DemonicLightTile>> DemonicLightType = TILE_ENTITIES.register("demonic_light_tile",() -> BlockEntityType.Builder.of(DemonicLightTile::new,DEMONIC_LIGHT.get()).build(null));
+
+
 
     public static RegistryObject<BlockEntityType<PotionExtenderTile>> PotionExtenderType = TILE_ENTITIES.register("potion_extender_tile",() -> BlockEntityType.Builder.of(PotionExtenderTile::new,POTION_EXTENDER.get()).build(null));
     public static RegistryObject<BlockEntityType<PotionAmplifierTile>> PotionAmplifierType = TILE_ENTITIES.register("potion_amplifier_tile",() -> BlockEntityType.Builder.of(PotionAmplifierTile::new,POTION_AMPLIFIER.get()).build(null));

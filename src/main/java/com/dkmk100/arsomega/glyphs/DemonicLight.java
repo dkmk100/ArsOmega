@@ -1,17 +1,14 @@
 package com.dkmk100.arsomega.glyphs;
 
-import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.blocks.DemonicLightTile;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ANFakePlayer;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.BlockUtil;
 import com.hollingsworth.arsnouveau.common.block.SconceBlock;
-import com.hollingsworth.arsnouveau.common.block.tile.LightTile;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
-import com.hollingsworth.arsnouveau.setup.BlockRegistry;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.core.BlockPos;
@@ -40,12 +37,8 @@ public class DemonicLight extends TierFourEffect {
         }
 
         if (rayTraceResult.getEntity() instanceof LivingEntity) {
-            if(!spellStats.hasBuff(AugmentSensitive.INSTANCE)) {
                 this.applyConfigPotion((LivingEntity) rayTraceResult.getEntity(), MobEffects.GLOWING, spellStats);
-            }
-            if(!spellStats.hasBuff(AugmentExtract.INSTANCE)) {
                 this.applyConfigPotion((LivingEntity) rayTraceResult.getEntity(), MobEffects.NIGHT_VISION, spellStats, false);
-            }
         }
     }
 
@@ -66,9 +59,9 @@ public class DemonicLight extends TierFourEffect {
                 world.setBlockAndUpdate(rawPos, Blocks.DEEPSLATE_GOLD_ORE.defaultBlockState());
             }
             else {
-                if (world.getBlockState(pos).getMaterial().isReplaceable() && world.isUnobstructed(BlockRegistry.LIGHT_BLOCK.defaultBlockState(), pos, CollisionContext.of(ANFakePlayer.getPlayer((ServerLevel)world)))) {
-                    world.setBlockAndUpdate(pos, (BlockState)BlockRegistry.LIGHT_BLOCK.defaultBlockState().setValue(SconceBlock.LIGHT_LEVEL, Math.max(0, Math.min(15, 14 + (int)spellStats.getAmpMultiplier()))));
-                    LightTile tile = (LightTile)world.getBlockEntity(pos);
+                if (!spellStats.hasBuff(AugmentSensitive.INSTANCE) && world.getBlockState(pos).getMaterial().isReplaceable() && world.isUnobstructed(RegistryHandler.DEMONIC_LIGHT.get().defaultBlockState(), pos, CollisionContext.of(ANFakePlayer.getPlayer((ServerLevel)world)))) {
+                    world.setBlockAndUpdate(pos, RegistryHandler.DEMONIC_LIGHT.get().defaultBlockState().setValue(SconceBlock.LIGHT_LEVEL, Math.max(0, Math.min(15, 14 + (int)spellStats.getAmpMultiplier()))));
+                    DemonicLightTile tile = (DemonicLightTile)world.getBlockEntity(pos);
                     if (tile != null) {
                         tile.red = spellContext.colors.r;
                         tile.green = spellContext.colors.g;
@@ -88,18 +81,13 @@ public class DemonicLight extends TierFourEffect {
 
     @Override
     public int getDefaultManaCost() {
-        return 250;
+        return 125;
     }
 
     @Override
     @Nonnull
     public Set<AbstractAugment> getCompatibleAugments() {
         return this.augmentSetOf(new AbstractAugment[]{AugmentAmplify.INSTANCE, AugmentDurationDown.INSTANCE, AugmentDampen.INSTANCE, AugmentExtendTime.INSTANCE, AugmentSensitive.INSTANCE});
-    }
-
-    @Override
-    public String getBookDescription() {
-        return "If cast on a block, a permanent light source is created. May be amplified up to Glowstone brightness, or Dampened for a lower light level. When cast on yourself, you will receive night vision. When cast on other entities, they will receive Night Vision and Glowing.";
     }
 
     @Override

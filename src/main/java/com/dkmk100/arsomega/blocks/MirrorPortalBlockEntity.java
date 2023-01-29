@@ -95,6 +95,7 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
         }
     }
     public InteractionResult OnRightClick(ItemStack stack, ServerPlayer player, InteractionHand hand){
+        int powerWanted = 20000;
         if(active){
             RegistryHandler.RESTORATION.Trigger(player);
             if(hasInteracted){
@@ -103,11 +104,12 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
                     RegistryHandler.POWERS.Trigger(player);
                 }
             }
-            if(powerAbsorbed > 200000){
-                TellNearby("<?> I don't need anymore help at the moment.");
+            if(powerAbsorbed > powerWanted){
+                TellNearby("<?> I don't need anymore help at the moment, we can speak again later [[new content will come in a future update]]");
             }
             else if(stack.getItem() == ItemsRegistry.CELESTIAL_STAFF){
-                if(powerAbsorbed > 200000){
+                if(powerAbsorbed > powerWanted && false) //no message yet pls thx
+                {
                     TellNearby("<?> Thank you! I've absorbed all the power I want. " +
                             "Feel free to use the Celestial Staff to absorb more demonic energy, but I have no need of it. " +
                             "Do not fear, the staff can contain a fair bit of energy safely. Just don't hand it to anyone you don't trust.");
@@ -119,10 +121,11 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
                 }
                 powerAbsorbed += CelestialStaff.getPower(stack);
                 CelestialStaff.setPower(stack,0);
-                if(powerAbsorbed > 200000){
-                    TellNearby("<?> Thank you! I've absorbed all the power I want. " +
-                            "Feel free to use the Celestial Staff to absorb more demonic energy, but I have no need of it. " +
-                            "Do not fear, the staff can contain a fair bit of energy safely. Just don't hand it to anyone you don't trust.");
+                if(powerAbsorbed > powerWanted){
+                    TellNearby("<?> I don't need anymore help at the moment, we can speak again later [[new content will come in a future update]]");
+                    //TellNearby("<?> Thank you! I've absorbed all the power I want. " +
+                    //        "Feel free to use the Celestial Staff to absorb more demonic energy, but I have no need of it. " +
+                    //        "Do not fear, the staff can contain a fair bit of energy safely. Just don't hand it to anyone you don't trust.");
                 }
                 else{
                     TellNearby("<?> Thank you! Keep collecting more demonic energy, and return it to me for safekeeping. It can be dangerous in the wrong hands.");
