@@ -2,6 +2,7 @@ package com.dkmk100.arsomega.potions;
 
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.recipe.PotionIngredient;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -52,22 +53,22 @@ public class ModPotions {
         ItemStack poison3Pot = PotionUtils.setPotion(new ItemStack(Items.POTION), PotionsRegistry.POISON_3_POT);
 
 
-        BrewingRecipeRegistry.addRecipe(new BrewingRecipe(new PotionIngredient(AWKWARD), Ingredient.of(ItemsRegistry.ALCHEMY_ESSENCE),  dispellantPot));
+        BrewingRecipeRegistry.addRecipe(new BrewingRecipe(new PotionIngredient(AWKWARD), Ingredient.of(RegistryHandler.ESSENCE_ALCHEMY.get()),  dispellantPot));
         BrewingRecipeRegistry.addRecipe(new BrewingRecipe(new PotionIngredient(dispellantPot), Ingredient.of(Items.REDSTONE),  dispellantLongPot));
-        BrewingRecipeRegistry.addRecipe(new BrewingRecipe(new PotionIngredient(poison2Pot), Ingredient.of(ItemsRegistry.POISON_FLOWER),  poison3Pot));
+        BrewingRecipeRegistry.addRecipe(new BrewingRecipe(new PotionIngredient(poison2Pot), Ingredient.of(RegistryHandler.POISON_FLOWER_ITEM.get()),  poison3Pot));
 
         ItemStack health1Pot = PotionUtils.setPotion(new ItemStack(Items.POTION), PotionsRegistry.HEALTH_1_POT);
         ItemStack health2Pot = PotionUtils.setPotion(new ItemStack(Items.POTION), PotionsRegistry.HEALTH_2_POT);
 
-        BrewingRecipeRegistry.addRecipe(new BrewingRecipe(new PotionIngredient(AWKWARD), Ingredient.of(ItemsRegistry.LIFE_ESSENCE), health1Pot));
+        BrewingRecipeRegistry.addRecipe(new BrewingRecipe(new PotionIngredient(AWKWARD), Ingredient.of(RegistryHandler.ESSENCE_LIFE.get()), health1Pot));
         BrewingRecipeRegistry.addRecipe(new BrewingRecipe(new PotionIngredient(health1Pot), Ingredient.of(Items.ENCHANTED_GOLDEN_APPLE), health2Pot));
 
         ItemStack absPot = PotionUtils.setPotion(new ItemStack(Items.POTION), PotionsRegistry.ABS_POT);
         BrewingRecipeRegistry.addRecipe(new BrewingRecipe(new PotionIngredient(AWKWARD), Ingredient.of(Items.GOLDEN_APPLE), absPot));
 
 
-        BrewingRecipeRegistry.addRecipe(new BrewingRecipe(Ingredient.of(new ItemStack(Items.GLASS_BOTTLE)), Ingredient.of(Items.GUNPOWDER), new ItemStack(ItemsRegistry.SPLASH_BOTTLE)));
-        BrewingRecipeRegistry.addRecipe(new BrewingRecipe(Ingredient.of(new ItemStack(ItemsRegistry.SPLASH_BOTTLE)), Ingredient.of(Items.DRAGON_BREATH),new ItemStack(ItemsRegistry.LINGERING_BOTTLE)));
+        BrewingRecipeRegistry.addRecipe(new BrewingRecipe(Ingredient.of(new ItemStack(Items.GLASS_BOTTLE)), Ingredient.of(Items.GUNPOWDER), new ItemStack(RegistryHandler.SPLASH_BOTTLE.get())));
+        BrewingRecipeRegistry.addRecipe(new BrewingRecipe(Ingredient.of(new ItemStack(RegistryHandler.SPLASH_BOTTLE.get())), Ingredient.of(Items.DRAGON_BREATH),new ItemStack(RegistryHandler.LINGERING_BOTTLE.get())));
 
     }
 

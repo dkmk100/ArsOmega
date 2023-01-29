@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.BlockUtil;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectToss;
@@ -37,7 +38,7 @@ public class SwapTargetGlyph extends AbstractEffect implements ConfigurableGlyph
             if(!AFFECT_PLAYERS.get() && player){
                 return;
             }
-            if(CuriosApi.getCuriosHelper().findFirstCurio((LivingEntity) entity, ItemsRegistry.STABILITY_CLOAK).isPresent()){
+            if(CuriosApi.getCuriosHelper().findFirstCurio((LivingEntity) entity, RegistryHandler.STABILITY_CLOAK.get()).isPresent()){
                 return;
             }
             if (spellContext.getCurrentIndex() < spellContext.getSpell().recipe.size() && BlockUtil.destroyRespectsClaim(shooter, world, entity.blockPosition().below())) {

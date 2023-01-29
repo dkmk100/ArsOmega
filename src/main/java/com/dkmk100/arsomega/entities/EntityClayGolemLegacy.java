@@ -106,7 +106,7 @@ public class EntityClayGolemLegacy extends AbstractGolem {
     protected InteractionResult mobInteract(Player p_230254_1_, InteractionHand p_230254_2_) {
         ItemStack itemstack = p_230254_1_.getItemInHand(p_230254_2_);
         Item item = itemstack.getItem();
-        if (item != ItemsRegistry.MAGIC_CLAY) {
+        if (item != RegistryHandler.MAGIC_CLAY.get()) {
             return InteractionResult.PASS;
         } else {
             float f = this.getHealth();

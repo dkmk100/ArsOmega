@@ -51,9 +51,9 @@ public class DiamondGlyph extends TierFourEffect implements ConfigurableGlyph {
             int cost = extraAmpCost.get();
 
 
-            if (shooter != null && CuriosApi.getCuriosHelper().findFirstCurio(shooter, ItemsRegistry.ALCHEMY_FOCUS_ADVANCED).isPresent()) {
+            if (shooter != null && CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_ADVANCED_ALCHEMY.get()).isPresent()) {
                 amp += Math.max(advancedFocusBonus.get(), focusBonus.get());
-            } else if (shooter != null && CuriosApi.getCuriosHelper().findFirstCurio(shooter, ItemsRegistry.ALCHEMY_FOCUS).isPresent()) {
+            } else if (shooter != null && CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_ALCHEMY.get()).isPresent()) {
                 amp += focusBonus.get();
             }
 

@@ -46,9 +46,9 @@ public class TransmuteGlyph extends AbstractEffect {
             int maxProcess = spellStats.getBuffCount(AugmentPierce.INSTANCE) * 16 + 8;
 
             int maxLevel = normalMax;
-            if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, ItemsRegistry.ALCHEMY_FOCUS_ADVANCED).isPresent()) {
+            if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_ADVANCED_ALCHEMY.get()).isPresent()) {
                 maxLevel = advancedFocusMax;
-            } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,ItemsRegistry.ALCHEMY_FOCUS).isPresent()) {
+            } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,RegistryHandler.FOCUS_OF_ALCHEMY.get()).isPresent()) {
                 maxLevel = focusMax;
             }
             ampBuff = Math.min(ampBuff,maxLevel);

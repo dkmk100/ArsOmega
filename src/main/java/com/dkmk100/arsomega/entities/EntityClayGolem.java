@@ -259,14 +259,14 @@ public class EntityClayGolem extends AbstractGolem implements IDispellable, IToo
     protected Item getHealItem(){
         switch(tier){
             case ARCANE:
-                return ItemsRegistry.ARCANE_CLAY;
+                return RegistryHandler.ARCANE_CLAY.get();
             case MYSTIC:
-                return ItemsRegistry.MYSTIC_CLAY;
+                return RegistryHandler.MYSTIC_CLAY.get();
             case MARVELOUS:
-                return ItemsRegistry.MARVELOUS_CLAY;
+                return RegistryHandler.MARVELOUS_CLAY.get();
             case MAGIC:
             default:
-                return ItemsRegistry.MAGIC_CLAY;
+                return RegistryHandler.MAGIC_CLAY.get();
         }
     }
     protected float getHealPercent(){

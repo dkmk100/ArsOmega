@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.rituals;
 
 import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
@@ -60,7 +61,7 @@ public class RitualSummoning extends AbstractRitual {
                             amount+=stack.getCount();
                         }
                     }
-                    else if(item == Items.ENDER_EYE || item == ItemsRegistry.DEMONIC_GEM){
+                    else if(item == Items.ENDER_EYE || item == RegistryHandler.DEMON_GEM.get()){
                         cursed = true;
                     }
                     else if(item == Items.NETHERITE_INGOT)

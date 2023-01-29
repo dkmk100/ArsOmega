@@ -60,7 +60,7 @@ public class CommonEvents {
             Entity ent = ((EntityHitResult) result).getEntity();
             if(ent instanceof Player){
                 Player player = (Player)ent;
-                if (CuriosApi.getCuriosHelper().findFirstCurio(player, ItemsRegistry.ENCHANTERS_CLOAK).isPresent()) {
+                if (CuriosApi.getCuriosHelper().findFirstCurio(player, RegistryHandler.ENCHANTERS_CLOAK.get()).isPresent()) {
                     handleCloak(event,player);
                 }
             }

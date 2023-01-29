@@ -112,7 +112,7 @@ public abstract class GenericEmpathyAltar extends ModdedTile implements ITooltip
         }
         else {
             //altar interactions
-            if (stack.getItem() == ItemsRegistry.ENCHANTED_MIRROR_SHARD && !hasShard) {
+            if (stack.getItem() == RegistryHandler.ENCHANTED_MIRROR_SHARD.get() && !hasShard) {
                 this.hasShard = true;
                 this.updateBlock();
                 stack.shrink(1);

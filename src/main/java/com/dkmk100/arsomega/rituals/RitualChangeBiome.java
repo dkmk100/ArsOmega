@@ -49,12 +49,12 @@ public class RitualChangeBiome extends AbstractRitual {
         boolean choseBiome = false;
         boolean canDoNether = false;
         for (ItemStack stack : this.getConsumedItems()) {
-            if (!choseBiome && stack.getItem() == ItemsRegistry.BIOME_CRYSTAL && stack.hasTag() && stack.getTag().contains("biome")) {
+            if (!choseBiome && stack.getItem() == RegistryHandler.BIOME_CRYSTAL.get() && stack.hasTag() && stack.getTag().contains("biome")) {
                 biomeName = stack.getTag().getString("biome");
                 choseBiome = true;
                 //don't break because we'll check for dim crystals later
             }
-            if (stack.getItem() == ItemsRegistry.DEMONIC_GEM) {
+            if (stack.getItem() == RegistryHandler.DEMON_GEM.get()) {
                 canDoNether = true;
             }
         }
@@ -192,7 +192,7 @@ public class RitualChangeBiome extends AbstractRitual {
     public ParticleColor getCenterColor() {
         if(this.getConsumedItems().size()>0 && this.getWorld().isClientSide()){
             ItemStack stack = getConsumedItems().get(0);
-            if(stack.getItem() == ItemsRegistry.BIOME_CRYSTAL && stack.hasTag() && stack.getTag().contains("biome")){
+            if(stack.getItem() == RegistryHandler.BIOME_CRYSTAL.get() && stack.hasTag() && stack.getTag().contains("biome")){
                 if(biome==null) {
                     String biomeName = stack.getTag().getString("biome");
                     RegistryAccess reg = this.getWorld().registryAccess();
@@ -229,10 +229,10 @@ public class RitualChangeBiome extends AbstractRitual {
     public boolean canConsumeItem(ItemStack stack) {
         int consumed = this.getConsumedItems().size();
         if(consumed==0){
-            return stack.getItem()==ItemsRegistry.BIOME_CRYSTAL;
+            return stack.getItem()==RegistryHandler.BIOME_CRYSTAL.get();
         }
         else if(consumed==1){
-            return stack.getItem()==ItemsRegistry.DEMONIC_GEM;
+            return stack.getItem()==RegistryHandler.DEMON_GEM.get();
         }
 
         return false;

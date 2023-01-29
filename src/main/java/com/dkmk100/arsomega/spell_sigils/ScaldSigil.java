@@ -18,8 +18,8 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 public class ScaldSigil extends AbstractSpellSigil {
-    public ScaldSigil(String name) {
-        super(name);
+    public ScaldSigil() {
+        super();
     }
 
     @Override

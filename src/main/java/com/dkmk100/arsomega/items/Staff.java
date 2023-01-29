@@ -47,26 +47,17 @@ public class Staff extends SwordItem implements IAnimatable, ICasterTool {
         this.augmentAdded = AugmentAmplify.INSTANCE;
         this.amountEach = 2;
     }
-    public Staff(String name, Tier iItemTier, int baseDamage, float baseAttackSpeed) {
-        super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsOmega.itemGroup));
-        this.setRegistryName(ArsOmega.MOD_ID, name);
-        this.augmentAmount = 2;
-        this.augmentAdded = AugmentAmplify.INSTANCE;
-        this.amountEach = 2;
-    }
     int augmentAmount;
     AbstractAugment augmentAdded;
     int amountEach;
-    public Staff(String name, Tier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach) {
+    public Staff(Tier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach) {
         super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsOmega.itemGroup));
-        this.setRegistryName(ArsOmega.MOD_ID, name);
         this.augmentAmount = augmentAmount;
         this.augmentAdded = augmentAdded;
         this.amountEach = amountEach;
     }
-    public Staff(String name, Tier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach, boolean fireResistant) {
+    public Staff(Tier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach, boolean fireResistant) {
         super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsOmega.itemGroup).fireResistant());
-        this.setRegistryName(ArsOmega.MOD_ID, name);
         this.augmentAmount = augmentAmount;
         this.augmentAdded = augmentAdded;
         this.amountEach = amountEach;
