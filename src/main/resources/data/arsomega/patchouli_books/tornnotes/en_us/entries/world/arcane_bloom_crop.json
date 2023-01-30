@@ -1,7 +1,7 @@
 {
   "name": "block.arsomega.arcane_bloom_crop",
   "icon": "arsomega:arcane_bloom_crop",
-  "category": "arsomega:arcane_equipment",
+  "category": "ars_nouveau:resources",
   "advancement": "arsomega:restricted_knowledge",
   "pages": [
     {
