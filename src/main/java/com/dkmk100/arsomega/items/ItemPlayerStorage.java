@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class ItemPlayerStorage extends BasicItem {
-    public ItemPlayerStorage(String name, Properties properties) {
-        super(properties, name);
+    public ItemPlayerStorage(Properties properties) {
+        super(properties);
     }
 
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip2, TooltipFlag flagIn) {

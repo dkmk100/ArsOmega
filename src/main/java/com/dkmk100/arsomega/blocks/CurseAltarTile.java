@@ -50,7 +50,7 @@ public class CurseAltarTile extends GenericEmpathyAltar {
     @Override
 
     public Item getFinalizeItem(){
-        return ItemsRegistry.DEMONIC_GEM;
+        return RegistryHandler.DEMON_GEM.get();
     }
     @Override
 

@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.entities;
 
 import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -86,7 +87,7 @@ public class EntityDemonRaptor  extends Monster implements IAnimatable {
     @Override
     protected void dropCustomDeathLoot(DamageSource p_213333_1_, int p_213333_2_, boolean p_213333_3_) {
         super.dropCustomDeathLoot(p_213333_1_, p_213333_2_, p_213333_3_);
-        ItemEntity itementity = this.spawnAtLocation(ItemsRegistry.DEMONIC_TOOTH);
+        ItemEntity itementity = this.spawnAtLocation(RegistryHandler.DEMONIC_TOOTH.get());
         if (itementity != null) {
             itementity.setExtendedLifetime();
         }

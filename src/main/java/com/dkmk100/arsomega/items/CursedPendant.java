@@ -31,8 +31,8 @@ public class CursedPendant extends BasicItem implements Vanishable {
     final int defSeed;
     final float intensity;
 
-    public CursedPendant(String reg, int effects, int defaultSeed, float intensityMult) {
-        super((new Item.Properties()).stacksTo(1).tab(ArsNouveau.itemGroup).rarity(Rarity.values()[Math.min(Rarity.values().length - 1, Math.round(intensityMult))]),reg);
+    public CursedPendant(int effects, int defaultSeed, float intensityMult) {
+        super((new Item.Properties()).stacksTo(1).tab(ArsNouveau.itemGroup).rarity(Rarity.values()[Math.min(Rarity.values().length - 1, Math.round(intensityMult))]));
         defSeed = defaultSeed;
         effectCount = effects;
         intensity = intensityMult;

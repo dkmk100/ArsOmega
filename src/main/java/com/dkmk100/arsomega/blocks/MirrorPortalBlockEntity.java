@@ -29,7 +29,9 @@ import net.minecraft.world.phys.AABB;
 import org.apache.logging.log4j.core.jmx.Server;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 /*
 
@@ -46,11 +48,11 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
     boolean hasInteracted = false;
 
     static ItemRequest[] requestOptions = {
-            new ItemRequest(ItemsRegistry.INFUSED_DIAMOND, 128),
-            new ItemRequest(ItemsRegistry.GORGON_GEM, 8),
-            new ItemRequest(ItemsRegistry.DEMONIC_GEM, 64),
-            new ItemRequest(ItemsRegistry.ARCANE_CLAY, 4),
-            new ItemRequest(ItemsRegistry.ARCANE_ESSENCE, 32),
+            new ItemRequest(RegistryHandler.INFUSED_DIAMOND.get(), 128),
+            new ItemRequest(RegistryHandler.GORGON_GEM.get(), 8),
+            new ItemRequest(RegistryHandler.DEMON_GEM.get(), 64),
+            new ItemRequest(RegistryHandler.ARCANE_CLAY.get(), 4),
+            new ItemRequest(RegistryHandler.ESSENCE_ARCANE.get(), 32),
     };
     static final int requestsNeeded = 4;
     static final int powersRequests = 1;
@@ -107,7 +109,7 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
             if(powerAbsorbed > powerWanted){
                 TellNearby("<?> I don't need anymore help at the moment, we can speak again later [[new content will come in a future update]]");
             }
-            else if(stack.getItem() == ItemsRegistry.CELESTIAL_STAFF){
+            else if(stack.getItem() == RegistryHandler.CELESTIAL_STAFF.get()){
                 if(powerAbsorbed > powerWanted && false) //no message yet pls thx
                 {
                     TellNearby("<?> Thank you! I've absorbed all the power I want. " +
@@ -133,9 +135,9 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
                 return InteractionResult.SUCCESS;
             }
             else if(requestsFilled >= requestsNeeded){
-                if(stack.getItem() == ItemsRegistry.ARCANE_STAFF){
+                if(stack.getItem() == RegistryHandler.STAFF_3.get()){
                     RegistryHandler.DESTINY.Trigger(player);
-                    player.setItemInHand(hand,new ItemStack(ItemsRegistry.CELESTIAL_STAFF));
+                    player.setItemInHand(hand,new ItemStack(RegistryHandler.CELESTIAL_STAFF.get()));
                     TellNearby("<?> Here is the Celestial Staff. Good luck on your quest, and may the stars guide you. ");
                     TellNearby("<?> If you succeed, please return with the energy you have absorbed so I can lock it away. It could be dangerous in the wrong hands. ");
                 }
@@ -173,7 +175,7 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
             return InteractionResult.PASS;
         }
         else{
-            if(stack.getItem() == ItemsRegistry.ANCIENT_SHARD){
+            if(stack.getItem() == RegistryHandler.ANCIENT_MIRROR_SHARD.get()){
                 shards+=1;
                 if(shards>=8){
                     RegistryHandler.RESTORATION.Trigger(player);
@@ -182,7 +184,7 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
                 this.updateBlock();
                 return InteractionResult.SUCCESS;
             }
-            else if(stack.getItem() == ItemsRegistry.ENCHANTED_MIRROR_SHARD){
+            else if(stack.getItem() == RegistryHandler.ENCHANTED_MIRROR_SHARD.get()){
                 TellNearby("The mirror shard doesn't seem to fit... maybe there's another kind somewhere?");
                 return InteractionResult.PASS;
             }
@@ -190,17 +192,17 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
         return InteractionResult.PASS;
     }
 
-    static ItemStack[] gifts = {
-            new ItemStack(ItemsRegistry.ENCHANTED_MIRROR_SHARD,4),
-            new ItemStack(ItemsRegistry.ENCHANTERS_WOOL_ITEM,2),
-            new ItemStack(ItemsRegistry.ARCANE_CLOTH,2),
-            new ItemStack(Items.WITHER_SKELETON_SKULL,8),
-            new ItemStack(ItemsRegistry.ARCANE_APPLE,2),
-            new ItemStack(Items.NETHER_STAR,1),
-            new ItemStack(ItemsRegistry.SIGIL_BINDING_ACTIVE,8),
-    };
+    static List<Supplier<ItemStack>> gifts = List.of(
+            () -> new ItemStack(RegistryHandler.ENCHANTED_MIRROR_SHARD.get(),4),
+            () -> new ItemStack(RegistryHandler.ENCHANTERS_WOOL_ITEM.get(),2),
+            () -> new ItemStack(RegistryHandler.ARCANE_CLOTH.get(),2),
+            () -> new ItemStack(Items.WITHER_SKELETON_SKULL,8),
+            () -> new ItemStack(RegistryHandler.ARCANE_APPLE_ITEM.get(),2),
+            () -> new ItemStack(Items.NETHER_STAR,1),
+            () -> new ItemStack(RegistryHandler.SIGIL_BINDING_ACTIVE.get(),8)
+    );
     void SpawnGift(BlockPos pos){
-        spawnAtLocation(gifts[level.random.nextInt(gifts.length)],pos);
+        spawnAtLocation(gifts.get(level.random.nextInt((int)gifts.stream().count())).get(),pos);
     }
     public boolean OnTossItem(ItemStack stack){
         if(hasInteracted) {

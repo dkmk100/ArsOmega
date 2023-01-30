@@ -188,7 +188,7 @@ public class ArsOmega
 
     public static CreativeModeTab itemGroup = new CreativeModeTab(CreativeModeTab.getGroupCountSafe(), "arsomega") {
         public ItemStack makeIcon() {
-            return ItemsRegistry.ALCHEMY_FOCUS.getDefaultInstance();
+            return RegistryHandler.FOCUS_OF_ALCHEMY.get().getDefaultInstance();
         }
     };
 

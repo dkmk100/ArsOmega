@@ -78,7 +78,7 @@ public class RitualOpenPortal extends AbstractRitual {
     public boolean canConsumeItem(ItemStack stack) {
         int consumed = this.getConsumedItems().size();
         if(consumed==0){
-            return stack.getItem()== ItemsRegistry.DIMENSION_CRYSTAL;
+            return stack.getItem()== RegistryHandler.DIMENSION_CRYSTAL.get();
         }
         else if(consumed==1){
             boolean scroll = stack.getItem() == com.hollingsworth.arsnouveau.setup.ItemsRegistry.WARP_SCROLL;

@@ -15,6 +15,12 @@ public class BasicItem extends Item {
         super(properties);
         setRegistryName(name);
     }
+
+    public BasicItem(Properties properties,  boolean showEnch)
+    {
+        super(properties);
+        this.showEnch = showEnch;
+    }
     public BasicItem(Properties properties, String name, boolean showEnch)
     {
         super(properties);

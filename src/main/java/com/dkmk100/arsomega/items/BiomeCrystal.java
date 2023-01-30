@@ -20,9 +20,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class BiomeCrystal extends Item {
-    public BiomeCrystal(String name, Properties p_i48487_1_) {
+    public BiomeCrystal(Properties p_i48487_1_) {
         super(p_i48487_1_);
-        this.setRegistryName(name);
     }
 
     @OnlyIn(Dist.CLIENT)

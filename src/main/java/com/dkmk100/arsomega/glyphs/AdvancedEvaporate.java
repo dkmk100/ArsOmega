@@ -2,6 +2,7 @@ package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.rituals.RitualTribute;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.SpellUtil;
 import com.hollingsworth.arsnouveau.common.items.curios.ShapersFocus;
@@ -79,7 +80,7 @@ public class AdvancedEvaporate extends AbstractEffect {
 
                     }
                     else{
-                        AddDrop(ItemsRegistry.SALT, toDrop,world,0.05f + 0.05f * stats.getBuffCount(AugmentFortune.INSTANCE));
+                        AddDrop(RegistryHandler.SALT.get(), toDrop,world,0.05f + 0.05f * stats.getBuffCount(AugmentFortune.INSTANCE));
                     }
                 }
                 else if(block == Blocks.LAVA){

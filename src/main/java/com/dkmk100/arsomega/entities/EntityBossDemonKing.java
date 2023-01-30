@@ -104,7 +104,7 @@ public class EntityBossDemonKing extends Monster implements IEntityAdditionalSpa
     @Override
     protected void dropCustomDeathLoot(DamageSource p_213333_1_, int p_213333_2_, boolean p_213333_3_) {
         super.dropCustomDeathLoot(p_213333_1_, p_213333_2_, p_213333_3_);
-        ItemEntity itementity = this.spawnAtLocation(ItemsRegistry.DEMON_CRYSTAL);
+        ItemEntity itementity = this.spawnAtLocation(RegistryHandler.DEMON_CRYSTAL.get());
         if (itementity != null) {
             itementity.setExtendedLifetime();
         }

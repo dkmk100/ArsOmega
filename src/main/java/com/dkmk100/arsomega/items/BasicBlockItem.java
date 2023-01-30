@@ -6,7 +6,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item.Properties;
 
 public class BasicBlockItem extends BlockItem {
-    public BasicBlockItem(Properties properties, Block block) {
+    public BasicBlockItem(Block block, Properties properties) {
         super(block,properties);
     }
 }

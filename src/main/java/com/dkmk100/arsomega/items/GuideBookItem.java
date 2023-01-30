@@ -23,8 +23,8 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public class GuideBookItem extends DescribedItem {
-    public GuideBookItem (String bookname, String description) {
-        super(bookname, (new Item.Properties()).tab(ArsOmega.itemGroup).stacksTo(1), description);
+    public GuideBookItem (String description) {
+        super((new Item.Properties()).tab(ArsOmega.itemGroup).stacksTo(1), description);
     }
 
     @Nonnull

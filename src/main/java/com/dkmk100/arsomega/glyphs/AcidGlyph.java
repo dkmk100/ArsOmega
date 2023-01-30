@@ -3,6 +3,7 @@ package com.dkmk100.arsomega.glyphs;
 import com.dkmk100.arsomega.ArsRegistry;
 import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.util.ReflectionHandler;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
@@ -41,9 +42,9 @@ public class AcidGlyph extends AbstractEffect {
                 BlockPos pos = rayTraceResult.getBlockPos();
                 double amp = spellStats.getAmpMultiplier() + 1;
 
-                if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,ItemsRegistry.ALCHEMY_FOCUS_ADVANCED).isPresent()) {
+                if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,RegistryHandler.FOCUS_OF_ADVANCED_ALCHEMY.get()).isPresent()) {
                     amp += 4;
-                } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,ItemsRegistry.ALCHEMY_FOCUS).isPresent()) {
+                } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_ALCHEMY.get()).isPresent()) {
                     amp += 2;
                 }
 
@@ -81,9 +82,9 @@ public class AcidGlyph extends AbstractEffect {
     public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
         double amp = spellStats.getAmpMultiplier() + 1;
 
-        if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,ItemsRegistry.ALCHEMY_FOCUS_ADVANCED).isPresent()) {
+        if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,RegistryHandler.FOCUS_OF_ADVANCED_ALCHEMY.get()).isPresent()) {
             amp += 4;
-        } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,ItemsRegistry.ALCHEMY_FOCUS).isPresent()) {
+        } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,RegistryHandler.FOCUS_OF_ALCHEMY.get()).isPresent()) {
             amp += 2;
         }
         rayTraceResult.getEntity().hurt(ACID,(float)amp*2);

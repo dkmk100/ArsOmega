@@ -114,7 +114,7 @@ public class BottlerTile extends ModdedTile implements ITickable, WorldlyContain
 
     public static boolean isBottle(ItemStack stack){
         Item item = stack.getItem();
-        return item == Items.GLASS_BOTTLE || item == ItemsRegistry.SPLASH_BOTTLE || item == ItemsRegistry.LINGERING_BOTTLE;
+        return item == Items.GLASS_BOTTLE || item == RegistryHandler.SPLASH_BOTTLE.get() || item == RegistryHandler.LINGERING_BOTTLE.get();
     }
     public static boolean isPotion(ItemStack stack){
         return stack.getItem() == Items.POTION || stack.getItem() == Items.SPLASH_POTION || stack.getItem() == Items.LINGERING_POTION;
@@ -122,10 +122,10 @@ public class BottlerTile extends ModdedTile implements ITickable, WorldlyContain
 
     public static Item getPotionItem(ItemStack input){
         Item item = input.getItem();
-        if(item == ItemsRegistry.SPLASH_BOTTLE){
+        if(item == RegistryHandler.SPLASH_BOTTLE.get()){
             return Items.SPLASH_POTION;
         }
-        else if(item == ItemsRegistry.LINGERING_BOTTLE){
+        else if(item == RegistryHandler.LINGERING_BOTTLE.get()){
             return Items.LINGERING_POTION;
         }
         return Items.POTION;
@@ -135,10 +135,10 @@ public class BottlerTile extends ModdedTile implements ITickable, WorldlyContain
         Item item = input.getItem();
 
         if(item == Items.SPLASH_POTION){
-            return ItemsRegistry.SPLASH_BOTTLE;
+            return RegistryHandler.SPLASH_BOTTLE.get();
         }
         else if(item == Items.LINGERING_POTION){
-            return ItemsRegistry.LINGERING_BOTTLE;
+            return RegistryHandler.LINGERING_BOTTLE.get();
         }
         return Items.GLASS_BOTTLE;
     }

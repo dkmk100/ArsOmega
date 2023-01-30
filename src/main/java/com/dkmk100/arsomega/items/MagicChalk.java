@@ -27,8 +27,8 @@ import java.util.function.Supplier;
 public class MagicChalk extends BasicItem{
     Supplier<ChalkLineBlock> chalkBlock;
 
-    public MagicChalk(String name,Supplier<ChalkLineBlock> chalkSupplier,int durability) {
-        super(new Properties().tab(ArsOmega.itemGroup).durability(durability), name);
+    public MagicChalk(Supplier<ChalkLineBlock> chalkSupplier,int durability) {
+        super(new Properties().tab(ArsOmega.itemGroup).durability(durability));
         chalkBlock = chalkSupplier;
     }
 

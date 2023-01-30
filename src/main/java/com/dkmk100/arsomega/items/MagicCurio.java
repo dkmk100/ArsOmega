@@ -12,17 +12,15 @@ public class MagicCurio extends ArsNouveauCurio implements IManaEquipment {
     int regen;
 
     int discount;
-    public MagicCurio(String reg, int boost, int regen) {
+    public MagicCurio(int boost, int regen) {
         super();
-        this.setRegistryName(reg);
         this.boost = boost;
         this.regen = regen;
         this.discount = 0;
     }
 
-    public MagicCurio(String reg, int boost, int regen, int discount) {
+    public MagicCurio(int boost, int regen, int discount) {
         super();
-        this.setRegistryName(reg);
         this.boost = boost;
         this.regen = regen;
         this.discount = discount;

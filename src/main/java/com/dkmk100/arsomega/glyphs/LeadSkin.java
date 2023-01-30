@@ -3,6 +3,7 @@ package com.dkmk100.arsomega.glyphs;
 import com.dkmk100.arsomega.ArsRegistry;
 import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.potions.ModPotions;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,9 +28,9 @@ public class LeadSkin extends AbstractEffect {
         Entity entity = rayTraceResult.getEntity();
         int focusLevel = 0;
         if(shooter!=null) {
-            if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, ItemsRegistry.ALCHEMY_FOCUS_ADVANCED).isPresent()) {
+            if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_ADVANCED_ALCHEMY.get()).isPresent()) {
                 focusLevel = 2;
-            } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, ItemsRegistry.ALCHEMY_FOCUS).isPresent()) {
+            } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_ALCHEMY.get()).isPresent()) {
                 focusLevel = 1;
             }
         }

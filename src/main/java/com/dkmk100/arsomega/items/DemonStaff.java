@@ -27,9 +27,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class DemonStaff extends BasicItem {
-    public DemonStaff(Properties properties, String name) {
+    public DemonStaff(Properties properties) {
         super(properties);
-        this.setRegistryName(ArsOmega.MOD_ID, name);
     }
 
     @Override

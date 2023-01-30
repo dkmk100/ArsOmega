@@ -2,6 +2,7 @@ package com.dkmk100.arsomega.rituals;
 
 import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.util.ReflectionHandler;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
@@ -53,7 +54,7 @@ public class RitualCleansing extends AbstractRitual {
 
                     for(int var11 = 0; var11 < var10; ++var11) {
                         MobEffectInstance e = var9[var11];
-                        if (e.isCurativeItem(new ItemStack(Items.MILK_BUCKET))||e.isCurativeItem(new ItemStack(ItemsRegistry.CLEANSING_GEM))||e.getEffect() == ModPotions.SUMMONING_SICKNESS) {
+                        if (e.isCurativeItem(new ItemStack(Items.MILK_BUCKET))||e.isCurativeItem(new ItemStack(RegistryHandler.CLEANSING_GEM.get()))||e.getEffect() == ModPotions.SUMMONING_SICKNESS) {
                             entity.removeEffect(e.getEffect());
                         }
                     }

@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.blocks;
 
 import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.CropBlock;
@@ -28,7 +29,7 @@ public class ArcaneBloomCrop extends CropBlock {
 
     @Override
     protected ItemLike getBaseSeedId() {
-        return ItemsRegistry.ARCANE_BLOOM_CROP;
+        return RegistryHandler.ARCANE_BLOOM_CROP.get();
     }
 
 }

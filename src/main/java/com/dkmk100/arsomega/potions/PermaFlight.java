@@ -2,6 +2,7 @@ package com.dkmk100.arsomega.potions;
 
 import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.util.ReflectionHandler;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.common.network.Networking;
 import com.hollingsworth.arsnouveau.common.network.PacketUpdateFlight;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,7 +26,7 @@ public class PermaFlight extends MobEffect {
     @Override
     public List<ItemStack> getCurativeItems() {
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-        ret.add(new ItemStack(ItemsRegistry.CLEANSING_GEM));
+        ret.add(new ItemStack(RegistryHandler.CLEANSING_GEM.get()));
         return ret;
     }
 

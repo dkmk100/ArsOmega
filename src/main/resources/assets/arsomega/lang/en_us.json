@@ -417,5 +417,9 @@
   "arsomega.advancement.title.power": "Celestial Power",
   "arsomega.advancement.desc.power": "Trade with the Celestial Being",
   "arsomega.advancement.title.destiny": "Destiny",
-  "arsomega.advancement.desc.destiny": "Receive an offer that can change the very course of destiny"
+  "arsomega.advancement.desc.destiny": "Receive an offer that can change the very course of destiny",
+  "arsomega.advancement.title.concentration": "Concentration",
+  "arsomega.advancement.desc.concentration": "Create a focus of alchemy",
+  "arsomega.advancement.title.unnatural_bloom": "Unnatural Bloom",
+  "arsomega.advancement.desc.unnatural_bloom": "Obtain an arcane bloom seed"
 }
