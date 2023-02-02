@@ -24,7 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class PropagateProjectile extends AbstractEffect {
+public class PropagateProjectile extends AbstractEffect implements IPropagator {
     public static PropagateProjectile INSTANCE = new PropagateProjectile("propagate_projectile","Propagate Projectile");
 
     private PropagateProjectile(String tag, String description) {
