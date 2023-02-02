@@ -180,7 +180,15 @@ public class EntityMissileSpell extends EntityProjectileSpell {
             }
             if(!foundEntity){
                 Vec3 vector3d2 = this.position();
-                Vec3 dist = this.position().subtract(this.getOwner().position());
+                Vec3 dist;
+                if(this.getOwner()==null) {
+                    dist = new Vec3(0,1,0);
+                }
+                else{
+                    dist = this.position().subtract(this.getOwner().position());
+                }
+
+
                 this.spellResolver.onResolveEffect(this.level, (LivingEntity)this.getOwner(), new BlockHitResult(vector3d2, Direction.getNearest(dist.x,dist.y,dist.z),new BlockPos(vector3d2),true));
             }
         }

@@ -19,7 +19,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class PropagateOverhead extends AbstractEffect implements IIgnoreBuffs {
+public class PropagateOverhead extends AbstractEffect implements IIgnoreBuffs, IPropagator {
     public static PropagateOverhead INSTANCE = new PropagateOverhead("propagate_overhead","Propagate Overhead");
 
     private PropagateOverhead(String tag, String description) {

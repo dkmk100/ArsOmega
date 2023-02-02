@@ -3,6 +3,7 @@ package com.dkmk100.arsomega.util;
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.advancement.BasicTrigger;
+import com.dkmk100.arsomega.armors.BasicArmorMaterial;
 import com.dkmk100.arsomega.base_blocks.BasicBlock;
 import com.dkmk100.arsomega.base_blocks.BlockPropertiesCreator;
 import com.dkmk100.arsomega.blocks.*;
@@ -24,6 +25,7 @@ import com.dkmk100.arsomega.spell_sigils.ScaldSigil;
 import com.dkmk100.arsomega.tools.BasicItemTier;
 import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
+import com.hollingsworth.arsnouveau.api.spell.AbstractCastMethod;
 import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
 import com.hollingsworth.arsnouveau.common.items.SpellBook;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
@@ -255,6 +257,12 @@ public class RegistryHandler{
         register(GreaterAOE.INSTANCE);
         register(Absorption.INSTANCE);
         register(AdvancedEvaporate.INSTANCE);
+
+        register(AugmentRandomizeColor.INSTANCE);
+        register(RandomChance.LOW_CHANCE);
+        register(RandomChance.MID_CHANCE);
+        register(RandomChance.HIGH_CHANCE);
+        register(RandomColorEffect.INSTANCE);
     }
 
     public static void registerRituals()
@@ -341,6 +349,9 @@ public class RegistryHandler{
             }
             if(part.compatibleAugments.contains(AugmentAOE.INSTANCE)&&!part.compatibleAugments.contains(GreaterAOE.INSTANCE)){
                 part.compatibleAugments.add(GreaterAOE.INSTANCE);
+            }
+            if(part instanceof AbstractCastMethod){
+                part.compatibleAugments.add(AugmentRandomizeColor.INSTANCE);
             }
         }
     }
@@ -558,6 +569,15 @@ public class RegistryHandler{
     public static final RegistryObject<Item> STAFF_2 = ITEMS.register("archmage_staff", () -> new Staff(BasicItemTier.Staff2,2,-2.4f,3, AdvancedAmplify.INSTANCE,2));
     public static final RegistryObject<Item> STAFF_3 = ITEMS.register("arcane_staff", () -> new Staff(BasicItemTier.Staff3,2,-2.4f,3, AdvancedAmplify.INSTANCE,3,true));
 
+    public static final RegistryObject<Item> ARCANE_HELMET = ITEMS.register("arcane_helmet", () -> new EnchantedArmor(EquipmentSlot.HEAD,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE));
+    public static final RegistryObject<Item> ARCANE_CHEST = ITEMS.register("arcane_chestplate", () -> new EnchantedArmor(EquipmentSlot.CHEST,350,12, BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE));
+    public static final RegistryObject<Item> ARCANE_LEGGINGS = ITEMS.register("arcane_leggings", () -> new EnchantedArmor(EquipmentSlot.LEGS,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE));
+    public static final RegistryObject<Item> ARCANE_BOOTS = ITEMS.register("arcane_boots", () -> new EnchantedArmor(EquipmentSlot.FEET,350,12,BasicArmorMaterial.Arcane,UNSTACKABLE_FIRE));
+
+    public static final RegistryObject<Item> DEFENSE_HELMET = ITEMS.register("defense_helmet", () -> new EnchantedArmor(EquipmentSlot.HEAD,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE));
+    public static final RegistryObject<Item> DEFENSE_CHEST = ITEMS.register("defense_chestplate", () -> new EnchantedArmor(EquipmentSlot.CHEST,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE));
+    public static final RegistryObject<Item> DEFENSE_LEGGINGS = ITEMS.register("defense_leggings", () -> new EnchantedArmor(EquipmentSlot.LEGS,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE));
+    public static final RegistryObject<Item> DEFENSE_BOOTS = ITEMS.register("defense_boots", () -> new EnchantedArmor(EquipmentSlot.FEET,80,6,BasicArmorMaterial.Defensive,UNSTACKABLE_FIRE));
 
     public static final RegistryObject<Item> POISON_FLOWER_ITEM = ITEMS.register("poison_flower", () -> new BasicBlockItem(POISON_FLOWER.get(),ITEM_PROPERTIES));
     public static final RegistryObject<Item> DEMONIC_STONE_ITEM = ITEMS.register("demonic_stone", () -> new BasicBlockItem(DEMONIC_STONE.get(),ITEM_PROPERTIES));
@@ -567,7 +587,7 @@ public class RegistryHandler{
     public static final RegistryObject<Item> DEMON_CRYSTAL = ITEMS.register("demonic_crystal", () -> new DescribedItem(ITEM_PROPERTIES_FIRE,"Drops from the Demon King boss, who can be summond with a demonic staff."));
     public static final RegistryObject<Item> ARCANE_BLOOM_CROP = ITEMS.register("arcane_bloom_crop", () -> new BasicBlockItem(ARCANE_BLOOM.get(),ITEM_PROPERTIES));
     public static final RegistryObject<Item> ENCHANTERS_WOOL_ITEM = ITEMS.register("enchanters_wool", () -> new BasicBlockItem(ENCHANTERS_WOOL.get(),ITEM_PROPERTIES));
-    public static final RegistryObject<Item> GORGON_GEM = ITEMS.register("gorgon_gem", () -> new DescribedItem(ITEM_PROPERTIES_FIRE,"Found in gorgon caves"));
+    public static final RegistryObject<Item> GORGON_GEM = ITEMS.register("gorgon_gem", () -> new DescribedItem(ITEM_PROPERTIES_FIRE,"Found in mysterious structures."));
 
     public static final RegistryObject<Item> SPLASH_BOTTLE = ITEMS.register("splash_bottle", () -> new BasicItem(ITEM_PROPERTIES));
     public static final RegistryObject<Item> LINGERING_BOTTLE = ITEMS.register("lingering_bottle", () -> new BasicItem(ITEM_PROPERTIES));

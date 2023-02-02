@@ -180,7 +180,7 @@ public class EntityWitherBound extends WitherBoss implements IFollowingSummon, I
                 bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
                 if (myOwner != null) {
                     if(myOwner.getName()!=null) {
-                        bossEvent.setName(new TextComponent(myOwner.getName().getContents() + "'s Bound Wither"));
+                        bossEvent.setName(new TextComponent(myOwner.getName().getString() + "'s Bound Wither"));
                     }
                     else{
                         bossEvent.setName(new TextComponent("Unbound Wither"));

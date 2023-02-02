@@ -23,7 +23,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 
-public class PropagateMissile extends AbstractEffect {
+public class PropagateMissile extends AbstractEffect implements IPropagator {
     public static PropagateMissile INSTANCE = new PropagateMissile("propagate_missile","Propagate Missile");
 
     private PropagateMissile(String tag, String description) {
