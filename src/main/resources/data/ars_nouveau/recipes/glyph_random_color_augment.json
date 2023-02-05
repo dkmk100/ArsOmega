@@ -1,0 +1,28 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "minecraft:emerald"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:red_dye"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:green_dye"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:blue_dye"
+      }
+    }
+  ],
+  "exp": 10,
+  "output": "ars_nouveau:glyph_random_color_augment"
+}

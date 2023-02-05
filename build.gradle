@@ -20,7 +20,7 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '2.6.0'
+version = '2.7.4'
 group = 'com.dkmk100.arsomega' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'arsomega'
 
@@ -184,7 +184,7 @@ dependencies {
     // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
 
-    minecraft 'net.minecraftforge:forge:1.18.2-40.0.48'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.2.0'
 
     runtimeOnly fg.deobf("curse.maven:exp-407174:3544525")  // Shutup experimental settings
 

@@ -5,8 +5,8 @@ import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import com.hollingsworth.arsnouveau.setup.ItemsRegistry;
-import com.ibm.icu.impl.Pair;
-import net.minecraft.tags.Tag;
+
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
@@ -77,9 +77,9 @@ public class RitualTribute extends AbstractRitual {
                 List<ItemStack> items = this.getConsumedItems();
                 int quality = 0;//1 quality is 1 gold nugget
                 for(ItemStack stack : items){
-                    Optional<Pair<TagKey<Item>,Integer>> item = validItems.stream().filter((pair) -> tagContains(pair.first,stack.getItem())).findFirst();
+                    Optional<Pair<TagKey<Item>,Integer>> item = validItems.stream().filter((pair) -> tagContains(pair.getFirst(),stack.getItem())).findFirst();
                     if(item.isPresent()){
-                        quality += item.get().second;
+                        quality += item.get().getSecond();
                     }
                 }
                 while(quality>=180)//20 ingots * 9 points per ingot
@@ -101,7 +101,7 @@ public class RitualTribute extends AbstractRitual {
 
     @Override
     public boolean canConsumeItem(ItemStack stack) {
-        return validItems.stream() .filter((pair) -> tagContains(pair.first,stack.getItem())).findAny().isPresent();
+        return validItems.stream() .filter((pair) -> tagContains(pair.getFirst(),stack.getItem())).findAny().isPresent();
         //return tagContains(Tags.Items.GEMS_EMERALD,stack.getItem()) || tagContains(Tags.Items.GEMS_DIAMOND,stack.getItem())|| tagContains(Tags.Items.INGOTS_GOLD,stack.getItem());
     }
     boolean tagContains(TagKey tag, Item item){
