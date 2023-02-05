@@ -81,7 +81,7 @@ public abstract class GenericEmpathyAltar extends ModdedTile implements ITooltip
                 //reset spell
                 spell = null;
                 hasShard = false;
-                PortUtil.sendMessage(player, "The " + getAltarType() + " has been cast on " + target.getName().toString());
+                PortUtil.sendMessage(player, "The " + getAltarType() + " has been cast on " + target.getName().getString());
                 this.updateBlock();
                 return InteractionResult.SUCCESS;
             }
@@ -133,7 +133,7 @@ public abstract class GenericEmpathyAltar extends ModdedTile implements ITooltip
             final int maxUniqueIngredients = 5;
             if (ingredient == null) {
                 if(!stack.isEmpty()) {
-                    PortUtil.sendMessage(player, new TextComponent("no ingredient for item: ").append(stack.getHoverName().toString()));
+                    PortUtil.sendMessage(player, new TextComponent("no ingredient for item: ").append(stack.getHoverName().getString()));
                 }
                 this.updateBlock();
                 return InteractionResult.PASS;
