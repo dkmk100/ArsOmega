@@ -5,7 +5,6 @@ import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import com.hollingsworth.arsnouveau.setup.ItemsRegistry;
-
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.item.ItemEntity;

@@ -48,7 +48,6 @@ public class RitualShaping extends AbstractRitual {
                 SigilValidator validator = SigilValidator.INSTANCE;
                 List<SigilRecipe> recipes = world.getRecipeManager().getAllRecipesFor(RegistryHandler.SIGIL_TYPE);
                 for(SigilRecipe recipe : recipes){
-
                     SigilValidator.SigilValidationResult result = validator.ValidateSigil(world,pos,recipe);
                     if(result.succeded()){
                         chosenRecipe = recipe;

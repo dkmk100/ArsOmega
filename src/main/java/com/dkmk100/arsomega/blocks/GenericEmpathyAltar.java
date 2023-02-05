@@ -37,12 +37,7 @@ public abstract class GenericEmpathyAltar extends ModdedTile implements ITooltip
 
     String LocName(Item item){
         Component comp = item.getName(item.getDefaultInstance());
-        if(comp instanceof TranslatableComponent){
-            return Language.getInstance().getOrDefault(((TranslatableComponent) comp).getKey());
-        }
-        else{
-            return comp.getContents();
-        }
+        return comp.getString();
     }
 
     public String getAltarType(){
@@ -86,7 +81,7 @@ public abstract class GenericEmpathyAltar extends ModdedTile implements ITooltip
                 //reset spell
                 spell = null;
                 hasShard = false;
-                PortUtil.sendMessage(player, "The " + getAltarType() + " has been cast on " + target.getName().getContents());
+                PortUtil.sendMessage(player, "The " + getAltarType() + " has been cast on " + target.getName().toString());
                 this.updateBlock();
                 return InteractionResult.SUCCESS;
             }
@@ -138,7 +133,7 @@ public abstract class GenericEmpathyAltar extends ModdedTile implements ITooltip
             final int maxUniqueIngredients = 5;
             if (ingredient == null) {
                 if(!stack.isEmpty()) {
-                    PortUtil.sendMessage(player, new TextComponent("no ingredient for item: ").append(stack.getHoverName().getContents()));
+                    PortUtil.sendMessage(player, new TextComponent("no ingredient for item: ").append(stack.getHoverName().toString()));
                 }
                 this.updateBlock();
                 return InteractionResult.PASS;

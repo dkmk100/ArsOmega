@@ -164,7 +164,7 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
                     Item item =  requestOptions[currentRequest].requestedItem;
                     int missing = requestOptions[currentRequest].amount - currentProgress;
                     TellNearby("<?> I'd like to offer a deal. I find myself in need of " + missing + " " + item.getName(item.getDefaultInstance()).getString());
-                    TellNearby("<?> If you provide the, I'll give you a powerful item in exchange.");
+                    TellNearby("<?> If you provide the "+item.getName(item.getDefaultInstance()).getString()+" , I'll give you a powerful item in exchange.");
                 }
 
                 return InteractionResult.SUCCESS;
