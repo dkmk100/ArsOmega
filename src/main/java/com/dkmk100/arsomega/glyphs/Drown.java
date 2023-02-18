@@ -4,6 +4,7 @@ import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.effect.MobEffects;
@@ -17,7 +18,7 @@ import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Set;
 
-public class Drown extends TierFourEffect {
+public class Drown extends TierFourEffect implements IDamageEffect {
 
     public static Drown INSTANCE = new Drown("drown", "drown");
 
@@ -46,10 +47,10 @@ public class Drown extends TierFourEffect {
             LivingEntity living = (LivingEntity)rayTraceResult.getEntity();
             if(!living.hasEffect(MobEffects.WATER_BREATHING)){
                 if(living.isDamageSourceBlocked(DamageSource.DROWN)){
-                    this.dealDamage(world,shooter,(float)amp*0.25f*depth,spellStats,living,DamageSource.MAGIC);
+                    this.attemptDamage(world,shooter,spellStats,spellContext,resolver,living,DamageSource.MAGIC, (float) amp * 0.25f * depth);
                 }
                 else {
-                    this.dealDamage(world, shooter, (float) amp * 0.5f * depth, spellStats, living, DamageSource.DROWN);
+                    this.attemptDamage(world,shooter,spellStats,spellContext,resolver,living,DamageSource.DROWN, (float) amp * 0.5f * depth);
                 }
             }
         }

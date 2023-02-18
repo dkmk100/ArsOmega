@@ -62,6 +62,7 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.*;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -154,6 +155,8 @@ public class RegistryHandler{
 
     static final List<ConfigurableRitual> configurableRituals = new ArrayList<>();
 
+    public static ConcurrentHashMap<ResourceLocation, AbstractRitual> configRitualsMap = new ConcurrentHashMap();
+
     public static void registerRitualConfig(){
         FMLPaths.getOrCreateGameRelativePath(FMLPaths.CONFIGDIR.get().resolve("arsomega"), "arsomega");
         for(ConfigurableRitual ritual : configurableRituals) {
@@ -163,6 +166,7 @@ public class RegistryHandler{
             ForgeConfigSpec spec = spellBuilder.build();
             ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, spec, "arsomega/ritual_" + ritual.getRegistryName().getPath() + ".toml");
             ArsOmega.LOGGER.info("defined config for: "+ritual.getRegistryName());
+            configRitualsMap.put(ritual.getRegistryName(),ritual.getRitual());
         }
     }
 
@@ -710,7 +714,6 @@ public class RegistryHandler{
 
 
     public static void RegisterMobSpawns(){
-
         SpawnPlacements.register(BASIC_DEMON.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
         SpawnPlacements.register(STRONG_DEMON.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
         SpawnPlacements.register(BOSS_DEMON_KING.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);

@@ -5,6 +5,7 @@ import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.entity.Entity;
@@ -26,7 +27,7 @@ import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Set;
 
-public class PoisonFlowerGlyph extends AbstractEffect {
+public class PoisonFlowerGlyph extends AbstractEffect implements IDamageEffect {
     public static PoisonFlowerGlyph INSTANCE = new PoisonFlowerGlyph("poison_flower", "Poison Flower");
     public PoisonFlowerGlyph(String tag, String description) {
         super(RegistryHandler.getGlyphName(tag), description);
@@ -39,7 +40,7 @@ public class PoisonFlowerGlyph extends AbstractEffect {
             LivingEntity living = (LivingEntity)entity;
             float amp = (float) spellStats.getAmpMultiplier();
             float damage = (float)(2.0 + 0.5 * amp);
-            this.dealDamage(world,shooter,damage,spellStats,living, DamageSource.CACTUS);
+            this.attemptDamage(world,shooter,spellStats,spellContext,resolver,living,new EntityDamageSource(DamageSource.CACTUS.getMsgId(),shooter), damage);
             living.addEffect(new MobEffectInstance(MobEffects.POISON, 100 + 20*Math.round(amp)));
         }
     }

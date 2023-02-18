@@ -20,9 +20,9 @@ import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Set;
 
-public class Heartstop extends AbstractEffect{
+public class Heartstop extends AbstractEffect implements IDamageEffect {
 
-    public static final DamageSource STATIC_HEARTSTOP_DAMAGE = new DamageSource("heartstop");
+    public static final DamageSource STATIC_HEARTSTOP_DAMAGE = new DamageSource("heartstop").bypassArmor().bypassMagic();
     public static final DamageSource HEARTSTOP_DAMAGE(Entity source){
         if(source == null){
             return STATIC_HEARTSTOP_DAMAGE;
@@ -91,7 +91,7 @@ public class Heartstop extends AbstractEffect{
             damage = damage * (1.0f + 0.1f*mult);
             damage += add*0.85f;
 
-            this.dealDamage(world,shooter,damage,spellStats,living, HEARTSTOP_DAMAGE(shooter));
+            this.attemptDamage(world,shooter,spellStats,spellContext,resolver,living,HEARTSTOP_DAMAGE(shooter), damage);
             living.addEffect(new MobEffectInstance(MobEffects.CONFUSION, ticks));
         }
     }

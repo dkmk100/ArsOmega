@@ -57,7 +57,7 @@ public class HellFlare extends TierFourEffect implements  IDamageEffect {
                 while(var13.hasNext()) {
                     Entity e = (Entity)var13.next();
                     if (!e.equals(livingEntity) && e instanceof LivingEntity) {
-                        this.dealDamage(world, shooter, damage, spellStats, e, source);
+                        this.attemptDamage(world,shooter,spellStats,spellContext,resolver, e, source, damage);
                         e.setSecondsOnFire(fireSec);
                         if(soul) {
                             MobEffectInstance effect = livingEntity.getEffect(ModPotions.SOUL_FIRE.get());
@@ -67,7 +67,7 @@ public class HellFlare extends TierFourEffect implements  IDamageEffect {
                         ((ServerLevel)world).sendParticles(ParticleTypes.FLAME, vec.x, vec.y + 0.5D, vec.z, 50, ParticleUtil.inRange(-0.1D, 0.1D), ParticleUtil.inRange(-0.1D, 0.1D), ParticleUtil.inRange(-0.1D, 0.1D), 0.3D);
                     }
                 }
-                this.dealDamage(world, shooter, damage, spellStats, livingEntity, source);
+                this.attemptDamage(world,shooter,spellStats,spellContext,resolver,livingEntity, source, damage);
             }
 
         }

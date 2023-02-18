@@ -4,6 +4,7 @@ import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.damagesource.DamageSource;
@@ -18,7 +19,7 @@ import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Set;
 
-public class Brambles extends AbstractEffect {
+public class Brambles extends AbstractEffect implements IDamageEffect {
     public static Brambles INSTANCE = new Brambles("brambles", "Brambles");
     public Brambles(String tag, String description) {
         super(RegistryHandler.getGlyphName(tag), description);
@@ -31,7 +32,7 @@ public class Brambles extends AbstractEffect {
             LivingEntity living = (LivingEntity)entity;
             float amp = (float) spellStats.getAmpMultiplier();
             float damage = (float)(3.0 + 0.5 * amp);
-            this.dealDamage(world,shooter,damage,spellStats,living, DamageSource.CACTUS);
+            this.attemptDamage(world,shooter,spellStats,spellContext,resolver,living,new EntityDamageSource(DamageSource.CACTUS.getMsgId(),shooter), damage);
         }
     }
 

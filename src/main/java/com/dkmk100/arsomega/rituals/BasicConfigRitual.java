@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.rituals;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
@@ -8,13 +9,19 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.ForgeConfigSpec;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 public abstract class BasicConfigRitual extends AbstractRitual implements ConfigurableRitual{
 
+    @Override
+    public AbstractRitual getRitual() {
+        return this;
+    }
+
     public BasicConfigRitual(){
         ArsOmega.LOGGER.info("basic config ritual constructor called! ");
-        AbstractRitual ritual = ArsNouveauAPI.getInstance().getRitual(this.getRegistryName());
+        AbstractRitual ritual = RegistryHandler.configRitualsMap.get(this.getRegistryName());
         if(ritual!=null && ritual instanceof BasicConfigRitual){
             ArsOmega.LOGGER.info("copying config!");
             BasicConfigRitual config = (BasicConfigRitual) ritual;

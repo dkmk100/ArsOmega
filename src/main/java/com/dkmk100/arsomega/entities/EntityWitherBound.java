@@ -182,15 +182,15 @@ public class EntityWitherBound extends WitherBoss implements IFollowingSummon, I
                 bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
                 if (myOwner != null) {
                     if(myOwner.getName()!=null) {
-                        bossEvent.setName(  Component.literal(myOwner.getName().getContents() + "'s Bound Wither"));
+                        bossEvent.setName(Component.literal(myOwner.getName().getString() + "'s Bound Wither"));
                     }
                     else{
-                        bossEvent.setName( Component.literal("Unbound Wither"));
+                        bossEvent.setName(Component.literal("Unbound Wither"));
                     }
                 }
                 else{
 
-                    bossEvent.setName(  Component.literal("Unbound Wither"));
+                    bossEvent.setName(Component.literal("Unbound Wither"));
                 }
                 ReflectionHandler.Entity.witherHeadUpdates.set(this, nextHeadUpdate);
                 ReflectionHandler.Entity.witherIdleHeads.set(this, idleHeadUpdates);

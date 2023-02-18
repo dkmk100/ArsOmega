@@ -5,6 +5,7 @@ import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.SpellUtil;
 import com.hollingsworth.arsnouveau.common.datagen.BlockTagProvider;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
+import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.entity.Entity;
@@ -25,7 +26,7 @@ import javax.annotation.Nullable;
 import java.rmi.registry.Registry;
 import java.util.*;
 
-public class Melt extends AbstractEffect {
+public class Melt extends AbstractEffect implements IDamageEffect {
 
     public static Melt INSTANCE = new Melt("melt", "Melt");
 
@@ -85,7 +86,7 @@ public class Melt extends AbstractEffect {
                     damage += 3;
                 }
             }
-            this.dealDamage(world,shooter,damage,spellStats,living,DamageSource.LAVA);
+            this.attemptDamage(world,shooter,spellStats,spellContext,resolver,living,new EntityDamageSource(DamageSource.LAVA.getMsgId(),shooter).setIsFire(),damage);
         }
     }
 

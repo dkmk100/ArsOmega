@@ -59,7 +59,7 @@ public class RitualShaping extends AbstractRitual {
                             //quick check for mana to not delay craft on mana things
                             //we don't do this every time so we can get the ritual brazier to say missing mana lol
                             //range of 6 for parity with normal brazier range
-                            if(SourceUtil.takeSourceNearbyWithParticles(pos,world,6,chosenRecipe.pattern.sourceCost) != null){
+                            if(SourceUtil.takeSourceWithParticles(pos,world,6,chosenRecipe.pattern.sourceCost) != null){
                                 this.setNeedsSource(false);
                             }
                             else {

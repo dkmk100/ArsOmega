@@ -26,7 +26,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public class Hellfire extends TierFourEffect {
+public class Hellfire extends TierFourEffect implements IDamageEffect {
 
     private static DamageSource HELLFIRE = new DamageSource("hellfire").setIsFire();
 
@@ -53,7 +53,7 @@ public class Hellfire extends TierFourEffect {
             living.setRemainingFireTicks(living.getRemainingFireTicks()+time);
             living.addEffect(new MobEffectInstance(ModPotions.BURNED.get(),20));
         }
-        this.dealDamage(world,shooter,(float)amp*3f,spellStats,rayTraceResult.getEntity(),makeHellfire(shooter));
+        this.attemptDamage(world,shooter,spellStats,spellContext,resolver,rayTraceResult.getEntity(), makeHellfire(shooter), (float)amp*3f);
     }
 
     @Override

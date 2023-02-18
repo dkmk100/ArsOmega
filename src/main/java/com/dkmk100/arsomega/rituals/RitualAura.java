@@ -178,7 +178,7 @@ public class RitualAura extends BasicConfigRitual {
                 for(Spell spell : spells){
                     totalCost+= Math.max(spell.getDiscountedCost() - discount, 0);//discount is per-spell, but can never take it below 0
                 }
-                if(SourceUtil.takeSourceNearbyWithParticles(pos, world, 6, totalCost) != null) {
+                if(SourceUtil.takeSourceWithParticles(pos, world, 6, totalCost) != null) {
                     List<LivingEntity> entities = this.getWorld().getEntitiesOfClass(LivingEntity.class, (new AABB(this.getPos())).inflate(5.0D + aoe * 2).inflate(12, 0, 12));
                     for (LivingEntity entity : entities) {
                         boolean player = entity instanceof Player;

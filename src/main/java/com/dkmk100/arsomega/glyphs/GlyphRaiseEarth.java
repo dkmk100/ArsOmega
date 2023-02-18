@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
-public class GlyphRaiseEarth  extends TierFourEffect {
+public class GlyphRaiseEarth  extends TierFourEffect implements IDamageEffect {
 
     public static GlyphRaiseEarth INSTANCE = new GlyphRaiseEarth("raise_earth","Raise Earth");
     final static int maxCheckUp = 4;
@@ -102,7 +102,10 @@ public class GlyphRaiseEarth  extends TierFourEffect {
                 entity.hasImpulse = true;
                 EffectKnockback.INSTANCE.knockback(entity, shooter, (float)speed);
             }
-            this.dealDamage(world, shooter, 4 + 2*(float)spellStats.getAmpMultiplier(), spellStats, entity, DamageSource.FALL);
+
+            float damage = 4 + 2*(float)spellStats.getAmpMultiplier();
+
+            this.attemptDamage(world,shooter,spellStats,spellContext,resolver, entity,  DamageSource.FALL, damage);
         }
     }
 

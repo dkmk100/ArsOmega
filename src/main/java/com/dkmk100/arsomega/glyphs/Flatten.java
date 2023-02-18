@@ -22,7 +22,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Set;
 
-public class Flatten extends AbstractEffect {
+public class Flatten extends AbstractEffect implements IDamageEffect {
     public static Flatten INSTANCE = new Flatten("flatten", "Flatten");
 
     private Flatten(String tag, String description) {
@@ -51,12 +51,12 @@ public class Flatten extends AbstractEffect {
                 tier = 10 + ((tier-10)/4f);
             }
 
-            float damage = (float) (0.165f * tier * (spellStats.getAmpMultiplier()+3+(getHarvestLevel(block)*1.5f)));
+            float damage = (float) (0.165f * tier * (spellStats.getAmpMultiplier()+1) * (2+(getHarvestLevel(block)*1.5f)));
 
             //buff dirt and similar:
             damage = Math.max(damage,0.5f);
 
-            this.dealDamage(world, shooter, damage, spellStats, rayTraceResult.getEntity(), DamageSource.FALL);
+            this.attemptDamage(world,shooter,spellStats,spellContext,resolver,rayTraceResult.getEntity(),  DamageSource.FALL, damage);
         }
         catch (Exception e){
             e.printStackTrace();

@@ -20,7 +20,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Set;
 
-public class Scald extends AbstractEffect {
+public class Scald extends AbstractEffect implements IDamageEffect {
 
     public static DamageSource SCALD(Entity entity, @Nullable LivingEntity source) {
         DamageSource SCALD = new IndirectEntityDamageSource("scald",entity,source).setIsFire();
@@ -42,7 +42,8 @@ public class Scald extends AbstractEffect {
             LivingEntity living = (LivingEntity)rayTraceResult.getEntity();
             living.addEffect(new MobEffectInstance(ModPotions.BURNED.get(),time));
         }
-        this.dealDamage(world, shooter, (float)amp*1.5f, spellStats,rayTraceResult.getEntity(),SCALD(shooter,shooter));
+
+        this.attemptDamage(world,shooter,spellStats,spellContext,resolver,rayTraceResult.getEntity(), SCALD(shooter,shooter), (float)amp*1.5f);
     }
 
     @Override
