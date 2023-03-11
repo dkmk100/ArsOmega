@@ -1,14 +1,12 @@
 package com.dkmk100.arsomega.blocks;
 
-import com.dkmk100.arsomega.ArsOmega;
 import com.hollingsworth.arsnouveau.api.spell.Spell;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodTouch;
-import com.ibm.icu.impl.Pair;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.ArrayList;
@@ -34,10 +32,10 @@ public class ChalkLineData {
         List<Pair<Entity,Long>> toRemove = new ArrayList<>();
         for (var hit : hits){
             int del = entity instanceof Player ? playerHitDelay : hitDelay;
-            if(hit.second + del <= gameTime){
+            if(hit.getSecond() + del <= gameTime){
                 toRemove.add(hit);
             }
-            else if(hit.first == entity){
+            else if(hit.getFirst() == entity){
                 blocked = true;
             }
         }
