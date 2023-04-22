@@ -7,6 +7,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 public class PotionBottler extends TickableModBlock {
     public PotionBottler(Properties properties) {
         super(properties);
@@ -18,3 +20,4 @@ public class PotionBottler extends TickableModBlock {
         return new BottlerTile(pos,state);
     }
 }
+

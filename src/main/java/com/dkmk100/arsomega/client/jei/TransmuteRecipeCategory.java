@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.client.jei;
 
+/*
 import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.crafting.TransmuteRecipe;
 import com.dkmk100.arsomega.glyphs.AdvancedAmplify;
@@ -18,11 +19,9 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+  
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import software.bernie.shadowed.fasterxml.jackson.databind.deser.std.UntypedObjectDeserializer;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -52,7 +51,7 @@ public class TransmuteRecipeCategory implements IRecipeCategory<TransmuteRecipe>
     }
 
     public Component getTitle() {
-        return new TranslatableComponent("arsomega.transmute_recipe");
+        return Component.translatable("arsomega.transmute_recipe");
     }
 
     public IDrawable getBackground() {
@@ -130,4 +129,5 @@ public class TransmuteRecipeCategory implements IRecipeCategory<TransmuteRecipe>
 
     }
 }
+ */
 

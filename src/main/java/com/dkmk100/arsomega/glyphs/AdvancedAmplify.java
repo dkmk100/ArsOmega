@@ -1,9 +1,12 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
 import com.hollingsworth.arsnouveau.api.spell.SpellStats;
 import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
 import com.hollingsworth.arsnouveau.api.spell.SpellTier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
@@ -14,12 +17,12 @@ public class AdvancedAmplify extends AbstractAugment {
     public static AdvancedAmplify INSTANCE = new AdvancedAmplify();
 
     private AdvancedAmplify() {
-        super("advanced_amplify", "Advanced Amplify");
+        super(RegistryHandler.getGlyphName("advanced_amplify"), "Advanced Amplify");
     }
 
     @Override
     public int getDefaultManaCost() {
-        return 180;
+        return 200;
     }
 
     @Override

@@ -15,9 +15,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 
@@ -42,7 +41,7 @@ public class SigilRecipe implements Recipe<Container> {
 
     public static JsonElement stackToJson(ItemStack stack){
         JsonObject element = new JsonObject();
-        element.addProperty("item", stack.getItem().getRegistryName().toString());
+        element.addProperty("item", ForgeRegistries.ITEMS.getKey(stack.getItem()).toString());
         element.addProperty("count", stack.getCount());
         return element;
     }
@@ -53,7 +52,7 @@ public class SigilRecipe implements Recipe<Container> {
         return stack;
     }
 
-    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<SigilRecipe> {
+    public static class Serializer implements RecipeSerializer<SigilRecipe> {
         public Serializer() {
         }
 

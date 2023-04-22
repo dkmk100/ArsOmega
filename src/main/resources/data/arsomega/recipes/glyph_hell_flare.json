@@ -1,0 +1,48 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:fire_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:fire_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:glyph_hellfire"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:flint_and_steel"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:flint_and_steel"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:fire_charge"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:blaze_rod"
+      }
+    }
+  ],
+  "exp": 300,
+  "output": "arsomega:glyph_hell_flare"
+}

@@ -13,6 +13,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 public class CurseAltarBlock extends BaseEntityBlock {
     public CurseAltarBlock(Properties p_49224_) {
         super(p_49224_);

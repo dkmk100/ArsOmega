@@ -1,6 +1,6 @@
 {
-  "name": "item.ars_nouveau.ritual_perma_flight",
-  "icon": "ars_nouveau:ritual_perma_flight",
+  "name": "item.arsomega.ritual_perma_flight",
+  "icon": "arsomega:ritual_perma_flight",
   "category": "ars_nouveau:rituals",
   "pages": [
     {

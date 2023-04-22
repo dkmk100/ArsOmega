@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -18,45 +19,30 @@ public class TrueUnderfoot extends AbstractCastMethod {
     public static TrueUnderfoot INSTANCE = new TrueUnderfoot();
 
     public TrueUnderfoot() {
-        super("true_underfoot", "True Underfoot");
+        super(RegistryHandler.getGlyphName("true_underfoot"), "True Underfoot");
     }
 
-    public void onCast(@Nullable ItemStack stack, LivingEntity caster, Level world, SpellStats spellStats, SpellContext context, SpellResolver resolver) {
-        resolver.onResolveEffect(caster.getCommandSenderWorld(), caster, new BlockHitResult(caster.position(), Direction.UP, caster.blockPosition().below(), true));
-        resolver.expendMana(caster);
+    public CastResolveType onCast(@Nullable ItemStack stack, LivingEntity caster, Level world, SpellStats spellStats, SpellContext context, SpellResolver resolver) {
+        resolver.onResolveEffect(caster.getCommandSenderWorld(), new BlockHitResult(caster.position(), Direction.UP, caster.blockPosition().below(), true));
+        return CastResolveType.SUCCESS;
     }
 
-    public void onCastOnBlock(UseOnContext context, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
+    public CastResolveType onCastOnBlock(UseOnContext context, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         LivingEntity caster = context.getPlayer();
-        resolver.onResolveEffect(caster.getCommandSenderWorld(), caster, new BlockHitResult(caster.position(), Direction.UP, caster.blockPosition().below(), true));
-        resolver.expendMana(caster);
+        resolver.onResolveEffect(caster.getCommandSenderWorld(), new BlockHitResult(caster.position(), Direction.UP, caster.blockPosition().below(), true));
+        return CastResolveType.SUCCESS;
     }
 
-    public void onCastOnBlock(BlockHitResult blockRayTraceResult, LivingEntity caster, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
-        resolver.onResolveEffect(caster.getCommandSenderWorld(), caster, new BlockHitResult(caster.position(), Direction.UP, caster.blockPosition().below(), true));
-        resolver.expendMana(caster);
+    public CastResolveType onCastOnBlock(BlockHitResult blockRayTraceResult, LivingEntity caster, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
+        resolver.onResolveEffect(caster.getCommandSenderWorld(), new BlockHitResult(caster.position(), Direction.UP, caster.blockPosition().below(), true));
+        return CastResolveType.SUCCESS;
     }
 
-    public void onCastOnEntity(@Nullable ItemStack stack, LivingEntity caster, Entity target, InteractionHand hand, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
-        resolver.onResolveEffect(caster.getCommandSenderWorld(), caster, new BlockHitResult(caster.position(), Direction.UP, caster.blockPosition().below(), true));
-        resolver.expendMana(caster);
+    public CastResolveType onCastOnEntity(@Nullable ItemStack stack, LivingEntity caster, Entity target, InteractionHand hand, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
+        resolver.onResolveEffect(caster.getCommandSenderWorld(), new BlockHitResult(caster.position(), Direction.UP, caster.blockPosition().below(), true));
+        return CastResolveType.SUCCESS;
     }
 
-    public boolean wouldCastSuccessfully(@Nullable ItemStack stack, LivingEntity playerEntity, Level world, SpellStats spellStats, SpellResolver resolver) {
-        return false;
-    }
-
-    public boolean wouldCastOnBlockSuccessfully(UseOnContext context, SpellStats spellStats, SpellResolver resolver) {
-        return false;
-    }
-
-    public boolean wouldCastOnBlockSuccessfully(BlockHitResult blockRayTraceResult, LivingEntity caster, SpellStats spellStats, SpellResolver resolver) {
-        return false;
-    }
-
-    public boolean wouldCastOnEntitySuccessfully(@Nullable ItemStack stack, LivingEntity caster, Entity target, InteractionHand hand, SpellStats spellStats, SpellResolver resolver) {
-        return false;
-    }
 
     public int getDefaultManaCost() {
         return 5;

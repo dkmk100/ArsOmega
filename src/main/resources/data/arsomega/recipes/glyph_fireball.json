@@ -1,0 +1,48 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:fire_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:glyph_explosion"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:glyph_hellfire"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:tnt_minecart"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:tnt_minecart"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:tnt_minecart"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:fire_charge"
+      }
+    }
+  ],
+  "exp": 300,
+  "output": "arsomega:glyph_fireball"
+}

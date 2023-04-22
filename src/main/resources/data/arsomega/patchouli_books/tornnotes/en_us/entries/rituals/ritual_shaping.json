@@ -1,6 +1,6 @@
 {
-  "name": "item.ars_nouveau.ritual_shaping",
-  "icon": "ars_nouveau:ritual_shaping",
+  "name": "item.arsomega.ritual_shaping",
+  "icon": "arsomega:ritual_shaping",
   "category": "ars_nouveau:rituals",
   "pages": [
     {

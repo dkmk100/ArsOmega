@@ -1,19 +1,17 @@
 package com.dkmk100.arsomega.rituals;
 
-import com.dkmk100.arsomega.ArsRegistry;
-import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.blocks.PortalBlockEntity;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.Tags;
 
 import java.util.List;
 
@@ -37,11 +35,11 @@ public class RitualOpenPortal extends AbstractRitual {
         }
 
         if (!world.isClientSide && world.getGameTime() % 10L == 0L) {
-            if(this.needsManaNow()){
+            if(this.needsSourceNow()){
                 return;
             }
             else{
-                this.setNeedsMana(true);
+                this.setNeedsSource(true);
             }
             this.incrementProgress();
             if (this.getProgress() > 20) {
@@ -65,7 +63,7 @@ public class RitualOpenPortal extends AbstractRitual {
     public boolean canConsumeItem(ItemStack stack) {
         int consumed = this.getConsumedItems().size();
         if(consumed==0){
-            return stack.getItem()== ItemsRegistry.DIMENSION_CRYSTAL;
+            return stack.getItem()== RegistryHandler.DIMENSION_CRYSTAL.get();
         }
 
         return false;
@@ -77,17 +75,17 @@ public class RitualOpenPortal extends AbstractRitual {
     }
 
     @Override
-    public int getManaCost() {
+    public int getSourceCost() {
         return 5000;
     }
 
     @Override
-    public boolean consumesMana() {
+    public boolean consumesSource() {
         return true;
     }
 
     @Override
-    public String getID() {
-        return "open_portal";
+    public ResourceLocation getRegistryName() {
+        return RegistryHandler.getRitualName("open_portal");
     }
 }

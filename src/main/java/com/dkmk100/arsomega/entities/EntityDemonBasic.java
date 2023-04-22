@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.entities;
 
 import com.dkmk100.arsomega.ArsOmega;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -34,7 +35,7 @@ public class EntityDemonBasic extends Monster {
         this.xpReward = 12;
     }
 
-    public static boolean canSpawn(EntityType<? extends Monster> entity, LevelAccessor levelAccess, MobSpawnType spawnType, BlockPos pos, Random random){
+    public static boolean canSpawn(EntityType<? extends Monster> entity, LevelAccessor levelAccess, MobSpawnType spawnType, BlockPos pos, RandomSource random){
         if(levelAccess instanceof ServerLevelAccessor)
             return Monster.checkMonsterSpawnRules(entity,(ServerLevelAccessor) levelAccess,spawnType,pos,random);
         else{
@@ -86,7 +87,7 @@ public class EntityDemonBasic extends Monster {
 
     @Override
     public boolean canBeAffected(MobEffectInstance effect) {
-        if (effect.getEffect() == MobEffects.POISON || effect.getEffect() == com.dkmk100.arsomega.potions.ModPotions.DEMONIC_CURSE) {
+        if (effect.getEffect() == MobEffects.POISON || effect.getEffect() == com.dkmk100.arsomega.potions.ModPotions.DEMONIC_CURSE.get()) {
             return false;
         }
         return super.canBeAffected(effect);

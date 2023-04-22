@@ -11,10 +11,8 @@
     "arsomega:alchemical_diamond_block",
     "arsomega:alchemical_diamond_ore",
     "arsomega:alchemical_stone",
-    "arsomega:potion_extender",
     "arsomega:potion_amplifier",
-    "arsomega:potion_relay",
+    "arsomega:potion_extender",
     "arsomega:potion_bottler"
-
   ]
 }

@@ -1,17 +1,16 @@
 package com.dkmk100.arsomega.items;
 
-import com.dkmk100.arsomega.ArsOmega;
-import com.hollingsworth.arsnouveau.common.armor.MagicArmor;
-import com.hollingsworth.arsnouveau.common.armor.Materials;
+/*
 import com.hollingsworth.arsnouveau.setup.ItemsRegistry;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class EnchantedArmor extends MagicArmor {
+public class EnchantedArmor extends MagicArmor implements INamedItem {
     int boostBonus;
     int regenBonus;
+    String myName;
     public EnchantedArmor(String name,EquipmentSlot slot, int boost, int regen, ArmorMaterial material)
     {
         super(material, slot, ItemsRegistry.defaultItemProperties());
@@ -28,6 +27,22 @@ public class EnchantedArmor extends MagicArmor {
     }
 
     @Override
+    public INamedItem setRegistryName(String name){
+        myName = name;
+        return this;
+    }
+
+    @Override
+    public String getNameForReg(){
+        return myName;
+    }
+
+    @Override
+    public Item getItem() {
+        return this;
+    }
+
+    @Override
     public int getMaxManaBoost(ItemStack stack) {
         return boostBonus;
     }
@@ -36,6 +51,5 @@ public class EnchantedArmor extends MagicArmor {
     public int getManaRegenBonus(ItemStack stack) {
         return regenBonus;
     }
-
-
 }
+ */

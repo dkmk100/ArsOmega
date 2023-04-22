@@ -1,11 +1,9 @@
 package com.dkmk100.arsomega.entities;
 
-import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.EntitySpellResolver;
 import com.hollingsworth.arsnouveau.api.spell.Spell;
 import com.hollingsworth.arsnouveau.api.spell.SpellContext;
-import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
 import com.hollingsworth.arsnouveau.common.potions.ModPotions;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAccelerate;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
@@ -104,7 +102,7 @@ public class EntityBossDemonKing extends Monster implements IEntityAdditionalSpa
     @Override
     protected void dropCustomDeathLoot(DamageSource p_213333_1_, int p_213333_2_, boolean p_213333_3_) {
         super.dropCustomDeathLoot(p_213333_1_, p_213333_2_, p_213333_3_);
-        ItemEntity itementity = this.spawnAtLocation(ItemsRegistry.DEMON_CRYSTAL);
+        ItemEntity itementity = this.spawnAtLocation(RegistryHandler.DEMON_CRYSTAL.get());
         if (itementity != null) {
             itementity.setExtendedLifetime();
         }
@@ -202,9 +200,9 @@ public class EntityBossDemonKing extends Monster implements IEntityAdditionalSpa
                     //too far, shoot at
                     else if (dist2 > shootRange * shootRange) {
                         Spell spell = spells[level.random.nextInt(spells.length)];
-                        SpellContext context = new SpellContext(spell, this);
+                        SpellContext context = new SpellContext(level,spell, this);
                         EntitySpellResolver resolver = new EntitySpellResolver(context);
-                        resolver.onCast(this.getMainHandItem(), this, level);
+                        resolver.onCast(this.getMainHandItem(), level);
                     }
                     //just right, spawn stuff
                     else {
@@ -258,7 +256,7 @@ public class EntityBossDemonKing extends Monster implements IEntityAdditionalSpa
     @Override
     public boolean canBeAffected(MobEffectInstance effect) {
         MobEffect e = effect.getEffect();
-        if (e == MobEffects.POISON || e == MobEffects.MOVEMENT_SLOWDOWN || e == ModPotions.SNARE_EFFECT || e == com.dkmk100.arsomega.potions.ModPotions.DEMONIC_CURSE || e == com.dkmk100.arsomega.potions.ModPotions.VINE_BIND) {
+        if (e == MobEffects.POISON || e == MobEffects.MOVEMENT_SLOWDOWN || e == ModPotions.SNARE_EFFECT.get() || e == com.dkmk100.arsomega.potions.ModPotions.DEMONIC_CURSE.get() || e == com.dkmk100.arsomega.potions.ModPotions.VINE_BIND.get()) {
             return false;
         }
         return super.canBeAffected(effect);
@@ -281,7 +279,7 @@ public class EntityBossDemonKing extends Monster implements IEntityAdditionalSpa
     @Override
     @OnlyIn(Dist.CLIENT)
     public void readSpawnData(FriendlyByteBuf additionalData) {
-        Minecraft.getInstance().getSoundManager().play(new BossMusic(this, RegistryHandler.DEMON_KING_MUSIC.get()));
+        Minecraft.getInstance().getSoundManager().play(new BossMusic(this, RegistryHandler.DEMON_KING_MUSIC.get(), this.level.getRandom()));
     }
 
 

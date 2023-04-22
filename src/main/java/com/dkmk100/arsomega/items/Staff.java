@@ -2,14 +2,15 @@ package com.dkmk100.arsomega.items;
 
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.glyphs.IIgnoreBuffs;
-import com.hollingsworth.arsnouveau.ArsNouveau;
+import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import com.hollingsworth.arsnouveau.api.item.ICasterTool;
 import com.hollingsworth.arsnouveau.api.spell.*;
-import com.hollingsworth.arsnouveau.client.renderer.item.WandRenderer;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodProjectile;
+import com.hollingsworth.arsnouveau.common.spell.validation.ActionAugmentationPolicyValidator;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Tier;
@@ -20,56 +21,65 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.ars_nouveau.geckolib3.core.IAnimatable;
+import software.bernie.ars_nouveau.geckolib3.core.PlayState;
+import software.bernie.ars_nouveau.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.ars_nouveau.geckolib3.core.controller.AnimationController;
+import software.bernie.ars_nouveau.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.ars_nouveau.geckolib3.core.manager.AnimationData;
+import software.bernie.ars_nouveau.geckolib3.core.manager.AnimationFactory;
 
 import javax.annotation.Nullable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.world.item.Item.Properties;
-
 public class Staff extends SwordItem implements IAnimatable, ICasterTool {
     public AnimationFactory factory = new AnimationFactory(this);
+    Method getStats;
+    Method enoughMana;
+
+    Class AugmentError;
 
     public Staff(Tier iItemTier, int baseDamage, float baseAttackSpeed) {
         super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsOmega.itemGroup));
         this.augmentAmount = 2;
         this.augmentAdded = AugmentAmplify.INSTANCE;
         this.amountEach = 2;
+        InitReflection();
     }
-    public Staff(String name, Tier iItemTier, int baseDamage, float baseAttackSpeed) {
-        super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsOmega.itemGroup));
-        this.setRegistryName(ArsOmega.MOD_ID, name);
-        this.augmentAmount = 2;
-        this.augmentAdded = AugmentAmplify.INSTANCE;
-        this.amountEach = 2;
+    void InitReflection(){
+        try{
+            getStats = SpellResolver.class.getDeclaredMethod("getCastStats");
+            enoughMana = SpellResolver.class.getDeclaredMethod("enoughMana", LivingEntity.class);
+            AugmentError = Class.forName("com.hollingsworth.arsnouveau.common.spell.validation.ActionAugmentationPolicyValidator$ActionAugmentationPolicyValidationError");
+            getStats.setAccessible(true);
+            enoughMana.setAccessible(true);
+        }
+        catch (Exception e){
+            throw new RuntimeException(e);
+        }
     }
     int augmentAmount;
     AbstractAugment augmentAdded;
     int amountEach;
-    public Staff(String name, Tier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach) {
+    public Staff(Tier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach) {
         super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsOmega.itemGroup));
-        this.setRegistryName(ArsOmega.MOD_ID, name);
         this.augmentAmount = augmentAmount;
         this.augmentAdded = augmentAdded;
         this.amountEach = amountEach;
+        InitReflection();
     }
-    public Staff(String name, Tier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach, boolean fireResistant) {
+    public Staff(Tier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach, boolean fireResistant) {
         super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsOmega.itemGroup).fireResistant());
-        this.setRegistryName(ArsOmega.MOD_ID, name);
         this.augmentAmount = augmentAmount;
         this.augmentAdded = augmentAdded;
         this.amountEach = amountEach;
+        InitReflection();
     }
 
     private <P extends Item & IAnimatable> PlayState predicate(AnimationEvent<P> event) {
@@ -77,18 +87,48 @@ public class Staff extends SwordItem implements IAnimatable, ICasterTool {
         return PlayState.CONTINUE;
     }
 
+
     @Override
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
         ItemStack stack = playerIn.getItemInHand(handIn);
         ISpellCaster caster = this.getSpellCaster(stack);
 
-        InteractionResultHolder<ItemStack> cast  = caster.castSpell(worldIn, playerIn, handIn, new TranslatableComponent("ars_nouveau.wand.invalid"));
-        if(cast.getResult() == InteractionResult.CONSUME)//why you no work
-        {
-            //stack.setDamageValue(stack.getDamageValue() + 1);//damage staff
+        Spell spell = caster.getSpell();
+        SpellContext context = new SpellContext(worldIn, spell,playerIn);
+        SpellResolver resolver = new SpellResolver(context);
+
+        if(spell.isEmpty() || !(spell.recipe.get(0) instanceof AbstractCastMethod)){
+            PortUtil.sendMessageNoSpam(playerIn, Component.literal("No spell"));
+            return new InteractionResultHolder<>(InteractionResult.PASS,stack);
         }
 
-        return cast;
+
+        try {
+            //sorry for all the reflection shenanigans
+
+            ISpellValidator validator = ArsNouveauAPI.getInstance().getSpellCastingSpellValidator();
+            List<SpellValidationError> validationErrors = validator.validate(spell.recipe);
+            for(SpellValidationError error : validationErrors){
+                if(!(AugmentError.isInstance(error))){
+                    PortUtil.sendMessageNoSpam(playerIn, error.makeTextComponentExisting());
+                    return new InteractionResultHolder<>(InteractionResult.PASS,stack);
+                }
+            }
+
+            if((boolean) enoughMana.invoke(resolver,playerIn)) {
+                caster.getSpell().getCastMethod().onCast(stack, playerIn, worldIn, (SpellStats) getStats.invoke(resolver), context, resolver);
+                resolver.expendMana();
+            }
+            else{
+                return new InteractionResultHolder<>(InteractionResult.PASS,stack);
+            }
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+
+        return new InteractionResultHolder<>(InteractionResult.SUCCESS,stack);
     }
 
     @Override
@@ -110,7 +150,7 @@ public class Staff extends SwordItem implements IAnimatable, ICasterTool {
 
     @Override
     public void sendInvalidMessage(Player player) {
-        PortUtil.sendMessageNoSpam(player, new TranslatableComponent("ars_nouveau.wand.invalid"));
+        PortUtil.sendMessageNoSpam(player, Component.translatable("ars_nouveau.wand.invalid"));
     }
 
     @Override

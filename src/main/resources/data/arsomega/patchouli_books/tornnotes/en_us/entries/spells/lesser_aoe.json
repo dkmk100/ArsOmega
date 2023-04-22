@@ -1,16 +1,16 @@
 {
-  "name": "ars_nouveau.glyph_name.lesser_aoe",
-  "icon": "ars_nouveau:glyph_lesser_aoe",
+  "name": "arsomega.glyph_name.glyph_lesser_aoe",
+  "icon": "arsomega:glyph_lesser_aoe",
   "category": "ars_nouveau:glyphs_1",
   "sortnum": 3,
   "pages": [
     {
       "type": "text",
-      "text": "ars_nouveau.glyph_desc.lesser_aoe"
+      "text": "arsomega.glyph_desc.glyph_lesser_aoe"
     },
     {
       "type": "ars_nouveau:glyph_recipe",
-      "recipe": "ars_nouveau:glyph_lesser_aoe"
+      "recipe": "arsomega:glyph_lesser_aoe"
     }
   ]
 }

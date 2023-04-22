@@ -11,20 +11,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
 
 public class TransmuteRecipe implements Recipe<Container> {
     public final ItemStack input;
@@ -98,7 +93,7 @@ public class TransmuteRecipe implements Recipe<Container> {
 
     public static JsonElement stackToJson(ItemStack stack){
         JsonObject element = new JsonObject();
-        element.addProperty("item", stack.getItem().getRegistryName().toString());
+        element.addProperty("item", ForgeRegistries.ITEMS.getKey(stack.getItem()).toString());
         element.addProperty("count", stack.getCount());
         return element;
     }
@@ -110,7 +105,7 @@ public class TransmuteRecipe implements Recipe<Container> {
     }
 
 
-    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<TransmuteRecipe> {
+    public static class Serializer implements RecipeSerializer<TransmuteRecipe> {
         public Serializer() {
         }
 

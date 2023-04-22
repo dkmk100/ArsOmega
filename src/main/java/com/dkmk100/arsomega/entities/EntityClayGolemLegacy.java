@@ -1,7 +1,5 @@
 package com.dkmk100.arsomega.entities;
 
-import com.dkmk100.arsomega.ArsRegistry;
-import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -106,7 +104,7 @@ public class EntityClayGolemLegacy extends AbstractGolem {
     protected InteractionResult mobInteract(Player p_230254_1_, InteractionHand p_230254_2_) {
         ItemStack itemstack = p_230254_1_.getItemInHand(p_230254_2_);
         Item item = itemstack.getItem();
-        if (item != ItemsRegistry.MAGIC_CLAY) {
+        if (item != RegistryHandler.MAGIC_CLAY.get()) {
             return InteractionResult.PASS;
         } else {
             float f = this.getHealth();

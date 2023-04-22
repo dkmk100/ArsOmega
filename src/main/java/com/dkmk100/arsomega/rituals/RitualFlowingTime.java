@@ -1,10 +1,13 @@
 package com.dkmk100.arsomega.rituals;
 
+import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import com.hollingsworth.arsnouveau.common.block.tile.RitualBrazierTile;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -47,7 +50,7 @@ public class RitualFlowingTime extends AbstractRitual {
             }
 
             if (didWorkOnce) {
-                this.setNeedsMana(true);
+                this.setNeedsSource(true);
             }
         }
 
@@ -71,7 +74,7 @@ public class RitualFlowingTime extends AbstractRitual {
     }
 
 
-    public int getManaCost() {
+    public int getSourceCost() {
         //low cost only because it activates so often
         return 500;
     }
@@ -79,9 +82,9 @@ public class RitualFlowingTime extends AbstractRitual {
     public boolean canConsumeItem(ItemStack stack) {
         return false;
     }
-
-    public String getID() {
-        return "flowing_time";
+    @Override
+    public ResourceLocation getRegistryName() {
+        return RegistryHandler.getRitualName("flowing_time");
     }
 
     public ParticleColor getCenterColor() {

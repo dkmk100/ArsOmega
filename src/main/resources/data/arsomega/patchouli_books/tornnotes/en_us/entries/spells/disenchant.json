@@ -1,16 +1,16 @@
 {
   "name": "Disenchant",
-  "icon": "ars_nouveau:glyph_disenchant",
+  "icon": "arsomega:glyph_disenchant",
   "category": "ars_nouveau:glyphs_2",
   "sortnum": 3,
   "pages": [
     {
       "type": "text",
-      "text": "ars_nouveau.glyph_desc.disenchant"
+      "text": "arsomega.glyph_desc.glyph_disenchant"
     },
     {
       "type": "glyph_recipe",
-      "recipe": "ars_nouveau:glyph_enchant",
+      "recipe": "arsomega:glyph_enchant",
       "tier": "TWO",
       "mana_cost": "High",
       "clay_type": "ars_nouveau:marvelous_clay",

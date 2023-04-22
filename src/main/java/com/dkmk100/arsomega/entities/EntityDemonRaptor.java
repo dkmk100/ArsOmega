@@ -1,6 +1,6 @@
 package com.dkmk100.arsomega.entities;
 
-import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -25,15 +25,15 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.ars_nouveau.geckolib3.core.IAnimatable;
+import software.bernie.ars_nouveau.geckolib3.core.PlayState;
+import software.bernie.ars_nouveau.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.ars_nouveau.geckolib3.core.controller.AnimationController;
+import software.bernie.ars_nouveau.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.ars_nouveau.geckolib3.core.manager.AnimationData;
+import software.bernie.ars_nouveau.geckolib3.core.manager.AnimationFactory;
 
-public class EntityDemonRaptor  extends Monster implements IAnimatable {
+public class EntityDemonRaptor extends Monster implements IAnimatable {
     public EntityDemonRaptor(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
         this.xpReward = 12;
@@ -86,7 +86,7 @@ public class EntityDemonRaptor  extends Monster implements IAnimatable {
     @Override
     protected void dropCustomDeathLoot(DamageSource p_213333_1_, int p_213333_2_, boolean p_213333_3_) {
         super.dropCustomDeathLoot(p_213333_1_, p_213333_2_, p_213333_3_);
-        ItemEntity itementity = this.spawnAtLocation(ItemsRegistry.DEMONIC_TOOTH);
+        ItemEntity itementity = this.spawnAtLocation(RegistryHandler.DEMONIC_TOOTH.get());
         if (itementity != null) {
             itementity.setExtendedLifetime();
         }
@@ -94,7 +94,7 @@ public class EntityDemonRaptor  extends Monster implements IAnimatable {
 
     @Override
     public boolean canBeAffected(MobEffectInstance effect) {
-        if (effect.getEffect() == MobEffects.POISON || effect.getEffect() == com.dkmk100.arsomega.potions.ModPotions.DEMONIC_CURSE) {
+        if (effect.getEffect() == MobEffects.POISON || effect.getEffect() == com.dkmk100.arsomega.potions.ModPotions.DEMONIC_CURSE.get()) {
             return false;
         }
         return super.canBeAffected(effect);

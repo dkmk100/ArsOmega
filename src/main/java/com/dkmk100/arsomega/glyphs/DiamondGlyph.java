@@ -1,8 +1,5 @@
 package com.dkmk100.arsomega.glyphs;
 
-import com.dkmk100.arsomega.ArsOmega;
-import com.dkmk100.arsomega.ArsRegistry;
-import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
@@ -16,16 +13,14 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.Tags;
 import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.util.ISlotHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.Set;
 
-public class DiamondGlyph extends TierFourEffect implements ConfigurableGlyph {
+public class DiamondGlyph extends TierFourEffect {
 
     public static DiamondGlyph INSTANCE = new DiamondGlyph("diamond", "Diamond");
 
@@ -35,11 +30,11 @@ public class DiamondGlyph extends TierFourEffect implements ConfigurableGlyph {
     ForgeConfigSpec.IntValue extraAmpCost;
 
     public DiamondGlyph(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
     @Override
-    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if ((world instanceof ServerLevel) && rayTraceResult instanceof BlockHitResult) {
             BlockPos pos = new BlockPos(((BlockHitResult) rayTraceResult).getBlockPos());
 
@@ -51,9 +46,9 @@ public class DiamondGlyph extends TierFourEffect implements ConfigurableGlyph {
             int cost = extraAmpCost.get();
 
 
-            if (shooter != null && CuriosApi.getCuriosHelper().findFirstCurio(shooter, ItemsRegistry.ALCHEMY_FOCUS_ADVANCED).isPresent()) {
+            if (shooter != null && CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_ADVANCED_ALCHEMY.get()).isPresent()) {
                 amp += Math.max(advancedFocusBonus.get(), focusBonus.get());
-            } else if (shooter != null && CuriosApi.getCuriosHelper().findFirstCurio(shooter, ItemsRegistry.ALCHEMY_FOCUS).isPresent()) {
+            } else if (shooter != null && CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_ALCHEMY.get()).isPresent()) {
                 amp += focusBonus.get();
             }
 
@@ -107,12 +102,14 @@ public class DiamondGlyph extends TierFourEffect implements ConfigurableGlyph {
     }
 
     @Override
-    public void buildExtraConfig(ForgeConfigSpec.Builder builder) {
+    public void buildConfig(ForgeConfigSpec.Builder builder) {
+        super.buildConfig(builder);
         this.maxTier = builder.comment("The max block tier that can be made, anything above this will never be made regardless of power leve (amp amount plus bonuses). Tier 0 is coal, order goes coal, copper, iron, redstone, gold, emerald, diamond, and netherite").defineInRange("maxTier",6,0,10);
         this.extraAmpCost = builder.comment("The extra power level required for each tier, a linear value. Numbers larger than 5 or smaller than -5 can break progression, so be careful.").defineInRange("extraAmpCost",0,-20,20);
         this.focusBonus = builder.comment("How many levels of amplify the focus of alchemy is worth").defineInRange("focusBonus",5,0,20);
         this.advancedFocusBonus = builder.comment("How many levels of amplify the advanced focus of alchemy is worth. Should be higher than the normal focus value.").defineInRange("advancedFocusBonus",10,0,20);
     }
+
 
     @Nonnull
     @Override

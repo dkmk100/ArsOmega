@@ -7,7 +7,7 @@ import com.dkmk100.arsomega.blocks.ChalkTile;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
+ 
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -23,16 +23,18 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class BasicChalkItem extends DescribedItem{
     Supplier<BasicChalk> chalkBlock;
 
-    public BasicChalkItem(String name,Supplier<BasicChalk> chalkSupplier,int durability,String description) {
-        super(name, new Item.Properties().tab(ArsOmega.itemGroup).durability(durability), description);
+    public BasicChalkItem(Supplier<BasicChalk> chalkSupplier,int durability,String description) {
+        super(new Item.Properties().tab(ArsOmega.itemGroup).durability(durability), description);
         chalkBlock = chalkSupplier;
     }
 
-    public BasicChalkItem(String name, Supplier<BasicChalk> chalkSupplier, Properties properties, String description) {
-        super(name, properties, description);
+    public BasicChalkItem(Supplier<BasicChalk> chalkSupplier, Properties properties, String description) {
+        super(properties, description);
         chalkBlock = chalkSupplier;
     }
 

@@ -7,18 +7,13 @@ import net.minecraft.world.item.ItemStack;
 
 public class BasicItem extends Item {
     boolean showEnch = false;
+    String myName;
     public BasicItem(Properties properties) {
         super(properties);
     }
-    public BasicItem(Properties properties, String name)
+    public BasicItem(Properties properties, boolean showEnch)
     {
         super(properties);
-        setRegistryName(name);
-    }
-    public BasicItem(Properties properties, String name, boolean showEnch)
-    {
-        super(properties);
-        setRegistryName(name);
         this.showEnch = showEnch;
     }
 

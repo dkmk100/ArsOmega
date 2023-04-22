@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.BlockUtil;
 import com.hollingsworth.arsnouveau.api.util.SpellUtil;
@@ -11,6 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.item.ItemStack;
@@ -24,6 +26,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.FakePlayerFactory;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,10 +38,10 @@ public class AdvancedGrow extends AbstractEffect {
     public static AdvancedGrow INSTANCE = new AdvancedGrow();
 
     private AdvancedGrow() {
-        super("advanced_grow", "Advanced Grow");
+        super(RegistryHandler.getGlyphName("advanced_grow"), "Advanced Grow");
     }
 
-    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         Iterator var6 = SpellUtil.calcAOEBlocks(shooter, rayTraceResult.getBlockPos(), rayTraceResult, spellStats).iterator();
 
         while(var6.hasNext()) {
@@ -53,7 +56,7 @@ public class AdvancedGrow extends AbstractEffect {
     public static boolean GrowBlock(BlockPos pos, ServerLevel world){
         BlockState state = world.getBlockState(pos);
         Block block = state.getBlock();
-        ArsOmega.LOGGER.info("checking block for flower: " + block.getRegistryName());
+        ArsOmega.LOGGER.info("checking block for flower: " + ForgeRegistries.BLOCKS.getKey(block).toString());
         if(block == Blocks.CACTUS || block == Blocks.SUGAR_CANE){
             //I know that you can just hit a higher block to keep growing them, I just don't care
             //seems fair enough to just let you do that as a player
@@ -133,7 +136,7 @@ public class AdvancedGrow extends AbstractEffect {
     }
 
     public static void GrowChorusFlower(BlockState state, BlockPos pos, ServerLevel world){
-        Random random = world.getRandom();
+        RandomSource random = world.getRandom();
         BlockPos blockpos = pos.above();
         if (world.isEmptyBlock(blockpos) && blockpos.getY() < world.getMaxBuildHeight()) {
             int i = state.getValue(ChorusFlowerBlock.AGE);

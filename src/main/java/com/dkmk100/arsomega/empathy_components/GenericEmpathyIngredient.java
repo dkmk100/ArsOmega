@@ -5,6 +5,7 @@ import com.dkmk100.arsomega.empathy_api.EmpathyIngredientInstance;
 import com.dkmk100.arsomega.empathy_api.EmpathySpell;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,6 +13,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Supplier;
+
+import com.dkmk100.arsomega.empathy_api.AbstractEmpathyIngredient.AddResult;
 
 public abstract class GenericEmpathyIngredient extends AbstractEmpathyIngredient {
 
@@ -40,7 +43,7 @@ public abstract class GenericEmpathyIngredient extends AbstractEmpathyIngredient
             AbstractEmpathyIngredient ingredient = ing.next();
             for(EmpathyIngredientInstance inst : currentSpell.getIngredients()) {
                 if (inst.getIngredient() == ingredient && inst.getAmount() > 0) {
-                    return new AddResult(false, "incompatible with ingredient: " + ingredient.GetItem().getRegistryName());
+                    return new AddResult(false, "incompatible with ingredient: " + ForgeRegistries.ITEMS.getKey(ingredient.GetItem()).toString());
                 }
             }
         }

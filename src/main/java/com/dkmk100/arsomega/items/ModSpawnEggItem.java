@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.items;
 
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.BlockSource;
@@ -17,8 +18,11 @@ import java.util.Map;
 
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.RegistryObject;
+import net.minecraft.world.item.Item.Properties;
 
-public class ModSpawnEggItem extends SpawnEggItem {
+public class ModSpawnEggItem extends SpawnEggItem{
+    String myName;
+
     public ModSpawnEggItem(RegistryObject<? extends EntityType<?>> entityTypeIn, int primaryColorIn, int secondaryColorIn, Properties builder) {
         super(null, primaryColorIn, secondaryColorIn, builder);
         entityTypeSupplier=Lazy.of(entityTypeIn);
@@ -28,7 +32,9 @@ public class ModSpawnEggItem extends SpawnEggItem {
 
     private final Lazy<? extends EntityType<?>> entityTypeSupplier;
     public static void initSpawnEggs(){
-        final Map<EntityType<?>, SpawnEggItem> EGGS = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class,null,"f_43201");
+
+        final Map<EntityType<?>, SpawnEggItem> EGGS = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class,null,"f_43201_");
+
         DefaultDispenseItemBehavior dispenseBehavior = new DefaultDispenseItemBehavior(){
 
             @Override
@@ -48,6 +54,7 @@ public class ModSpawnEggItem extends SpawnEggItem {
         }
         UNADDED_EGGS.clear();
     }
+
     @Override
     public EntityType<?> getType(CompoundTag nbt){
         return this.entityTypeSupplier.get();

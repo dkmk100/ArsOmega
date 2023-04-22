@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import net.minecraft.world.entity.Entity.RemovalReason;
+
 public class EntityTornado extends ColoredProjectile {
 
     public static final EntityDataAccessor<Integer> AOE = SynchedEntityData.defineId(EntityTornado.class, EntityDataSerializers.INT);
@@ -201,6 +203,10 @@ public class EntityTornado extends ColoredProjectile {
                     if(this.tickCount % 6 == 0 && entity instanceof LivingEntity)//no item damage
                     {
                         entity.hurt(TornadoGlyph.TORNADO_DAMAGE,2.0f);
+                        if(((LivingEntity) entity).getHealth() < 0){
+                            toRemove.add(entity);
+                            entity.setNoGravity(false);
+                        }
                     }
                 } else {
                     toRemove.add(entity);

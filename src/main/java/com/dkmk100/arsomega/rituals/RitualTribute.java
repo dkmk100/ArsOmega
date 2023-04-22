@@ -1,10 +1,13 @@
 package com.dkmk100.arsomega.rituals;
 
-import com.dkmk100.arsomega.ArsRegistry;
+import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.util.RegistryHandler;
+import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import com.hollingsworth.arsnouveau.setup.ItemsRegistry;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
@@ -49,11 +52,11 @@ public class RitualTribute extends AbstractRitual {
         }
 
         if (!world.isClientSide && world.getGameTime() % 10L == 0L) {
-            if(this.needsManaNow()){
+            if(this.needsSourceNow()){
                 return;
             }
             else{
-                this.setNeedsMana(true);
+                this.setNeedsSource(true);
             }
             this.incrementProgress();
             if (this.getProgress() > 10) {
@@ -83,7 +86,7 @@ public class RitualTribute extends AbstractRitual {
                     }
 
                 }
-                ItemEntity itementity2 = this.spawnAtLocation(new ItemStack(ArsRegistry.TRIBUTE_RITUAL),1,pos);
+                ItemEntity itementity2 = this.spawnAtLocation(new ItemStack(ArsNouveauAPI.getInstance().getRitualItemMap().get(this.getRegistryName())),1,pos);
                 if (itementity2 != null) {
                     itementity2.setExtendedLifetime();
                 }
@@ -100,17 +103,17 @@ public class RitualTribute extends AbstractRitual {
         return ForgeRegistries.ITEMS.tags().getTag(tag).contains(item);
     }
     @Override
-    public int getManaCost() {
+    public int getSourceCost() {
         return 500;
     }
 
     @Override
-    public boolean consumesMana() {
+    public boolean consumesSource() {
         return true;
     }
 
     @Override
-    public String getID() {
-        return "tribute";
+    public ResourceLocation getRegistryName() {
+        return RegistryHandler.getRitualName("tribute");
     }
 }

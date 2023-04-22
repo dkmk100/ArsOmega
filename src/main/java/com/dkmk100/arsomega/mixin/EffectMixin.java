@@ -15,7 +15,7 @@ public class EffectMixin{
 
     @Inject(at = @At("HEAD"), method = "Lnet/minecraft/world/effect/MobEffect;applyEffectTick(Lnet/minecraft/world/entity/LivingEntity;I)V", cancellable = true)
     public void applyEffectTick(LivingEntity entity, int p_19468_, CallbackInfo ci) {
-        if (this == (Object) MobEffects.REGENERATION && entity.hasEffect(ModPotions.BLOOD_CLOT)) {
+        if (this == (Object) MobEffects.REGENERATION && entity.hasEffect(ModPotions.BLOOD_CLOT.get())) {
             ci.cancel();
         }
     }

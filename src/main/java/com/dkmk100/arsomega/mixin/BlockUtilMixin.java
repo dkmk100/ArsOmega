@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class BlockUtilMixin {
     @Inject(at = @At("HEAD"), method = "Lcom/hollingsworth/arsnouveau/api/util/BlockUtil;destroyRespectsClaim(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Z", cancellable = true, remap = false)
     private static void checkBreak(LivingEntity caster, Level world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        if(caster.hasEffect(ModPotions.NO_BREAK)){
+        if(caster != null && caster.hasEffect(ModPotions.NO_BREAK.get())){
             cir.setReturnValue(false);
         }
     }

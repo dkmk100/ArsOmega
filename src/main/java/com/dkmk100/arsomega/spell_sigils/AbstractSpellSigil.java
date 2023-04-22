@@ -12,7 +12,8 @@ import com.hollingsworth.arsnouveau.api.mana.IManaCap;
 import com.hollingsworth.arsnouveau.common.capability.CapabilityRegistry;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
+
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,13 +26,15 @@ import net.minecraft.world.level.block.Blocks;
 import org.apache.logging.log4j.core.jmx.Server;
 import org.apache.logging.log4j.core.tools.Generate;
 
+import net.minecraft.world.item.Item.Properties;
+
 public abstract class AbstractSpellSigil extends DescribedItem implements IDisplayMana {
     public final SigilPattern pattern;
 
     private static Properties properties = ItemPropertiesCreator.creator.create(ArsOmega.itemGroup,64);
 
-    public AbstractSpellSigil(String name) {
-        super(name, properties, "Note: still WIP! Spell sigils are activated on chalk, and if the correct shape has been drawn, will cast a powerful effect at the location. For more information, check the worn notebook.");
+    public AbstractSpellSigil() {
+        super(properties, "Note: still WIP! Spell sigils are activated on chalk, and if the correct shape has been drawn, will cast a powerful effect at the location. For more information, check the worn notebook.");
         this.pattern = GeneratePattern();
     }
 
@@ -77,7 +80,7 @@ public abstract class AbstractSpellSigil extends DescribedItem implements IDispl
         } else {
             boolean canCast = (double)totalCost <= manaCap.getCurrentMana() || entity instanceof Player && ((Player)entity).isCreative();
             if (!canCast && !entity.getCommandSenderWorld().isClientSide) {
-                PortUtil.sendMessageNoSpam(entity, new TranslatableComponent("ars_nouveau.spell.no_mana"));
+                PortUtil.sendMessageNoSpam(entity, Component.translatable("ars_nouveau.spell.no_mana"));
             }
 
             return canCast;

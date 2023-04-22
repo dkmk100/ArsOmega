@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
@@ -26,17 +27,17 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class DisenchantGlyph extends AbstractEffect implements ConfigurableGlyph {
+public class DisenchantGlyph extends AbstractEffect {
     public static DisenchantGlyph INSTANCE = new DisenchantGlyph("disenchant", "Disenchant");
 
     ForgeConfigSpec.BooleanValue affectPlayers;
 
     public DisenchantGlyph(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
     @Override
-    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if (world instanceof ServerLevel) {
             double aoeBuff = spellStats.getAoeMultiplier();
             int ampBuff = (int) Math.round(spellStats.getAmpMultiplier());
@@ -61,7 +62,7 @@ public class DisenchantGlyph extends AbstractEffect implements ConfigurableGlyph
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if(rayTraceResult.getEntity() instanceof Player && affectPlayers.get()) {
             int ampBuff = (int) Math.round(spellStats.getAmpMultiplier());
             Player entity = (Player)rayTraceResult.getEntity();
@@ -138,7 +139,8 @@ public class DisenchantGlyph extends AbstractEffect implements ConfigurableGlyph
         return this.augmentSetOf(new AbstractAugment[]{AugmentSensitive.INSTANCE, AugmentDampen.INSTANCE, AugmentAmplify.INSTANCE});
     }
     @Override
-    public void buildExtraConfig(ForgeConfigSpec.Builder builder) {
+    public void buildConfig(ForgeConfigSpec.Builder builder) {
+        super.buildConfig(builder);
         this.affectPlayers = builder.comment("Allows the glyph to hit players, and disenchant held items. Cool but kinda grief-y feature.").define("affect_players",false);
     }
 

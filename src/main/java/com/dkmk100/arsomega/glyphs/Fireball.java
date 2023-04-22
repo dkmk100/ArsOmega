@@ -1,9 +1,11 @@
 package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.ANExplosion;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -21,9 +23,10 @@ import net.minecraftforge.event.ForgeEventFactory;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
-public class Fireball extends TierFourEffect implements ConfigurableGlyph {
+public class Fireball extends TierFourEffect {
     public static Fireball INSTANCE = new Fireball("fireball", "fireball");
     public ForgeConfigSpec.DoubleValue BASE;
     public ForgeConfigSpec.DoubleValue AOE_BONUS;
@@ -31,14 +34,12 @@ public class Fireball extends TierFourEffect implements ConfigurableGlyph {
     public ForgeConfigSpec.DoubleValue AMP_BONUS;
     public ForgeConfigSpec.DoubleValue AMP_DAMAGE;
 
-    public ForgeConfigSpec.DoubleValue BASE_DAMAGE;
-
     public Fireball(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
     @Override
-    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         Vec3 vec = this.safelyGetHitPos(rayTraceResult);
         double intensity;
         intensity = this.BASE.get() + this.AMP_BONUS.get() * spellStats.getAmpMultiplier() + this.AOE_BONUS.get() * (double) spellStats.getAoeMultiplier();
@@ -49,10 +50,15 @@ public class Fireball extends TierFourEffect implements ConfigurableGlyph {
         this.explode(world, shooter, (DamageSource)null, (ExplosionDamageCalculator)null, vec.x, vec.y, vec.z, (float)intensity, true, mode, spellStats.getAmpMultiplier());
     }
 
+    @Override
+    protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
+        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 2);
+    }
+
 
     public Explosion explode(Level world, @Nullable Entity e, @Nullable DamageSource source, @Nullable ExplosionDamageCalculator context, double x, double y, double z, float radius, boolean p_230546_11_, Explosion.BlockInteraction p_230546_12_, double amp) {
         ANExplosion explosion = new ANExplosion(world, e, source, context, x, y, z, radius, p_230546_11_, p_230546_12_, amp);
-        explosion.baseDamage = BASE_DAMAGE.get();
+        explosion.baseDamage = DAMAGE.get();
         explosion.ampDamageScalar = AMP_DAMAGE.get();
         if (ForgeEventFactory.onExplosionStart(world, explosion)) {
             return explosion;
@@ -77,8 +83,9 @@ public class Fireball extends TierFourEffect implements ConfigurableGlyph {
     }
 
     @Override
-    public void buildExtraConfig(ForgeConfigSpec.Builder builder) {
-        this.BASE_DAMAGE = builder.comment("Base damage").defineInRange("base_damage", 6.0D, 0.0D, 100.0D);
+    public void buildConfig(ForgeConfigSpec.Builder builder) {
+        super.buildConfig(builder);
+        this.addDamageConfig(builder,6.0D);
         this.AMP_BONUS = builder.comment("AMP intensity bonus").defineInRange("amp_bonus", 0.6D, 0.0D, 100.0D);
         this.BASE = builder.comment("Base intensity").defineInRange("base", 1.2D, 0.0D, 100.0D);
         this.AOE_BONUS = builder.comment("AOE intensity bonus").defineInRange("aoe_bonus", 1.8D, 0.0D, 100.0D);

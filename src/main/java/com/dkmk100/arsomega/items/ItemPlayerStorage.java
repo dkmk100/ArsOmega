@@ -1,7 +1,7 @@
 package com.dkmk100.arsomega.items;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
+ 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,14 +14,16 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class ItemPlayerStorage extends BasicItem {
-    public ItemPlayerStorage(String name, Properties properties) {
-        super(properties, name);
+    public ItemPlayerStorage(Properties properties) {
+        super(properties);
     }
 
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip2, TooltipFlag flagIn) {
         if (stack.hasTag() && stack.getTag().contains("target_name")) {
-            tooltip2.add(new TextComponent("Player: " + stack.getTag().getString("target_name")));
+            tooltip2.add(  Component.literal("Player: " + stack.getTag().getString("target_name")));
         }
         super.appendHoverText(stack, worldIn, tooltip2, flagIn);
     }
@@ -38,7 +40,7 @@ public class ItemPlayerStorage extends BasicItem {
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         boolean changed = false;
         UUID id = player.getUUID();
-        String name = player.getName().getContents();
+        String name = player.getName().getString();
         ItemStack stack = player.getItemInHand(hand);
 
         if (stack.hasTag() && stack.getTag().hasUUID("player") && stack.getTag().getUUID("player") == id) {
@@ -62,7 +64,7 @@ public class ItemPlayerStorage extends BasicItem {
         if(targetAny || target instanceof Player)
         {
             UUID id = target.getUUID();
-            String name = target.getName().getContents();
+            String name = target.getName().getString();
 
             if (stack.hasTag() && stack.getTag().hasUUID("player") && stack.getTag().getUUID("player") == id) {
             } else {

@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.entities;
 
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.SpellContext;
 import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
 import com.hollingsworth.arsnouveau.api.spell.SpellStats;
@@ -9,6 +10,7 @@ import com.hollingsworth.arsnouveau.common.entity.ModEntities;
 import com.hollingsworth.arsnouveau.common.network.Networking;
 import com.hollingsworth.arsnouveau.common.network.PacketANEffect;
 import com.hollingsworth.arsnouveau.common.network.PacketANEffect.EffectType;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentPierce;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSensitive;
 import com.hollingsworth.arsnouveau.setup.BlockRegistry;
@@ -42,11 +44,11 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.PlayMessages;
 
+import net.minecraft.world.entity.Entity.RemovalReason;
+
 public class EntityMissileSpell extends EntityProjectileSpell {
     public int age;
     public SpellResolver spellResolver;
-    public int pierceLeft;
-    public int numSensitive;
     public float aoe;
     public boolean activateOnEmpty;
     int maxAge = 200;
@@ -62,24 +64,15 @@ public class EntityMissileSpell extends EntityProjectileSpell {
     }
 
     public EntityMissileSpell(Level world, SpellResolver resolver) {
-        super(world, resolver.spellContext.caster);
-        this.spellResolver = resolver;
-        this.pierceLeft = resolver.spell.getBuffsAtIndex(0, resolver.spellContext.caster, AugmentPierce.INSTANCE);
-        this.numSensitive = resolver.spell.getBuffsAtIndex(0, resolver.spellContext.caster, AugmentSensitive.INSTANCE);
-        this.aoe = 0;
-        resolver.spellContext.colors.makeVisible();
-        this.setColor(resolver.spellContext.colors);
+        super(RegistryHandler.ENTITY_MISSILE.get(), world, resolver);
+        this.aoe = resolver.spell.getBuffsAtIndex(0,null, AugmentAOE.INSTANCE);
         this.maxAge = 200;
         this.activateOnEmpty = true;
     }
     public EntityMissileSpell(Level world, SpellResolver resolver, int maxAge, boolean activate, float aoe, @Nullable Entity caster){
-        super(world, resolver.spellContext.caster);
+        super(RegistryHandler.ENTITY_MISSILE.get(), world, resolver);
         this.spellResolver = resolver;
-        this.pierceLeft = resolver.spell.getBuffsAtIndex(0, resolver.spellContext.caster, AugmentPierce.INSTANCE);
-        this.numSensitive = resolver.spell.getBuffsAtIndex(0, resolver.spellContext.caster, AugmentSensitive.INSTANCE);
         this.aoe = aoe;
-        resolver.spellContext.colors.makeVisible();
-        this.setColor(resolver.spellContext.colors);
         this.maxAge = maxAge;
         this.activateOnEmpty = activate;
     }
@@ -181,12 +174,12 @@ public class EntityMissileSpell extends EntityProjectileSpell {
             if(!foundEntity){
                 Vec3 vector3d2 = this.position();
                 Vec3 dist = this.position().subtract(this.getOwner().position());
-                this.spellResolver.onResolveEffect(this.level, (LivingEntity)this.getOwner(), new BlockHitResult(vector3d2, Direction.getNearest(dist.x,dist.y,dist.z),new BlockPos(vector3d2),true));
+                this.spellResolver.onResolveEffect(this.level, new BlockHitResult(vector3d2, Direction.getNearest(dist.x,dist.y,dist.z),new BlockPos(vector3d2),true));
             }
         }
     }
     protected void ActivateSpellAtEntity(LivingEntity entity){
-        this.spellResolver.onResolveEffect(this.level, (LivingEntity)this.getOwner(), new EntityHitResult(entity));
+        this.spellResolver.onResolveEffect(this.level, new EntityHitResult(entity));
     }
 
 

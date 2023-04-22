@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.entities.EntityWitherBound;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.potions.ModPotions;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
@@ -14,6 +15,8 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraftforge.common.ForgeConfigSpec;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Set;
@@ -23,11 +26,16 @@ public class WitherSummon extends TierFourEffect {
     public static WitherSummon INSTANCE = new WitherSummon("wither_summon", "Wither Summon");
 
     public WitherSummon(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
     @Override
-    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void buildConfig(ForgeConfigSpec.Builder builder) {
+        super.buildConfig(builder);
+    }
+
+    @Override
+    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if(world instanceof ServerLevel && this.canSummon(shooter)) {
             Vec3 vector3d = this.safelyGetHitPos(rayTraceResult);
             BlockPos pos = new BlockPos(vector3d);
@@ -50,7 +58,7 @@ public class WitherSummon extends TierFourEffect {
                 wither.setOwner(shooter);
                 wither.setLimitedLife(ticks);
                 this.summonLivingEntity(rayTraceResult, world, shooter, spellStats, spellContext, wither);
-                shooter.addEffect(new MobEffectInstance(ModPotions.SUMMONING_SICKNESS, ticks));
+                shooter.addEffect(new MobEffectInstance(ModPotions.SUMMONING_SICKNESS_EFFECT.get(), ticks));
             }
             else {
                 double amp = spellStats.getAmpMultiplier();
@@ -62,7 +70,8 @@ public class WitherSummon extends TierFourEffect {
                 PathfinderMob test = (PathfinderMob) EntityType.WITHER.spawn((ServerLevel) world, null, null, pos, MobSpawnType.MOB_SUMMONED, true, false);
                 test.setHealth(test.getMaxHealth() * healthPercent);
                 world.addFreshEntity(test);
-                shooter.addEffect(new MobEffectInstance(ModPotions.SUMMONING_SICKNESS, 12000));
+                shooter.addEffect(new MobEffectInstance(ModPotions.SUMMONING_SICKNESS_EFFECT.get(),
+ 12000));
             }
         }
     }

@@ -1,0 +1,43 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:demonic_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:abjuration_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:sigil_binding_active"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:glyph_snare"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:nether_star"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:elytra"
+      }
+    }
+  ],
+  "exp": 300,
+  "output": "arsomega:glyph_cursed_bind"
+}

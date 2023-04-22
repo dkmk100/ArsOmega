@@ -1,17 +1,22 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
 import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
 import com.hollingsworth.arsnouveau.api.spell.SpellStats;
 import com.hollingsworth.arsnouveau.api.spell.SpellTier;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
+
+import java.util.Map;
 
 public class CursedBind  extends AbstractAugment {
 
     public static CursedBind INSTANCE = new CursedBind();
 
     private CursedBind() {
-        super("cursed_bind", "Cursed Bind");
+        super(RegistryHandler.getGlyphName("cursed_bind"), "Cursed Bind");
     }
 
     public int getDefaultManaCost() {
@@ -24,6 +29,11 @@ public class CursedBind  extends AbstractAugment {
 
     public SpellStats.Builder applyModifiers(SpellStats.Builder builder, AbstractSpellPart spellPart) {
         return super.applyModifiers(builder, spellPart);
+    }
+
+    @Override
+    protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
+        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 2);
     }
 
     public void buildConfig(ForgeConfigSpec.Builder builder) {

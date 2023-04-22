@@ -1,0 +1,38 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:life_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:life_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:shield"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:shield"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:golden_apple"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:golden_apple"
+      }
+    }
+  ],
+  "exp": 80,
+  "output": "arsomega:glyph_absorption"
+}

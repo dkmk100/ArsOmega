@@ -6,8 +6,10 @@
     "targets": [
       {
         "target": {
-          "predicate_type": "minecraft:tag_match",
-          "tag": "arsomega:demonic_ore_replaceables"
+          "predicate_type": "minecraft:blockstate_match",
+          "block_state": {
+            "Name": "arsomega:demonic_stone"
+          }
         },
         "state": {
           "Name": "arsomega:demonic_rift"

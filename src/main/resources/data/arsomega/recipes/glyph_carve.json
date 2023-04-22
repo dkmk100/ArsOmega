@@ -1,0 +1,28 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:nature_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:manipulation_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:carved_pumpkin"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:shears"
+      }
+    }
+  ],
+  "exp": 30,
+  "output": "arsomega:glyph_carve"
+}

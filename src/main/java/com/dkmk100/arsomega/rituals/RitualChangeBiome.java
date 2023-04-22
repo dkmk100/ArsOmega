@@ -1,14 +1,13 @@
 package com.dkmk100.arsomega.rituals;
 
+/*
 import com.dkmk100.arsomega.ArsOmega;
-import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
-import joptsimple.internal.Reflection;
 import net.minecraft.core.*;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -36,12 +35,12 @@ public class RitualChangeBiome extends AbstractRitual {
         boolean choseBiome = false;
         boolean canDoNether = false;
         for(ItemStack stack : this.getConsumedItems()){
-            if(!choseBiome && stack.getItem() == ItemsRegistry.BIOME_CRYSTAL && stack.hasTag() && stack.getTag().contains("biome")){
+            if(!choseBiome && stack.getItem() == RegistryHandler.BIOME_CRYSTAL.get() && stack.hasTag() && stack.getTag().contains("biome")){
                 biomeName = stack.getTag().getString("biome");
                 choseBiome = true;
                 //don't break because we'll check for dim crystals later
             }
-            if(stack.getItem() == ItemsRegistry.DEMONIC_GEM){
+            if(stack.getItem() == RegistryHandler.DEMON_GEM.get()){
                 canDoNether = true;
             }
         }
@@ -63,8 +62,9 @@ public class RitualChangeBiome extends AbstractRitual {
         //bime color and nether check
         int biomeColor = 0;
         try {
-            Biome.BiomeCategory category = (Biome.BiomeCategory) ReflectionHandler.biomeCategory.get(biome);
-            if (category == Biome.BiomeCategory.NETHER|| category == Biome.BiomeCategory.THEEND) {
+            //Biome.BiomeCategory category = (Biome.BiomeCategory) ReflectionHandler.biomeCategory.get(biome);
+            //if (category == Biome.BiomeCategory.NETHER|| category == Biome.BiomeCategory.THEEND) {
+            if(false){
                 if (!canDoNether) {
                     canConvert = false;
                     this.setFinished();
@@ -78,9 +78,9 @@ public class RitualChangeBiome extends AbstractRitual {
                     biomeColor = biome.getFoliageColor();
                 }
             }
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        //} catch (IllegalAccessException e) {
+            //throw new RuntimeException(e);
+        //}
 
         //particles
         if (world.isClientSide) {
@@ -95,7 +95,7 @@ public class RitualChangeBiome extends AbstractRitual {
         //conversion
         if(this.getProgress()>=10) {
             if(canConvert) {
-                Holder<Biome> newBiome = a.getOrCreateHolder(ResourceKey.create(Registry.BIOME_REGISTRY,loc));
+                Holder<Biome> newBiome = a.getOrCreateHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY,loc));
 
                 //setBiome(world,pos,newBiome);
 
@@ -116,11 +116,11 @@ public class RitualChangeBiome extends AbstractRitual {
             this.setFinished();
         }
         else if (!world.isClientSide && world.getGameTime() % 20L == 0L) {
-            if(this.needsManaNow()){
+            if(this.needsSourceNow()){
                 return;
             }
             else{
-                this.setNeedsMana(true);
+                this.setNeedsSource(true);
             }
             this.incrementProgress();
         }
@@ -190,14 +190,14 @@ public class RitualChangeBiome extends AbstractRitual {
     }
 
     @Override
-    public int getManaCost() {
+    public int getSourceCost() {
         return 5;
     }
     @Override
     public ParticleColor getCenterColor() {
         if(this.getConsumedItems().size()>0 && this.getWorld().isClientSide()){
             ItemStack stack = getConsumedItems().get(0);
-            if(stack.getItem() == ItemsRegistry.BIOME_CRYSTAL && stack.hasTag() && stack.getTag().contains("biome")){
+            if(stack.getItem() == RegistryHandler.BIOME_CRYSTAL.get() && stack.hasTag() && stack.getTag().contains("biome")){
                 if(biome==null) {
                     String biomeName = stack.getTag().getString("biome");
                     RegistryAccess reg = this.getWorld().registryAccess();
@@ -206,14 +206,14 @@ public class RitualChangeBiome extends AbstractRitual {
                     biome = a.get(loc);
                 }
                 try {
-                    Biome.BiomeCategory category = (Biome.BiomeCategory) ReflectionHandler.biomeCategory.get(biome);
+                    //Biome. category = (Biome.BiomeCategory) ReflectionHandler.biomeCategory.get(biome);
                     int biomeColor;
-                    if (category == Biome.BiomeCategory.NETHER || category == Biome.BiomeCategory.THEEND) {
-                        biomeColor = biome.getFogColor();
+                    //if (category == Biome.BiomeCategory.NETHER || category == Biome.BiomeCategory.THEEND) {
+                        //biomeColor = biome.getFogColor();
 
-                    } else {
+                    //} else {
                         biomeColor = biome.getFoliageColor();
-                    }
+                    //}
 
                     return ParticleColor.fromInt(biomeColor);
                 }
@@ -226,7 +226,7 @@ public class RitualChangeBiome extends AbstractRitual {
         return new ParticleColor(220,240,25);
     }
     @Override
-    public boolean consumesMana() {
+    public boolean consumesSource() {
         return true;
     }
 
@@ -234,18 +234,18 @@ public class RitualChangeBiome extends AbstractRitual {
     public boolean canConsumeItem(ItemStack stack) {
         int consumed = this.getConsumedItems().size();
         if(consumed==0){
-            return stack.getItem()==ItemsRegistry.BIOME_CRYSTAL;
+            return stack.getItem()==RegistryHandler.BIOME_CRYSTAL.get();
         }
         else if(consumed==1){
-            return stack.getItem()==ItemsRegistry.DEMONIC_GEM;
+            return stack.getItem()==RegistryHandler.DEMON_GEM.get();
         }
 
         return false;
     }
 
     @Override
-    public String getID() {
-        return "change_biome";
+    public ResourceLocation getRegistryName() {
+        return RegistryHandler.getRitualName( "change_biome");
     }
 }
-
+ */

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:dimension_crystal"
+    }
+  ],
+  "result": {
+    "item": "arsomega:dimension_crystal"
+  }
+}

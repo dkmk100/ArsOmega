@@ -2,11 +2,16 @@ package com.dkmk100.arsomega.enchants;
 
 import com.dkmk100.arsomega.ArsOmega;
 import com.hollingsworth.arsnouveau.api.sound.ConfiguredSpellSound;
-import com.hollingsworth.arsnouveau.api.spell.Spell;
-import com.hollingsworth.arsnouveau.api.spell.SpellCaster;
+import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.common.util.FakePlayer;
 import org.jetbrains.annotations.NotNull;
 
 public class ProactiveSpellcaster extends SpellCaster {
@@ -21,25 +26,19 @@ public class ProactiveSpellcaster extends SpellCaster {
         super(ItemStack.EMPTY);
         this.stack = null;
         int i = slotId;
-        CompoundTag tag2 = tag.getCompound(this.getTagID());
+        CompoundTag tag2 = tag.getCompound(this.getTagID().toString());
         this.setCurrentSlot(this.getCurrentSlot());
         if (tag2.contains("spell_" + i)) {
-            Spell spell = Spell.deserialize(tag2.getString("spell_" + i));
+            Spell spell = Spell.fromTag(tag.getCompound("spell" + i));
             this.setSpell(spell, i);
         }
 
-        if (tag2.contains("spell_name_" + i)) {
-            this.setSpellName(tag2.getString("spell_name_" + i), i);
-        }
 
-        if (tag2.contains("spell_color_" + i)) {
-            this.setColor(ParticleColor.IntWrapper.deserialize(tag2.getString("spell_color_" + i)), i);
-        }
+    }
 
-        if (tag2.contains("spell_sound_" + i)) {
-            this.setSound(ConfiguredSpellSound.fromTag(tag2.getCompound("spell_sound_" + i)), i);
-        }
-
+    @Override
+    public SpellResolver getSpellResolver(SpellContext context, Level worldIn, LivingEntity playerIn, InteractionHand handIn) {
+        return (SpellResolver)(playerIn instanceof Player && !(playerIn instanceof FakePlayer) ? super.getSpellResolver(context, worldIn, playerIn, handIn) : new EntitySpellResolver(context));
     }
 
     @Override
@@ -48,16 +47,14 @@ public class ProactiveSpellcaster extends SpellCaster {
         tag.putString("flavor", this.getFlavorText());
 
         int i = slotId;
-        tag.putString("spell_" + i, this.getSpell(i).serialize());
-        tag.putString("spell_name_" + i, this.getSpellName(i));
-        tag.putString("spell_color_" + i, this.getColor(i).serialize());
-        tag.put("spell_sound_" + i, this.getSound(i).serialize());
+        tag.put("spell" + i, this.getSpell(i).serialize());
 
         return tag;
     }
 
-    public String getTagID() {
-        return "arsomega_proactiveCaster";
+    @Override
+    public ResourceLocation getTagID() {
+        return new ResourceLocation(ArsOmega.MOD_ID,"proactive_caster");
     }
 
     @Override

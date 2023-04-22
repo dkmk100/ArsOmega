@@ -22,12 +22,12 @@ import net.minecraft.world.level.block.state.BlockState;
 public class CarveGlyph extends AbstractEffect {
     public static CarveGlyph INSTANCE = new CarveGlyph("carve", "Carve");
     public CarveGlyph(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
 
     @Override
-    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if (world instanceof ServerLevel) {
             BlockPos pos = rayTraceResult.getBlockPos();
             Block block = world.getBlockState(pos).getBlock();

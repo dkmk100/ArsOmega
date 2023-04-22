@@ -1,11 +1,11 @@
 package com.dkmk100.arsomega.glyphs;
 
-import com.dkmk100.arsomega.ArsRegistry;
-import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.util.ReflectionHandler;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -22,6 +22,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;
+import java.util.Map;
 import java.util.Set;
 
 public class AcidGlyph extends AbstractEffect {
@@ -31,19 +32,19 @@ public class AcidGlyph extends AbstractEffect {
     public static AcidGlyph INSTANCE = new AcidGlyph("acid", "Acid");
 
     public AcidGlyph(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
     @Override
-    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if ((world instanceof ServerLevel)) {
             try {
                 BlockPos pos = rayTraceResult.getBlockPos();
                 double amp = spellStats.getAmpMultiplier() + 1;
 
-                if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,ItemsRegistry.ALCHEMY_FOCUS_ADVANCED).isPresent()) {
+                if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_ADVANCED_ALCHEMY.get()).isPresent()) {
                     amp += 4;
-                } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,ItemsRegistry.ALCHEMY_FOCUS).isPresent()) {
+                } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,RegistryHandler.FOCUS_OF_ALCHEMY.get()).isPresent()) {
                     amp += 2;
                 }
 
@@ -78,15 +79,20 @@ public class AcidGlyph extends AbstractEffect {
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         double amp = spellStats.getAmpMultiplier() + 1;
 
-        if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,ItemsRegistry.ALCHEMY_FOCUS_ADVANCED).isPresent()) {
+        if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,RegistryHandler.FOCUS_OF_ADVANCED_ALCHEMY.get()).isPresent()) {
             amp += 4;
-        } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,ItemsRegistry.ALCHEMY_FOCUS).isPresent()) {
+        } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,RegistryHandler.FOCUS_OF_ADVANCED_ALCHEMY.get()).isPresent()) {
             amp += 2;
         }
         rayTraceResult.getEntity().hurt(ACID,(float)amp*2);
+    }
+
+    @Override
+    protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
+        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 4);
     }
 
     @Override

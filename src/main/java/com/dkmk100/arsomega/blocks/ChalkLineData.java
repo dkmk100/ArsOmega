@@ -5,6 +5,7 @@ import com.hollingsworth.arsnouveau.api.spell.Spell;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodTouch;
 import com.ibm.icu.impl.Pair;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,6 +26,8 @@ public class ChalkLineData {
 
     final int hitDelay = 20;
     final int playerHitDelay = 10;
+
+    public BlockPos dataPos;
 
     public boolean CanHitEntity(Entity entity, long gameTime){
         boolean blocked = false;
@@ -55,24 +58,20 @@ public class ChalkLineData {
         this.color = new ParticleColor(255,255,255);
     }
     public ChalkLineData(CompoundTag tag){
-        this.spell = Spell.deserialize(tag.getString("spell"));
+        this.spell = Spell.fromTag(tag.getCompound("spell"));
         this.charges = tag.getInt("charges");
         if (tag.contains("uuid")) {
             this.owner = tag.getUUID("uuid");
         }
 
-        this.color = ParticleColor.IntWrapper.deserialize(tag.getString("color")).toParticleColor();
+        this.color = spell.color;
     }
 
     public void Serialize(CompoundTag tag){
-        tag.putString("spell", this.spell.serialize());
+        tag.put("spell", this.spell.serialize());
         tag.putInt("charges", this.charges);
         if (this.owner != null) {
             tag.putUUID("uuid", this.owner);
-        }
-
-        if (this.color != null) {
-            tag.putString("color", this.color.toWrapper().serialize());
         }
     }
 }

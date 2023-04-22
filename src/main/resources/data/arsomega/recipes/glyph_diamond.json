@@ -1,0 +1,53 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:sigil_binding_active"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:sigil_alchemy_active"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:nether_star"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:wilden_tribute"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:arcane_diamond_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:netherite_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:totem_of_undying"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:honey_block"
+      }
+    }
+  ],
+  "exp": 400,
+  "output": "arsomega:glyph_diamond"
+}

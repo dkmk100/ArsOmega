@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.rituals;
 
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.events.CommonEvents;
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.dkmk100.arsomega.util.RegistryHandler;
@@ -7,6 +8,7 @@ import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.block.Blocks;
@@ -23,7 +25,7 @@ import net.minecraft.server.level.ServerLevel;
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class RitualBanishment  extends AbstractRitual {
+public class RitualBanishment extends AbstractRitual {
     protected void tick() {
         Level world = this.getWorld();
         BlockEntity tile = world.getBlockEntity(this.getPos());
@@ -38,10 +40,10 @@ public class RitualBanishment  extends AbstractRitual {
         }
 
         if (!world.isClientSide && world.getGameTime() % 20L == 0L) {
-            if (this.needsManaNow()) {
+            if (this.needsSourceNow()) {
                 return;
             } else {
-                this.setNeedsMana(true);
+                this.setNeedsSource(true);
             }
 
             this.incrementProgress();
@@ -67,12 +69,12 @@ public class RitualBanishment  extends AbstractRitual {
     }
 
     @Override
-    public int getManaCost() {
+    public int getSourceCost() {
         return 2000;
     }
 
     @Override
-    public boolean consumesMana() {
+    public boolean consumesSource() {
         return true;
     }
 
@@ -82,7 +84,7 @@ public class RitualBanishment  extends AbstractRitual {
     }
 
     @Override
-    public String getID() {
-        return "banishment";
+    public ResourceLocation getRegistryName() {
+        return RegistryHandler.getRitualName("banishment");
     }
 }

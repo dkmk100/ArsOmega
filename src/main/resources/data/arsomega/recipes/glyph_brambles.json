@@ -1,0 +1,28 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:nature_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:dead_bush"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:dead_bush"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:cactus"
+      }
+    }
+  ],
+  "exp": 30,
+  "output": "arsomega:glyph_brambles"
+}

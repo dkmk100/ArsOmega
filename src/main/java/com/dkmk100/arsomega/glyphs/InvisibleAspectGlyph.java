@@ -35,12 +35,12 @@ public class InvisibleAspectGlyph extends AbstractEffect {
     }
 
     @Override
-    public int getManaCost() {
+    public int getSourceCost() {
         return 650;
     }
 
     @Override
-    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
 
     }
 

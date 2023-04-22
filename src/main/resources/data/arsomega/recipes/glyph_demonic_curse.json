@@ -1,0 +1,38 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:demonic_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:arcane_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:abjuration_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "arsomega:glyph_curse"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:soul_sand"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:soul_sand"
+      }
+    }
+  ],
+  "exp": 300,
+  "output": "arsomega:glyph_demonic_curse"
+}

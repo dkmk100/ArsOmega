@@ -1,6 +1,22 @@
 {
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "arsomega:blocks/potion_relay"
-  }
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "arsomega:blocks/potion_relay",
+		"top": "arsomega:blocks/potion_relay",
+		"particle": "arsomega:blocks/potion_relay"
+	},
+	"elements": [
+		{
+			"from": [2, 1, 2],
+			"to": [14, 15, 14],
+			"faces": {
+				"north": {"uv": [1, 1, 13, 15], "texture": "#0"},
+				"east": {"uv": [1, 1, 13, 15], "texture": "#0"},
+				"south": {"uv": [1, 1, 13, 15], "texture": "#0"},
+				"west": {"uv": [1, 1, 13, 15], "texture": "#0"},
+				"up": {"uv": [13, 14, 1, 2], "texture": "#top"},
+				"down": {"uv": [13, 2, 1, 14], "texture": "#top"}
+			}
+		}
+	]
 }

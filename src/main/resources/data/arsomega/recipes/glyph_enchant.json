@@ -1,0 +1,38 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "ars_nouveau:abjuration_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:manipulation_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:enchanting_table"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:enchanted_golden_apple"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:experience_bottle"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:experience_bottle"
+      }
+    }
+  ],
+  "exp": 40,
+  "output": "arsomega:glyph_enchant"
+}

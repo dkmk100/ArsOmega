@@ -1,20 +1,20 @@
 {
-  "name": "ars_nouveau.glyph_name.heartstop",
-  "icon": "ars_nouveau:glyph_heartstop",
+  "name": "arsomega.glyph_name.glyph_heartstop",
+  "icon": "arsomega:glyph_heartstop",
   "category": "ars_nouveau:glyphs_3",
   "sortnum": 3,
   "pages": [
     {
       "type": "text",
-      "text": "ars_nouveau.glyph_desc.heartstop"
+      "text": "arsomega.glyph_desc.glyph_heartstop"
     },
     {
       "type": "glyph_recipe",
-      "recipe": "ars_nouveau:glyph_heartstop",
+      "recipe": "arsomega:glyph_heartstop",
       "tier": "THREE",
       "mana_cost": "High",
       "clay_type": "ars_nouveau:mythical_clay",
-      "reagent": "ars_nouveau:glyph_heartstop"
+      "reagent": "arsomega:glyph_heartstop"
     }
   ]
 }

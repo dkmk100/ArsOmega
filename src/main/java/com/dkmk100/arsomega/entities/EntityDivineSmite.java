@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.entities;
 
 import com.dkmk100.arsomega.util.ReflectionHandler;
+import com.hollingsworth.arsnouveau.common.potions.ModPotions;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -8,6 +9,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -19,6 +22,7 @@ import java.util.function.Predicate;
 public class EntityDivineSmite extends LightningBolt {
     float aoe;
     boolean sensitive;
+    public int extendTimes;
 
     public EntityDivineSmite(EntityType<? extends LightningBolt> type, Level world) {
         super(type,world);
@@ -101,6 +105,12 @@ public class EntityDivineSmite extends LightningBolt {
                             }
                             else{
                                 entity.thunderHit((ServerLevel) this.level, this);
+                            }
+
+                            if (!this.level.isClientSide && !this.hitEntities.contains(entity.getId()) && entity instanceof LivingEntity) {
+                                MobEffectInstance effectInstance = ((LivingEntity)entity).getEffect((MobEffect) ModPotions.SHOCKED_EFFECT.get());
+                                int amp = effectInstance != null ? effectInstance.getAmplifier() : -1;
+                                ((LivingEntity)entity).addEffect(new MobEffectInstance((MobEffect)ModPotions.SHOCKED_EFFECT.get(), 200 + 200 * this.extendTimes, Math.min(2, amp + 1)));
                             }
                         }
                     }

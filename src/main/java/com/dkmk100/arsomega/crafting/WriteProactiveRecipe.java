@@ -21,7 +21,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -85,7 +84,7 @@ public class WriteProactiveRecipe extends EnchantingApparatusRecipe {
         return (RecipeType) Registry.RECIPE_TYPE.get(new ResourceLocation(ArsOmega.MOD_ID, RECIPE_ID));
     }
 
-    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<WriteProactiveRecipe> {
+    public static class Serializer implements RecipeSerializer<WriteProactiveRecipe> {
         public Serializer() {
         }
 

@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
+
 public class PotionExtender extends TickableModBlock {
     public PotionExtender(Properties properties) {
         super(properties);

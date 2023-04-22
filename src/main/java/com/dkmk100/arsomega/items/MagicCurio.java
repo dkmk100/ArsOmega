@@ -7,22 +7,21 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class MagicCurio extends ArsNouveauCurio implements IManaEquipment {
+public class MagicCurio extends AbstractManaCurio implements IManaEquipment {
     int boost;
     int regen;
 
     int discount;
-    public MagicCurio(String reg, int boost, int regen) {
+
+    public MagicCurio(int boost, int regen) {
         super();
-        this.setRegistryName(reg);
         this.boost = boost;
         this.regen = regen;
         this.discount = 0;
     }
 
-    public MagicCurio(String reg, int boost, int regen, int discount) {
+    public MagicCurio(int boost, int regen, int discount) {
         super();
-        this.setRegistryName(reg);
         this.boost = boost;
         this.regen = regen;
         this.discount = discount;
@@ -42,8 +41,4 @@ public class MagicCurio extends ArsNouveauCurio implements IManaEquipment {
         return discount;
     }
 
-    @Override
-    public void wearableTick(LivingEntity livingEntity) {
-
-    }
 }

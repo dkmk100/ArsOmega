@@ -1,7 +1,5 @@
 package com.dkmk100.arsomega.glyphs;
 
-import com.dkmk100.arsomega.ArsRegistry;
-import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.crafting.TransmuteRecipe;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
@@ -30,7 +28,7 @@ public class TransmuteGlyph extends AbstractEffect {
     public static TransmuteGlyph INSTANCE = new TransmuteGlyph("transmute", "Transmute");
 
     public TransmuteGlyph(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
     public static int focusMax = 2;
@@ -38,7 +36,7 @@ public class TransmuteGlyph extends AbstractEffect {
     public static int normalMax = 1;
 
     @Override
-    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if (world instanceof ServerLevel) {
             List<TransmuteRecipe> recipes = world.getRecipeManager().getAllRecipesFor(RegistryHandler.TRANSMUTE_TYPE);
             double aoeBuff = spellStats.getAoeMultiplier();
@@ -46,9 +44,9 @@ public class TransmuteGlyph extends AbstractEffect {
             int maxProcess = spellStats.getBuffCount(AugmentPierce.INSTANCE) * 16 + 8;
 
             int maxLevel = normalMax;
-            if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, ItemsRegistry.ALCHEMY_FOCUS_ADVANCED).isPresent()) {
+            if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_ADVANCED_ALCHEMY.get()).isPresent()) {
                 maxLevel = advancedFocusMax;
-            } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,ItemsRegistry.ALCHEMY_FOCUS).isPresent()) {
+            } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,RegistryHandler.FOCUS_OF_ALCHEMY.get()).isPresent()) {
                 maxLevel = focusMax;
             }
             ampBuff = Math.min(ampBuff,maxLevel);

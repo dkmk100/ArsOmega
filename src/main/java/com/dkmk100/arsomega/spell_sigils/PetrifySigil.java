@@ -1,8 +1,8 @@
 package com.dkmk100.arsomega.spell_sigils;
 
-import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.potions.BindEffect;
 import com.dkmk100.arsomega.potions.ModPotions;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import net.minecraft.core.BlockPos;
@@ -22,8 +22,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class PetrifySigil extends AbstractSpellSigil {
-    public PetrifySigil(String name) {
-        super(name);
+    public PetrifySigil() {
+        super();
     }
 
     protected int range = 11;
@@ -31,7 +31,6 @@ public class PetrifySigil extends AbstractSpellSigil {
     @Override
     public void OnActivateClient(Level world, BlockPos pos, Player player){
         world.playSound(player, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.PLAYERS,1.0f,1.0f);
-
         ParticleUtil.spawnRitualAreaEffect(pos, world, world.getRandom(), ParticleColor.makeRandomColor(5,255,50,world.getRandom()), range, 1, 18);
     }
 
@@ -47,12 +46,12 @@ public class PetrifySigil extends AbstractSpellSigil {
 
                 for(int var11 = 0; var11 < var10; ++var11) {
                     MobEffectInstance e = var9[var11];
-                    if (e.isCurativeItem(new ItemStack(Items.MILK_BUCKET))||e.isCurativeItem(new ItemStack(ItemsRegistry.CLEANSING_GEM))||e.getEffect() instanceof BindEffect) {
+                    if (e.isCurativeItem(new ItemStack(Items.MILK_BUCKET))||e.isCurativeItem(new ItemStack(RegistryHandler.CLEANSING_GEM.get()))||e.getEffect() instanceof BindEffect) {
                         target.removeEffect(e.getEffect());
                     }
                 }
 
-                target.addEffect(new MobEffectInstance(ModPotions.STONE_PETRIFICATION, 800,1,false,false));
+                target.addEffect(new MobEffectInstance(ModPotions.STONE_PETRIFICATION.get(), 800,1,false,false));
             }
         }
         world.playSound(player, pos, SoundEvents.LAVA_EXTINGUISH, SoundSource.PLAYERS,1.0f,1.0f);

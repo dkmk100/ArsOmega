@@ -2,6 +2,7 @@ package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.entities.EntityMissileSpell;
 import com.dkmk100.arsomega.util.ReflectionHandler;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
 import net.minecraft.core.Direction;
@@ -27,7 +28,7 @@ public class PropagateMissile extends AbstractEffect {
     public static PropagateMissile INSTANCE = new PropagateMissile("propagate_missile","Propagate Missile");
 
     private PropagateMissile(String tag, String description) {
-        super(tag,description);
+        super(RegistryHandler.getGlyphName(tag),description);
     }
 
     public void summonProjectiles(Level world, Vec3 pos, LivingEntity shooter, SpellStats stats, SpellResolver resolver) {
@@ -75,17 +76,17 @@ public class PropagateMissile extends AbstractEffect {
         spellContext.setCanceled(true);
         if (spellContext.getCurrentIndex() < spellContext.getSpell().recipe.size()) {
             Spell newSpell = new Spell(new ArrayList(spellContext.getSpell().recipe.subList(spellContext.getCurrentIndex(), spellContext.getSpell().recipe.size())));
-            SpellContext newContext = (new SpellContext(newSpell, shooter)).withColors(spellContext.colors);
+            SpellContext newContext = spellContext.clone().withSpell(newSpell);
             SpellResolver resolver = new EntitySpellResolver(newContext);
             summonProjectiles(world, rayTraceResult.getLocation(),shooter, stats, resolver);
         }
     }
 
-    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         this.sendPacket(world, rayTraceResult, shooter, spellContext,spellStats);
     }
 
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         this.sendPacket(world, rayTraceResult, shooter, spellContext,spellStats);
     }
 

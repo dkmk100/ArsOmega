@@ -1,0 +1,33 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "arsomega:nature_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:fermented_spider_eye"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:lily_of_the_valley"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:cornflower"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:spider_eye"
+      }
+    }
+  ],
+  "exp": 30,
+  "output": "arsomega:glyph_poison_flower"
+}

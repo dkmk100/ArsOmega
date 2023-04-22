@@ -1,16 +1,16 @@
 {
-  "name": "ars_nouveau.glyph_name.rot",
-  "icon": "ars_nouveau:glyph_rot",
+  "name": "arsomega.glyph_name.glyph_rot",
+  "icon": "arsomega:glyph_rot",
   "category": "ars_nouveau:glyphs_2",
   "sortnum": 3,
   "pages": [
     {
       "type": "text",
-      "text": "ars_nouveau.glyph_desc.rot"
+      "text": "arsomega.glyph_desc.glyph_rot"
     },
     {
       "type": "glyph_recipe",
-      "recipe": "ars_nouveau:glyph_rot",
+      "recipe": "arsomega:glyph_rot",
       "tier": "TWO",
       "mana_cost": "Medium",
       "clay_type": "ars_nouveau:marvelous_clay",

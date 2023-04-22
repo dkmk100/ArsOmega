@@ -1,7 +1,7 @@
 package com.dkmk100.arsomega.items;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
+ 
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -18,19 +18,15 @@ public class DescribedItem extends BasicItem {
         super(properties);
         this.description = description;
     }
-    public DescribedItem(String name, Properties properties, String description) {
-        super(properties,name);
-        this.description = description;
-    }
-    public DescribedItem(String name, Properties properties, String description, boolean showEnch) {
-        super(properties,name,showEnch);
+    public DescribedItem(Properties properties, String description, boolean showEnch) {
+        super(properties,showEnch);
         this.description = description;
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip2, TooltipFlag flagIn) {
-        tooltip2.add(new TextComponent(description));
+        tooltip2.add(  Component.literal(description));
         super.appendHoverText(stack, worldIn, tooltip2, flagIn);
     }
 }

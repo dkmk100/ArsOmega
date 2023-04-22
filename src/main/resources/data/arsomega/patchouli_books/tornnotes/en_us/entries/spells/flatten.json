@@ -1,20 +1,20 @@
 {
-  "name": "ars_nouveau.glyph_name.flatten",
-  "icon": "ars_nouveau:glyph_flatten",
+  "name": "arsomega.glyph_name.glyph_flatten",
+  "icon": "arsomega:glyph_flatten",
   "category": "ars_nouveau:glyphs_2",
   "sortnum": 3,
   "pages": [
     {
       "type": "text",
-      "text": "ars_nouveau.glyph_desc.flatten"
+      "text": "arsomega.glyph_desc.glyph_flatten"
     },
     {
       "type": "glyph_recipe",
-      "recipe": "ars_nouveau:glyph_flatten",
+      "recipe": "arsomega:glyph_flatten",
       "tier": "TWO",
       "mana_cost": "Medium",
       "clay_type": "ars_nouveau:marvelous_clay",
-      "reagent": "ars_nouveau:glyph_crush"
+      "reagent": "arsomega:glyph_crush"
     }
   ]
 }

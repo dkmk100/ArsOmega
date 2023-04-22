@@ -1,11 +1,14 @@
 package com.dkmk100.arsomega.rituals;
 
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.potions.ModPotions;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -32,18 +35,18 @@ public class RitualPermaFlight extends BasicConfigRitual{
         }
 
         if (!world.isClientSide && world.getGameTime() % 20L == 0L) {
-            if(this.needsManaNow()){
+            if(this.needsSourceNow()){
                 return;
             }
             else{
-                this.setNeedsMana(true);
+                this.setNeedsSource(true);
             }
             this.incrementProgress();
             if (this.getProgress() > DURATION.get()) {
                 List<LivingEntity> entities = this.getWorld().getEntitiesOfClass(LivingEntity.class, (new AABB(this.getPos())).inflate(RANGE.get() * 2));
                 for (LivingEntity entity : entities) {
                     if(entity instanceof Player){
-                        entity.addEffect(new MobEffectInstance(ModPotions.PERMA_FLIGHT, 999999,0,false,false));
+                        entity.addEffect(new MobEffectInstance(ModPotions.PERMA_FLIGHT.get(), 999999,0,false,false));
                         this.setFinished();
                     }
                 }
@@ -52,7 +55,7 @@ public class RitualPermaFlight extends BasicConfigRitual{
     }
 
     @Override
-    public int getManaCost() {
+    public int getSourceCost() {
         return 500;
     }
     @Override
@@ -60,13 +63,13 @@ public class RitualPermaFlight extends BasicConfigRitual{
         return new ParticleColor(240,245,255);
     }
     @Override
-    public boolean consumesMana() {
+    public boolean consumesSource() {
         return true;
     }
 
     @Override
-    public String getID() {
-        return "perma_flight";
+    public ResourceLocation getRegistryName() {
+        return RegistryHandler.getRitualName("perma_flight");
     }
 
     @Override

@@ -15,7 +15,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
+ 
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.api.distmarker.Dist;
@@ -24,10 +24,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class DemonStaff extends BasicItem {
-    public DemonStaff(Properties properties, String name) {
+    public DemonStaff(Properties properties) {
         super(properties);
-        this.setRegistryName(ArsOmega.MOD_ID, name);
     }
 
     @Override
@@ -51,7 +52,7 @@ public class DemonStaff extends BasicItem {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip2, TooltipFlag flagIn) {
-        tooltip2.add(new TextComponent("Summons the Demon King on use. Can be found in a structure in the demon realm."));
+        tooltip2.add(  Component.literal("Summons the Demon King on use. Can be found in a structure in the demon realm."));
         super.appendHoverText(stack, worldIn, tooltip2, flagIn);
     }
 }

@@ -1,8 +1,10 @@
 package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.util.ReflectionHandler;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,17 +19,18 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.lang.reflect.Field;
+import java.util.Map;
 import java.util.Set;
 
-public class Flatten extends AbstractEffect {
+public class Flatten extends AbstractEffect implements IDamageEffect {
     public static Flatten INSTANCE = new Flatten("flatten", "Flatten");
 
     private Flatten(String tag, String description) {
-        super(tag,description);
+        super(RegistryHandler.getGlyphName(tag),description);
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         try {
             BlockPos pos = new BlockPos(rayTraceResult.getEntity().getPosition(0)).below();
             Block block = world.getBlockState(pos).getBlock();
@@ -48,17 +51,22 @@ public class Flatten extends AbstractEffect {
                 tier = 10 + ((tier-10)/4f);
             }
 
-            float damage = (float) (0.165f * tier * (spellStats.getAmpMultiplier()+3+(getHarvestLevel(block)*1.5f)));
+            float damage = (float) (0.165f * tier * (spellStats.getAmpMultiplier()+1) * (2+(getHarvestLevel(block)*1.5f)));
 
             //buff dirt and similar:
             damage = Math.max(damage,0.5f);
 
-            this.dealDamage(world, shooter, damage, spellStats, rayTraceResult.getEntity(), DamageSource.FALL);
+            this.attemptDamage(world,shooter,spellStats,spellContext,resolver,rayTraceResult.getEntity(),  DamageSource.FALL, damage);
         }
         catch (Exception e){
             e.printStackTrace();
             shooter.addEffect(new MobEffectInstance(MobEffects.POISON,200));
         }
+    }
+
+    @Override
+    protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
+        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 2);
     }
 
     @Override

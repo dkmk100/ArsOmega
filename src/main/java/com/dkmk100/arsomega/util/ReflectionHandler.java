@@ -1,26 +1,20 @@
 package com.dkmk100.arsomega.util;
 
 import com.dkmk100.arsomega.ArsOmega;
-import net.minecraft.world.entity.Entity;
+import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
+import com.hollingsworth.arsnouveau.common.spell.validation.SpellPhraseValidator;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
-import net.minecraft.world.entity.monster.ZombieVillager;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.chunk.LevelChunkSection;
-import net.minecraft.world.level.levelgen.flat.FlatLevelGeneratorSettings;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
-import java.lang.reflect.Field;
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.util.UUID;
 
 public class ReflectionHandler {
@@ -29,12 +23,16 @@ public class ReflectionHandler {
     public static Field xRot;
     public static Field yRot;
 
+    /*
     public static Field biomeCategory;
     public static Field biomes;
 
     public static Method getFiddledDistance;
     public static Field zoomSeed;
 
+     */
+
+    public static Constructor phraseConstructor;
 
 
     public static class Entity{
@@ -72,7 +70,7 @@ public class ReflectionHandler {
         }
     }
 
-    public static void Initialize() {
+    public static void Initialize() throws NoSuchMethodException {
         blockProperties = ObfuscationReflectionHelper.findField(BlockBehaviour.class, "f_60439_");
         blockProperties.setAccessible(true);
         destroyTime = ObfuscationReflectionHelper.findField(BlockBehaviour.Properties.class, "f_60888_");
@@ -84,11 +82,15 @@ public class ReflectionHandler {
         yRot.setAccessible(true);
         RemoveFinal(yRot);
 
-        biomeCategory = ObfuscationReflectionHelper.findField(Biome.class, "f_47442_");
-        biomes = ObfuscationReflectionHelper.findField(LevelChunkSection.class, "f_187995_");
 
-        getFiddledDistance = ObfuscationReflectionHelper.findMethod(BiomeManager.class, "m_186679_",long.class,int.class,int.class,int.class,double.class,double.class,double.class);
-        zoomSeed = ObfuscationReflectionHelper.findField(BiomeManager.class, "f_47863_");
+        phraseConstructor = SpellPhraseValidator.SpellPhrase.class.getDeclaredConstructors()[0];
+        phraseConstructor.setAccessible(true);
+
+        //biomeCategory = ObfuscationReflectionHelper.findField(Biome.class, "f_47442_");
+        //biomes = ObfuscationReflectionHelper.findField(LevelChunkSection.class, "f_187995_");
+
+        //getFiddledDistance = ObfuscationReflectionHelper.findMethod(BiomeManager.class, "m_186679_",long.class,int.class,int.class,int.class,double.class,double.class,double.class);
+        //zoomSeed = ObfuscationReflectionHelper.findField(BiomeManager.class, "f_47863_");
 
         Entity.Initialize();
     }

@@ -17,17 +17,13 @@ public class ManaGUIMixin {
     private static final Minecraft minecraft = Minecraft.getInstance();
 
     @Inject(at = @At("HEAD"), method = "Lcom/hollingsworth/arsnouveau/client/gui/GuiManaHUD;shouldDisplayBar()Z", cancellable = true, remap = false)
-    public void shouldDisplayBar(CallbackInfoReturnable<Boolean> cir) {
+    private static void shouldDisplayBar(CallbackInfoReturnable<Boolean> cir) {
         ItemStack mainHand = minecraft.player.getMainHandItem();
         ItemStack offHand = minecraft.player.getOffhandItem();
-        boolean result = mainHand.getItem() instanceof IDisplayMana && ((IDisplayMana)mainHand.getItem()).shouldDisplay(mainHand) || offHand.getItem() instanceof IDisplayMana && ((IDisplayMana)offHand.getItem()).shouldDisplay(offHand);
-        if(!result && EnchantmentHelper.getEnchantmentLevel(EnchantmentRegistry.REACTIVE_ENCHANTMENT,minecraft.player)>0){
-            result = true;
+        boolean result = false;
+        if(EnchantmentHelper.getEnchantmentLevel(RegistryHandler.PROACTIVE_ENCHANT.get(),minecraft.player)>0){
+            cir.setReturnValue(true);
         }
-        if(!result && EnchantmentHelper.getEnchantmentLevel(RegistryHandler.PROACTIVE_ENCHANT.get(),minecraft.player)>0){
-            result = true;
-        }
-        cir.setReturnValue(result);
     }
 
 }

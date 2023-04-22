@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:enchanted_diamond"
+    },
+    {
+      "item": "arsomega:gorgon_gem"
+    },
+    {
+      "item": "minecraft:book"
+    },
+    {
+      "item": "minecraft:popped_chorus_fruit"
+    }
+  ],
+  "result": {
+    "item": "arsomega:arcane_compendium"
+  }
+}

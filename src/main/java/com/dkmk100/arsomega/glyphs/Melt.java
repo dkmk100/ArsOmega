@@ -1,9 +1,11 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.SpellUtil;
 import com.hollingsworth.arsnouveau.common.datagen.BlockTagProvider;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
+import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.entity.Entity;
@@ -24,20 +26,20 @@ import javax.annotation.Nullable;
 import java.rmi.registry.Registry;
 import java.util.*;
 
-public class Melt extends AbstractEffect {
+public class Melt extends AbstractEffect implements IDamageEffect {
 
     public static Melt INSTANCE = new Melt("melt", "Melt");
 
     public Melt(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
     @Override
-    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if(world instanceof ServerLevel){
             double aoeBuff = spellStats.getAoeMultiplier();
             double amp = spellStats.getAmpMultiplier();
-            int passes = (int)Math.round((amp+1)/3) + 1;
+            int passes = (int)Math.round((amp)/2) + 1;
             BlockPos pos = rayTraceResult.getBlockPos();
             List<BlockPos> posList = SpellUtil.calcAOEBlocks(shooter, pos, rayTraceResult, aoeBuff, 0);
 
@@ -47,7 +49,7 @@ public class Melt extends AbstractEffect {
                 Block block = world.getBlockState(pos1).getBlock();
                 Block old = block;
                 for(int i=0;i<passes;i++) {
-                    if (block == Blocks.OBSIDIAN && passes>=6) {
+                    if (block == Blocks.OBSIDIAN && (passes-i)>=5) {
                         block = Blocks.COBBLESTONE;
                         i+=5;
                     }
@@ -73,7 +75,7 @@ public class Melt extends AbstractEffect {
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof Mob) {
             Mob living = (Mob) entity;
@@ -84,7 +86,7 @@ public class Melt extends AbstractEffect {
                     damage += 3;
                 }
             }
-            this.dealDamage(world,shooter,damage,spellStats,living,DamageSource.LAVA);
+            this.attemptDamage(world,shooter,spellStats,spellContext,resolver,living,new EntityDamageSource(DamageSource.LAVA.getMsgId(),shooter).setIsFire(),damage);
         }
     }
 

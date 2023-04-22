@@ -1,6 +1,6 @@
 package com.dkmk100.arsomega.potions;
 
-import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.effect.MobEffect;
@@ -16,13 +16,12 @@ public class DemonicCurse extends MobEffect {
 
     protected DemonicCurse() {
         super(MobEffectCategory.HARMFUL, 2039587);
-        this.setRegistryName("arsomega", "demonic_curse");
     }
 
     @Override
     public List<ItemStack> getCurativeItems() {
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-        ret.add(new ItemStack(ItemsRegistry.CLEANSING_GEM));
+        ret.add(new ItemStack(RegistryHandler.CLEANSING_GEM.get()));
         return ret;
     }
 

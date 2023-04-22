@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+/*
 public class PotionRelay extends TickableModBlock {
     public static final VoxelShape shape = Block.box(2.0, 3.0, 2.0, 15.0, 14.0, 15.0);
 
@@ -24,11 +25,6 @@ public class PotionRelay extends TickableModBlock {
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new PotionRelayTile(pos, state);
     }
-    /*
-    public RenderShape getRenderShape(BlockState p_149645_1_) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
-    }
-    */
 
     public void neighborChanged(BlockState state, Level world, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
         super.neighborChanged(state, world, pos, blockIn, fromPos, isMoving);
@@ -47,3 +43,4 @@ public class PotionRelay extends TickableModBlock {
         return shape;
     }
 }
+ */

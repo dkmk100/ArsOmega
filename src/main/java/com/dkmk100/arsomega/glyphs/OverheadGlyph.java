@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -20,51 +21,31 @@ public class OverheadGlyph extends AbstractCastMethod {
     public static OverheadGlyph INSTANCE = new OverheadGlyph("overhead","overhead");
 
     public OverheadGlyph(String tag, String description) {
-        super(tag,description);
+        super(RegistryHandler.getGlyphName(tag),description);
     }
 
-    public void onCast(@Nullable ItemStack stack, LivingEntity caster, Level world, SpellStats stats, SpellContext context, SpellResolver resolver) {
+    public CastResolveType onCast(@Nullable ItemStack stack, LivingEntity caster, Level world, SpellStats stats, SpellContext context, SpellResolver resolver) {
         Vec3 pos = caster.getEyePosition().add(0,1,0);
-        resolver.onResolveEffect(caster.getCommandSenderWorld(), caster, new BlockHitResult(pos, Direction.DOWN, new BlockPos(pos), true));
-        resolver.expendMana(caster);
+        resolver.onResolveEffect(caster.getCommandSenderWorld(), new BlockHitResult(pos, Direction.DOWN, new BlockPos(pos), true));
+        return CastResolveType.SUCCESS;
     }
 
-    public void onCastOnBlock(UseOnContext context, SpellStats stats, SpellContext spellContext, SpellResolver resolver) {
+    public CastResolveType onCastOnBlock(UseOnContext context, SpellStats stats, SpellContext spellContext, SpellResolver resolver) {
         LivingEntity caster = context.getPlayer();
         Vec3 pos = caster.getEyePosition().add(0,1,0);
-        resolver.onResolveEffect(caster.getCommandSenderWorld(), caster, new BlockHitResult(pos, Direction.DOWN, new BlockPos(pos), true));
-        resolver.expendMana(caster);
+        resolver.onResolveEffect(caster.getCommandSenderWorld(), new BlockHitResult(pos, Direction.DOWN, new BlockPos(pos), true));
+        return CastResolveType.SUCCESS;
     }
 
-    public void onCastOnBlock(BlockHitResult blockRayTraceResult, LivingEntity caster, SpellStats stats, SpellContext spellContext, SpellResolver resolver) {
+    public CastResolveType onCastOnBlock(BlockHitResult blockRayTraceResult, LivingEntity caster, SpellStats stats, SpellContext spellContext, SpellResolver resolver) {
         Vec3 pos = caster.getEyePosition().add(0,1,0);
-        resolver.onResolveEffect(caster.getCommandSenderWorld(), caster, new BlockHitResult(pos, Direction.DOWN, new BlockPos(pos), true));
-        resolver.expendMana(caster);
+        resolver.onResolveEffect(caster.getCommandSenderWorld(), new BlockHitResult(pos, Direction.DOWN, new BlockPos(pos), true));
+        return CastResolveType.SUCCESS;
     }
 
-    public void onCastOnEntity(@Nullable ItemStack stack, LivingEntity caster, Entity target, InteractionHand hand, SpellStats stats, SpellContext spellContext, SpellResolver resolver) {
-        resolver.onResolveEffect(caster.getCommandSenderWorld(), caster, new BlockHitResult(caster.position().add(0,2,0), Direction.DOWN, caster.blockPosition().above(2), true));
-        resolver.expendMana(caster);
-    }
-
-    @Override
-    public boolean wouldCastSuccessfully(@org.jetbrains.annotations.Nullable ItemStack itemStack, LivingEntity livingEntity, Level level, SpellStats spellStats, SpellResolver spellResolver) {
-        return false;
-    }
-
-    @Override
-    public boolean wouldCastOnBlockSuccessfully(UseOnContext useOnContext, SpellStats spellStats, SpellResolver spellResolver) {
-        return false;
-    }
-
-    @Override
-    public boolean wouldCastOnBlockSuccessfully(BlockHitResult blockHitResult, LivingEntity livingEntity, SpellStats spellStats, SpellResolver spellResolver) {
-        return false;
-    }
-
-    @Override
-    public boolean wouldCastOnEntitySuccessfully(@org.jetbrains.annotations.Nullable ItemStack itemStack, LivingEntity livingEntity, Entity entity, InteractionHand interactionHand, SpellStats spellStats, SpellResolver spellResolver) {
-        return false;
+    public CastResolveType onCastOnEntity(@Nullable ItemStack stack, LivingEntity caster, Entity target, InteractionHand hand, SpellStats stats, SpellContext spellContext, SpellResolver resolver) {
+        resolver.onResolveEffect(caster.getCommandSenderWorld(), new BlockHitResult(caster.position().add(0,2,0), Direction.DOWN, caster.blockPosition().above(2), true));
+        return CastResolveType.SUCCESS;
     }
 
     public int getDefaultManaCost() {

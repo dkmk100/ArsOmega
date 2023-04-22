@@ -1,6 +1,6 @@
 package com.dkmk100.arsomega.glyphs;
 
-import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.BlockUtil;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectToss;
@@ -18,18 +18,18 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class SwapTargetGlyph extends AbstractEffect implements ConfigurableGlyph {
+public class SwapTargetGlyph extends AbstractEffect {
     public static SwapTargetGlyph INSTANCE = new SwapTargetGlyph("swap_target","swap_target");
 
     ForgeConfigSpec.BooleanValue AFFECT_PLAYERS;
     ForgeConfigSpec.BooleanValue ALLOW_TOSS;
 
     private SwapTargetGlyph(String tag, String description) {
-        super(tag,description);
+        super(RegistryHandler.getGlyphName(tag),description);
     }
 
     @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         spellContext.setCanceled(true);
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity && world instanceof ServerLevel) {
@@ -37,7 +37,7 @@ public class SwapTargetGlyph extends AbstractEffect implements ConfigurableGlyph
             if(!AFFECT_PLAYERS.get() && player){
                 return;
             }
-            if(CuriosApi.getCuriosHelper().findFirstCurio((LivingEntity) entity, ItemsRegistry.STABILITY_CLOAK).isPresent()){
+            if(CuriosApi.getCuriosHelper().findFirstCurio((LivingEntity) entity, RegistryHandler.STABILITY_CLOAK.get()).isPresent()){
                 return;
             }
             if (spellContext.getCurrentIndex() < spellContext.getSpell().recipe.size() && BlockUtil.destroyRespectsClaim(shooter, world, entity.blockPosition().below())) {
@@ -49,8 +49,9 @@ public class SwapTargetGlyph extends AbstractEffect implements ConfigurableGlyph
                     }
                 }
                 if(!hasToss || ALLOW_TOSS.get()) {
-                    SpellContext newContext = (new SpellContext(newSpell, (LivingEntity) entity)).withColors(spellContext.colors);
-                    SpellResolver.resolveEffects(entity.getCommandSenderWorld(), (LivingEntity) entity, new EntityHitResult(shooter), newSpell, newContext);
+                    SpellContext newContext = (new SpellContext(world, newSpell, (LivingEntity) entity)).withColors(spellContext.getColors());
+                    SpellResolver resolver2 = new SpellResolver(newContext);
+                    resolver2.onResolveEffect(entity.getCommandSenderWorld(),new EntityHitResult(shooter));
                 }
             }
         }
@@ -78,7 +79,8 @@ public class SwapTargetGlyph extends AbstractEffect implements ConfigurableGlyph
     }
 
     @Override
-    public void buildExtraConfig(ForgeConfigSpec.Builder builder) {
+    public void buildConfig(ForgeConfigSpec.Builder builder) {
+        super.buildConfig(builder);
         builder.comment("If set to false, Swap Target will only affect non-player entities: ");
         AFFECT_PLAYERS = builder.define("affect_players", true);
         builder.comment("WARNING! THE FOLLOWING ALLOWS FOR MAJOR GRIEFING!!");

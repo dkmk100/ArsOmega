@@ -1,6 +1,5 @@
 package com.dkmk100.arsomega.blocks;
 
-import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.empathy_api.AbstractEmpathyIngredient;
 import com.dkmk100.arsomega.empathy_api.EmpathyAPI;
 import com.dkmk100.arsomega.empathy_api.EmpathyIngredientInstance;
@@ -14,8 +13,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.locale.Language;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -37,12 +34,7 @@ public abstract class GenericEmpathyAltar extends ModdedTile implements ITooltip
 
     String LocName(Item item){
         Component comp = item.getName(item.getDefaultInstance());
-        if(comp instanceof TranslatableComponent){
-            return Language.getInstance().getOrDefault(((TranslatableComponent) comp).getKey());
-        }
-        else{
-            return comp.getContents();
-        }
+        return comp.getString();
     }
 
     public String getAltarType(){
@@ -112,7 +104,7 @@ public abstract class GenericEmpathyAltar extends ModdedTile implements ITooltip
         }
         else {
             //altar interactions
-            if (stack.getItem() == ItemsRegistry.ENCHANTED_MIRROR_SHARD && !hasShard) {
+            if (stack.getItem() == RegistryHandler.ENCHANTED_MIRROR_SHARD.get() && !hasShard) {
                 this.hasShard = true;
                 this.updateBlock();
                 stack.shrink(1);
@@ -138,14 +130,14 @@ public abstract class GenericEmpathyAltar extends ModdedTile implements ITooltip
             final int maxUniqueIngredients = 5;
             if (ingredient == null) {
                 if(!stack.isEmpty()) {
-                    PortUtil.sendMessage(player, new TextComponent("no ingredient for item: ").append(stack.getHoverName().getContents()));
+                    PortUtil.sendMessage(player, Component.literal("no ingredient for item: ").append(stack.getHoverName().getString()));
                 }
                 this.updateBlock();
                 return InteractionResult.PASS;
             }
             //max ingredients is 5 for now
             else if (spell.getIngredients().size() >= maxUniqueIngredients && spell.getIngredient(ingredient) == null) {
-                PortUtil.sendMessageNoSpam(player, new TextComponent("Cannot add more than " + maxUniqueIngredients + " different ingredients"));
+                PortUtil.sendMessageNoSpam(player, Component.literal("Cannot add more than " + maxUniqueIngredients + " different ingredients"));
                 this.updateBlock();
                 return InteractionResult.PASS;
             }
@@ -165,7 +157,7 @@ public abstract class GenericEmpathyAltar extends ModdedTile implements ITooltip
                     this.updateBlock();
                     return InteractionResult.CONSUME_PARTIAL;
                 } else {
-                    PortUtil.sendMessageNoSpam(player, new TextComponent("Unable to add item: "+result.message));
+                    PortUtil.sendMessageNoSpam(player, Component.literal("Unable to add item: "+result.message));
                 }
             }
         }
@@ -199,26 +191,26 @@ public abstract class GenericEmpathyAltar extends ModdedTile implements ITooltip
     @Override
     public void getTooltip(List<Component> list) {
         if(spell != null && spell.getIngredients().size() > 0) {
-            list.add(new TextComponent("Current Recipe: "));
+            list.add( Component.literal("Current Recipe: "));
             for (EmpathyIngredientInstance ingredient : spell.getIngredients()) {
-                list.add(new TextComponent("Item: " ).append(LocName(ingredient.getIngredient().GetItem())).append( ",  count: "+ingredient.getAmount()));
+                list.add( Component.literal("Item: " ).append(LocName(ingredient.getIngredient().GetItem())).append( ",  count: "+ingredient.getAmount()));
             }
             if(hasShard){
-                list.add(new TextComponent("Has mirror shard"));
+                list.add(Component.literal("Has mirror shard"));
             }
 
             if(spell.isFinalized()){
-                list.add(new TextComponent("Add a food item add the " + getAltarType() + " to it, or use an iron needle to weakly affect  "));
+                list.add( Component.literal("Add a food item add the " + getAltarType() + " to it, or use an iron needle to weakly affect  "));
             }
             else{
-                list.add(new TextComponent("Right-click with a(n) " + LocName(getFinalizeItem()) +" to finalize the curse, making it castable"));
+                list.add( Component.literal("Right-click with a(n) " + LocName(getFinalizeItem()) +" to finalize the curse, making it castable"));
                 if(!hasShard){
-                    list.add(new TextComponent("Add an enchanted mirror shard to increase strength, but affect the caster equally. "));
+                    list.add( Component.literal("Add an enchanted mirror shard to increase strength, but affect the caster equally. "));
                 }
             }
         }
         else{
-            list.add(new TextComponent("No Ingredients"));
+            list.add( Component.literal("No Ingredients"));
         }
     }
 }
