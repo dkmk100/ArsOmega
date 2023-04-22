@@ -52,7 +52,7 @@ public class PermaFlight extends MobEffect {
         if (entity instanceof ServerPlayer) {
             ((Player) entity).getAbilities().mayfly = false;
             ((Player) entity).getAbilities().flying = false;
-            Networking.sendToPlayer(new PacketUpdateFlight(false, false), (ServerPlayer) entity);
+            Networking.sendToPlayerClient(new PacketUpdateFlight(false, false), (ServerPlayer) entity);
         }
     }
 }

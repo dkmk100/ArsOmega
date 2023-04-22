@@ -189,7 +189,6 @@ public class EntityWitherBound extends WitherBoss implements IFollowingSummon, I
                     }
                 }
                 else{
-
                     bossEvent.setName(Component.literal("Unbound Wither"));
                 }
                 ReflectionHandler.Entity.witherHeadUpdates.set(this, nextHeadUpdate);

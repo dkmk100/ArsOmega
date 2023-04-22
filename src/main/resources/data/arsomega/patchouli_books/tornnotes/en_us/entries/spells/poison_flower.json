@@ -1,16 +1,16 @@
 {
-  "name": "ars_nouveau.glyph_name.poison_flower",
-  "icon": "ars_nouveau:glyph_poison_flower",
+  "name": "arsomega.glyph_name.glyph_poison_flower",
+  "icon": "arsomega:glyph_poison_flower",
   "category": "ars_nouveau:glyphs_1",
   "sortnum": 3,
   "pages": [
     {
       "type": "text",
-      "text": "ars_nouveau.glyph_desc.poison_flower"
+      "text": "arsomega.glyph_desc.glyph_poison_flower"
     },
     {
       "type": "glyph_recipe",
-      "recipe": "ars_nouveau:glyph_poison_flower",
+      "recipe": "arsomega:glyph_poison_flower",
       "tier": "ONE",
       "mana_cost": "Medium",
       "clay_type": "ars_nouveau:magic_clay",

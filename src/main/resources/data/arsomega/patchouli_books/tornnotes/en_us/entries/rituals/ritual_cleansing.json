@@ -1,6 +1,6 @@
 {
-  "name": "item.ars_nouveau.ritual_cleansing",
-  "icon": "ars_nouveau:ritual_cleansing",
+  "name": "item.arsomega.ritual_cleansing",
+  "icon": "arsomega:ritual_cleansing",
   "category": "ars_nouveau:rituals",
   "pages": [
     {

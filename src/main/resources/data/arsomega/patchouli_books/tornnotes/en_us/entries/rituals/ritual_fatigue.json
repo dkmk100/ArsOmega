@@ -1,6 +1,6 @@
 {
-  "name": "item.ars_nouveau.ritual_fatigue",
-  "icon": "ars_nouveau:ritual_fatigue",
+  "name": "item.arsomega.ritual_fatigue",
+  "icon": "arsomega:ritual_fatigue",
   "category": "ars_nouveau:rituals",
   "pages": [
     {

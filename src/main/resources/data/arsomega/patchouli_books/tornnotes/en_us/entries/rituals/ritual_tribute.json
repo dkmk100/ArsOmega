@@ -1,6 +1,6 @@
 {
-  "name": "item.ars_nouveau.ritual_tribute",
-  "icon": "ars_nouveau:ritual_tribute",
+  "name": "item.arsomega.ritual_tribute",
+  "icon": "arsomega:ritual_tribute",
   "category": "ars_nouveau:rituals",
   "pages": [
     {

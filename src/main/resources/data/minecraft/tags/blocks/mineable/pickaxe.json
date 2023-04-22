@@ -10,6 +10,9 @@
     "arsomega:demonic_gem_block",
     "arsomega:alchemical_diamond_block",
     "arsomega:alchemical_diamond_ore",
-    "arsomega:alchemical_stone"
+    "arsomega:alchemical_stone",
+    "arsomega:potion_amplifier",
+    "arsomega:potion_extender",
+    "arsomega:potion_bottler"
   ]
 }

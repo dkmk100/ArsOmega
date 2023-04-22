@@ -1,12 +1,12 @@
 {
-  "name": "ars_nouveau.glyph_name.regen",
+  "name": "arsomega.glyph_name.glyph_regen",
   "icon": "ars_nouveau:glyph_regen",
   "category": "ars_nouveau:glyphs_3",
   "sortnum": 3,
   "pages": [
     {
       "type": "text",
-      "text": "ars_nouveau.glyph_desc.regen"
+      "text": "arsomega.glyph_desc.glyph_regen"
     },
     {
       "type": "glyph_recipe",

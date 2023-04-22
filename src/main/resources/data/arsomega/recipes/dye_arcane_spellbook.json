@@ -1,0 +1,14 @@
+{
+  "type": "ars_nouveau:dye",
+  "ingredients": [
+    {
+      "tag": "forge:dyes"
+    },
+    {
+      "item": "arsomega:arcane_book"
+    }
+  ],
+  "result": {
+    "item": "arsomega:arcane_book"
+  }
+}

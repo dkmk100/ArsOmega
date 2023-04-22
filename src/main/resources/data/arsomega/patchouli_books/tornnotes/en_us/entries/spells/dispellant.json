@@ -1,19 +1,19 @@
 {
-  "name": "ars_nouveau.glyph_name.dispellant",
-  "icon": "ars_nouveau:glyph_dispellant",
+  "name": "arsomega.glyph_name.glyph_dispellant",
+  "icon": "arsomega:glyph_dispellant",
   "category": "ars_nouveau:glyphs_3",
   "sortnum": 3,
   "pages": [
     {
       "type": "text",
-      "text": "ars_nouveau.glyph_desc.dispellant"
+      "text": "arsomega.glyph_desc.glyph_dispellant"
     },
     {
       "type": "glyph_recipe",
-      "recipe": "ars_nouveau:glyph_dispellant",
+      "recipe": "arsomega:glyph_dispellant",
       "tier": "THREE",
       "mana_cost": "High",
-      "reagent": "ars_nouveau:glyph_dispellant"
+      "reagent": "arsomega:glyph_dispellant"
     }
   ]
 }

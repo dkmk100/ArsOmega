@@ -1,16 +1,16 @@
 {
-  "name": "ars_nouveau.glyph_name.adrenaline",
-  "icon": "ars_nouveau:glyph_adrenaline",
+  "name": "arsomega.glyph_name.glyph_adrenaline",
+  "icon": "arsomega:glyph_adrenaline",
   "category": "ars_nouveau:glyphs_2",
   "sortnum": 3,
   "pages": [
     {
       "type": "text",
-      "text": "ars_nouveau.glyph_desc.adrenaline"
+      "text": "arsomega.glyph_desc.glyph_adrenaline"
     },
     {
       "type": "ars_nouveau:glyph_recipe",
-      "recipe": "ars_nouveau:glyph_adrenaline"
+      "recipe": "arsomega:glyph_adrenaline"
     }
   ]
 }

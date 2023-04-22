@@ -1,6 +1,6 @@
 {
-  "name": "item.ars_nouveau.ritual_protection",
-  "icon": "ars_nouveau:ritual_protection",
+  "name": "item.arsomega.ritual_protection",
+  "icon": "arsomega:ritual_protection",
   "category": "ars_nouveau:rituals",
   "pages": [
     {

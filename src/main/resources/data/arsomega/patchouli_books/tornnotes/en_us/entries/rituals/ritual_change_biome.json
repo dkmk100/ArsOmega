@@ -1,6 +1,6 @@
 {
-  "name": "item.ars_nouveau.ritual_change_biome",
-  "icon": "ars_nouveau:ritual_change_biome",
+  "name": "item.arsomega.ritual_change_biome",
+  "icon": "arsomega:ritual_change_biome",
   "category": "ars_nouveau:rituals",
   "pages": [
     {

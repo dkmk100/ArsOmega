@@ -1,6 +1,6 @@
 {
-  "name": "item.ars_nouveau.ritual_dispel",
-  "icon": "ars_nouveau:ritual_dispel",
+  "name": "item.arsomega.ritual_dispel",
+  "icon": "arsomega:ritual_dispel",
   "category": "ars_nouveau:rituals",
   "pages": [
     {

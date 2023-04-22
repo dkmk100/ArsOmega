@@ -1,8 +1,9 @@
 package com.dkmk100.arsomega.blocks;
 
-/*
+
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.item.IWandable;
+import com.hollingsworth.arsnouveau.api.potion.PotionData;
 import com.hollingsworth.arsnouveau.common.block.ITickable;
 import com.hollingsworth.arsnouveau.common.block.tile.ModdedTile;
 import com.hollingsworth.arsnouveau.common.block.tile.PotionJarTile;
@@ -74,16 +75,16 @@ public class BottlerTile extends ModdedTile implements ITickable, WorldlyContain
         if(jar.getAmount() < 100 || input.isEmpty() || !isBottle(input)){
             return false;
         }
-        if(output.isEmpty() || (jar.isMixEqual(output) && output.getCount() < output.getMaxStackSize())){
+        if(output.isEmpty() || (jar.getData().areSameEffects(new PotionData(output)) && output.getCount() < output.getMaxStackSize())){
             if(output.isEmpty()){
                 output = new ItemStack(getPotionItem(input),1);
             }
             else{
                 output.setCount(output.getCount() + 1);
             }
-            PotionUtils.setPotion(output,jar.getPotion());
-            PotionUtils.setCustomEffects(output,jar.getCustomEffects());
-            jar.setAmount(jar.getAmount() - 100);
+            PotionUtils.setPotion(output,jar.getData().getPotion());
+            PotionUtils.setCustomEffects(output,jar.getData().getCustomEffects());
+            jar.remove(100);
             input.shrink(1);
             return true;
         }
@@ -101,8 +102,8 @@ public class BottlerTile extends ModdedTile implements ITickable, WorldlyContain
             else{
                 output.setCount(output.getCount() + 1);
             }
-            jar.setPotion(input);
-            jar.setAmount(jar.getAmount() + 100);
+            PotionData data = new PotionData(input);
+            jar.add(data,100);
             input.shrink(1);
             return true;
         }
@@ -111,7 +112,7 @@ public class BottlerTile extends ModdedTile implements ITickable, WorldlyContain
 
     public static boolean isBottle(ItemStack stack){
         Item item = stack.getItem();
-        return item == Items.GLASS_BOTTLE || item == ItemsRegistry.SPLASH_BOTTLE || item == ItemsRegistry.LINGERING_BOTTLE;
+        return item == Items.GLASS_BOTTLE || item == RegistryHandler.SPLASH_BOTTLE.get() || item == RegistryHandler.LINGERING_BOTTLE.get();
     }
     public static boolean isPotion(ItemStack stack){
         return stack.getItem() == Items.POTION || stack.getItem() == Items.SPLASH_POTION || stack.getItem() == Items.LINGERING_POTION;
@@ -119,10 +120,10 @@ public class BottlerTile extends ModdedTile implements ITickable, WorldlyContain
 
     public static Item getPotionItem(ItemStack input){
         Item item = input.getItem();
-        if(item == ItemsRegistry.SPLASH_BOTTLE){
+        if(item == RegistryHandler.SPLASH_BOTTLE.get()){
             return Items.SPLASH_POTION;
         }
-        else if(item == ItemsRegistry.LINGERING_BOTTLE){
+        else if(item == RegistryHandler.LINGERING_BOTTLE.get()){
             return Items.LINGERING_POTION;
         }
         return Items.POTION;
@@ -132,10 +133,10 @@ public class BottlerTile extends ModdedTile implements ITickable, WorldlyContain
         Item item = input.getItem();
 
         if(item == Items.SPLASH_POTION){
-            return ItemsRegistry.SPLASH_BOTTLE;
+            return RegistryHandler.SPLASH_BOTTLE.get();
         }
         else if(item == Items.LINGERING_POTION){
-            return ItemsRegistry.LINGERING_BOTTLE;
+            return RegistryHandler.LINGERING_BOTTLE.get();
         }
         return Items.GLASS_BOTTLE;
     }
@@ -272,4 +273,3 @@ public class BottlerTile extends ModdedTile implements ITickable, WorldlyContain
         return slot > 0 || (slot == 0 && !isBottle(input) && !isPotion(input));
     }
 }
- */

@@ -1,8 +1,9 @@
 package com.dkmk100.arsomega.blocks;
 
-/*
+
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.dkmk100.arsomega.util.RegistryHandler;
+import com.hollingsworth.arsnouveau.api.potion.PotionData;
 import com.hollingsworth.arsnouveau.api.util.SourceUtil;
 import com.hollingsworth.arsnouveau.client.ClientInfo;
 import com.hollingsworth.arsnouveau.client.particle.GlowParticleData;
@@ -24,6 +25,7 @@ import net.minecraft.core.Direction;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class PotionAmplifierTile extends BlockEntity implements ITickable {
@@ -37,7 +39,7 @@ public class PotionAmplifierTile extends BlockEntity implements ITickable {
 
     @Override
     public void tick() {
-        if (!this.level.isClientSide && !this.hasMana && this.level.getGameTime() % 20L == 0L && SourceUtil.takeSourceNearbyWithParticles(this.worldPosition, this.level, 5, 100) != null) {
+        if (!this.level.isClientSide && !this.hasMana && this.level.getGameTime() % 20L == 0L && SourceUtil.takeSourceWithParticles(this.worldPosition, this.level, 5, 100) != null) {
             this.hasMana = true;
             this.level.sendBlockUpdated(this.worldPosition, this.level.getBlockState(this.worldPosition), this.level.getBlockState(this.worldPosition), 3);
         }
@@ -73,7 +75,8 @@ public class PotionAmplifierTile extends BlockEntity implements ITickable {
                     this.timeMixing = 0;
                 } else {
                     List<MobEffectInstance> combined = this.getCombinedResult(tile1);
-                    if ((!combJar.isMixEqual(combined) || combJar.getMaxFill() - combJar.getCurrentFill() < 100) && combJar.getAmount() != 0) {
+                    PotionData mergedData = new PotionData(ModPotions.BLENDED_POT.get(),combined,tile1.getData().getIncludedPotions());
+                    if (!combJar.canAccept(mergedData,100)) {
                         this.isMixing = false;
                         this.timeMixing = 0;
                     } else {
@@ -93,23 +96,21 @@ public class PotionAmplifierTile extends BlockEntity implements ITickable {
                                     this.timeMixing = 0;
                                 }
 
-                                Potion jar1Potion = tile1.getPotion();
                                 if (combJar.getAmount() == 0) {
-                                    combJar.setPotion(ModPotions.PotionsRegistry.BLENDED_POT, combined);
-                                    combJar.setFill(100);
-                                    tile1.addAmount(-200);
+                                    combJar.add(mergedData,100);
+                                    tile1.remove(200);
                                     this.hasMana = false;
                                     this.level.sendBlockUpdated(this.worldPosition, this.level.getBlockState(this.worldPosition), this.level.getBlockState(this.worldPosition), 3);
-                                } else if (combJar.isMixEqual(combined) && combJar.getMaxFill() - combJar.getCurrentFill() >= 100) {
-                                    combJar.addAmount(100);
-                                    tile1.addAmount(-200);
+                                } else if (combJar.getData().areSameEffects(combined) && combJar.getMaxFill() - combJar.getAmount() >= 100) {
+                                    combJar.add(mergedData,100);
+                                    tile1.remove(200);
                                     this.hasMana = false;
                                     this.level.sendBlockUpdated(this.worldPosition, this.level.getBlockState(this.worldPosition), this.level.getBlockState(this.worldPosition), 3);
                                 }
                             }
 
                         } else {
-                            if (this.timeMixing >= 80 && combJar.getPotion() != Potions.EMPTY) {
+                            if (this.timeMixing >= 80 && combJar.getData().getPotion() != Potions.EMPTY) {
                                 for(int i = 0; i < 3; ++i) {
                                     double d0 = (double)this.worldPosition.getX() + 0.5D + ParticleUtil.inRange(-0.25D, 0.25D);
                                     double d1 = (double)(this.worldPosition.getY() + 1) + ParticleUtil.inRange(-0.1D, 0.4D);
@@ -143,7 +144,7 @@ public class PotionAmplifierTile extends BlockEntity implements ITickable {
 
 
     public List<MobEffectInstance> getCombinedResult(PotionJarTile jar1) {
-        return getBuffedEffects(jar1.getFullEffects());
+        return getBuffedEffects(jar1.getData().fullEffects());
     }
     public List<MobEffectInstance> getBuffedEffects(List<MobEffectInstance> originals) {
         List<MobEffectInstance> newEffects = new ArrayList<MobEffectInstance>();
@@ -175,4 +176,3 @@ public class PotionAmplifierTile extends BlockEntity implements ITickable {
         compound.putBoolean("hasMana", this.hasMana);
     }
 }
- */
