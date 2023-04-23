@@ -2,7 +2,6 @@ package com.dkmk100.arsomega.blocks;
 
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.entities.EntityClayGolem;
-import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.EntitySpellResolver;
 import com.hollingsworth.arsnouveau.api.spell.Spell;
