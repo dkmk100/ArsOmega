@@ -1,0 +1,28 @@
+{
+  "type": "ars_nouveau:glyph",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "item": "minecraft:dropper"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:clock"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:redstone"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:redstone"
+      }
+    }
+  ],
+  "exp": 25,
+  "output": "ars_nouveau:glyph_random_50"
+}

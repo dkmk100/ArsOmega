@@ -4,8 +4,10 @@ import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.ISpellCaster;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.MobSpawnType;
@@ -40,6 +42,7 @@ public class DemonStaff extends BasicItem {
                 PortUtil.sendMessage(playerIn,"Must be used in the demon realm!");
                 return new InteractionResultHolder<>(InteractionResult.FAIL,stack);
             }
+            RegistryHandler.USE_DEMON_STAFF.Trigger((ServerPlayer) playerIn);
             Entity ent = RegistryHandler.BOSS_DEMON_KING.get().spawn((ServerLevel) worldIn, stack, playerIn, playerIn.blockPosition(), MobSpawnType.MOB_SUMMONED, true, false);
             worldIn.addFreshEntity(ent);
             //stack.shrink(1);

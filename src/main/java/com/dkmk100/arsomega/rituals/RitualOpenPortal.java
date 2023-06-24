@@ -65,6 +65,10 @@ public class RitualOpenPortal extends AbstractRitual {
         if(consumed==0){
             return stack.getItem()== RegistryHandler.DIMENSION_CRYSTAL.get();
         }
+        else if(consumed==1){
+            boolean scroll = stack.getItem() == com.hollingsworth.arsnouveau.setup.ItemsRegistry.WARP_SCROLL;
+            return scroll && stack.hasTag() && WarpScroll.getPos(stack) != BlockPos.ZERO;
+        }
 
         return false;
     }

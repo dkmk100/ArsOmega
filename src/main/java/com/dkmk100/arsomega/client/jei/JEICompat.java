@@ -63,8 +63,8 @@ public class JEICompat implements IModPlugin {
 
         //conjuring recipes
         ArrayList<ConjuringRecipe> conjuring = new ArrayList<>();
-        conjuring.add(new ConjuringRecipe(new ItemStack(ItemsRegistry.DEMONIC_GEM)));
-        conjuring.add(new ConjuringRecipe(new ItemStack(ItemsRegistry.GORGON_GEM)));
+        conjuring.add(new ConjuringRecipe(new ItemStack(RegistryHandler.DEMON_GEM.get())));
+        conjuring.add(new ConjuringRecipe(new ItemStack(RegistryHandler.GORGON_GEM.get())));
 
         registry.addRecipes(conjuring, ConjuringRecipeCategory.UID);
 

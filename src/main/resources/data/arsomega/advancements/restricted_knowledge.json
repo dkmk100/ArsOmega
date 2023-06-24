@@ -1,0 +1,37 @@
+{
+  "parent": "arsomega:root",
+  "criteria": {
+    "arsomega:arcane_compendium": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "arsomega:arcane_compendium"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "arsomega.advancement.desc.restricted_knowledge"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "arsomega:arcane_compendium"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "arsomega.advancement.title.restricted_knowledge"
+    }
+  },
+  "requirements": [
+    [
+      "arsomega:arcane_compendium"
+    ]
+  ]
+}

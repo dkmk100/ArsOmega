@@ -1,6 +1,9 @@
 package com.dkmk100.arsomega.util;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.ItemsRegistry;
+import com.dkmk100.arsomega.advancement.BasicTrigger;
+import com.dkmk100.arsomega.armors.BasicArmorMaterial;
 import com.dkmk100.arsomega.base_blocks.BasicBlock;
 import com.dkmk100.arsomega.base_blocks.BlockPropertiesCreator;
 import com.dkmk100.arsomega.blocks.*;
@@ -21,6 +24,7 @@ import com.dkmk100.arsomega.spell_sigils.ScaldSigil;
 import com.dkmk100.arsomega.tools.BasicItemTier;
 import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
+import com.hollingsworth.arsnouveau.api.spell.AbstractCastMethod;
 import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
 import com.hollingsworth.arsnouveau.common.items.SpellBook;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
@@ -28,6 +32,7 @@ import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDurationDown;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtendTime;
 
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.Registry;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
@@ -36,7 +41,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -103,6 +107,8 @@ public class RegistryHandler{
 
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, ArsOmega.MOD_ID);
 
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS,ArsOmega.MOD_ID);
+
     public static final String FIRE_FOCUS_DAMAGE = "hellflare";
 
     public static ResourceLocation getGlyphName(String name){
@@ -128,6 +134,24 @@ public class RegistryHandler{
         helper.register(new ResourceLocation("arsomega", "sigil"),SIGIL_SERIALIZER);
         helper.register(new ResourceLocation("arsomega", "write_proactive"),WRITE_PROACTIVE_SERIALIZER);
         helper.register(new ResourceLocation("arsomega", "proactive_enchant"),PROACTIVE_ENCHANT_SERIALIZER);
+    }
+
+    public static BasicTrigger USE_DEMON_STAFF;
+    public static BasicTrigger USE_CURSED_BIND;
+
+    public static BasicTrigger RESTORATION;
+
+    public static BasicTrigger CONTACT;
+    public static BasicTrigger POWERS;
+    public static BasicTrigger DESTINY;
+
+    public static void RegisterAdvancementTriggers(){
+        USE_DEMON_STAFF = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"use_demon_staff")));
+        USE_CURSED_BIND = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"use_cursed_bind")));
+        RESTORATION = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"restoration")));
+        CONTACT = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"contact")));
+        POWERS = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"powers")));
+        DESTINY = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"destiny")));
     }
 
     public static final RegistryObject<Enchantment> PROACTIVE_ENCHANT = ENCHANTMENTS.register("proactive",ProactiveEnchant::new);
@@ -228,6 +252,12 @@ public class RegistryHandler{
         register(GreaterAOE.INSTANCE);
         register(Absorption.INSTANCE);
         register(AdvancedEvaporate.INSTANCE);
+
+        register(AugmentRandomizeColor.INSTANCE);
+        register(RandomChance.LOW_CHANCE);
+        register(RandomChance.MID_CHANCE);
+        register(RandomChance.HIGH_CHANCE);
+        register(RandomColorEffect.INSTANCE);
     }
 
     public static void registerRituals()
@@ -259,7 +289,7 @@ public class RegistryHandler{
         register(new HealingEmpathyIngredient(() -> Items.GLISTERING_MELON_SLICE,2,2,(a,m) -> new MobEffectInstance(MobEffects.REGENERATION,60 + Math.round(50 * a*m),0)));
         register(new HealingEmpathyIngredient(() -> Items.MELON_SLICE,1));
         register(new HealingEmpathyIngredient(() -> Items.BREAD,1));
-        //register(new HealingEmpathyIngredient(() -> LIFE_ESSENCE.get(),2,2,(a,m) -> new MobEffectInstance(MobEffects.REGENERATION,50 + Math.round(100 * m),a)));
+        register(new HealingEmpathyIngredient(() -> ESSENCE_LIFE.get(),2,2,(a,m) -> new MobEffectInstance(MobEffects.REGENERATION,80 + Math.round(100 * m),a)));
         register(new MultiplierIngredient(() -> Items.GHAST_TEAR,0.75f,true,true));
         register(new MultiplierIngredient(() -> Items.GUNPOWDER,0.25f, 3,true,true));
         register(new MultiplierIngredient(() -> Items.COAL,-0.5f, true,true));
@@ -317,6 +347,9 @@ public class RegistryHandler{
             if(part.compatibleAugments.contains(AugmentAOE.INSTANCE)&&!part.compatibleAugments.contains(GreaterAOE.INSTANCE)){
                 part.compatibleAugments.add(GreaterAOE.INSTANCE);
             }
+            if(part instanceof AbstractCastMethod){
+                part.compatibleAugments.add(AugmentRandomizeColor.INSTANCE);
+            }
         }
     }
 
@@ -360,7 +393,18 @@ public class RegistryHandler{
     static final Item.Properties UNSTACKABLE_FIRE = itemPropertiesCreator.create(ArsOmega.itemGroup,1).fireResistant();
 
     public static final FoodProperties ENCHANTED_DIAMOND_APPLE = (new FoodProperties.Builder()).nutrition(5).saturationMod(1.2F).effect(() -> new MobEffectInstance(MobEffects.HEALTH_BOOST, 8000, 4),1).effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 800, 1), 1.0F).effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 8000, 0), 1.0F).effect(() -> new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 7000, 0), 1.0F).effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 5000, 5), 1.0F).alwaysEat().build();
-    public static final FoodProperties ARCANE_APPLE = (new FoodProperties.Builder()).nutrition(7).saturationMod(1.5F).effect(() -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 8000, 1),1).effect(() -> new MobEffectInstance(ModPotions.LEAD_SKIN.get(), 8000, 1),1).effect(() -> new MobEffectInstance(MobEffects.HEALTH_BOOST, 8000, 6),1).effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 800, 2), 1.0F).effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 10000, 1), 1.0F).effect(() -> new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 9000, 0), 1.0F).effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 9000, 8), 1.0F).alwaysEat().build();
+    
+    public static final FoodProperties ARCANE_APPLE = (new FoodProperties.Builder()).nutrition(7).saturationMod(1.5F).effect(() -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 8000, 1),1).effect(() -> new MobEffectInstance(ModPotions.LEAD_SKIN, 8000, 1),1).effect(() -> new MobEffectInstance(MobEffects.HEALTH_BOOST, 8000, 6),1).effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 800, 2), 1.0F).effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 10000, 1), 1.0F).effect(() -> new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 9000, 0), 1.0F).effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 9000, 8), 1.0F).alwaysEat().build();
+
+
+    public static void RegisterItems(RegistryEvent.Register<Item> event) {
+
+        event.getRegistry().register(new BlockItem(ItemsRegistry.INFINITY_JAR, ITEM_PROPERTIES).setRegistryName("infinity_crystal"));
+        event.getRegistry().register(new HexedItem(UNSTACKABLE_FIRE, "hexed_book", false));
+        event.getRegistry().register(new HexedItem(UNSTACKABLE_FIRE, "hexed_writable_book", false));
+        event.getRegistry().register(new HexedItem(UNSTACKABLE_FIRE, "hexed_written_book", true));
+    }
+
 
 
     //Block Properties
@@ -412,6 +456,8 @@ public class RegistryHandler{
 
     public static final RegistryObject<Block> CURSE_ALTAR = BLOCKS.register("curse_altar",() -> new CurseAltarBlock(UNBREAKABLE_BLOCK_PROPERTIES));
 
+    public static final RegistryObject<Block> CURSED_EARTH = BLOCKS.register("cursed_earth",() -> new CursedEarth(CLAY_PROPERTIES));
+    public static final RegistryObject<Block> VENGEFUL_SOUL_SAND = BLOCKS.register("vengeful_soul_sand",() -> new CursedEarth(CLAY_PROPERTIES));
 
     static EntityType<? extends Entity> getClayGolem(){
         return CLAY_GOLEM_BETA.get();
@@ -476,6 +522,12 @@ public class RegistryHandler{
     public static final RegistryObject<PortalBlock> PORTAL_BLOCK = BLOCKS.register("portal_block",() -> new PortalBlock(PORTAL_PROPERTIES));
     public static final RegistryObject<MirrorPortalBlock> MIRROR_PORTAL_BLOCK = BLOCKS.register("mirror_portal_block",() -> new MirrorPortalBlock(PORTAL_PROPERTIES));
 
+    public static final RegistryObject<DemonicLightBlock> DEMONIC_LIGHT = BLOCKS.register("demonic_light",() -> new DemonicLightBlock());
+
+
+    public static RegistryObject<BlockEntityType<DemonicLightTile>> DemonicLightType = TILE_ENTITIES.register("demonic_light_tile",() -> BlockEntityType.Builder.of(DemonicLightTile::new,DEMONIC_LIGHT.get()).build(null));
+
+
 
     public static RegistryObject<BlockEntityType<PotionExtenderTile>> PotionExtenderType = TILE_ENTITIES.register("potion_extender_tile",() -> BlockEntityType.Builder.of(PotionExtenderTile::new,POTION_EXTENDER.get()).build(null));
     public static RegistryObject<BlockEntityType<PotionAmplifierTile>> PotionAmplifierType = TILE_ENTITIES.register("potion_amplifier_tile",() -> BlockEntityType.Builder.of(PotionAmplifierTile::new,POTION_AMPLIFIER.get()).build(null));
@@ -527,7 +579,7 @@ public class RegistryHandler{
     public static final RegistryObject<Item> DEMON_CRYSTAL = ITEMS.register("demonic_crystal", () -> new DescribedItem(ITEM_PROPERTIES_FIRE,"Drops from the Demon King boss, who can be summond with a demonic staff."));
     public static final RegistryObject<Item> ARCANE_BLOOM_CROP = ITEMS.register("arcane_bloom_crop", () -> new BasicBlockItem(ARCANE_BLOOM.get(),ITEM_PROPERTIES));
     public static final RegistryObject<Item> ENCHANTERS_WOOL_ITEM = ITEMS.register("enchanters_wool", () -> new BasicBlockItem(ENCHANTERS_WOOL.get(),ITEM_PROPERTIES));
-    public static final RegistryObject<Item> GORGON_GEM = ITEMS.register("gorgon_gem", () -> new DescribedItem(ITEM_PROPERTIES_FIRE,"Found in gorgon caves"));
+    public static final RegistryObject<Item> GORGON_GEM = ITEMS.register("gorgon_gem", () -> new DescribedItem(ITEM_PROPERTIES_FIRE,"Found in mysterious structures."));
 
     public static final RegistryObject<Item> SPLASH_BOTTLE = ITEMS.register("splash_bottle", () -> new BasicItem(ITEM_PROPERTIES));
     public static final RegistryObject<Item> LINGERING_BOTTLE = ITEMS.register("lingering_bottle", () -> new BasicItem(ITEM_PROPERTIES));
@@ -565,7 +617,7 @@ public class RegistryHandler{
 
     public static final RegistryObject<Item> BIOME_CRYSTAL = ITEMS.register("biome_crystal", () ->  new BiomeCrystal(ITEM_PROPERTIES));
 
-   public static final RegistryObject<Item> DIMENSION_CRYSTAL = ITEMS.register("dimension_crystal", () -> new DimensionCrystal(ITEM_PROPERTIES));
+    public static final RegistryObject<Item> DIMENSION_CRYSTAL = ITEMS.register("dimension_crystal", () -> new DimensionCrystal(ITEM_PROPERTIES));
 
     public static final RegistryObject<Item> INFUSED_DIAMOND = ITEMS.register("infused_diamond", () -> new BasicItem(ITEM_PROPERTIES));
     public static final RegistryObject<Item> ENCHANTED_DIAMOND = ITEMS.register("enchanted_diamond", () -> new BasicItem(ITEM_PROPERTIES,true));
@@ -609,33 +661,33 @@ public class RegistryHandler{
     public static final RegistryObject<Item> DEMON_STAFF = ITEMS.register("demon_staff", () -> new DemonStaff(UNSTACKABLE_FIRE));
 
     //magic chalk items
-        public static final RegistryObject<Item> MAGIC_CHALK = ITEMS.register("magic_chalk", () -> new MagicChalk(() -> CHALK_LINE_1.get(),16));
-        public static final RegistryObject<Item> MARVELOUS_CHALK = ITEMS.register("marvelous_chalk", () -> new MagicChalk(() -> CHALK_LINE_2.get(),32));
-        public static final RegistryObject<Item> MYSTIC_CHALK = ITEMS.register("mystic_chalk", () -> new MagicChalk(() -> CHALK_LINE_3.get(),128));
-        public static final RegistryObject<Item> ARCANE_CHALK = ITEMS.register("arcane_chalk", () -> new MagicChalk(() -> CHALK_LINE_4.get(),1024));
+    public static final RegistryObject<Item> MAGIC_CHALK = ITEMS.register("magic_chalk", () -> new MagicChalk(() -> CHALK_LINE_1.get(),16));
+    public static final RegistryObject<Item> MARVELOUS_CHALK = ITEMS.register("marvelous_chalk", () -> new MagicChalk(() -> CHALK_LINE_2.get(),32));
+    public static final RegistryObject<Item> MYSTIC_CHALK = ITEMS.register("mystic_chalk", () -> new MagicChalk(() -> CHALK_LINE_3.get(),128));
+    public static final RegistryObject<Item> ARCANE_CHALK = ITEMS.register("arcane_chalk", () -> new MagicChalk(() -> CHALK_LINE_4.get(),1024));
 
     //chalk for crafting stuff, currently doesn't do much on its own.
-        public static final RegistryObject<Item> CHALK_ITEM =  ITEMS.register("chalk", () -> new BasicChalkItem(() -> CHALK_BLOCK.get(), ITEM_PROPERTIES,"A crafting ingredient used for crafting magic chalk. \nCan also be used in a ritual of shaping to craft sigils."));
+    public static final RegistryObject<Item> CHALK_ITEM =  ITEMS.register("chalk", () -> new BasicChalkItem(() -> CHALK_BLOCK.get(), ITEM_PROPERTIES,"A crafting ingredient used for crafting magic chalk. \nCan also be used in a ritual of shaping to craft sigils."));
 
-        public static final RegistryObject<Item> ALCHEMICAL_DIAMOND = ITEMS.register("alchemical_diamond", () ->  new DescribedItem(ITEM_PROPERTIES,"A diamond created using arcane alchemical processes. \nPhysically, it is a perfect gem, but it cannot withstand strong magical energies, and thus cannot be used to craft many advanced magical items."));
+    public static final RegistryObject<Item> ALCHEMICAL_DIAMOND = ITEMS.register("alchemical_diamond", () ->  new DescribedItem(ITEM_PROPERTIES,"A diamond created using arcane alchemical processes. \nPhysically, it is a perfect gem, but it cannot withstand strong magical energies, and thus cannot be used to craft many advanced magical items."));
 
-        public static final RegistryObject<Item> ALCHEMICAL_DIAMOND_ORE_ITEM = ITEMS.register("alchemical_diamond_ore", () ->  new BasicBlockItem(ALCHEMICAL_DIAMOND_ORE.get(),ITEM_PROPERTIES));
-        public static final RegistryObject<Item> ALCHEMICAL_DIAMOND_BLOCK_ITEM = ITEMS.register("alchemical_diamond_block", () ->  new BasicBlockItem(ALCHEMICAL_DIAMOND_BLOCK.get(),ITEM_PROPERTIES));
-        public static final RegistryObject<Item> ALCHEMICAL_STONE_ITEM = ITEMS.register("alchemical_stone", () -> new BasicBlockItem(ALCHEMICAL_STONE.get(),ITEM_PROPERTIES));
+    public static final RegistryObject<Item> ALCHEMICAL_DIAMOND_ORE_ITEM = ITEMS.register("alchemical_diamond_ore", () ->  new BasicBlockItem(ALCHEMICAL_DIAMOND_ORE.get(),ITEM_PROPERTIES));
+    public static final RegistryObject<Item> ALCHEMICAL_DIAMOND_BLOCK_ITEM = ITEMS.register("alchemical_diamond_block", () ->  new BasicBlockItem(ALCHEMICAL_DIAMOND_BLOCK.get(),ITEM_PROPERTIES));
+    public static final RegistryObject<Item> ALCHEMICAL_STONE_ITEM = ITEMS.register("alchemical_stone", () -> new BasicBlockItem(ALCHEMICAL_STONE.get(),ITEM_PROPERTIES));
 
-        public static final RegistryObject<Item> SIGIL_WATER = ITEMS.register("sigil_water", () -> new SigilItem(ITEM_PROPERTIES));
-        public static final RegistryObject<Item> SIGIL_FIRE = ITEMS.register("sigil_fire", () -> new SigilItem(ITEM_PROPERTIES));
-        public static final RegistryObject<Item> SIGIL_EARTH = ITEMS.register("sigil_earth", () -> new SigilItem(ITEM_PROPERTIES));
-        public static final RegistryObject<Item> SIGIL_AIR = ITEMS.register("sigil_air", () -> new SigilItem(ITEM_PROPERTIES));
-        public static final RegistryObject<Item> SIGIL_BINDING = ITEMS.register("sigil_binding", () -> new SigilItem(ITEM_PROPERTIES));
-        public static final RegistryObject<Item>  SIGIL_WATER_ACTIVE = ITEMS.register("sigil_water_active", () -> new SigilItem(ITEM_PROPERTIES,false,true));
-        public static final RegistryObject<Item> SIGIL_FIRE_ACTIVE = ITEMS.register("sigil_fire_active", () -> new SigilItem(ITEM_PROPERTIES,false,true));
-        public static final RegistryObject<Item> SIGIL_EARTH_ACTIVE = ITEMS.register("sigil_earth_active", () -> new SigilItem(ITEM_PROPERTIES,false,true));
-        public static final RegistryObject<Item> SIGIL_AIR_ACTIVE = ITEMS.register("sigil_air_active", () -> new SigilItem(ITEM_PROPERTIES,false,true));
-        public static final RegistryObject<Item> SIGIL_BINDING_ACTIVE = ITEMS.register("sigil_binding_active", () ->  new SigilItem(ITEM_PROPERTIES,false,true));
-        public static final RegistryObject<Item> SIGIL_ALCHEMY = ITEMS.register("sigil_alchemy", () ->  new SigilItem(ITEM_PROPERTIES));
-        public static final RegistryObject<Item> SIGIL_LIFE = ITEMS.register("sigil_life", () ->  new SigilItem(ITEM_PROPERTIES));
-        public static final RegistryObject<Item> SIGIL_NATURE = ITEMS.register("sigil_nature", () ->  new SigilItem(ITEM_PROPERTIES));
+    public static final RegistryObject<Item> SIGIL_WATER = ITEMS.register("sigil_water", () -> new SigilItem(ITEM_PROPERTIES));
+    public static final RegistryObject<Item> SIGIL_FIRE = ITEMS.register("sigil_fire", () -> new SigilItem(ITEM_PROPERTIES));
+    public static final RegistryObject<Item> SIGIL_EARTH = ITEMS.register("sigil_earth", () -> new SigilItem(ITEM_PROPERTIES));
+    public static final RegistryObject<Item> SIGIL_AIR = ITEMS.register("sigil_air", () -> new SigilItem(ITEM_PROPERTIES));
+    public static final RegistryObject<Item> SIGIL_BINDING = ITEMS.register("sigil_binding", () -> new SigilItem(ITEM_PROPERTIES));
+    public static final RegistryObject<Item>  SIGIL_WATER_ACTIVE = ITEMS.register("sigil_water_active", () -> new SigilItem(ITEM_PROPERTIES,false,true));
+    public static final RegistryObject<Item> SIGIL_FIRE_ACTIVE = ITEMS.register("sigil_fire_active", () -> new SigilItem(ITEM_PROPERTIES,false,true));
+    public static final RegistryObject<Item> SIGIL_EARTH_ACTIVE = ITEMS.register("sigil_earth_active", () -> new SigilItem(ITEM_PROPERTIES,false,true));
+    public static final RegistryObject<Item> SIGIL_AIR_ACTIVE = ITEMS.register("sigil_air_active", () -> new SigilItem(ITEM_PROPERTIES,false,true));
+    public static final RegistryObject<Item> SIGIL_BINDING_ACTIVE = ITEMS.register("sigil_binding_active", () ->  new SigilItem(ITEM_PROPERTIES,false,true));
+    public static final RegistryObject<Item> SIGIL_ALCHEMY = ITEMS.register("sigil_alchemy", () ->  new SigilItem(ITEM_PROPERTIES));
+    public static final RegistryObject<Item> SIGIL_LIFE = ITEMS.register("sigil_life", () ->  new SigilItem(ITEM_PROPERTIES));
+    public static final RegistryObject<Item> SIGIL_NATURE = ITEMS.register("sigil_nature", () ->  new SigilItem(ITEM_PROPERTIES));
     public static final RegistryObject<Item> SIGIL_ALCHEMY_ACTIVE = ITEMS.register("sigil_alchemy_active", () ->  new SigilItem(ITEM_PROPERTIES,false,true));
     public static final RegistryObject<Item> SIGIL_LIFE_ACTIVE = ITEMS.register("sigil_life_active", () ->  new SigilItem(ITEM_PROPERTIES,false,true));
     public static final RegistryObject<Item> SIGIL_NATURE_ACTIVE = ITEMS.register("sigil_nature_active", () ->  new SigilItem(ITEM_PROPERTIES,false,true));
@@ -651,25 +703,26 @@ public class RegistryHandler{
     public static final RegistryObject<Item> ARCANE_APPLE_ITEM = ITEMS.register("arcane_apple", () ->new BasicItem((new Item.Properties()).tab(CreativeModeTab.TAB_FOOD).rarity(Rarity.EPIC).food(ARCANE_APPLE),true));
 
 
-       public static final RegistryObject<Item> CURSED_PENDANT = ITEMS.register("cursed_pendant", () -> new CursedPendant(1,243543,1));
-       public static final RegistryObject<Item> CURSED_PENDANT_STRONG = ITEMS.register("cursed_pendant_strong", () -> new CursedPendant(1,243543,2));
-       public static final RegistryObject<Item> CURSED_PENDANT_DOUBLE = ITEMS.register("cursed_pendant_double", () -> new CursedPendant(2,243543,1));
-       public static final RegistryObject<Item> CURSED_PENDANT_DOUBLE_STRONG = ITEMS.register("cursed_pendant_double_strong", () -> new CursedPendant(2,243543,2));
-       public static final RegistryObject<Item> CURSED_PENDANT_ULTIMATE = ITEMS.register("cursed_pendant_ultimate", () -> new CursedPendant(5,243543,3));
+    public static final RegistryObject<Item> CURSED_PENDANT = ITEMS.register("cursed_pendant", () -> new CursedPendant(1,243543,1));
+    public static final RegistryObject<Item> CURSED_PENDANT_STRONG = ITEMS.register("cursed_pendant_strong", () -> new CursedPendant(1,243543,2));
+    public static final RegistryObject<Item> CURSED_PENDANT_DOUBLE = ITEMS.register("cursed_pendant_double", () -> new CursedPendant(2,243543,1));
+    public static final RegistryObject<Item> CURSED_PENDANT_DOUBLE_STRONG = ITEMS.register("cursed_pendant_double_strong", () -> new CursedPendant(2,243543,2));
+    public static final RegistryObject<Item> CURSED_PENDANT_ULTIMATE = ITEMS.register("cursed_pendant_ultimate", () -> new CursedPendant(5,243543,3));
 
-       public static final RegistryObject<Item> ARCANE_COMPENDIUM = ITEMS.register("arcane_compendium", () ->new GuideBookItem("The Arcane Library's collection of Arcane Magics."));
-       public static final RegistryObject<Item> MARIA_ROSA = ITEMS.register("maria_rosa", () ->new GuideBookItem("A damaged hand-written notebook..."));
-       public static final RegistryObject<Item> KAZ_CARTER = ITEMS.register("kaz_carter", () ->new GuideBookItem("A scorched collection of notebook pages..."));
+    public static final RegistryObject<Item> ARCANE_COMPENDIUM = ITEMS.register("arcane_compendium", () ->new DescribedItem(ITEM_PROPERTIES,"The Arcane Library's collection of Arcane Magics."));
+    public static final RegistryObject<Item> MARIA_ROSA = ITEMS.register("maria_rosa", () ->new DescribedItem(ITEM_PROPERTIES,"A damaged hand-written notebook..."));
+    public static final RegistryObject<Item> KAZ_CARTER = ITEMS.register("kaz_carter", () ->new DescribedItem(ITEM_PROPERTIES,"A scorched collection of notebook pages..."));
 
-       public static final RegistryObject<Item> SALT = ITEMS.register("salt", () ->new DescribedItem(ITEM_PROPERTIES,"An item used in crafting."));
+    public static final RegistryObject<Item> SALT = ITEMS.register("salt", () ->new DescribedItem(ITEM_PROPERTIES,"An item used in crafting."));
 
-       //public static final RegistryObject<Item> CELESTIAL_STAFF = ITEMS.register("arcane_apple", () ->new CelestialStaff(ITEM_PROPERTIES_FIRE,"celestial_staff"));
-
-
-    public static final RegistryObject<Item> POTION_BOTTLER_ITEM =  ITEMS.register("potion_bottler", () -> new BasicBlockItem(POTION_BOTTLER.get(),ITEM_PROPERTIES));
+    public static final RegistryObject<Item> CELESTIAL_STAFF = ITEMS.register("celestial_staff", () ->new CelestialStaff(ITEM_PROPERTIES_FIRE));
 
 
-    public static final RegistryObject<Item> BLOCKY_HILLS_DISC = ITEMS.register("blocky_hills_music_disc", () -> new RecordItem(7,HILLS_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC),1020));
+
+    public static final RegistryObject<Item> POTION_BOTTLER_ITEM = ITEMS.register("potion_bottler", () -> new BasicBlockItem(POTION_BOTTLER.get(),ITEM_PROPERTIES));
+
+
+    public static final RegistryObject<Item> BLOCKY_HILLS_DISC = ITEMS.register("blocky_hills_music_disc", () -> new RecordItem(7,HILLS_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC)));
 
 
     public static final RegistryObject<Item> MARVELOUS_CLAY_BLOCK_ITEM = ITEMS.register("marvelous_clay_block", () ->(new BasicBlockItem(MARVELOUS_CLAY_BLOCK.get(),ITEM_PROPERTIES)));
@@ -681,6 +734,8 @@ public class RegistryHandler{
 
 
     public static final RegistryObject<Item> DEMON_DANCE_DISC = ITEMS.register("demon_dance_music_disc", () -> new RecordItem(8,DEMON_DANCE_MUSIC,new Item.Properties().fireResistant().stacksTo(1).rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC),1520));
+
+
 
     public static final RegistryObject<EntityType<? extends Monster>> BASIC_DEMON = ENTITIES.register("demon_basic", () -> EntityType.Builder.of(EntityDemonBasic::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_basic").toString()));
     public static final RegistryObject<EntityType<?  extends Monster>> STRONG_DEMON = ENTITIES.register("demon_strong", () -> EntityType.Builder.of(EntityDemonStrong::new, MobCategory.MONSTER).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_strong").toString()));
@@ -710,6 +765,14 @@ public class RegistryHandler{
     public static final RegistryObject<Item> DEMON_SPAWN_EGG = ITEMS.register("basic_demon_spawn_egg", () -> new ModSpawnEggItem(BASIC_DEMON,0x000000,0x000000,EGG_PROPERTIES));
     public static final RegistryObject<Item> DEMON_STRONG_SPAWN_EGG = ITEMS.register("strong_demon_spawn_egg", () -> new ModSpawnEggItem(STRONG_DEMON,0x000000,0x000000,EGG_PROPERTIES));
     public static final RegistryObject<Item> DEMON_RAPTOR_SPAWN_EGG = ITEMS.register("demon_raptor_spawn_egg", () -> new ModSpawnEggItem(RAPTOR_DEMON,0x000000,0x000000,EGG_PROPERTIES));
+
+
+
+
+    public static final RegistryObject<Item> DEMON_SPAWN_EGG = ITEMS.register("basic_demon_spawn_egg", () -> new ModSpawnEggItem(BASIC_DEMON,0x000000,0x000000,EGG_PROPERTIES));
+    public static final RegistryObject<Item> DEMON_STRONG_SPAWN_EGG = ITEMS.register("strong_demon_spawn_egg", () -> new ModSpawnEggItem(STRONG_DEMON,0x000000,0x000000,EGG_PROPERTIES));
+    public static final RegistryObject<Item> DEMON_RAPTOR_SPAWN_EGG = ITEMS.register("demon_raptor_spawn_egg", () -> new ModSpawnEggItem(RAPTOR_DEMON,0x000000,0x000000,EGG_PROPERTIES));
+
 
 
     public static void RegisterMobSpawns(){

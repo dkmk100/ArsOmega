@@ -20,7 +20,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class PropagateSelf extends AbstractEffect {
+public class PropagateSelf extends AbstractEffect implements IPropagator {
     public static PropagateSelf INSTANCE = new PropagateSelf("propagate_self","Propagate Self");
 
     private PropagateSelf(String tag, String description) {

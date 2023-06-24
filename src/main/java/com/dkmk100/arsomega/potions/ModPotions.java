@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.potions;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.recipe.PotionIngredient;
 import net.minecraft.world.item.ItemStack;

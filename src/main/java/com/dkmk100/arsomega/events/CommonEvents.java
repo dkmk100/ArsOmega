@@ -3,11 +3,17 @@ package com.dkmk100.arsomega.events;
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.empathy_api.EmpathySpell;
 import com.dkmk100.arsomega.enchants.ProactiveSpellcaster;
+import com.dkmk100.arsomega.glyphs.AugmentRandomizeColor;
 import com.dkmk100.arsomega.items.CursedPendant;
 import com.dkmk100.arsomega.items.ModSpawnEggItem;
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.event.EffectResolveEvent;
+import com.hollingsworth.arsnouveau.api.event.SpellCastEvent;
+import com.hollingsworth.arsnouveau.api.spell.AbstractCastMethod;
+import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
+import com.hollingsworth.arsnouveau.api.spell.Spell;
+import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.common.enchantment.EnchantmentRegistry;
 import com.hollingsworth.arsnouveau.common.spell.casters.ReactiveCaster;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
@@ -43,11 +49,22 @@ import net.minecraftforge.fml.common.Mod;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
 @Mod.EventBusSubscriber(modid = ArsOmega.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CommonEvents {
+
+    @SubscribeEvent
+    public static void onSpellCast(final SpellCastEvent event){
+        Spell spell = event.spell;
+        if(spell.recipe.get(0) instanceof AbstractCastMethod){
+            if(spell.getBuffsAtIndex(0,event.getEntityLiving(), AugmentRandomizeColor.INSTANCE) > 0){
+                event.context.colors = ParticleColor.makeRandomColor(255,255,255,event.getWorld().getRandom()).toWrapper();
+            }
+        }
+    }
 
     @SubscribeEvent
     public static void onProjectileHit(final ProjectileImpactEvent event){

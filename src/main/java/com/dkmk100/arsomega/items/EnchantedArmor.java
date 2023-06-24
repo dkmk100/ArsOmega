@@ -16,14 +16,12 @@ public class EnchantedArmor extends MagicArmor implements INamedItem {
         super(material, slot, ItemsRegistry.defaultItemProperties());
         boostBonus = boost;
         regenBonus = regen;
-        this.setRegistryName(name);
     }
-    public EnchantedArmor(String name,EquipmentSlot slot, int boost, int regen, ArmorMaterial material, Item.Properties properties)
+    public EnchantedArmor(EquipmentSlot slot, int boost, int regen, ArmorMaterial material, Item.Properties properties)
     {
         super(material, slot, properties);
         boostBonus = boost;
         regenBonus = regen;
-        this.setRegistryName(name);
     }
 
     @Override

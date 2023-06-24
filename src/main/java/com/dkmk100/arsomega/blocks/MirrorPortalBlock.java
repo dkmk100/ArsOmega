@@ -8,6 +8,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -46,7 +47,7 @@ public class MirrorPortalBlock extends Block implements EntityBlock {
         BlockEntity tile = level.getBlockEntity(pos);
         if(hand== InteractionHand.MAIN_HAND || (!player.getItemInHand(InteractionHand.OFF_HAND).isEmpty() && player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty())) {
             if (tile instanceof MirrorPortalBlockEntity && level instanceof ServerLevel) {
-                InteractionResult result = ((MirrorPortalBlockEntity) tile).OnRightClick(player.getItemInHand(hand), player, hand);
+                InteractionResult result = ((MirrorPortalBlockEntity) tile).OnRightClick(player.getItemInHand(hand), (ServerPlayer) player, hand);
                 ((MirrorPortalBlockEntity) tile).setChanged();
                 return result;
             }

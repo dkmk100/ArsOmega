@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class PropagateOrbit  extends AbstractEffect{
+public class PropagateOrbit  extends AbstractEffect implements ConfigurableGlyph, IPropagator {
     public static PropagateOrbit INSTANCE = new PropagateOrbit("propagate_orbit","Propagate Orbit");
 
     private PropagateOrbit(String tag, String description) {
@@ -29,7 +29,7 @@ public class PropagateOrbit  extends AbstractEffect{
         spellContext.setCanceled(true);
         if (spellContext.getCurrentIndex() < spellContext.getSpell().recipe.size()) {
             Spell newSpell = new Spell(new ArrayList(spellContext.getSpell().recipe.subList(spellContext.getCurrentIndex(), spellContext.getSpell().recipe.size())));
-            SpellContext newContext = spellContext.clone().withSpell(newSpell);
+            SpellContext newContext = spellContext.clone().withSpell(newSpell);//need .withCaster??? todo: answer this question
             SpellResolver resolver = new EntitySpellResolver(newContext);
             //List<AbstractAugment> newAugments = new ArrayList<AbstractAugment>();//stats.getAugments()
             MethodOrbit.INSTANCE.summonProjectiles(world,shooter,resolver,stats);

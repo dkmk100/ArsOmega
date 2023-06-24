@@ -78,7 +78,7 @@ public abstract class GenericEmpathyAltar extends ModdedTile implements ITooltip
                 //reset spell
                 spell = null;
                 hasShard = false;
-                PortUtil.sendMessage(player, "The " + getAltarType() + " has been cast on " + target.getName().getContents());
+                PortUtil.sendMessage(player, "The " + getAltarType() + " has been cast on " + target.getName().getString());
                 this.updateBlock();
                 return InteractionResult.SUCCESS;
             }

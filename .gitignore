@@ -24,3 +24,5 @@ run-server
 
 # Files from Forge MDK
 forge*changelog.txt
+*.log
+hs_err_pid21360.log

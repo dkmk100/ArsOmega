@@ -24,7 +24,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 
-public class PropagateMissile extends AbstractEffect {
+public class PropagateMissile extends AbstractEffect implements IPropagator {
     public static PropagateMissile INSTANCE = new PropagateMissile("propagate_missile","Propagate Missile");
 
     private PropagateMissile(String tag, String description) {
@@ -76,7 +76,7 @@ public class PropagateMissile extends AbstractEffect {
         spellContext.setCanceled(true);
         if (spellContext.getCurrentIndex() < spellContext.getSpell().recipe.size()) {
             Spell newSpell = new Spell(new ArrayList(spellContext.getSpell().recipe.subList(spellContext.getCurrentIndex(), spellContext.getSpell().recipe.size())));
-            SpellContext newContext = spellContext.clone().withSpell(newSpell);
+            SpellContext newContext = spellContext.clone().withSpell(newSpell);//need .withShooter??? todo: answer this question
             SpellResolver resolver = new EntitySpellResolver(newContext);
             summonProjectiles(world, rayTraceResult.getLocation(),shooter, stats, resolver);
         }

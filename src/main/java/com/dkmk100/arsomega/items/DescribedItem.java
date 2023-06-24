@@ -23,6 +23,11 @@ public class DescribedItem extends BasicItem {
         this.description = description;
     }
 
+    public DescribedItem(Properties properties, String description, boolean showEnch) {
+        super(properties,showEnch);
+        this.description = description;
+    }
+
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip2, TooltipFlag flagIn) {

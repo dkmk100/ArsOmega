@@ -5,10 +5,22 @@ import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import net.minecraft.resources.ResourceLocation;
+import com.hollingsworth.arsnouveau.api.util.SpellUtil;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSensitive;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.registries.ForgeRegistries;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
@@ -34,6 +46,31 @@ public class DemonicCurseGlyph extends TierFourEffect {
     protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
         defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 2);
     }
+    
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+        if (world instanceof ServerLevel) {
+            if(spellStats.hasBuff(AugmentSensitive.INSTANCE)) {
+                double aoeBuff = spellStats.getAoeMultiplier();
+                BlockPos pos = rayTraceResult.getBlockPos();
+                List<BlockPos> posList = SpellUtil.calcAOEBlocks(shooter, pos, rayTraceResult, aoeBuff, 0);
+
+                Iterator var12 = posList.iterator();
+                while (var12.hasNext()) {
+                    BlockPos pos1 = (BlockPos) var12.next();
+                    Block block = world.getBlockState(pos1).getBlock();
+                    if (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.DIRT).contains(block)) {
+                        world.setBlock(pos1, RegistryHandler.CURSED_EARTH.get().defaultBlockState(), 3);
+                    } else if (block == Blocks.GRASS_BLOCK) {
+                        world.setBlock(pos1, RegistryHandler.CURSED_EARTH.get().defaultBlockState(), 3);
+                    } else if (block == Blocks.SOUL_SAND || block == Blocks.SOUL_SOIL) {
+                        world.setBlock(pos1, RegistryHandler.VENGEFUL_SOUL_SAND.get().defaultBlockState(), 3);
+                    } else if (ForgeRegistries.BLOCKS.tags().getTag(BlockTags.SAND).contains(block)) {
+                        world.setBlock(pos1, RegistryHandler.VENGEFUL_SOUL_SAND.get().defaultBlockState(), 3);
+                    }
+                }
+            }
+        }
+    }
 
     @Override
     public int getDefaultManaCost() {
@@ -47,7 +84,11 @@ public class DemonicCurseGlyph extends TierFourEffect {
     @Nonnull
     @Override
     public Set<AbstractAugment> getCompatibleAugments() {
-        return this.getPotionAugments();
+        Set potionAugments =  this.getPotionAugments();
+        ArrayList<AbstractAugment> list = new ArrayList<AbstractAugment>(potionAugments);
+        list.add(AugmentAOE.INSTANCE);
+        list.add(AugmentSensitive.INSTANCE);
+        return Collections.unmodifiableSet(new HashSet(list));
     }
 
     @Nonnull

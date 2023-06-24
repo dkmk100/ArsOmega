@@ -5,6 +5,7 @@ import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.crafting.TransmuteRecipe;
 import com.dkmk100.arsomega.glyphs.AdvancedAmplify;
 import com.dkmk100.arsomega.glyphs.TransmuteGlyph;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -73,9 +74,9 @@ public class TransmuteRecipeCategory implements IRecipeCategory<TransmuteRecipe>
         List<ItemStack> validFoci = new ArrayList<>();
         if(o.minAmp>TransmuteGlyph.normalMax){
             if(o.minAmp<=TransmuteGlyph.focusMax){
-                validFoci.add(new ItemStack(ItemsRegistry.ALCHEMY_FOCUS));
+                validFoci.add(new ItemStack(RegistryHandler.FOCUS_OF_ALCHEMY.get()));
             }
-            validFoci.add(new ItemStack(ItemsRegistry.ALCHEMY_FOCUS_ADVANCED));
+            validFoci.add(new ItemStack(RegistryHandler.FOCUS_OF_ADVANCED_ALCHEMY.get()));
         }
         else{
             validFoci.add(ItemStack.EMPTY);
