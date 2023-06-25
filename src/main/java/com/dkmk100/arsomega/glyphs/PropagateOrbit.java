@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class PropagateOrbit  extends AbstractEffect implements ConfigurableGlyph, IPropagator {
+public class PropagateOrbit  extends AbstractEffect implements  IPropagator {
     public static PropagateOrbit INSTANCE = new PropagateOrbit("propagate_orbit","Propagate Orbit");
 
     private PropagateOrbit(String tag, String description) {

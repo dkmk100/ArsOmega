@@ -1,7 +1,7 @@
 package com.dkmk100.arsomega.rituals;
 
 import com.dkmk100.arsomega.ArsOmega;
-import com.dkmk100.arsomega.ItemsRegistry;
+
 import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;

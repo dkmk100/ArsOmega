@@ -2,7 +2,7 @@ package com.dkmk100.arsomega.client.jei;
 
 /*
 import com.dkmk100.arsomega.ArsOmega;
-import com.dkmk100.arsomega.ItemsRegistry;
+
 import com.dkmk100.arsomega.crafting.ConjuringRecipe;
 import com.dkmk100.arsomega.crafting.EnchantRecipe;
 import com.dkmk100.arsomega.crafting.TransmuteRecipe;

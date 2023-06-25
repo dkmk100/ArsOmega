@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Enemy;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -51,7 +53,7 @@ public class CursedEarth extends GrassBlock {
         world.scheduleTick(pos, state.getBlock(), stats.minTickTime + world.random.nextInt(stats.maxTickTime - stats.minTickTime + 1));
     }
 
-    public void applyTick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void applyTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         if (!world.isAreaLoaded(pos, 3))
             return; // Forge: prevent loading unloaded chunks when checking neighbor's light and spreading
 
@@ -86,8 +88,9 @@ public class CursedEarth extends GrassBlock {
 
     }
 
+
     @Override
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         applyTick(state,world,pos,random);
     }
 
@@ -97,28 +100,34 @@ public class CursedEarth extends GrassBlock {
         return false;
     }
 
+
     @Override
-    public boolean isBonemealSuccess(Level p_53697_, Random p_53698_, BlockPos p_53699_, BlockState p_53700_) {
+    public boolean isBonemealSuccess(Level p_53697_, RandomSource p_53698_, BlockPos p_53699_, BlockState p_53700_) {
         return false;
     }
 
     @Override
-    public void performBonemeal(ServerLevel p_53687_, Random p_53688_, BlockPos p_53689_, BlockState p_53690_) {
+    public void performBonemeal(ServerLevel p_53687_, RandomSource p_53688_, BlockPos p_53689_, BlockState p_53690_) {
 
     }
 
 
     //Adapted from the Doomed Grass mod
     //https://github.com/embeddedt/DoomedGrass/tree/main
-    private Mob findMonsterToSpawn(ServerLevel world, BlockPos pos, Random rand) {
-        var potentialData = NaturalSpawner.getRandomSpawnMobAt(world, world.structureFeatureManager(), world.getChunkSource().getGenerator(), MobCategory.MONSTER, rand, pos);
-        if (potentialData.isPresent()) {
-            var spawnData = potentialData.get();
+    private Mob findMonsterToSpawn(ServerLevel world, BlockPos pos, RandomSource rand) {
+        ServerChunkCache s = (ServerChunkCache) world.getChunkSource();
+        List<MobSpawnSettings.SpawnerData> entries = s.getGenerator()
+                .getMobsAt(world.getBiome(pos), ((ServerLevel) world).structureManager(), MobCategory.MONSTER, pos.above())
+                .unwrap().stream().toList();
+
+        if (entries.size() > 0) {
+            int found = rand.nextInt(entries.size());
+            MobSpawnSettings.SpawnerData entry = entries.get(found);
             BlockPos.MutableBlockPos spawnMutable = new BlockPos.MutableBlockPos();
             spawnMutable.set(pos);
-            if (!NaturalSpawner.isValidSpawnPostitionForType(world, MobCategory.MONSTER, world.structureFeatureManager(), world.getChunkSource().getGenerator(), spawnData, spawnMutable, 1))
+            if (!SpawnPlacements.checkSpawnRules(entry.type, world, MobSpawnType.NATURAL, pos, world.random))
                 return null;
-            EntityType type = spawnData.type;
+            EntityType type = entry.type;
             Entity ent = type.create(world);
             //cursed earth only works with hostiles
             if (!(ent instanceof Mob)) return null;

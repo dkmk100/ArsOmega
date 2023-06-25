@@ -1,6 +1,6 @@
 package com.dkmk100.arsomega.glyphs;
 
-import com.dkmk100.arsomega.ItemsRegistry;
+
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.api.util.BlockUtil;

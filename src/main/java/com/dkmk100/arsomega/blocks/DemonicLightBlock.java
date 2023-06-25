@@ -1,9 +1,11 @@
 package com.dkmk100.arsomega.blocks;
 
+import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.common.block.ModBlock;
 import com.hollingsworth.arsnouveau.common.block.SconceBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -53,11 +55,17 @@ public class DemonicLightBlock  extends ModBlock implements EntityBlock, SimpleW
     @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         if (context.getLevel().getBlockEntity(context.getClickedPos()) instanceof DemonicLightTile) {
-            Random random = context.getLevel().random;
+            RandomSource random = context.getLevel().random;
+            /*
             DemonicLightTile tile = (DemonicLightTile)context.getLevel().getBlockEntity(context.getClickedPos());
-            tile.red = Math.max(10, random.nextInt(255));
-            tile.green = Math.max(10, random.nextInt(255));
-            tile.blue = Math.max(10, random.nextInt(255));
+
+            int red = Math.max(10, random.nextInt(255));
+            int green = Math.max(10, random.nextInt(255));
+            int blue = Math.max(10, random.nextInt(255));
+
+            tile.color = new ParticleColor.IntWrapper(red,green,blue).toParticleColor();
+
+             */
         }
 
         FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());

@@ -1,6 +1,6 @@
 package com.dkmk100.arsomega.potions;
 
-import com.dkmk100.arsomega.ItemsRegistry;
+
 import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.common.network.Networking;

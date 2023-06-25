@@ -6,6 +6,7 @@ import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
+import com.hollingsworth.arsnouveau.common.items.WarpScroll;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -66,8 +67,8 @@ public class RitualOpenPortal extends AbstractRitual {
             return stack.getItem()== RegistryHandler.DIMENSION_CRYSTAL.get();
         }
         else if(consumed==1){
-            boolean scroll = stack.getItem() == com.hollingsworth.arsnouveau.setup.ItemsRegistry.WARP_SCROLL;
-            return scroll && stack.hasTag() && WarpScroll.getPos(stack) != BlockPos.ZERO;
+            boolean scroll = stack.getItem() == com.hollingsworth.arsnouveau.setup.ItemsRegistry.WARP_SCROLL.get();
+            return scroll && stack.hasTag() && WarpScroll.WarpScrollData.get(stack).getPos() != BlockPos.ZERO;
         }
 
         return false;

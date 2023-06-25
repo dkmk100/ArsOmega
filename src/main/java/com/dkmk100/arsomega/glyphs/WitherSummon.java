@@ -60,7 +60,7 @@ public class WitherSummon extends TierFourEffect {
                 wither.setOwner(shooter);
                 wither.setLimitedLife(ticks);
                 this.summonLivingEntity(rayTraceResult, world, shooter, spellStats, spellContext, wither);
-                shooter.addEffect(new MobEffectInstance(ModPotions.SUMMONING_SICKNESS.get(), ticks));
+                shooter.addEffect(new MobEffectInstance(ModPotions.SUMMONING_SICKNESS_EFFECT.get(), ticks));
                 if(shooter instanceof ServerPlayer) {
                     RegistryHandler.USE_CURSED_BIND.Trigger((ServerPlayer) shooter);
                 }

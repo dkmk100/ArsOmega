@@ -20,7 +20,7 @@ public class RandomColorEffect extends AbstractEffect {
 
     @Override
     public void onResolve(HitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
-        spellContext.withColors(ParticleColor.makeRandomColor(255,255,255,world.random).toWrapper());
+        spellContext.withColors(ParticleColor.makeRandomColor(255,255,255,world.random));
     }
 
     @Override

@@ -1,8 +1,5 @@
 package com.dkmk100.arsomega.blocks;
 
-import com.dkmk100.arsomega.ArsOmega;
-import com.dkmk100.arsomega.ItemsRegistry;
-import com.dkmk100.arsomega.items.CelestialStaff;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.client.ITooltipProvider;
 import com.hollingsworth.arsnouveau.common.block.tile.ModdedTile;
@@ -11,6 +8,7 @@ import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;

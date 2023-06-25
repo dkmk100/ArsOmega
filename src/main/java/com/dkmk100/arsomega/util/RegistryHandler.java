@@ -1,7 +1,7 @@
 package com.dkmk100.arsomega.util;
 
 import com.dkmk100.arsomega.ArsOmega;
-import com.dkmk100.arsomega.ItemsRegistry;
+
 import com.dkmk100.arsomega.advancement.BasicTrigger;
 import com.dkmk100.arsomega.armors.BasicArmorMaterial;
 import com.dkmk100.arsomega.base_blocks.BasicBlock;
@@ -394,18 +394,7 @@ public class RegistryHandler{
 
     public static final FoodProperties ENCHANTED_DIAMOND_APPLE = (new FoodProperties.Builder()).nutrition(5).saturationMod(1.2F).effect(() -> new MobEffectInstance(MobEffects.HEALTH_BOOST, 8000, 4),1).effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 800, 1), 1.0F).effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 8000, 0), 1.0F).effect(() -> new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 7000, 0), 1.0F).effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 5000, 5), 1.0F).alwaysEat().build();
     
-    public static final FoodProperties ARCANE_APPLE = (new FoodProperties.Builder()).nutrition(7).saturationMod(1.5F).effect(() -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 8000, 1),1).effect(() -> new MobEffectInstance(ModPotions.LEAD_SKIN, 8000, 1),1).effect(() -> new MobEffectInstance(MobEffects.HEALTH_BOOST, 8000, 6),1).effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 800, 2), 1.0F).effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 10000, 1), 1.0F).effect(() -> new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 9000, 0), 1.0F).effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 9000, 8), 1.0F).alwaysEat().build();
-
-
-    public static void RegisterItems(RegistryEvent.Register<Item> event) {
-
-        event.getRegistry().register(new BlockItem(ItemsRegistry.INFINITY_JAR, ITEM_PROPERTIES).setRegistryName("infinity_crystal"));
-        event.getRegistry().register(new HexedItem(UNSTACKABLE_FIRE, "hexed_book", false));
-        event.getRegistry().register(new HexedItem(UNSTACKABLE_FIRE, "hexed_writable_book", false));
-        event.getRegistry().register(new HexedItem(UNSTACKABLE_FIRE, "hexed_written_book", true));
-    }
-
-
+    public static final FoodProperties ARCANE_APPLE = (new FoodProperties.Builder()).nutrition(7).saturationMod(1.5F).effect(() -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 8000, 1),1).effect(() -> new MobEffectInstance(ModPotions.LEAD_SKIN.get(), 8000, 1),1).effect(() -> new MobEffectInstance(MobEffects.HEALTH_BOOST, 8000, 6),1).effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 800, 2), 1.0F).effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 10000, 1), 1.0F).effect(() -> new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 9000, 0), 1.0F).effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 9000, 8), 1.0F).alwaysEat().build();
 
     //Block Properties
     static final BlockPropertiesCreator blockPropertiesCreator = new BlockPropertiesCreator();
@@ -552,8 +541,6 @@ public class RegistryHandler{
      */
 
 
-    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS,ArsOmega.MOD_ID);
-
     public static final RegistryObject<Item> TIER_FOUR_BOOK = ITEMS.register("arcane_book", () -> new SpellBook(ITEM_PROPERTIES_FIRE,TierFourEffect.FOUR));
 
     public static final RegistryObject<Item> GREATER_MANA_AMULET = ITEMS.register("greater_mana_amulet", () -> new MagicCurio(500,1));
@@ -615,9 +602,13 @@ public class RegistryHandler{
     public static final RegistryObject<Item> ESSENCE_NATURE = ITEMS.register("nature_essence", () -> new EssenceItem(ITEM_PROPERTIES));
     public static final RegistryObject<Item> ESSENCE_DEMONIC = ITEMS.register("demonic_essence", () -> new EssenceItem(ITEM_PROPERTIES));
 
+
+
     public static final RegistryObject<Item> BIOME_CRYSTAL = ITEMS.register("biome_crystal", () ->  new BiomeCrystal(ITEM_PROPERTIES));
 
     public static final RegistryObject<Item> DIMENSION_CRYSTAL = ITEMS.register("dimension_crystal", () -> new DimensionCrystal(ITEM_PROPERTIES));
+
+
 
     public static final RegistryObject<Item> INFUSED_DIAMOND = ITEMS.register("infused_diamond", () -> new BasicItem(ITEM_PROPERTIES));
     public static final RegistryObject<Item> ENCHANTED_DIAMOND = ITEMS.register("enchanted_diamond", () -> new BasicItem(ITEM_PROPERTIES,true));
@@ -715,14 +706,14 @@ public class RegistryHandler{
 
     public static final RegistryObject<Item> SALT = ITEMS.register("salt", () ->new DescribedItem(ITEM_PROPERTIES,"An item used in crafting."));
 
-    public static final RegistryObject<Item> CELESTIAL_STAFF = ITEMS.register("celestial_staff", () ->new CelestialStaff(ITEM_PROPERTIES_FIRE));
+    //public static final RegistryObject<Item> CELESTIAL_STAFF = ITEMS.register("celestial_staff", () -> new CelestialStaff(ITEM_PROPERTIES_FIRE));
 
 
 
     public static final RegistryObject<Item> POTION_BOTTLER_ITEM = ITEMS.register("potion_bottler", () -> new BasicBlockItem(POTION_BOTTLER.get(),ITEM_PROPERTIES));
 
 
-    public static final RegistryObject<Item> BLOCKY_HILLS_DISC = ITEMS.register("blocky_hills_music_disc", () -> new RecordItem(7,HILLS_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC)));
+    public static final RegistryObject<Item> BLOCKY_HILLS_DISC = ITEMS.register("blocky_hills_music_disc", () -> new RecordItem(7,HILLS_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.RARE).tab(CreativeModeTab.TAB_MISC),1520));
 
 
     public static final RegistryObject<Item> MARVELOUS_CLAY_BLOCK_ITEM = ITEMS.register("marvelous_clay_block", () ->(new BasicBlockItem(MARVELOUS_CLAY_BLOCK.get(),ITEM_PROPERTIES)));
@@ -765,14 +756,6 @@ public class RegistryHandler{
     public static final RegistryObject<Item> DEMON_SPAWN_EGG = ITEMS.register("basic_demon_spawn_egg", () -> new ModSpawnEggItem(BASIC_DEMON,0x000000,0x000000,EGG_PROPERTIES));
     public static final RegistryObject<Item> DEMON_STRONG_SPAWN_EGG = ITEMS.register("strong_demon_spawn_egg", () -> new ModSpawnEggItem(STRONG_DEMON,0x000000,0x000000,EGG_PROPERTIES));
     public static final RegistryObject<Item> DEMON_RAPTOR_SPAWN_EGG = ITEMS.register("demon_raptor_spawn_egg", () -> new ModSpawnEggItem(RAPTOR_DEMON,0x000000,0x000000,EGG_PROPERTIES));
-
-
-
-
-    public static final RegistryObject<Item> DEMON_SPAWN_EGG = ITEMS.register("basic_demon_spawn_egg", () -> new ModSpawnEggItem(BASIC_DEMON,0x000000,0x000000,EGG_PROPERTIES));
-    public static final RegistryObject<Item> DEMON_STRONG_SPAWN_EGG = ITEMS.register("strong_demon_spawn_egg", () -> new ModSpawnEggItem(STRONG_DEMON,0x000000,0x000000,EGG_PROPERTIES));
-    public static final RegistryObject<Item> DEMON_RAPTOR_SPAWN_EGG = ITEMS.register("demon_raptor_spawn_egg", () -> new ModSpawnEggItem(RAPTOR_DEMON,0x000000,0x000000,EGG_PROPERTIES));
-
 
 
     public static void RegisterMobSpawns(){

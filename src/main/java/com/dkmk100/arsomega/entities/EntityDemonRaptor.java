@@ -1,6 +1,5 @@
 package com.dkmk100.arsomega.entities;
 
-import com.dkmk100.arsomega.ItemsRegistry;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;

@@ -60,8 +60,8 @@ public class CommonEvents {
     public static void onSpellCast(final SpellCastEvent event){
         Spell spell = event.spell;
         if(spell.recipe.get(0) instanceof AbstractCastMethod){
-            if(spell.getBuffsAtIndex(0,event.getEntityLiving(), AugmentRandomizeColor.INSTANCE) > 0){
-                event.context.colors = ParticleColor.makeRandomColor(255,255,255,event.getWorld().getRandom()).toWrapper();
+            if(spell.getBuffsAtIndex(0,event.getEntity(), AugmentRandomizeColor.INSTANCE) > 0){
+                event.context.setColors(ParticleColor.makeRandomColor(255,255,255,event.getWorld().getRandom()));
             }
         }
     }

@@ -9,6 +9,7 @@ import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleOptions;
 
+
 public class DarkGlowParticleData  implements ParticleProvider<ColorParticleTypeData> {
     private final SpriteSet spriteSet;
     public static final String NAME = "dark_glow";
@@ -22,18 +23,19 @@ public class DarkGlowParticleData  implements ParticleProvider<ColorParticleType
     }
 
     public static ParticleOptions createData(ParticleColor color) {
-        return new ColorParticleTypeData(ParticlesRegistry.DARK_GLOW_TYPE, color, false);
+        return new ColorParticleTypeData(ParticlesRegistry.DARK_GLOW_TYPE.get(), color, false);
     }
 
     public static ParticleOptions createData(ParticleColor color, boolean disableDepthTest) {
-        return new ColorParticleTypeData(ParticlesRegistry.DARK_GLOW_TYPE, color, disableDepthTest, 0.25F, 0.75F, 36);
+        return new ColorParticleTypeData(ParticlesRegistry.DARK_GLOW_TYPE.get(), color, disableDepthTest, 0.25F, 0.75F, 36);
     }
 
     public static ParticleOptions createData(ParticleColor color, boolean disableDepthTest, float size, float alpha, int age) {
-        return new ColorParticleTypeData(ParticlesRegistry.DARK_GLOW_TYPE,color, disableDepthTest, size, alpha, age);
+        return new ColorParticleTypeData(ParticlesRegistry.DARK_GLOW_TYPE.get(),color, disableDepthTest, size, alpha, age);
     }
 
     public static ParticleOptions createData(ParticleColor color, float size, float alpha, int age) {
-        return new ColorParticleTypeData(ParticlesRegistry.DARK_GLOW_TYPE, color, false, size, alpha, age);
+        return new ColorParticleTypeData(ParticlesRegistry.DARK_GLOW_TYPE.get(), color, false, size, alpha, age);
     }
 }
+
