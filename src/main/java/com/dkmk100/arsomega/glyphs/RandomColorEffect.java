@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,7 +16,7 @@ public class RandomColorEffect extends AbstractEffect {
     public static RandomColorEffect INSTANCE = new RandomColorEffect("random_color_effect","Randomize Color");
 
     public RandomColorEffect(String tag, String description) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
     }
 
     @Override

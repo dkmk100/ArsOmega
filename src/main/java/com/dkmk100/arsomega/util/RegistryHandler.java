@@ -7,6 +7,7 @@ import com.dkmk100.arsomega.armors.BasicArmorMaterial;
 import com.dkmk100.arsomega.base_blocks.BasicBlock;
 import com.dkmk100.arsomega.base_blocks.BlockPropertiesCreator;
 import com.dkmk100.arsomega.blocks.*;
+import com.dkmk100.arsomega.client.particle.ParticlesRegistry;
 import com.dkmk100.arsomega.crafting.*;
 import com.dkmk100.arsomega.empathy_api.AbstractEmpathyIngredient;
 import com.dkmk100.arsomega.empathy_api.EmpathyAPI;
@@ -164,6 +165,7 @@ public class RegistryHandler{
         ENTITIES.register(bus);
         ENCHANTMENTS.register(bus);
         SOUNDS.register(bus);
+        ParticlesRegistry.PARTICLES.register(bus);
         ModPotions.RegisterEffects(bus);
         //StructureInit.RegisterStructures(bus);
         //ExperimentalStructureInit.RegisterStructures(bus);

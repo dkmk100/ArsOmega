@@ -17,9 +17,7 @@ import net.minecraftforge.registries.*;
 )
 public class ParticlesRegistry {
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, "arsomega");
-    public static RegistryObject<ParticleType<ColorParticleTypeData>> DARK_GLOW_TYPE = PARTICLES.register("dark_glow", () -> {
-        return new GlowParticleType();
-    });;
+    public static RegistryObject<ParticleType<ColorParticleTypeData>> DARK_GLOW_TYPE = PARTICLES.register("dark_glow", () -> new GlowParticleType());;
 
     @SubscribeEvent
     public static void registerFactories(RegisterParticleProvidersEvent evt) {

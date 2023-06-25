@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -16,7 +17,7 @@ public class RandomChance extends AbstractEffect {
     public static RandomChance MID_CHANCE = new RandomChance("random_50","Mid Chance",0.5f);
     public static RandomChance HIGH_CHANCE = new RandomChance("random_75","High Chance",0.25f);
     public RandomChance(String tag, String description, float cancelChance) {
-        super(tag, description);
+        super(RegistryHandler.getGlyphName(tag), description);
         this.cancelChance = cancelChance;
     }
 

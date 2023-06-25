@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ars_nouveau:items/random_25"
+    "layer0": "arsomega:items/glyph_random_25"
   }
 }
