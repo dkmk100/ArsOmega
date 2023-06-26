@@ -46,8 +46,9 @@ public class DemonicCurseGlyph extends TierFourEffect {
     protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
         defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 2);
     }
-    
-    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext) {
+
+    @Override
+    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if (world instanceof ServerLevel) {
             if(spellStats.hasBuff(AugmentSensitive.INSTANCE)) {
                 double aoeBuff = spellStats.getAoeMultiplier();

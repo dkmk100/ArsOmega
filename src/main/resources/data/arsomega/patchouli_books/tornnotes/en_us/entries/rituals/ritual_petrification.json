@@ -1,6 +1,6 @@
 {
-  "name": "item.ars_nouveau.ritual_petrification",
-  "icon": "ars_nouveau:ritual_petrification",
+  "name": "item.arsomega.ritual_petrification",
+  "icon": "arsomega:ritual_petrification",
   "category": "ars_nouveau:rituals",
   "advancement": "arsomega:forbidden_knowledge",
   "pages": [

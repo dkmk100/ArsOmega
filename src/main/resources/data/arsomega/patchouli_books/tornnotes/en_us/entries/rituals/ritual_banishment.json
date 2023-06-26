@@ -1,6 +1,6 @@
 {
-  "name": "item.ars_nouveau.ritual_banishment",
-  "icon": "ars_nouveau:ritual_banishment",
+  "name": "item.arsomega.ritual_banishment",
+  "icon": "arsomega:ritual_banishment",
   "category": "ars_nouveau:rituals",
   "advancement": "arsomega:restricted_knowledge",
   "pages": [

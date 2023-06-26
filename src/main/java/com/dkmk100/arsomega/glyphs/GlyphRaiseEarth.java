@@ -15,8 +15,12 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -40,7 +44,10 @@ public class GlyphRaiseEarth  extends TierFourEffect implements IDamageEffect {
         //raise actual earth
         BlockPos pos1 = rayTraceResult.getBlockPos();
         double aoeBuff = spellStats.getAoeMultiplier();
-        List<BlockPos> posList = SpellUtil.calcAOEBlocks(shooter, pos1, rayTraceResult, aoeBuff, 0);
+
+        BlockHitResult newHit = new BlockHitResult(rayTraceResult.getLocation(), Direction.DOWN, rayTraceResult.getBlockPos(), rayTraceResult.isInside());
+
+        List<BlockPos> posList = SpellUtil.calcAOEBlocks(shooter, pos1, newHit, aoeBuff, 0);
         int highestReached = 0;
         Iterator var12 = posList.iterator();
         while (var12.hasNext()) {
@@ -59,6 +66,7 @@ public class GlyphRaiseEarth  extends TierFourEffect implements IDamageEffect {
                     }
                 }
             }
+
             int maxHeight = 5 + 3 * spellStats.getBuffCount(AugmentPierce.INSTANCE);
 
             int actualHeight = 0;
@@ -76,12 +84,17 @@ public class GlyphRaiseEarth  extends TierFourEffect implements IDamageEffect {
             }
 
             for (int i = 0; i < actualHeight; i++) {
-                BlockState targetState = world.getBlockState(pos.below(i));
+                BlockPos targetPos = pos.below(i);
+                BlockState targetState = world.getBlockState(targetPos);
                 if (targetState.isAir()) {
                     targetState = Blocks.STONE.defaultBlockState();
                 }
+                //don't destroy bedrock
+                if(targetState.getBlock().defaultDestroyTime() < 0 || targetState.getMaterial().getPushReaction() == PushReaction.BLOCK || world.getBlockEntity(targetPos) != null){
+                    break;
+                }
                 world.setBlockAndUpdate(pos.above(actualHeight - i), targetState);
-                world.setBlockAndUpdate(pos.below(i), Blocks.STONE.defaultBlockState());
+                world.setBlockAndUpdate(targetPos, Blocks.STONE.defaultBlockState());
             }
         }
 
@@ -120,7 +133,7 @@ public class GlyphRaiseEarth  extends TierFourEffect implements IDamageEffect {
 
     @Override
     public int getDefaultManaCost() {
-        return 450;//kinda cheap since it's not meant as a big combat move but a medium-size blocking move
+        return 350;//kinda cheap since it's not meant as a big combat move but a medium-size blocking move
     }
 
     @Override

@@ -1,6 +1,6 @@
 {
-  "name": "item.ars_nouveau.ritual_demonic_summoning",
-  "icon": "ars_nouveau:ritual_demonic_summoning",
+  "name": "item.arsomega.ritual_demonic_summoning",
+  "icon": "arsomega:ritual_demonic_summoning",
   "category": "ars_nouveau:rituals",
   "advancement": "arsomega:restricted_knowledge",
   "pages": [

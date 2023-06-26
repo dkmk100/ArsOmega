@@ -10,7 +10,7 @@
   "arsomega.glyph_name.glyph_curse": "Curse",
   "arsomega.glyph_desc.glyph_curse": "On entities, applies bad luck, and on blocks, turns them into silverfish variants",
   "arsomega.glyph_name.glyph_demonic_curse": "Demonic Curse",
-  "arsomega.glyph_desc.glyph_demonic_curse": "A powerful harming effect that is almost impossible to cure.",
+  "arsomega.glyph_desc.glyph_demonic_curse": "A powerful harming effect that is almost impossible to cure. If augmented with sensitive, it will convert dirt into cursed earth or sand into vengeful soul sand.",
   "arsomega.glyph_name.glyph_heartstop": "Heartstop",
   "arsomega.glyph_desc.glyph_heartstop": "Disrupts target's heart, and can be combined with effects like shocked for massive damage.",
   "arsomega.glyph_name.glyph_poison_flower": "Poison Flower",

@@ -1,6 +1,6 @@
 {
   "name": "arsomega.glyph_name.glyph_regen",
-  "icon": "ars_nouveau:glyph_regen",
+  "icon": "arsomega:glyph_regen",
   "category": "ars_nouveau:glyphs_3",
   "sortnum": 3,
   "pages": [
@@ -10,7 +10,7 @@
     },
     {
       "type": "glyph_recipe",
-      "recipe": "ars_nouveau:glyph_regen",
+      "recipe": "arsomega:glyph_regen",
       "tier": "THREE",
       "mana_cost": "High",
       "reagent": "ars_nouveau:glyph_regen"

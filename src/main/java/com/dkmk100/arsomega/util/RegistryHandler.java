@@ -702,9 +702,9 @@ public class RegistryHandler{
     public static final RegistryObject<Item> CURSED_PENDANT_DOUBLE_STRONG = ITEMS.register("cursed_pendant_double_strong", () -> new CursedPendant(2,243543,2));
     public static final RegistryObject<Item> CURSED_PENDANT_ULTIMATE = ITEMS.register("cursed_pendant_ultimate", () -> new CursedPendant(5,243543,3));
 
-    public static final RegistryObject<Item> ARCANE_COMPENDIUM = ITEMS.register("arcane_compendium", () ->new DescribedItem(ITEM_PROPERTIES,"The Arcane Library's collection of Arcane Magics."));
-    public static final RegistryObject<Item> MARIA_ROSA = ITEMS.register("maria_rosa", () ->new DescribedItem(ITEM_PROPERTIES,"A damaged hand-written notebook..."));
-    public static final RegistryObject<Item> KAZ_CARTER = ITEMS.register("kaz_carter", () ->new DescribedItem(ITEM_PROPERTIES,"A scorched collection of notebook pages..."));
+    public static final RegistryObject<Item> ARCANE_COMPENDIUM = ITEMS.register("arcane_compendium", () ->new DescribedItem(ITEM_PROPERTIES,"The Arcane Library's collection of Arcane Magics. Unlocks entries in the worn notebook."));
+    public static final RegistryObject<Item> MARIA_ROSA = ITEMS.register("maria_rosa", () ->new DescribedItem(ITEM_PROPERTIES,"A damaged hand-written notebook... Unlocks entries in the worn notebook."));
+    public static final RegistryObject<Item> KAZ_CARTER = ITEMS.register("kaz_carter", () ->new DescribedItem(ITEM_PROPERTIES,"A scorched collection of notebook pages... Unlocks entries in the worn notebook."));
 
     public static final RegistryObject<Item> SALT = ITEMS.register("salt", () ->new DescribedItem(ITEM_PROPERTIES,"An item used in crafting."));
 

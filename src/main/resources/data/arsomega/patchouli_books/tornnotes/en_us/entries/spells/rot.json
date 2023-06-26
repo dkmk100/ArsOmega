@@ -13,8 +13,7 @@
       "recipe": "arsomega:glyph_rot",
       "tier": "TWO",
       "mana_cost": "Medium",
-      "clay_type": "ars_nouveau:marvelous_clay",
-      "reagent": "minecraft:brown_mushroom"
+      "clay_type": "ars_nouveau:marvelous_clay"
     }
   ]
 }

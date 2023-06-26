@@ -38,42 +38,35 @@ public class AcidGlyph extends AbstractEffect {
     @Override
     public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
         if ((world instanceof ServerLevel)) {
-            try {
-                BlockPos pos = rayTraceResult.getBlockPos();
-                double amp = spellStats.getAmpMultiplier() + 1;
+            BlockPos pos = rayTraceResult.getBlockPos();
+            double amp = spellStats.getAmpMultiplier() + 1;
 
-                if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_ADVANCED_ALCHEMY.get()).isPresent()) {
-                    amp += 4;
-                } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter,RegistryHandler.FOCUS_OF_ALCHEMY.get()).isPresent()) {
-                    amp += 2;
-                }
+            if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_ADVANCED_ALCHEMY.get()).isPresent()) {
+                amp += 4;
+            } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_ALCHEMY.get()).isPresent()) {
+                amp += 2;
+            }
 
-                Block block = world.getBlockState(pos).getBlock();
-                Field field = ReflectionHandler.blockProperties;
-                BlockBehaviour.Properties properties = ((BlockBehaviour.Properties) field.get(block));
-                Field field2 = ReflectionHandler.destroyTime;
-                float tier = field2.getFloat(properties);
-                if(block==Blocks.GOLD_BLOCK){
-                    tier += 20;
-                }
-                else if(block==Blocks.IRON_BLOCK){
-                    tier += 10;
-                }
+            BlockState state = world.getBlockState(pos);
+            Block block = state.getBlock();
+            float tier = block.defaultDestroyTime();
+            if (tier < 0) {
+                return;
+            }
+            if (block == Blocks.GOLD_BLOCK) {
+                tier += 20;
+            } else if (block == Blocks.IRON_BLOCK) {
+                tier += 10;
+            }
 
-                BlockState state = Blocks.AIR.defaultBlockState();
+            boolean canRemove = true;
 
-                boolean canRemove = true;
+            if (tier > amp * 2.5) {
+                canRemove = false;
+            }
 
-                if(tier>amp*2.5)
-                {
-                    canRemove = false;
-                }
-
-                if (canRemove) {
-                    world.setBlockAndUpdate(pos, state);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (canRemove) {
+                world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
             }
         }
     }
@@ -97,7 +90,7 @@ public class AcidGlyph extends AbstractEffect {
 
     @Override
     public int getDefaultManaCost() {
-        return 80;
+        return 15;
     }
 
     @Override
