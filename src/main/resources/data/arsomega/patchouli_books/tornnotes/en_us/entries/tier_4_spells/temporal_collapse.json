@@ -1,17 +1,17 @@
 {
-  "name": "ars_nouveau.glyph_name.temporal_collapse",
-  "icon": "ars_nouveau:glyph_temporal_collapse",
+  "name": "arsomega.glyph_name.glyph_temporal_collapse",
+  "icon": "arsomega:glyph_temporal_collapse",
   "category": "arsomega:spells_4",
   "advancement": "arsomega:restricted_knowledge",
   "sortnum": 3,
   "pages": [
     {
       "type": "text",
-      "text": "ars_nouveau.glyph_desc.temporal_collapse"
+      "text": "arsomega.glyph_desc.glyph_temporal_collapse"
     },
     {
       "type": "glyph_recipe",
-      "recipe": "ars_nouveau:glyph_temporal_collapse"
+      "recipe": "arsomega:glyph_temporal_collapse"
     }
   ]
 }

@@ -194,7 +194,7 @@ dependencies {
 
     runtimeOnly fg.deobf("curse.maven:exp-407174:3544525")  // Shutup experimental settings
 
-    implementation fg.deobf("curse.maven:exp-401955:4477656") //ars 3.13.2
+    implementation fg.deobf("curse.maven:exp-401955:4621484") //ars 3.17.6
 
     implementation fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 

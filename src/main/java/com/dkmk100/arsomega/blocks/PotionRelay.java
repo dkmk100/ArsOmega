@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-/*
+
 public class PotionRelay extends TickableModBlock {
     public static final VoxelShape shape = Block.box(2.0, 3.0, 2.0, 15.0, 14.0, 15.0);
 
@@ -43,4 +43,3 @@ public class PotionRelay extends TickableModBlock {
         return shape;
     }
 }
- */

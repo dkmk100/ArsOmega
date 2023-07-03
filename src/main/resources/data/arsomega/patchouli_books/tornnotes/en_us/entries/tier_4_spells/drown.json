@@ -1,19 +1,19 @@
 {
-  "name": "ars_nouveau.glyph_name.drown",
-  "icon": "ars_nouveau:glyph_drown",
+  "name": "arsomega.glyph_name.glyph_drown",
+  "icon": "arsomega:glyph_drown",
   "category": "arsomega:spells_4",
   "advancement": "arsomega:restricted_knowledge",
   "sortnum": 3,
   "pages": [
     {
       "type": "text",
-      "text": "ars_nouveau.glyph_desc.drown"
+      "text": "arsomega.glyph_desc.glyph_drown"
     },
     {
       "type": "glyph_recipe",
-      "recipe": "ars_nouveau:glyph_drown",
+      "recipe": "arsomega:glyph_drown",
       "mana_cost": "High",
-      "reagent": "ars_nouveau:glyph_drown"
+      "reagent": "arsomega:glyph_drown"
     }
   ]
 }

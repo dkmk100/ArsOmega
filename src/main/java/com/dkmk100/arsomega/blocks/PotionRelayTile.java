@@ -26,7 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 import java.util.List;
-/*
+
 public class PotionRelayTile extends ModdedTile implements ITooltipProvider, IWandable, ITickable {
     private BlockPos toPos;
     private BlockPos fromPos;
@@ -97,12 +97,11 @@ public class PotionRelayTile extends ModdedTile implements ITooltipProvider, IWa
 
     public int transferPotion(PotionJarTile from, PotionJarTile to) {
         int transferRate = this.getTransferRate(from, to);
-        if(from.getPotion() != to.getPotion() && !to.canAcceptNewPotion()){
+        if(!to.canAccept(from.getData(),transferRate)){
             return 0;
         }
-        from.setAmount(from.getAmount() - transferRate);//remove
-        to.addAmount(transferRate);
-        to.setPotion(from.getPotion(),from.getCustomEffects());
+        from.remove(transferRate);//remove
+        to.add(from.getData(), transferRate);
         return transferRate;
     }
 
@@ -169,11 +168,11 @@ public class PotionRelayTile extends ModdedTile implements ITooltipProvider, IWa
                     if (var2 instanceof PotionJarTile && var3 instanceof PotionJarTile) {
                         toTile = (PotionJarTile) var3;
                         fromTile = (PotionJarTile) var2;
-
+                        ParticleColor color = ParticleColor.fromInt(fromTile.getColor());
                         if (this.transferPotion(fromTile,toTile) > 0) {
                             this.update();
-                            this.spawnColoredFollowProjectile(this.level, this.fromPos, this.worldPosition, ParticleColor.fromInt(fromTile.getColor()));
-                            this.spawnColoredFollowProjectile(this.level, this.worldPosition, this.toPos, ParticleColor.fromInt(fromTile.getColor()));
+                            this.spawnColoredFollowProjectile(this.level, this.fromPos, this.worldPosition, color);
+                            this.spawnColoredFollowProjectile(this.level, this.worldPosition, this.toPos, color);
                         }
                     }
                 }
@@ -184,10 +183,9 @@ public class PotionRelayTile extends ModdedTile implements ITooltipProvider, IWa
     public static void spawnColoredFollowProjectile(Level world, BlockPos from, BlockPos to, ParticleColor color) {
         if (world.isLoaded(to) && world.isLoaded(from)) {
             EntityFollowProjectile aoeProjectile = new EntityFollowProjectile(world, from, to);
-            aoeProjectile.setColor(color.toWrapper());
+            aoeProjectile.setColor(color);
             world.addFreshEntity(aoeProjectile);
         }
-
     }
 
     public void load(CompoundTag tag) {
@@ -245,4 +243,4 @@ public class PotionRelayTile extends ModdedTile implements ITooltipProvider, IWa
 
     }
 }
- */
+

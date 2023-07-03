@@ -1,17 +1,17 @@
 {
   "name": "Demonic Cleanse",
-  "icon": "ars_nouveau:glyph_demonic_cleanse",
+  "icon": "arsomega:glyph_demonic_cleanse",
   "category": "arsomega:spells_4",
   "advancement": "arsomega:restricted_knowledge",
   "sortnum": 3,
   "pages": [
     {
       "type": "text",
-      "text": "ars_nouveau.glyph_desc.demonic_cleanse"
+      "text": "arsomega.glyph_desc.glyph_demonic_cleanse"
     },
     {
       "type": "glyph_recipe",
-      "recipe": "ars_nouveau:glyph_demonic_cleanse",
+      "recipe": "arsomega:glyph_demonic_cleanse",
       "tier": "FOUR",
       "mana_cost": "High",
       "reagent": "minecraft:nether_star"

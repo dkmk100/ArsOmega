@@ -264,7 +264,10 @@ public class RegistryHandler{
 
     public static void registerRituals()
     {
-        register(new RitualPermaFlight());
+        //todo: make new personal flight ritual to replace permaflight which was dumb anyway
+        //register(new RitualPermaFlight());
+
+
         register(new RitualTribute());
         register(new RitualBanishment());
         register(new RitualProtection());
@@ -508,7 +511,7 @@ public class RegistryHandler{
     public static final RegistryObject<BasicChalk> CHALK_BLOCK = BLOCKS.register("chalk",() ->
             new BasicChalk(CHALK_PROPERTIES,new ChalkColor(1.0f,1.0f,1.0f,0f,0f,0f)));
 
-    //public static final RegistryObject<Block> POTION_RELAY = BLOCKS.register("potion_relay",() -> new PotionRelay());
+    public static final RegistryObject<Block> POTION_RELAY = BLOCKS.register("potion_relay",() -> new PotionRelay());
 
     public static final RegistryObject<PortalBlock> PORTAL_BLOCK = BLOCKS.register("portal_block",() -> new PortalBlock(PORTAL_PROPERTIES));
     public static final RegistryObject<MirrorPortalBlock> MIRROR_PORTAL_BLOCK = BLOCKS.register("mirror_portal_block",() -> new MirrorPortalBlock(PORTAL_PROPERTIES));
@@ -527,7 +530,7 @@ public class RegistryHandler{
 
     public static RegistryObject<BlockEntityType<InfinityCrystalTile>> InfinityCrystalType = TILE_ENTITIES.register("infinity_crystal_tile",() -> BlockEntityType.Builder.of(InfinityCrystalTile::new, INFINITY_CRYSTAL.get()).build(null));
 
-   // public static RegistryObject<BlockEntityType<PotionRelayTile>> PotionRelayType = TILE_ENTITIES.register("potion_relay_tile",() -> BlockEntityType.Builder.of(PotionRelayTile::new, POTION_RELAY.get()).build(null));
+    public static RegistryObject<BlockEntityType<PotionRelayTile>> PotionRelayType = TILE_ENTITIES.register("potion_relay_tile",() -> BlockEntityType.Builder.of(PotionRelayTile::new, POTION_RELAY.get()).build(null));
 
     public static RegistryObject<BlockEntityType<ChalkTile>> ChalkTileType = TILE_ENTITIES.register("chalk_tile",() -> BlockEntityType.Builder.of(ChalkTile::new, CHALK_LINE_1.get(),CHALK_LINE_2.get(),CHALK_LINE_3.get(),CHALK_LINE_4.get()).build(null));
     public static RegistryObject<BlockEntityType<PortalBlockEntity>> PortalType = TILE_ENTITIES.register("portal_tile",() -> BlockEntityType.Builder.of(PortalBlockEntity::new, PORTAL_BLOCK.get()).build(null));
@@ -647,7 +650,7 @@ public class RegistryHandler{
 
     public static final RegistryObject<Item> POTION_EXTENDER_ITEM = ITEMS.register("potion_extender", () -> new BasicBlockItem(POTION_EXTENDER.get(),ITEM_PROPERTIES));
     public static final RegistryObject<Item> POTION_AMPLIFIER_ITEM = ITEMS.register("potion_amplifier", () -> new BasicBlockItem(POTION_AMPLIFIER.get(),ITEM_PROPERTIES));
-    //public static final RegistryObject<Item> POTION_RELAY_ITEM = new BasicBlockItem(POTION_RELAY.get(),ITEM_PROPERTIES).setRegistryName("potion_relay");
+    public static final RegistryObject<Item> POTION_RELAY_ITEM = ITEMS.register("potion_relay", () -> new BasicBlockItem(POTION_RELAY.get(),ITEM_PROPERTIES));
 
     //public static final RegistryObject<Item> CHALK_LINE_ITEM = new BlockItem(CHALK_LINE_1.get(),ITEM_PROPERTIES).setRegistryName("chalk_line");
 

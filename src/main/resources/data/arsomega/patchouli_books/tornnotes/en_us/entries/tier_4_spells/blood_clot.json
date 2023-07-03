@@ -1,19 +1,19 @@
 {
-  "name": "ars_nouveau.glyph_name.blood_clot",
-  "icon": "ars_nouveau:glyph_blood_clot",
+  "name": "arsomega.glyph_name.glyph_blood_clot",
+  "icon": "arsomega:glyph_blood_clot",
   "category": "arsomega:spells_4",
   "advancement": "arsomega:restricted_knowledge",
   "sortnum": 3,
   "pages": [
     {
       "type": "text",
-      "text": "ars_nouveau.glyph_desc.blood_clot"
+      "text": "arsomega.glyph_desc.glyph_blood_clot"
     },
     {
       "type": "glyph_recipe",
-      "recipe": "ars_nouveau:glyph_blood_clot",
+      "recipe": "arsomega:glyph_blood_clot",
       "mana_cost": "High",
-      "reagent": "ars_nouveau:glyph_blood_clot"
+      "reagent": "arsomega:glyph_blood_clot"
     }
   ]
 }
