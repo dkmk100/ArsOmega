@@ -169,13 +169,9 @@ public class RegistryHandler{
         ENTITIES.register(bus);
         ENCHANTMENTS.register(bus);
         SOUNDS.register(bus);
-
-        ArsOmega.LOGGER.info("registry handler init");
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ParticlesRegistry.RegisterParticles(bus));
+        ParticlesRegistry.RegisterParticles(bus);
 
         ModPotions.RegisterEffects(bus);
-        //StructureInit.RegisterStructures(bus);
-        //ExperimentalStructureInit.RegisterStructures(bus);
     }
 
     public static final RegistryObject<SoundEvent> HILLS_MUSIC = SOUNDS.register("blocky_hills",

@@ -21,16 +21,14 @@ import java.util.logging.LogManager;
 )
 public class ParticlesRegistry {
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, "arsomega");
-    public static RegistryObject<ParticleType<ColorParticleTypeData>> DARK_GLOW_TYPE = PARTICLES.register("dark_glow", () -> new GlowParticleType());;
+    public static RegistryObject<ParticleType<ColorParticleTypeData>> DARK_GLOW_TYPE = PARTICLES.register("dark_glow", GlowParticleType::new);
 
     @SubscribeEvent
     public static void registerFactories(RegisterParticleProvidersEvent evt) {
-        ArsOmega.LOGGER.info("registering particle factories");
         evt.register(DARK_GLOW_TYPE.get(), DarkGlowParticleData::new);
     }
 
     public static void RegisterParticles(IEventBus bus){
-        ArsOmega.LOGGER.info("registering particles");
         PARTICLES.register(bus);
     }
 

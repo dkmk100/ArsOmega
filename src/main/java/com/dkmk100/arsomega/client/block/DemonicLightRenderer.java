@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.client.block;
 
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.blocks.DemonicLightTile;
 import com.dkmk100.arsomega.client.particle.DarkGlowParticleData;
 import com.hollingsworth.arsnouveau.client.particle.GlowParticleData;
@@ -25,6 +26,10 @@ public class DemonicLightRenderer implements BlockEntityRenderer<DemonicLightTil
         Level world = lightTile.getLevel();
         BlockPos pos = lightTile.getBlockPos();
         RandomSource rand = world.random;
+        if(lightTile.color == null){
+            lightTile.color = ParticleColor.defaultParticleColor();
+            ArsOmega.LOGGER.error("trying to render demonic light of missing color");
+        }
         if (!Minecraft.getInstance().isPaused()) {
             world.addParticle(DarkGlowParticleData.createData(lightTile.color, 0.25F, 0.9F, 36), (double)pos.getX() + 0.5 + ParticleUtil.inRange(-0.1, 0.1), (double)pos.getY() + 0.5 + ParticleUtil.inRange(-0.1, 0.1), (double)pos.getZ() + 0.5 + ParticleUtil.inRange(-0.1, 0.1), 0.0, 0.0, 0.0);
         }
