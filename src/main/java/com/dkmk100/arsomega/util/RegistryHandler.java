@@ -58,8 +58,10 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.storage.loot.Serializer;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -68,6 +70,7 @@ import net.minecraftforge.registries.*;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -157,15 +160,19 @@ public class RegistryHandler{
 
     public static final RegistryObject<Enchantment> PROACTIVE_ENCHANT = ENCHANTMENTS.register("proactive",ProactiveEnchant::new);
 
+    static IEventBus bus;
     public static void init (){
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        bus = FMLJavaModLoadingContext.get().getModEventBus();
         BLOCKS.register(bus);
         ITEMS.register(bus);
         TILE_ENTITIES.register(bus);
         ENTITIES.register(bus);
         ENCHANTMENTS.register(bus);
         SOUNDS.register(bus);
-        ParticlesRegistry.PARTICLES.register(bus);
+
+        ArsOmega.LOGGER.info("registry handler init");
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ParticlesRegistry.RegisterParticles(bus));
+
         ModPotions.RegisterEffects(bus);
         //StructureInit.RegisterStructures(bus);
         //ExperimentalStructureInit.RegisterStructures(bus);
