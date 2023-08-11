@@ -92,7 +92,7 @@ public class EntityWhirlpool  extends ColoredProjectile {
         final int checkRate = 8;
         super.tick();
         int aoe = this.entityData.get(AOE);
-        boolean active = level.getBlockState(new BlockPos(position()).above()).is(Blocks.WATER);
+        boolean active = level.isWaterAt(new BlockPos(position()).above());
         if (level.isClientSide) {
             ParticleUtil.spawnParticleSphere(this.level, new BlockPos(this.position().add(0, 3.5 + (aoe * 1.8), 0)), this.getParticleColor());
             ParticleUtil.spawnLight(this.level, this.getParticleColor(), this.position().add(0, 0.5, 0), 20);

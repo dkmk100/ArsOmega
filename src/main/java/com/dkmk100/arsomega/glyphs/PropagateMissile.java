@@ -31,6 +31,11 @@ public class PropagateMissile extends AbstractEffect implements IPropagator {
         super(RegistryHandler.getGlyphName(tag),description);
     }
 
+    @Override
+    public Integer getTypeIndex() {
+        return 8;
+    }
+
     public void summonProjectiles(Level world, Vec3 pos, LivingEntity shooter, SpellStats stats, SpellResolver resolver) {
         final boolean activate = true;
         int duration = 30 + (int)Math.round(7f * stats.getDurationMultiplier());

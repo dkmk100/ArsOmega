@@ -22,6 +22,7 @@ import net.minecraft.nbt.CompoundTag;
  
   
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -64,6 +65,7 @@ public class CommonEvents {
                 event.context.setColors(ParticleColor.makeRandomColor(255,255,255,event.getWorld().getRandom()));
             }
         }
+
     }
 
     @SubscribeEvent
@@ -166,26 +168,37 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void UseItemOnBlock(PlayerInteractEvent.RightClickBlock event){
-        castSpell(event.getEntity(),event.getItemStack());
+        if(castSpell(event.getEntity(),event.getItemStack(),event.getHand())){
+            event.setCancellationResult(InteractionResult.sidedSuccess(event.getLevel().isClientSide));
+            event.setCanceled(true);
+        }
     }
 
     @SubscribeEvent
     public static void UseItemOnBlock(PlayerInteractEvent.EntityInteract event){
-        castSpell(event.getEntity(),event.getItemStack());
+        if(castSpell(event.getEntity(),event.getItemStack(),event.getHand())){
+            event.setCancellationResult(InteractionResult.sidedSuccess(event.getLevel().isClientSide));
+            event.setCanceled(true);
+        }
     }
 
     @SubscribeEvent
     public static void UseItemOnBlock(PlayerInteractEvent.RightClickItem event){
-        castSpell(event.getEntity(),event.getItemStack());
+        if(castSpell(event.getEntity(),event.getItemStack(),event.getHand())){
+            event.setCancellationResult(InteractionResult.sidedSuccess(event.getLevel().isClientSide));
+            event.setCanceled(true);
+        }
     }
 
-    public static boolean castSpell(Player playerIn, ItemStack s) {
+    public static boolean castSpell(LivingEntity casterIn, ItemStack s, InteractionHand hand) {
         //to not make tags if there are none
         if(s.hasTag()) {
-            ProactiveSpellcaster proCaster = new ProactiveSpellcaster(s);
-            if ((double) s.getEnchantmentLevel(RegistryHandler.PROACTIVE_ENCHANT.get()) * 0.25 >= Math.random() && proCaster.getSpell().isValid()) {
-                proCaster.castSpell(playerIn.getCommandSenderWorld(), playerIn, InteractionHand.MAIN_HAND, null);
-                return true;
+            if ((double) s.getEnchantmentLevel(RegistryHandler.PROACTIVE_ENCHANT.get()) * 0.25 >= Math.random()) {
+                ProactiveSpellcaster proCaster = new ProactiveSpellcaster(s);
+                if(proCaster.getSpell().isValid()) {
+                    proCaster.castSpell(casterIn.getCommandSenderWorld(), casterIn, hand, null);
+                    return true;
+                }
             }
         }
         return false;

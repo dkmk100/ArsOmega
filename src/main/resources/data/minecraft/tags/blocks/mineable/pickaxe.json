@@ -13,6 +13,7 @@
     "arsomega:alchemical_stone",
     "arsomega:potion_amplifier",
     "arsomega:potion_extender",
-    "arsomega:potion_bottler"
+    "arsomega:potion_bottler",
+    "arsomega:potion_relay"
   ]
 }

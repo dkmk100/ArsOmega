@@ -409,6 +409,8 @@
   "arsomega.enchant_recipe": "Enchant Glyph",
   "arsomega.conjuring_recipe": "Ritual of Conjuring",
   "arsomega.tribute_recipe": "Ritual of Tribute",
+  "enchantment.arsomega.proactive": "Proactive",
+  "enchantment.arsomega.durability_cast": "Durability Cast",
   "itemGroup.arsomega": "Ars Omega",
   "arsomega.advancement.title.root": "Ars Omega",
   "arsomega.advancement.desc.root": "Root achievement for the mod",
@@ -439,5 +441,7 @@
   "arsomega.advancement.title.concentration": "Concentration",
   "arsomega.advancement.desc.concentration": "Create a focus of alchemy",
   "arsomega.advancement.title.unnatural_bloom": "Unnatural Bloom",
-  "arsomega.advancement.desc.unnatural_bloom": "Obtain an arcane bloom seed"
+  "arsomega.advancement.desc.unnatural_bloom": "Obtain an arcane bloom seed",
+  "arsomega.advancement.title.book_and_shard": "Shattered    OR     Better Left Forgotten",
+  "arsomega.advancement.desc.book_and_shard": "Hidden achievement for worn notebook stuff, ignore this"
 }

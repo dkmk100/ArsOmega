@@ -15,7 +15,8 @@ import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
- 
+
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -41,6 +42,7 @@ public class SetSpellFunction extends LootItemConditionalFunction {
 
     @Override
     protected ItemStack run(ItemStack stack, LootContext p_80680_) {
+        ArsOmega.LOGGER.info("set spell function run");
         ISpellCaster spellCaster = CasterUtil.getCaster(stack);
         spellCaster.setSpell(spell);
         if(hasColor) {
@@ -59,6 +61,7 @@ public class SetSpellFunction extends LootItemConditionalFunction {
 
         @Override
         public SetSpellFunction deserialize(JsonObject object, JsonDeserializationContext context, LootItemCondition[] conditions) {
+
             ArsOmega.LOGGER.info("deserializing set spell function");
             String name = GsonHelper.getAsString(object, "name");
             JsonArray glyphs = GsonHelper.getAsJsonArray(object,"spell");
@@ -66,7 +69,8 @@ public class SetSpellFunction extends LootItemConditionalFunction {
             ParticleColor.IntWrapper color = new ParticleColor.IntWrapper(255,255,255);
             boolean hasColor = false;
             for(int i=0;i<glyphs.size();i++){
-                String glyph = glyphs.get(i).getAsString();
+
+                ResourceLocation glyph = new ResourceLocation(glyphs.get(i).getAsString());
                 AbstractSpellPart component = ArsNouveauAPI.getInstance().getSpellpartMap().get(glyph);
                 components.add(component);
             }
@@ -78,7 +82,7 @@ public class SetSpellFunction extends LootItemConditionalFunction {
             catch (Exception e){
                 ArsOmega.LOGGER.error(e.getMessage());
             }
-            return new SetSpellFunction(conditions,new Spell(components),name,color,hasColor);
+            return new SetSpellFunction(conditions, new Spell(components), name, color, hasColor);
         }
     }
 

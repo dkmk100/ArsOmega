@@ -11,11 +11,11 @@
               "function": "arsomega:set_spell",
               "name": "Enchant",
               "spell": [
-                "projectile",
-                "enchant",
-                "amplify",
-                "amplify",
-                "amplify"
+                "ars_nouveau:glyph_projectile",
+                "arsomega:glyph_enchant",
+                "ars_nouveau:glyph_amplify",
+                "ars_nouveau:glyph_amplify",
+                "ars_nouveau:glyph_amplify"
               ]
             }
           ]
@@ -28,13 +28,13 @@
               "function": "arsomega:set_spell",
               "name": "Fireball",
               "spell": [
-                "missile",
-                "pierce",
-                "explosion",
-                "propagate_projectile",
-                "ignite",
-                "aoe",
-                "aoe"
+                "arsomega:glyph_missile",
+                "ars_nouveau:glyph_pierce",
+                "ars_nouveau:glyph_explosion",
+                "arsomega:glyph_propagate_projectile",
+                "ars_nouveau:glyph_ignite",
+                "ars_nouveau:glyph_aoe",
+                "ars_nouveau:glyph_aoe"
               ],
               "color": [
                 255,
@@ -52,15 +52,16 @@
               "function": "arsomega:set_spell",
               "name": "Earth Crush",
               "spell": [
-                "projectile",
-                "crush",
-                "amplify",
-                "amplify",
-                "flatten",
-                "amplify",
-                "amplify",
-                "gravity",
-                "snare"
+                "ars_nouveau:glyph_projectile",
+                "ars_nouveau:glyph_crush",
+                "ars_nouveau:glyph_amplify",
+                "ars_nouveau:glyph_amplify",
+                "ars_nouveau:glyph_delay",
+                "arsomega:glyph_flatten",
+                "ars_nouveau:glyph_amplify",
+                "ars_nouveau:glyph_amplify",
+                "ars_nouveau:glyph_gravity",
+                "ars_nouveau:glyph_snare"
               ],
               "color": [
                 209,
@@ -78,16 +79,16 @@
               "function": "arsomega:set_spell",
               "name": "Decay",
               "spell": [
-                "projectile",
-                "rot",
-                "aoe",
-                "aoe",
-                "aoe",
-                "amplify",
-                "extend_time",
-                "harm",
-                "extend_time",
-                "amplify"
+                "ars_nouveau:glyph_projectile",
+                "arsomega:glyph_rot",
+                "ars_nouveau:glyph_aoe",
+                "ars_nouveau:glyph_aoe",
+                "ars_nouveau:glyph_aoe",
+                "ars_nouveau:glyph_amplify",
+                "ars_nouveau:glyph_extend_time",
+                "ars_nouveau:glyph_harm",
+                "ars_nouveau:glyph_extend_time",
+                "ars_nouveau:glyph_amplify"
               ],
               "color": [
                 125,

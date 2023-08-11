@@ -25,6 +25,11 @@ public class PropagateOrbit  extends AbstractEffect implements  IPropagator {
         super(RegistryHandler.getGlyphName(tag),description);
     }
 
+    @Override
+    public Integer getTypeIndex() {
+        return 8;
+    }
+
     public void sendPacket(Level world, HitResult rayTraceResult, @Nullable LivingEntity shooter, SpellContext spellContext, SpellStats stats) {
         spellContext.setCanceled(true);
         if (spellContext.getCurrentIndex() < spellContext.getSpell().recipe.size()) {

@@ -12,7 +12,9 @@
     "BlockUtilMixin",
     "ScrollMixin",
     "EffectMixin",
-    "PotionJarMixin"
+    "PotionJarMixin",
+    "durabilityCast.SpellResolverMixin",
+    "durabilityCast.ReactiveCasterMixin"
   ],
   "client": [
     "ManaGUIMixin"

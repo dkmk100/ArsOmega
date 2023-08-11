@@ -32,6 +32,11 @@ public class PropagateProjectile extends AbstractEffect implements IPropagator {
         super(RegistryHandler.getGlyphName(tag),description);
     }
 
+    @Override
+    public Integer getTypeIndex() {
+        return 8;
+    }
+
     public void summonProjectiles(Level world, Vec3 pos, LivingEntity shooter, SpellStats stats, SpellResolver resolver) {
         ArrayList<EntityProjectileSpell> projectiles = new ArrayList();
         EntityProjectileSpell projectileSpell = new EntityProjectileSpell(world, resolver);

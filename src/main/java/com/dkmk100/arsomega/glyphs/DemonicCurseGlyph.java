@@ -25,7 +25,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class DemonicCurseGlyph extends TierFourEffect {
+public class DemonicCurseGlyph extends TierFourEffect implements IPotionEffect {
 
     public static DemonicCurseGlyph INSTANCE = new DemonicCurseGlyph("demonic_curse", "Demonic Curse");
 
@@ -38,7 +38,9 @@ public class DemonicCurseGlyph extends TierFourEffect {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
-            this.applyPotion(living, ModPotions.DEMONIC_CURSE.get(), spellStats,5,5,true);
+
+            //capped by amp limit
+            this.applyConfigPotion(living, ModPotions.DEMONIC_CURSE.get(), spellStats);
         }
     }
 
@@ -71,6 +73,16 @@ public class DemonicCurseGlyph extends TierFourEffect {
                 }
             }
         }
+    }
+
+    @Override
+    public int getBaseDuration() {
+        return 5;
+    }
+
+    @Override
+    public int getExtendTimeDuration() {
+        return 5;
     }
 
     @Override

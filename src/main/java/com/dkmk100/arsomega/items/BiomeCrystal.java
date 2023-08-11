@@ -1,7 +1,11 @@
 package com.dkmk100.arsomega.items;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -15,7 +19,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
+
 import net.minecraft.world.item.Item.Properties;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class BiomeCrystal extends BasicItem {
 
@@ -39,14 +46,19 @@ public class BiomeCrystal extends BasicItem {
 
             boolean changed = false;
 
-            String biome = "minecraft:ocean";
             BlockPos pos = player.blockPosition();
 
-            Biome biome2 = world.getBiome(pos).value();
-
-            if (biome2 != null) {
-                //biome = biome2.getRegistryName().toString();
+            Holder<Biome> biomeHolder = world.getBiome(pos);
+            Optional<? extends Registry<Biome>> registryOptional = world.registryAccess().registry(Registry.BIOME_REGISTRY);
+            if (registryOptional.isEmpty()) {
+                return InteractionResultHolder.pass(stack);
             }
+            Registry<Biome> registry = registryOptional.get();
+            ResourceLocation resourceLocation = registry.getKey(biomeHolder.value());
+            if (resourceLocation == null) {
+                return InteractionResultHolder.pass(stack);
+            }
+            String biome = resourceLocation.toString();
 
             if (stack.hasTag() && stack.getTag().getString("biome") == biome) {
                 changed = false;

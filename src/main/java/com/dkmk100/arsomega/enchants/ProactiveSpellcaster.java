@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.enchants;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.IReactiveFlag;
 import com.hollingsworth.arsnouveau.api.sound.ConfiguredSpellSound;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
@@ -23,6 +24,11 @@ public class ProactiveSpellcaster extends SpellCaster {
     }
 
     public ProactiveSpellcaster(CompoundTag tag) {
+        super(tag);
+    }
+
+    /*
+    public ProactiveSpellcaster(CompoundTag tag) {
         super(ItemStack.EMPTY);
         this.stack = null;
         int i = slotId;
@@ -36,11 +42,21 @@ public class ProactiveSpellcaster extends SpellCaster {
 
     }
 
+     */
+
+
+
     @Override
     public SpellResolver getSpellResolver(SpellContext context, Level worldIn, LivingEntity playerIn, InteractionHand handIn) {
-        return (SpellResolver)(playerIn instanceof Player && !(playerIn instanceof FakePlayer) ? super.getSpellResolver(context, worldIn, playerIn, handIn) : new EntitySpellResolver(context));
+        SpellResolver resolver = (SpellResolver) (playerIn instanceof Player && !(playerIn instanceof FakePlayer) ? super.getSpellResolver(context, worldIn, playerIn, handIn) : new EntitySpellResolver(context));
+        IReactiveFlag flag = (IReactiveFlag) resolver;
+        flag.setReactive(true);
+        flag.setTrueItem(this.stack);
+        return resolver;
     }
 
+
+    /*
     @Override
     public CompoundTag writeTag(CompoundTag tag) {
         tag.putInt("current_slot", this.getCurrentSlot());
@@ -51,12 +67,14 @@ public class ProactiveSpellcaster extends SpellCaster {
 
         return tag;
     }
+     */
 
     @Override
     public ResourceLocation getTagID() {
         return new ResourceLocation(ArsOmega.MOD_ID,"proactive_caster");
     }
 
+    /*
     @Override
     public int getCurrentSlot() {
         return slotId;
@@ -67,4 +85,5 @@ public class ProactiveSpellcaster extends SpellCaster {
     public Spell getSpell(int slot) {
         return super.getSpell(slot);
     }
+     */
 }

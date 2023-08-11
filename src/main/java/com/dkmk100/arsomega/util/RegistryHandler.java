@@ -11,9 +11,11 @@ import com.dkmk100.arsomega.client.particle.ParticlesRegistry;
 import com.dkmk100.arsomega.crafting.*;
 import com.dkmk100.arsomega.empathy_api.AbstractEmpathyIngredient;
 import com.dkmk100.arsomega.empathy_api.EmpathyAPI;
+import com.dkmk100.arsomega.empathy_components.GenericEmpathyIngredient;
 import com.dkmk100.arsomega.empathy_components.HarmingEmpathyIngredient;
 import com.dkmk100.arsomega.empathy_components.HealingEmpathyIngredient;
 import com.dkmk100.arsomega.empathy_components.MultiplierIngredient;
+import com.dkmk100.arsomega.enchants.DurabilityCastEnchant;
 import com.dkmk100.arsomega.enchants.ProactiveEnchant;
 import com.dkmk100.arsomega.entities.*;
 import com.dkmk100.arsomega.glyphs.*;
@@ -159,6 +161,8 @@ public class RegistryHandler{
     }
 
     public static final RegistryObject<Enchantment> PROACTIVE_ENCHANT = ENCHANTMENTS.register("proactive",ProactiveEnchant::new);
+    public static final RegistryObject<Enchantment> DURABILITY_CAST_ENCHANT = ENCHANTMENTS.register("durability_cast", DurabilityCastEnchant::new);
+
 
     static IEventBus bus;
     public static void init (){
@@ -263,6 +267,8 @@ public class RegistryHandler{
         register(RandomChance.MID_CHANCE);
         register(RandomChance.HIGH_CHANCE);
         register(RandomColorEffect.INSTANCE);
+
+        register(LightTest.INSTANCE);
     }
 
     public static void registerRituals()
@@ -279,7 +285,7 @@ public class RegistryHandler{
         register(new RitualSummoning());
         register(new RitualFatigue());
         register(new RitualAura());
-        //register(new RitualChangeBiome());
+        register(new RitualChangeBiome());
         register(new RitualAdvancedOvergrowth());
         register(new RitualConjuring());
         register(new RitualFlowingTime());
@@ -305,7 +311,7 @@ public class RegistryHandler{
         register(new HarmingEmpathyIngredient(() -> Items.BONE,3,1));
 
         HarmingEmpathyIngredient gorgon_gem = (new HarmingEmpathyIngredient(() -> GORGON_GEM.get(),0,10, (a, m) -> {throw new NotImplementedException("");}));
-        /*
+
         GenericEmpathyIngredient binding_sigil = (new HarmingEmpathyIngredient(() -> SIGIL_BINDING_ACTIVE.get(),0,1,
                 (a,m,s) ->
                 {
@@ -313,14 +319,14 @@ public class RegistryHandler{
                     if(s.getIngredient(gorgon_gem)!=null){
                         int a2 = s.getIngredient(gorgon_gem).getAmount();
                         if(a2 > 5) {
-                            return new MobEffectInstance(ModPotions.STONE_PETRIFICATION, 100, m >= 0.5 ? 1 : 0);
+                            return new MobEffectInstance(ModPotions.STONE_PETRIFICATION.get(), 100, m >= 0.5 ? 1 : 0);
                         }
                         else{
-                            return new MobEffectInstance(ModPotions.STONE_PETRIFICATION, 120 + Math.round(50*m*(a+a2)), 0);
+                            return new MobEffectInstance(ModPotions.STONE_PETRIFICATION.get(), 120 + Math.round(50*m*(a+a2)), 0);
                         }
                     }
                     else {
-                        return new MobEffectInstance(ModPotions.STONE_PETRIFICATION, 120, 0);
+                        return new MobEffectInstance(ModPotions.STONE_PETRIFICATION.get(), 120, 0);
                     }
                 }
         ));
@@ -329,10 +335,10 @@ public class RegistryHandler{
                 return null;
             }
             else {
-                return new MobEffectInstance(ModPotions.STONE_PETRIFICATION,80 + Math.round(50*m*a), 0);
+                return new MobEffectInstance(ModPotions.STONE_PETRIFICATION.get(),80 + Math.round(50*m*a), 0);
             }
         });
-         */
+
         //no longer incompatible, synergy instead!
         register(gorgon_gem);
         //register(binding_sigil);
@@ -398,6 +404,8 @@ public class RegistryHandler{
     static final Item.Properties EGG_PROPERTIES = itemPropertiesCreator.create(CreativeModeTab.TAB_MISC,64);
 
     static final Item.Properties ITEM_PROPERTIES_FIRE = itemPropertiesCreator.create(ArsOmega.itemGroup,64).fireResistant();
+
+    static final Item.Properties UNSTACKABLE= itemPropertiesCreator.create(ArsOmega.itemGroup,1);
     static final Item.Properties UNSTACKABLE_FIRE = itemPropertiesCreator.create(ArsOmega.itemGroup,1).fireResistant();
 
     public static final FoodProperties ENCHANTED_DIAMOND_APPLE = (new FoodProperties.Builder()).nutrition(5).saturationMod(1.2F).effect(() -> new MobEffectInstance(MobEffects.HEALTH_BOOST, 8000, 4),1).effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 800, 1), 1.0F).effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 8000, 0), 1.0F).effect(() -> new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 7000, 0), 1.0F).effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 5000, 5), 1.0F).alwaysEat().build();
@@ -551,19 +559,23 @@ public class RegistryHandler{
 
     public static final RegistryObject<Item> TIER_FOUR_BOOK = ITEMS.register("arcane_book", () -> new SpellBook(ITEM_PROPERTIES_FIRE,TierFourEffect.FOUR));
 
-    public static final RegistryObject<Item> GREATER_MANA_AMULET = ITEMS.register("greater_mana_amulet", () -> new MagicCurio(500,1));
-    public static final RegistryObject<Item> GREATER_REGEN_AMULET = ITEMS.register("greater_regen_amulet", () -> new MagicCurio(10,25));
-    public static final RegistryObject<Item> FOCUS_OF_MANA = ITEMS.register("focus_of_mana", () -> new MagicCurio(3250,-30));
-    public static final RegistryObject<Item> FOCUS_OF_ALCHEMY = ITEMS.register("focus_of_alchemy", () -> new MagicCurio(-50,-4));
-    public static final RegistryObject<Item> FOCUS_OF_ADVANCED_ALCHEMY = ITEMS.register("focus_of_advanced_alchemy", () -> new MagicCurio(-300,-13));
-    public static final RegistryObject<Item> FOCUS_OF_REGEN = ITEMS.register("focus_of_regen", () -> new MagicCurio(-300,100));
-    public static final RegistryObject<Item> RING_REGEN = ITEMS.register("ring_regen", () -> new MagicCurio(0,5,5));
-    public static final RegistryObject<Item> RING_BOOST = ITEMS.register("ring_boost", () -> new MagicCurio(100,0,5));
-    public static final RegistryObject<Item> RING_ARCANE_DISCOUNT = ITEMS.register("ring_arcane_discount", () -> new MagicCurio(20,1,50));
+    public static final RegistryObject<Item> GREATER_MANA_AMULET = ITEMS.register("greater_mana_amulet", () -> new MagicCurio(UNSTACKABLE,500,1));
+    public static final RegistryObject<Item> GREATER_REGEN_AMULET = ITEMS.register("greater_regen_amulet", () -> new MagicCurio(UNSTACKABLE,10,25));
+    public static final RegistryObject<Item> FOCUS_OF_MANA = ITEMS.register("focus_of_mana", () -> new MagicCurio(UNSTACKABLE,3250,-30));
+    public static final RegistryObject<Item> FOCUS_OF_ALCHEMY = ITEMS.register("focus_of_alchemy", () -> new MagicCurio(UNSTACKABLE,-50,-4));
+    public static final RegistryObject<Item> FOCUS_OF_ADVANCED_ALCHEMY = ITEMS.register("focus_of_advanced_alchemy", () -> new MagicCurio(UNSTACKABLE,-300,-13));
 
-        public static final RegistryObject<Item> STAFF = ITEMS.register("staff", () -> new Staff(BasicItemTier.Staff,2,-2.4f,2, AugmentAmplify.INSTANCE,2));
-        public static final RegistryObject<Item> STAFF_2 = ITEMS.register("archmage_staff", () -> new Staff(BasicItemTier.Staff2,2,-2.4f,3, AdvancedAmplify.INSTANCE,2));
-        public static final RegistryObject<Item> STAFF_3 = ITEMS.register("arcane_staff", () -> new Staff(BasicItemTier.Staff3,2,-2.4f,3, AdvancedAmplify.INSTANCE,3,true));
+    public static final RegistryObject<Item> FOCUS_OF_LIFE = ITEMS.register("focus_of_life", () -> new MagicCurio(UNSTACKABLE,-50,-4));
+
+
+    public static final RegistryObject<Item> FOCUS_OF_REGEN = ITEMS.register("focus_of_regen", () -> new MagicCurio(UNSTACKABLE,-300,100));
+    public static final RegistryObject<Item> RING_REGEN = ITEMS.register("ring_regen", () -> new MagicCurio(UNSTACKABLE,0,5,5));
+    public static final RegistryObject<Item> RING_BOOST = ITEMS.register("ring_boost", () -> new MagicCurio(UNSTACKABLE,100,0,5));
+    public static final RegistryObject<Item> RING_ARCANE_DISCOUNT = ITEMS.register("ring_arcane_discount", () -> new MagicCurio(UNSTACKABLE,20,1,50));
+
+        public static final RegistryObject<Item> STAFF = ITEMS.register("staff", () -> new Staff(BasicItemTier.Staff,2,-2.4f,2, AugmentAmplify.INSTANCE,1));
+        public static final RegistryObject<Item> STAFF_2 = ITEMS.register("archmage_staff", () -> new Staff(BasicItemTier.Staff2,4,-2.4f,3, AugmentAmplify.INSTANCE,2));
+        public static final RegistryObject<Item> STAFF_3 = ITEMS.register("arcane_staff", () -> new Staff(BasicItemTier.Staff3,8,-2.4f,4, AugmentAmplify.INSTANCE,3,true));
 
 
     public static final RegistryObject<Item> POISON_FLOWER_ITEM = ITEMS.register("poison_flower", () -> new BasicBlockItem(POISON_FLOWER.get(),ITEM_PROPERTIES));
@@ -612,7 +624,7 @@ public class RegistryHandler{
 
 
 
-    public static final RegistryObject<Item> BIOME_CRYSTAL = ITEMS.register("biome_crystal", () ->  new BiomeCrystal(ITEM_PROPERTIES));
+    public static final RegistryObject<Item> BIOME_CRYSTAL = ITEMS.register("biome_crystal", () -> new BiomeCrystal(ITEM_PROPERTIES));
 
     public static final RegistryObject<Item> DIMENSION_CRYSTAL = ITEMS.register("dimension_crystal", () -> new DimensionCrystal(ITEM_PROPERTIES));
 
@@ -711,6 +723,10 @@ public class RegistryHandler{
     public static final RegistryObject<Item> ARCANE_COMPENDIUM = ITEMS.register("arcane_compendium", () ->new DescribedItem(ITEM_PROPERTIES,"The Arcane Library's collection of Arcane Magics. Unlocks entries in the worn notebook."));
     public static final RegistryObject<Item> MARIA_ROSA = ITEMS.register("maria_rosa", () ->new DescribedItem(ITEM_PROPERTIES,"A damaged hand-written notebook... Unlocks entries in the worn notebook."));
     public static final RegistryObject<Item> KAZ_CARTER = ITEMS.register("kaz_carter", () ->new DescribedItem(ITEM_PROPERTIES,"A scorched collection of notebook pages... Unlocks entries in the worn notebook."));
+
+    public static final RegistryObject<Item> CURSED_EARTH_ITEM = ITEMS.register("cursed_earth", () -> new BasicBlockItem(CURSED_EARTH.get(),ITEM_PROPERTIES));
+    public static final RegistryObject<Item> VENGEFUL_SOUL_SAND_ITEM = ITEMS.register("vengeful_soul_sand", () -> new BasicBlockItem(VENGEFUL_SOUL_SAND.get(),ITEM_PROPERTIES));
+
 
     public static final RegistryObject<Item> SALT = ITEMS.register("salt", () ->new DescribedItem(ITEM_PROPERTIES,"An item used in crafting."));
 

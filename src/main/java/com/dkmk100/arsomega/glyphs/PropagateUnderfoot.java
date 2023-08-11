@@ -27,6 +27,11 @@ public class PropagateUnderfoot extends AbstractEffect implements IIgnoreBuffs, 
         super(RegistryHandler.getGlyphName(tag),description);
     }
 
+    @Override
+    public Integer getTypeIndex() {
+        return 8;
+    }
+
     public void sendPacket(Level world, SpellStats stats, @Nullable LivingEntity shooter, SpellContext spellContext, Entity target) {
         spellContext.setCanceled(true);
         if (spellContext.getCurrentIndex() < spellContext.getSpell().recipe.size()) {

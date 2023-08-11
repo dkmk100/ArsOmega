@@ -1,0 +1,47 @@
+{
+  "type": "ars_nouveau:enchantment",
+  "enchantment": "arsomega:durability_cast",
+  "level": 3,
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "arsomega:enchanted_diamond_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:lapis_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:lapis_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:lapis_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:emerald_block"
+      }
+    },
+    {
+      "item": {
+        "tag": "arsomega:tier_4_ingredient"
+      }
+    },
+    {
+      "item": {
+        "tag": "arsomega:tier_4_ingredient"
+      }
+    },
+    {
+      "item": {
+        "tag": "arsomega:tier_4_ingredient"
+      }
+    }
+  ]
+}

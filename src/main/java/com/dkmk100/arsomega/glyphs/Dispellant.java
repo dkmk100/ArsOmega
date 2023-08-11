@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Set;
 
-public class Dispellant extends AbstractEffect {
+public class Dispellant extends AbstractEffect implements ILimitedPotion {
 
     public static Dispellant INSTANCE = new Dispellant("dispellant", "Dispellant");
 
@@ -25,8 +25,9 @@ public class Dispellant extends AbstractEffect {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
-            //low time cause the effect is sorta OP lol
-            this.applyPotion(living, ModPotions.DISPELLANT.get(), spellStats, 6,3,true);
+
+            //limit to first level
+            this.applyLimitedEffect(living,  ModPotions.DISPELLANT.get(), spellStats, 0);
         }
     }
 
@@ -50,5 +51,16 @@ public class Dispellant extends AbstractEffect {
     @Nonnull
     public Set<SpellSchool> getSchools() {
         return this.setOf(new SpellSchool[]{SpellSchools.ABJURATION,Schools.ALCHEMY});
+    }
+
+    @Override
+    public int getBaseDuration() {
+        return 6;
+    }
+
+    //low time cause the effect is sorta OP lol
+    @Override
+    public int getExtendTimeDuration() {
+        return 3;
     }
 }

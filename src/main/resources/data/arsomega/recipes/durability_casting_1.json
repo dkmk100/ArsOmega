@@ -1,0 +1,47 @@
+{
+  "type": "ars_nouveau:enchantment",
+  "enchantment": "arsomega:durability_cast",
+  "level": 1,
+  "pedestalItems": [
+    {
+      "item": {
+        "item": "minecraft:diamond_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:lapis_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:lapis_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:lapis_block"
+      }
+    },
+    {
+      "item": {
+        "item": "minecraft:emerald_block"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:source_gem_block"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:source_gem_block"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:source_gem_block"
+      }
+    }
+  ]
+}

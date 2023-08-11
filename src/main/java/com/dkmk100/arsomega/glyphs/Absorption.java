@@ -5,12 +5,15 @@ import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraftforge.common.ForgeConfigSpec;
+import top.theillusivec4.curios.api.CuriosApi;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -18,7 +21,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-public class Absorption extends AbstractEffect {
+public class Absorption extends AbstractEffect implements IPotionEffect {
 
     public static Absorption INSTANCE = new Absorption("absorption", "Absorption");
 
@@ -44,23 +47,35 @@ public class Absorption extends AbstractEffect {
                 }
             }
 
-            this.applyPotion(living, MobEffects.ABSORPTION, spellStats, 45,35,true);
+            int focusLevel = 0;
+            if(shooter!=null) {
+                if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_LIFE.get()).isPresent()) {
+                    focusLevel = 1;
+                }
+            }
+
+
+
+            int ticks = getBaseDuration() * 20 + getExtendTimeDuration() * spellStats.getDurationInTicks();
+            int amp = (int)spellStats.getAmpMultiplier() + 2 * focusLevel;
+            living.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, ticks, amp, false, true, true));
+
         }
     }
 
     @Override
     public int getDefaultManaCost() {
-        return 600;
+        return 400;
     }
 
     @Override
-    public SpellTier getTier() {
+    public SpellTier defaultTier() {
         return SpellTier.THREE;
     }
 
     @Override
     protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
-        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 2);
+        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 4);
     }
 
     @Nonnull
@@ -73,5 +88,15 @@ public class Absorption extends AbstractEffect {
     @Nonnull
     public Set<SpellSchool> getSchools() {
         return this.setOf(new SpellSchool[]{SpellSchools.ABJURATION,Schools.LIFE});
+    }
+
+    @Override
+    public int getBaseDuration() {
+        return 45;
+    }
+
+    @Override
+    public int getExtendTimeDuration() {
+        return 35;
     }
 }

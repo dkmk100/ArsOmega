@@ -2,6 +2,6 @@
   "name": "Advanced Magical Equipment",
   "parent": "ars_nouveau:equipment",
   "description": "Advanced Magical Equipment",
-  "icon": "arsomega:arcane_chestplate",
+  "icon": "arsomega:focus_of_alchemy",
   "sortnum":15
 }

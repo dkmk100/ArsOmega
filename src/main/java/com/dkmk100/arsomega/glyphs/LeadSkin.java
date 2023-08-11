@@ -16,7 +16,7 @@ import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Set;
 
-public class LeadSkin extends AbstractEffect {
+public class LeadSkin extends AbstractEffect implements ILimitedPotion {
 
     public static LeadSkin INSTANCE = new LeadSkin("lead_skin", "Lead Skin");
 
@@ -29,6 +29,7 @@ public class LeadSkin extends AbstractEffect {
         Entity entity = rayTraceResult.getEntity();
         int focusLevel = 0;
         if(shooter!=null) {
+
             if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_ADVANCED_ALCHEMY.get()).isPresent()) {
                 focusLevel = 2;
             } else if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_ALCHEMY.get()).isPresent()) {
@@ -38,8 +39,7 @@ public class LeadSkin extends AbstractEffect {
 
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
-
-            this.applyPotion(living, ModPotions.LEAD_SKIN.get(), spellStats, 30,15,true);
+            this.applyLimitedEffect(living, ModPotions.LEAD_SKIN.get(), spellStats, 2 + focusLevel);
         }
     }
 
@@ -72,5 +72,15 @@ public class LeadSkin extends AbstractEffect {
     @Nonnull
     public Set<SpellSchool> getSchools() {
         return this.setOf(new SpellSchool[]{Schools.ALCHEMY});
+    }
+
+    @Override
+    public int getBaseDuration() {
+        return 30;
+    }
+
+    @Override
+    public int getExtendTimeDuration() {
+        return 15;
     }
 }

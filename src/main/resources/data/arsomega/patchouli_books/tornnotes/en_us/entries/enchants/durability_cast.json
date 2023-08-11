@@ -1,0 +1,23 @@
+{
+  "name": "Durability Cast",
+  "category": "arsomega:arcane_equipment",
+  "icon": "minecraft:enchanted_book",
+  "pages": [
+    {
+      "type": "text",
+      "text": "The Durability Cast enchant is used alongside Proactive and Reactive. It causes them to use the item's durability instead of your mana. Higher levels of the enchant add a discount to the durability consumed."
+    },
+    {
+      "recipe": "ars_nouveau:durability_cast_1",
+      "type": "ars_nouveau:enchanting_recipe"
+    },
+    {
+      "recipe": "ars_nouveau:durability_cast_2",
+      "type": "ars_nouveau:enchanting_recipe"
+    },
+    {
+      "recipe": "ars_nouveau:durability_cast_3",
+      "type": "ars_nouveau:enchanting_recipe"
+    }
+  ]
+}

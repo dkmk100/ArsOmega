@@ -16,7 +16,7 @@ import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Set;
 
-public class DemonicAnchoring extends TierFourEffect {
+public class DemonicAnchoring extends TierFourEffect implements ILimitedPotion {
 
     public static DemonicAnchoring INSTANCE = new DemonicAnchoring("demonic_anchoring", "Demonic Anchoring");
 
@@ -29,7 +29,9 @@ public class DemonicAnchoring extends TierFourEffect {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
-            this.applyPotion(living, ModPotions.DEMONIC_ANCHORING.get(), spellStats, 25,12,true);
+
+            //limit to first level
+            this.applyLimitedEffect(living,  ModPotions.DEMONIC_ANCHORING.get(), spellStats, 0);
         }
     }
 
@@ -53,5 +55,15 @@ public class DemonicAnchoring extends TierFourEffect {
     @Nonnull
     public Set<SpellSchool> getSchools() {
         return this.setOf(new SpellSchool[]{SpellSchools.ABJURATION,Schools.LIFE});
+    }
+
+    @Override
+    public int getBaseDuration() {
+        return 25;
+    }
+
+    @Override
+    public int getExtendTimeDuration() {
+        return 12;
     }
 }

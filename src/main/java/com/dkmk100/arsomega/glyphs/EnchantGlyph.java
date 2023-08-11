@@ -62,7 +62,7 @@ public class EnchantGlyph extends AbstractEffect {
                 ItemStack result = enchantItem(shooter,seed,current,level(ampBuff));
                 if(result!=null) {
                     world.addFreshEntity(new ItemEntity(world, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), result.copy()));
-                    current.setCount(0);
+                    current.shrink(current.getCount());
                 }
             }
         }
@@ -103,7 +103,7 @@ public class EnchantGlyph extends AbstractEffect {
             return null;
         } else {
             ItemStack itemstack2 = itemstack.copy();
-            List<EnchantmentInstance> list = this.getEnchantmentList(itemstack, seed, power);
+            List<EnchantmentInstance> list = this.getEnchantmentList(itemstack2, seed, power);
             if (!list.isEmpty()) {
                 boolean flag = itemstack.getItem() == Items.BOOK;
                 if (flag) {
@@ -143,7 +143,13 @@ public class EnchantGlyph extends AbstractEffect {
                     }
                 }
             }
-            return itemstack2;
+
+            if(itemstack2.equals(itemstack)) {
+                return null;
+            }
+
+                return itemstack2;
+
         }
     }
 

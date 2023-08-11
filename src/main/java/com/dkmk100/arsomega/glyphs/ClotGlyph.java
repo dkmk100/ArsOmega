@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Set;
 
-public class ClotGlyph  extends TierFourEffect {
+public class ClotGlyph  extends TierFourEffect implements IPotionEffect {
 
     public static ClotGlyph INSTANCE = new ClotGlyph("blood_clot", "Blood Clot");
 
@@ -28,7 +28,9 @@ public class ClotGlyph  extends TierFourEffect {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
-            this.applyPotion(living, ModPotions.BLOOD_CLOT.get(), spellStats,5,5,true);
+
+            //capped by amp limit
+            this.applyConfigPotion(living, ModPotions.BLOOD_CLOT.get(), spellStats);
         }
     }
 
@@ -53,4 +55,13 @@ public class ClotGlyph  extends TierFourEffect {
         return this.setOf(new SpellSchool[]{Schools.LIFE});
     }
 
+    @Override
+    public int getBaseDuration() {
+        return 5;
+    }
+
+    @Override
+    public int getExtendTimeDuration() {
+        return 5;
+    }
 }

@@ -10,7 +10,7 @@
     },
     {
       "type": "glyph_recipe",
-      "recipe": "arsomega:glyph_enchant",
+      "recipe": "arsomega:glyph_disenchant",
       "tier": "TWO",
       "mana_cost": "High",
       "clay_type": "ars_nouveau:marvelous_clay",

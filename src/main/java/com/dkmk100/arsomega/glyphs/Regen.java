@@ -10,13 +10,14 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
+import top.theillusivec4.curios.api.CuriosApi;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Set;
 
-public class Regen extends AbstractEffect {
+public class Regen extends AbstractEffect implements ILimitedPotion {
 
     public static Regen INSTANCE = new Regen("regen", "Regen");
 
@@ -29,13 +30,21 @@ public class Regen extends AbstractEffect {
         Entity entity = rayTraceResult.getEntity();
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity)entity;
-            this.applyPotion(living, MobEffects.REGENERATION, spellStats, 30,15,true);
+
+            int focusLevel = 0;
+            if(shooter!=null) {
+                if (CuriosApi.getCuriosHelper().findFirstCurio(shooter, RegistryHandler.FOCUS_OF_LIFE.get()).isPresent()) {
+                    focusLevel = 1;
+                }
+            }
+
+            this.applyLimitedEffect(living, MobEffects.REGENERATION, spellStats, 2 + focusLevel); //TODO: focus of life affects this
         }
     }
 
     @Override
     protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
-        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 2);
+        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 3);
     }
 
     @Override
@@ -58,5 +67,15 @@ public class Regen extends AbstractEffect {
     @Nonnull
     public Set<SpellSchool> getSchools() {
         return this.setOf(new SpellSchool[]{SpellSchools.ABJURATION,Schools.LIFE});
+    }
+
+    @Override
+    public int getBaseDuration() {
+        return 30;
+    }
+
+    @Override
+    public int getExtendTimeDuration() {
+        return 15;
     }
 }
