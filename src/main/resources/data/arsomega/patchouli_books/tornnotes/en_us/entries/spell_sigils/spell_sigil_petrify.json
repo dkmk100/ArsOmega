@@ -11,7 +11,7 @@
     },
     {
       "type": "text",
-      "text": "Casting Shape: $(br) -  - - x x x - x x x - - - $(br) - - - x - x x x - x - - - $(br) - - x x x - - - x x x - - $(br) x x x - x x x x x - x x x $(br) x - x x x - x - x x x - x $(br) x x - x - x x x - x - x x $(br) - x - x x x S x x x - x - $(br) x x - x - x x x - x - x x $(br) x - x x x - x - x x x - x $(br) x x x - x x x x x - x x x $(br) - - x x x - - - x x x - - $(br) - - - x - x x x - x - - - $(br) - - - x x x - x x x - - - $(br) $(br)Mana cost: 800"
+      "text": "Casting Shape: $(br) - - - x x x - x x x - - - $(br) - - - x - x x x - x - - - $(br) - - x x x - - - x x x - - $(br) x x x - x x x x x - x x x $(br) x - x x x - x - x x x - x $(br) x x - x - x x x - x - x x $(br) - x - x x x S x x x - x - $(br) x x - x - x x x - x - x x $(br) x - x x x - x - x x x - x $(br) x x x - x x x x x - x x x $(br) - - x x x - - - x x x - - $(br) - - - x - x x x - x - - - $(br) - - - x x x - x x x - - - $(br) $(br)Mana cost: 800"
     },
     {
       "type": "patchouli:crafting",

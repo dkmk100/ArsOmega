@@ -60,7 +60,7 @@ public class RitualPetrification extends AbstractRitual {
                 }
                 this.setFinished();
             }
-            else if (this.getProgress() >= 5 && this.getProgress()<=27) {
+            else if (this.getProgress() >= 10 && this.getProgress()<=29) {
                 List<LivingEntity> entities = this.getWorld().getEntitiesOfClass(LivingEntity.class, (new AABB(this.getPos())).inflate(5.0D));
                 for (LivingEntity entity : entities) {
                     entity.addEffect(new MobEffectInstance(com.hollingsworth.arsnouveau.common.potions.ModPotions.SNARE_EFFECT.get(), 40, 0, false, false));

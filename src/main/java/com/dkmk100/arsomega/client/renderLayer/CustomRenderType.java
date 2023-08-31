@@ -41,7 +41,7 @@ public class CustomRenderType extends RenderType {
             DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS, 512, true, true,
             RenderType.CompositeState.builder()
                     .setShaderState(RenderStateShard.RENDERTYPE_ENTITY_GLINT_SHADER)
-                    .setTextureState(PETRIFICATION_TEXTURE)
+                    .setTextureState(PETRIFICATION_TEXTURE_WEAK)
                     .setLightmapState(LIGHTMAP)
                     .setWriteMaskState(COLOR_DEPTH_WRITE)
                     .setCullState(NO_CULL)

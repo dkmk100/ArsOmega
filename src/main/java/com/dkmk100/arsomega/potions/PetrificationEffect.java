@@ -12,6 +12,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.effect.MobEffect;
@@ -39,11 +40,14 @@ public class PetrificationEffect extends MobEffect {
     @Override
     public void applyEffectTick(LivingEntity entity, int level) {
         int duration = entity.getEffect(this).getDuration();
-        if(level > 0){
-            int durationDiv = duration / 50;
+        if(duration < 50){
+            onPetrificationEnd(entity, level);
+        }
+        else if(level > 0){
+            int durationDiv = duration / 80;
             int progress = Math.max(0, 10 - durationDiv);
             LazyOptional<OmegaStatusesCapability> optional = OmegaStatusesCapabilityAttacher.getLivingEntityCapability(entity).cast();
-            optional.resolve().get().setPetrificationProgress(progress);
+            optional.ifPresent((cap) -> {cap.setPetrificationProgress(progress);} );
         }
     }
 
@@ -56,7 +60,7 @@ public class PetrificationEffect extends MobEffect {
     public void addAttributeModifiers(LivingEntity entity, AttributeMap manager, int level) {
         super.addAttributeModifiers(entity,manager,level);
         LazyOptional<OmegaStatusesCapability> optional = OmegaStatusesCapabilityAttacher.getLivingEntityCapability(entity).cast();
-        optional.resolve().get().setPetrified(true,level);
+        optional.ifPresent((cap) -> {cap.setPetrified(true,level);});
         ArsOmega.LOGGER.info("set petrified to true");
     }
 
@@ -64,23 +68,35 @@ public class PetrificationEffect extends MobEffect {
     public void removeAttributeModifiers(LivingEntity entity, AttributeMap manager, int level) {
         super.removeAttributeModifiers(entity, manager, level);
         LazyOptional<OmegaStatusesCapability> optional = OmegaStatusesCapabilityAttacher.getLivingEntityCapability(entity).cast();
-        optional.resolve().get().setPetrified(false,level);
-        ArsOmega.LOGGER.info("set petrified to false");
+        optional.ifPresent((cap) -> {cap.setPetrified(false,level);});
+    }
 
+    void onPetrificationEnd(LivingEntity entity, int level){
         if (level >= 1) {
-            entity.setHealth(1);
+            if(entity.isDeadOrDying()){
+                return;//don't petrify already dead entities to prevent issues
+            }
+            if(entity instanceof Player player){
+                if(player.getAbilities().instabuild && player.getAbilities().invulnerable){
+                    return;//don't petrify players in creative mode
+                }
+            }
+            LazyOptional<OmegaStatusesCapability> optional = OmegaStatusesCapabilityAttacher.getLivingEntityCapability(entity).cast();
+            optional.ifPresent((cap) -> {cap.setPetrified(false,level);});
+
+            //spawn statue, will be swapped for a real statue later
             ArmorStand ent = new ArmorStand(entity.getCommandSenderWorld(), entity.getX(), entity.getY(), entity.getZ());
             entity.getCommandSenderWorld().addFreshEntity(ent);
             ent.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE, 1));
             ent.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.STONE, 1));
             ent.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.STONE, 1));
-            ent.setItemSlot(EquipmentSlot.CHEST, new ItemStack(Items.STONE, 1));
-            ent.setItemSlot(EquipmentSlot.LEGS, new ItemStack(Items.STONE, 1));
-            ent.setItemSlot(EquipmentSlot.FEET, new ItemStack(Items.STONE, 1));
             entity.getCommandSenderWorld().addFreshEntity(new ItemEntity(entity.getCommandSenderWorld(), entity.getX(), entity.getY(), entity.getZ(), new ItemStack(Items.STONE, 1)));
             ent.setPose(entity.getPose());
             ent.setYHeadRot(entity.getYHeadRot());
             ent.setYBodyRot(entity.yBodyRot);
+
+            //kill entity
+            entity.setHealth(1);
             entity.hurt(PETRIFY, Float.MAX_VALUE);
         }
     }

@@ -31,6 +31,9 @@ public class PetrificationLayer extends RenderLayer {
     public void render(PoseStack stack, MultiBufferSource source, int packedLight, Entity entity, float swing, float swingAmount, float partialTicks, float age, float headYaw, float headPitch) {
         if (entity instanceof LivingEntity living) {
             LazyOptional<OmegaStatusesCapability> optional = OmegaStatusesCapabilityAttacher.getLivingEntityCapability(living).cast();
+            if(!optional.isPresent() || !optional.resolve().isPresent()){
+                return;
+            }
             OmegaStatusesCapability cap = optional.resolve().get();
             if (cap.isPetrified()) {
 
