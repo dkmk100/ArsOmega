@@ -23,14 +23,15 @@ public class RitualFlowingTime extends AbstractRitual {
 
     protected void tick() {
         int range = 4;
-        int tickAmount = 10;
+        int tickAmount = 20;
+        long activationDelay = 5L;//pretty fast cause small range and weak effects
 
         Level world = this.getWorld();
         BlockPos pos = this.getPos();
         if (this.getWorld().isClientSide) {
             ParticleUtil.spawnRitualAreaEffect(this.getPos(), this.getWorld(), this.rand, this.getOuterColor(), range, 24, 5);
         } else {
-            if (this.getWorld().getGameTime() % 20L != 0L)//pretty fast cause small range and weak effects
+            if (this.getWorld().getGameTime() % activationDelay != 0L)
             {
                 return;
             }
@@ -76,7 +77,7 @@ public class RitualFlowingTime extends AbstractRitual {
 
     public int getSourceCost() {
         //low cost only because it activates so often
-        return 500;
+        return 250;
     }
 
     public boolean canConsumeItem(ItemStack stack) {

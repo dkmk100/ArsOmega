@@ -3,6 +3,7 @@ package com.dkmk100.arsomega.glyphs;
 import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
+import com.hollingsworth.arsnouveau.api.util.BlockUtil;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
 import net.minecraft.resources.ResourceLocation;
@@ -50,7 +51,7 @@ public class AcidGlyph extends AbstractEffect {
             BlockState state = world.getBlockState(pos);
             Block block = state.getBlock();
             float tier = block.defaultDestroyTime();
-            if (tier < 0) {
+            if (tier < 0 || !BlockUtil.destroyRespectsClaim(shooter, world, pos)) {
                 return;
             }
             if (block == Blocks.GOLD_BLOCK) {

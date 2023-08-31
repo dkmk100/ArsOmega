@@ -1,5 +1,7 @@
 package com.dkmk100.arsomega;
 
+import com.dkmk100.arsomega.capabilitysyncer.OmegaStatusesCapability;
+import com.dkmk100.arsomega.capabilitysyncer.OmegaStatusesCapabilityAttacher;
 import com.dkmk100.arsomega.client.block.DemonicLightRenderer;
 import com.dkmk100.arsomega.client.block.MirrorPortalRenderer;
 import com.dkmk100.arsomega.client.block.PortalRenderer;
@@ -131,6 +133,9 @@ public class ArsOmega
 
         PacketUtil.init();
         PacketUtil.register(ResetChunkColorsPacket.class);
+
+        OmegaStatusesCapabilityAttacher.setupChannel();
+        OmegaStatusesCapabilityAttacher.register();
 
         //structures?
     }

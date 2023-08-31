@@ -3,6 +3,7 @@ package com.dkmk100.arsomega.rituals;
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.events.CommonEvents;
 import com.dkmk100.arsomega.potions.ModPotions;
+import com.dkmk100.arsomega.util.LevelUtil;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
@@ -21,6 +22,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -39,7 +41,7 @@ public class RitualBanishment extends AbstractRitual {
             }
         }
 
-        if (!world.isClientSide && world.getGameTime() % 20L == 0L) {
+        if (world instanceof ServerLevel serverLevel && world.getGameTime() % 20L == 0L) {
             if (this.needsSourceNow()) {
                 return;
             } else {
@@ -50,11 +52,16 @@ public class RitualBanishment extends AbstractRitual {
             if (this.getProgress() > 15) {
                 List<LivingEntity> entities = this.getWorld().getEntitiesOfClass(LivingEntity.class, (new AABB(this.getPos())).inflate(5.0D));
                 for (LivingEntity entity : entities) {
-                    ResourceKey<Level> registrykey = ResourceKey.create(Registry.DIMENSION_REGISTRY, RegistryHandler.DIMTYPE);
-                    ServerLevel dest = world.getServer().getLevel(registrykey);
-                    BlockPos pos = entity.blockPosition();
-                    CommonEvents.teleportEntity(entity, new BlockPos(entity.position()).above(), dest, (ServerLevel) world);
-                    dest.setBlockAndUpdate(pos,Blocks.AIR.defaultBlockState());
+                    ResourceKey<Level> registryKey = ResourceKey.create(Registry.DIMENSION_REGISTRY,RegistryHandler.DIMTYPE);
+
+                    ServerLevel dest = world.getServer().getLevel(registryKey);
+                    if(dest == null){
+                        ArsOmega.LOGGER.error("failed to find level for key: "+registryKey);
+                    }
+
+                    BlockPos pos = LevelUtil.getPosInWorld(dest, entity.blockPosition(), serverLevel);
+                    LevelUtil.teleportEntity(entity, pos, dest, serverLevel);
+                    dest.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                     dest.setBlockAndUpdate(pos.above(),Blocks.AIR.defaultBlockState());
                     dest.setBlockAndUpdate(pos.above(2),Blocks.AIR.defaultBlockState());
                     dest.setBlockAndUpdate(pos.below(),Blocks.OBSIDIAN.defaultBlockState());

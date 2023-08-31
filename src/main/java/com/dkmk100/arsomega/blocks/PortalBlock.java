@@ -2,6 +2,7 @@ package com.dkmk100.arsomega.blocks;
 
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.events.CommonEvents;
+import com.dkmk100.arsomega.util.LevelUtil;
 import com.hollingsworth.arsnouveau.common.block.TickableModBlock;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -65,12 +66,11 @@ public class PortalBlock extends Block implements EntityBlock {
                     }
                 }
                 catch (Exception e){
-                    ArsOmega.LOGGER.error("Error on portal block");
-                    ArsOmega.LOGGER.error(e);
+                    e.printStackTrace();
                 }
             }
             else{
-                ArsOmega.LOGGER.error("Error on portal block");
+                ArsOmega.LOGGER.error("Portal block tile missing!");
             }
 
         }
@@ -79,9 +79,8 @@ public class PortalBlock extends Block implements EntityBlock {
     void teleportEntity(ServerLevel dest, Entity target, BlockPos pos, ServerLevel oldWorld){
         pos = new BlockPos(pos.getX(),Math.min(dest.getMaxBuildHeight(),Math.max(pos.getY(),dest.getMinBuildHeight())),pos.getZ());
         if((oldWorld.dimensionType()!=dest.dimensionType())) {
-            BlockPos pos2 = new BlockPos(pos.getX(), pos.getY(), pos.getZ());
-            ArsOmega.LOGGER.info("pos 2: "+pos2);
-            CommonEvents.teleportEntity(target, pos2, dest, oldWorld);
+            BlockPos pos2 = LevelUtil.getPosInWorld(dest, new BlockPos(target.getX(), pos.getY() - 1, target.getZ()),oldWorld);
+            LevelUtil.teleportEntity(target, pos2, dest, oldWorld);
 
             if(dest.getBlockState(pos2.below()).isAir()) {
                 dest.setBlockAndUpdate(pos2.below(), Blocks.OBSIDIAN.defaultBlockState());

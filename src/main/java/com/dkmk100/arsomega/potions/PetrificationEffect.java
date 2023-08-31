@@ -1,6 +1,11 @@
 package com.dkmk100.arsomega.potions;
 
+import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.capabilitysyncer.OmegaStatusesCapability;
+import com.dkmk100.arsomega.capabilitysyncer.OmegaStatusesCapabilityAttacher;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -12,6 +17,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +37,36 @@ public class PetrificationEffect extends MobEffect {
     }
 
     @Override
+    public void applyEffectTick(LivingEntity entity, int level) {
+        int duration = entity.getEffect(this).getDuration();
+        if(level > 0){
+            int durationDiv = duration / 50;
+            int progress = Math.max(0, 10 - durationDiv);
+            LazyOptional<OmegaStatusesCapability> optional = OmegaStatusesCapabilityAttacher.getLivingEntityCapability(entity).cast();
+            optional.resolve().get().setPetrificationProgress(progress);
+        }
+    }
+
+    @Override
+    public boolean isDurationEffectTick(int tick, int level) {
+        return tick % 20 == 0;
+    }
+
+    @Override
+    public void addAttributeModifiers(LivingEntity entity, AttributeMap manager, int level) {
+        super.addAttributeModifiers(entity,manager,level);
+        LazyOptional<OmegaStatusesCapability> optional = OmegaStatusesCapabilityAttacher.getLivingEntityCapability(entity).cast();
+        optional.resolve().get().setPetrified(true,level);
+        ArsOmega.LOGGER.info("set petrified to true");
+    }
+
+    @Override
     public void removeAttributeModifiers(LivingEntity entity, AttributeMap manager, int level) {
         super.removeAttributeModifiers(entity, manager, level);
+        LazyOptional<OmegaStatusesCapability> optional = OmegaStatusesCapabilityAttacher.getLivingEntityCapability(entity).cast();
+        optional.resolve().get().setPetrified(false,level);
+        ArsOmega.LOGGER.info("set petrified to false");
+
         if (level >= 1) {
             entity.setHealth(1);
             ArmorStand ent = new ArmorStand(entity.getCommandSenderWorld(), entity.getX(), entity.getY(), entity.getZ());

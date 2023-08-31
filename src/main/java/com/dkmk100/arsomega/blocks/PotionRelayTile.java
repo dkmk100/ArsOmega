@@ -100,8 +100,8 @@ public class PotionRelayTile extends ModdedTile implements ITooltipProvider, IWa
         if(!to.canAccept(from.getData(),transferRate)){
             return 0;
         }
-        from.remove(transferRate);//remove
-        to.add(from.getData(), transferRate);
+        to.add(from.getData().clone(), transferRate);
+        from.remove(transferRate);
         return transferRate;
     }
 

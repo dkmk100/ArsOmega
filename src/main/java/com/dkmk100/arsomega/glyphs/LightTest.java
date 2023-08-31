@@ -38,13 +38,7 @@ public class LightTest extends AbstractEffect {
                 pos = new BlockPos(rayTraceResult.getLocation());
             }
 
-            //alternative option that includes moon phases
-            //in light and darkshift this would be a config option
-            //int skyLightIgnored = world.isNight() ? 14 - Math.round(8f * world.getMoonBrightness()) : 0;
-
-            int skyLightIgnored = world.isNight() ? 14 : 0;
-
-            int light = world.getLightEngine().getRawBrightness(pos,skyLightIgnored);
+            int light = LightUtil.getLightValue(pos,world);
 
             PortUtil.sendMessage(shooter, Component.literal("light level: "+light));
 

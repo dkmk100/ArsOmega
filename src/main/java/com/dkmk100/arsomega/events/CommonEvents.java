@@ -154,13 +154,27 @@ public class CommonEvents {
         LivingEntity living = e.getEntity();
         if (living != null && ((living.hasEffect(ModPotions.VINE_BIND.get())&&!living.isOnFire())||living.hasEffect(ModPotions.STONE_PETRIFICATION.get()))) {
             living.setDeltaMovement(0.0D, 0.0D, 0.0D);
+            living.hurtMarked = true;
+            living.hasImpulse = false;
             living.setNoActionTime(10);
         }
     }
 
+    /*
+    the next two functions recieve ender entity and ender pearl events and cancel them because demonic anchoring
+    note that commands, chorus fruit, and other teleports like lightshift should still work
+     */
     @SubscribeEvent
     public static void Teleport(EntityTeleportEvent.EnderEntity e){
         LivingEntity entity = e.getEntityLiving();
+        if(entity.hasEffect(ModPotions.DEMONIC_ANCHORING.get())){
+            e.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void Teleport(EntityTeleportEvent.EnderPearl e){
+        LivingEntity entity = e.getPlayer();
         if(entity.hasEffect(ModPotions.DEMONIC_ANCHORING.get())){
             e.setCanceled(true);
         }
@@ -236,6 +250,7 @@ public class CommonEvents {
             e.setCanceled(true);
         }
     }
+
 
     @SubscribeEvent()
     public static void finishUseEvent(LivingEntityUseItemEvent.Finish e) {
@@ -320,37 +335,5 @@ public class CommonEvents {
             e.player.getAbilities().flying = false;
         }
     }
-
-
-    public static void teleportEntity(Entity entity, BlockPos destPos, ServerLevel destinationWorld, ServerLevel originalWorld) {
-
-        // makes sure chunk is made
-        destinationWorld.getChunk(destPos);
-
-        if (entity instanceof Player) {
-            ((ServerPlayer) entity).teleportTo(
-                    destinationWorld,
-                    destPos.getX() + 0.5D,
-                    destPos.getY() + 1D,
-                    destPos.getZ() + 0.5D,
-                    entity.getRotationVector().y,
-                    entity.getRotationVector().x);
-        }
-        else {
-            Entity entity2 = EntityType.loadEntityRecursive(entity.serializeNBT(),destinationWorld,Function.identity());
-            if (entity2 != null) {
-                entity2.setPos(destPos.getX(),destPos.getY(),destPos.getZ());
-                entity2.setDeltaMovement(entity.getDeltaMovement());
-                destinationWorld.addDuringTeleport(entity2);
-            }
-            entity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
-        }
-    }
-    /*
-    public static void teleportToDimension(Entity entity, ServerWorld world, BlockPos pos){
-        entity.changeDimension(world);
-        //entity.setPos(pos.getX(),pos.getY(),pos.getZ());
-    }
-    //*/
 
 }

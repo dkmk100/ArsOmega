@@ -10,6 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraftforge.common.ForgeConfigSpec;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import javax.annotation.Nonnull;
@@ -38,18 +39,24 @@ public class Regen extends AbstractEffect implements ILimitedPotion {
                 }
             }
 
-            this.applyLimitedEffect(living, MobEffects.REGENERATION, spellStats, 2 + focusLevel); //TODO: focus of life affects this
+            //regen is pretty OP so it's pretty limited without a life focus
+            this.applyLimitedEffect(living, MobEffects.REGENERATION, spellStats, focusLevel);
         }
     }
 
     @Override
+    public void buildConfig(ForgeConfigSpec.Builder builder) {
+        super.buildConfig(builder);
+    }
+
+    @Override
     protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
-        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 3);
+        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 2);
     }
 
     @Override
     public int getDefaultManaCost() {
-        return 600;
+        return 400;
     }
 
     @Override

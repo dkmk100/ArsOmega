@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ANFakePlayer;
@@ -74,8 +75,10 @@ public class HellFlare extends TierFourEffect implements  IDamageEffect {
     }
 
     @Override
-    protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
+    protected Map<ResourceLocation, Integer> getDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
+        super.getDefaultAugmentLimits(defaults);
         defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 2);
+        return defaults;
     }
 
     @Override

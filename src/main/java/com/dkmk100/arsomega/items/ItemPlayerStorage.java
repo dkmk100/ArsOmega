@@ -61,7 +61,7 @@ public class ItemPlayerStorage extends BasicItem {
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity player) {
         boolean targetAny = false;//for testing, for now
-        if(targetAny || target instanceof Player)
+        if(target instanceof Player targetPlayer)
         {
             UUID id = target.getUUID();
             String name = target.getName().getString();

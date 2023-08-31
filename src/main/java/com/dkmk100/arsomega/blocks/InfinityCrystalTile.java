@@ -11,10 +11,13 @@ public class InfinityCrystalTile extends SourceJarTile implements ITickable {
     public InfinityCrystalTile(BlockPos pos, BlockState state) {
         super(RegistryHandler.InfinityCrystalType.get(),pos,state);
     }
+
     @Override
     public void tick() {
-        if (!this.level.isClientSide) {
-            this.addSource(10);
+        long sourceFrequency = 1;
+        int sourceAmount = 1;
+        if (!this.level.isClientSide && getLevel().getGameTime() % sourceFrequency == 0) {
+            this.addSource(sourceAmount);
         }
         super.tick();
     }

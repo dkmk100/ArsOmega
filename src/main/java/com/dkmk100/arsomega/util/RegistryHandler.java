@@ -559,23 +559,23 @@ public class RegistryHandler{
 
     public static final RegistryObject<Item> TIER_FOUR_BOOK = ITEMS.register("arcane_book", () -> new SpellBook(ITEM_PROPERTIES_FIRE,TierFourEffect.FOUR));
 
-    public static final RegistryObject<Item> GREATER_MANA_AMULET = ITEMS.register("greater_mana_amulet", () -> new MagicCurio(UNSTACKABLE,500,1));
-    public static final RegistryObject<Item> GREATER_REGEN_AMULET = ITEMS.register("greater_regen_amulet", () -> new MagicCurio(UNSTACKABLE,10,25));
-    public static final RegistryObject<Item> FOCUS_OF_MANA = ITEMS.register("focus_of_mana", () -> new MagicCurio(UNSTACKABLE,3250,-30));
+    public static final RegistryObject<Item> GREATER_MANA_AMULET = ITEMS.register("greater_mana_amulet", () -> new MagicCurio(UNSTACKABLE,300,1));
+    public static final RegistryObject<Item> GREATER_REGEN_AMULET = ITEMS.register("greater_regen_amulet", () -> new MagicCurio(UNSTACKABLE,5,8));
+    public static final RegistryObject<Item> FOCUS_OF_MANA = ITEMS.register("focus_of_mana", () -> new MagicCurio(UNSTACKABLE,2000,-10));
     public static final RegistryObject<Item> FOCUS_OF_ALCHEMY = ITEMS.register("focus_of_alchemy", () -> new MagicCurio(UNSTACKABLE,-50,-4));
-    public static final RegistryObject<Item> FOCUS_OF_ADVANCED_ALCHEMY = ITEMS.register("focus_of_advanced_alchemy", () -> new MagicCurio(UNSTACKABLE,-300,-13));
+    public static final RegistryObject<Item> FOCUS_OF_ADVANCED_ALCHEMY = ITEMS.register("focus_of_advanced_alchemy", () -> new MagicCurio(UNSTACKABLE,-200,-8));
 
     public static final RegistryObject<Item> FOCUS_OF_LIFE = ITEMS.register("focus_of_life", () -> new MagicCurio(UNSTACKABLE,-50,-4));
 
 
-    public static final RegistryObject<Item> FOCUS_OF_REGEN = ITEMS.register("focus_of_regen", () -> new MagicCurio(UNSTACKABLE,-300,100));
+    public static final RegistryObject<Item> FOCUS_OF_REGEN = ITEMS.register("focus_of_regen", () -> new MagicCurio(UNSTACKABLE,-300,25));
     public static final RegistryObject<Item> RING_REGEN = ITEMS.register("ring_regen", () -> new MagicCurio(UNSTACKABLE,0,5,5));
     public static final RegistryObject<Item> RING_BOOST = ITEMS.register("ring_boost", () -> new MagicCurio(UNSTACKABLE,100,0,5));
-    public static final RegistryObject<Item> RING_ARCANE_DISCOUNT = ITEMS.register("ring_arcane_discount", () -> new MagicCurio(UNSTACKABLE,20,1,50));
+    public static final RegistryObject<Item> RING_ARCANE_DISCOUNT = ITEMS.register("ring_arcane_discount", () -> new MagicCurio(UNSTACKABLE,20,1,35));
 
-        public static final RegistryObject<Item> STAFF = ITEMS.register("staff", () -> new Staff(BasicItemTier.Staff,2,-2.4f,2, AugmentAmplify.INSTANCE,1));
-        public static final RegistryObject<Item> STAFF_2 = ITEMS.register("archmage_staff", () -> new Staff(BasicItemTier.Staff2,4,-2.4f,3, AugmentAmplify.INSTANCE,2));
-        public static final RegistryObject<Item> STAFF_3 = ITEMS.register("arcane_staff", () -> new Staff(BasicItemTier.Staff3,8,-2.4f,4, AugmentAmplify.INSTANCE,3,true));
+    public static final RegistryObject<Item> STAFF = ITEMS.register("staff", () -> new Staff(BasicItemTier.Staff,2,-2.4f,2, AugmentAmplify.INSTANCE,1));
+    public static final RegistryObject<Item> STAFF_2 = ITEMS.register("archmage_staff", () -> new Staff(BasicItemTier.Staff2,4,-2.4f,3, AugmentAmplify.INSTANCE,2));
+    public static final RegistryObject<Item> STAFF_3 = ITEMS.register("arcane_staff", () -> new Staff(BasicItemTier.Staff3,8,-2.4f,4, AugmentAmplify.INSTANCE,3,true));
 
 
     public static final RegistryObject<Item> POISON_FLOWER_ITEM = ITEMS.register("poison_flower", () -> new BasicBlockItem(POISON_FLOWER.get(),ITEM_PROPERTIES));

@@ -13,6 +13,6 @@ public interface ILimitedPotion extends IPotionEffect {
         int amp = (int)stats.getAmpMultiplier();
         amp = Math.min(amp,maxLevel);
         amp = Math.max(amp,0);
-        living.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, ticks, amp, false, true, true));
+        living.addEffect(new MobEffectInstance(potionEffect, ticks, amp, false, true, true));
     }
 }

@@ -83,7 +83,7 @@ public class WitherSummon extends TierFourEffect {
 
     @Override
     public int getDefaultManaCost() {
-        return 2000;
+        return 1000;
     }
 
     @Override

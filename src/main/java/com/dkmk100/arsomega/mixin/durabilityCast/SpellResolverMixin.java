@@ -2,20 +2,41 @@ package com.dkmk100.arsomega.mixin.durabilityCast;
 
 import com.dkmk100.arsomega.IReactiveFlag;
 import com.dkmk100.arsomega.util.RegistryHandler;
+import com.hollingsworth.arsnouveau.api.spell.Spell;
+import com.hollingsworth.arsnouveau.api.spell.SpellContext;
 import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.apache.logging.log4j.LogManager;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
-@Mixin(SpellResolver.class)
+import static com.hollingsworth.arsnouveau.api.util.ManaUtil.getPlayerDiscounts;
+
+@Mixin(value = SpellResolver.class, remap = false)
 public class SpellResolverMixin implements IReactiveFlag {
     boolean isReactive = false;
     ItemStack trueItem = ItemStack.EMPTY;
 
+    @Shadow
+    public Spell spell;
+    @Shadow
+    public SpellContext spellContext;
+
+    //fixes an Ars bug lol.
+    @Redirect(method = "enoughMana", at = @At(value = "INVOKE", target = "Lcom/hollingsworth/arsnouveau/api/spell/SpellResolver;getResolveCost()I"))
+    int FixEnoughMana(SpellResolver resolver){
+        int cost = spellContext.getSpell().getDiscountedCost() - getPlayerDiscounts(spellContext.getUnwrappedCaster(), spell);
+        return Math.max(cost, 0);
+    }
+
+
+    //my interface
     @Override
     public void setReactive(boolean val) {
         isReactive = val;
@@ -36,6 +57,8 @@ public class SpellResolverMixin implements IReactiveFlag {
         this.trueItem = trueItem;
     }
 
+
+
     @ModifyVariable(at = @At("STORE"), remap = false, ordinal = 0, method = "Lcom/hollingsworth/arsnouveau/api/spell/SpellResolver;enoughMana(Lnet/minecraft/world/entity/LivingEntity;)Z")
     int canCastCostModifier(int val){
 
@@ -54,6 +77,7 @@ public class SpellResolverMixin implements IReactiveFlag {
         }
     }
 
+    @Unique
     int getCastCost(int val, ItemStack stack, int enchantLevel){
         int durability = stack.getMaxDamage() - stack.getDamageValue();
 
@@ -76,7 +100,6 @@ public class SpellResolverMixin implements IReactiveFlag {
 
     @ModifyVariable(at = @At("STORE"), remap = false, ordinal = 0, method = "Lcom/hollingsworth/arsnouveau/api/spell/SpellResolver;expendMana()V")
     int expendManaModifyCost(int val){
-        LogManager.getLogger().info("expend mana");
         if(getValue()) {
 
             ItemStack stack = getTrueItem();

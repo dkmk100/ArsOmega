@@ -18,9 +18,6 @@ public class ManaGUIMixin {
 
     @Inject(at = @At("HEAD"), method = "Lcom/hollingsworth/arsnouveau/client/gui/GuiManaHUD;shouldDisplayBar()Z", cancellable = true, remap = false)
     private static void shouldDisplayBar(CallbackInfoReturnable<Boolean> cir) {
-        ItemStack mainHand = minecraft.player.getMainHandItem();
-        ItemStack offHand = minecraft.player.getOffhandItem();
-        boolean result = false;
         if(EnchantmentHelper.getEnchantmentLevel(RegistryHandler.PROACTIVE_ENCHANT.get(),minecraft.player)>0){
             cir.setReturnValue(true);
         }
