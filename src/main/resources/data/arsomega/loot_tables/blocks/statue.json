@@ -1,0 +1,46 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "arsomega:statue",
+          "functions": [
+            {
+              "function": "minecraft:copy_name",
+              "source": "block_entity"
+            },
+            {
+              "function": "minecraft:copy_nbt",
+              "ops": [
+                {
+                  "op": "replace",
+                  "source": "entity",
+                  "target": "BlockEntityTag.entity"
+                },
+                {
+                  "op": "replace",
+                  "source": "entity_backup_id",
+                  "target": "BlockEntityTag.entity_backup_id"
+                }
+              ],
+              "source": "block_entity"
+            },
+            {
+              "type": "arsomega:statue_tile",
+              "entries": [
+                {
+                  "type": "minecraft:dynamic",
+                  "name": "minecraft:contents"
+                }
+              ],
+              "function": "minecraft:set_contents"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

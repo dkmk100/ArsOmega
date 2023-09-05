@@ -5,6 +5,7 @@ import com.dkmk100.arsomega.capabilitysyncer.OmegaStatusesCapabilityAttacher;
 import com.dkmk100.arsomega.client.block.DemonicLightRenderer;
 import com.dkmk100.arsomega.client.block.MirrorPortalRenderer;
 import com.dkmk100.arsomega.client.block.PortalRenderer;
+import com.dkmk100.arsomega.client.block.StatueRenderer;
 import com.dkmk100.arsomega.client.renderer.*;
 import com.dkmk100.arsomega.entities.*;
 import com.dkmk100.arsomega.items.ModSpawnEggItem;
@@ -197,6 +198,7 @@ public class ArsOmega
         event.registerBlockEntityRenderer(RegistryHandler.PortalType.get(), PortalRenderer::new);
         event.registerBlockEntityRenderer(RegistryHandler.MirrorPortalType.get(), MirrorPortalRenderer::new);
         event.registerBlockEntityRenderer(RegistryHandler.DemonicLightType.get(), DemonicLightRenderer::new);
+        event.registerBlockEntityRenderer(RegistryHandler.StatueType.get(), StatueRenderer::new);
 
 
     }

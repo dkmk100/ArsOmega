@@ -173,6 +173,14 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
+    public static void entityTick(final LivingEvent.LivingTickEvent event){
+        if (event.getEntity().hasEffect(ModPotions.STONE_PETRIFICATION.get())) {
+            event.getEntity().baseTick();//so as to not break things like effects counting down logic
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
     public static void Teleport(EntityTeleportEvent.EnderPearl e){
         LivingEntity entity = e.getPlayer();
         if(entity.hasEffect(ModPotions.DEMONIC_ANCHORING.get())){

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:sigil_alchemy_active"
+    },
+    {
+      "item": "arsomega:sigil_alchemy_active"
+    },
+    {
+      "item": "minecraft:milk_bucket"
+    },
+    {
+      "item": "arsomega:sigil_knowledge_active"
+    }
+  ],
+  "result": {
+    "item": "arsomega:spell_sigil_dispel"
+  }
+}

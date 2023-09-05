@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:sigil_power"
+    },
+    {
+      "item": "ars_nouveau:conjuration_essence"
+    },
+    {
+      "item": "arsomega:arcane_fiber"
+    }
+  ],
+  "result": {
+    "item": "arsomega:sigil_power_active"
+  }
+}

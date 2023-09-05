@@ -5,6 +5,7 @@ import com.dkmk100.arsomega.ArsOmega;
 
 import com.dkmk100.arsomega.crafting.ConjuringRecipe;
 import com.dkmk100.arsomega.crafting.EnchantRecipe;
+import com.dkmk100.arsomega.crafting.SigilRecipe;
 import com.dkmk100.arsomega.crafting.TransmuteRecipe;
 import com.dkmk100.arsomega.glyphs.EnchantGlyph;
 import com.dkmk100.arsomega.glyphs.TransmuteGlyph;
@@ -12,13 +13,16 @@ import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
+import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
- 
+
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -42,6 +46,7 @@ public class JEICompat implements IModPlugin {
         registration.addRecipeCategories(new ConjuringRecipeCategory(guiHelper));
         registration.addRecipeCategories(new TributeRecipeCategory(guiHelper));
         registration.addRecipeCategories(new EnchantRecipeCategory(guiHelper));
+        registration.addRecipeCategories(new SigilRecipeCategory(guiHelper));
 
         IModPlugin.super.registerCategories(registration);
     }
@@ -62,6 +67,17 @@ public class JEICompat implements IModPlugin {
         //enchant recipes
         List<EnchantRecipe> enchantRecipes = Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(RegistryHandler.ENCHANT_TYPE);
         registry.addRecipes(EnchantRecipeCategory.type,enchantRecipes);
+
+        List<SigilRecipe> sigilRecipes = Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(RegistryHandler.SIGIL_TYPE);
+        List<ItemStack> sigilOutputs = new ArrayList<>();
+        for(SigilRecipe recipe : sigilRecipes){
+            sigilOutputs.add(recipe.output);
+        }
+        registry.addIngredientInfo(sigilOutputs, VanillaTypes.ITEM_STACK, Component.literal("Sigils are made with the ritual of shaping. Check the worn notebook for more info on how to use it. "));
+
+        //so I know I just did all that work to make it possible
+        //but it's more fun if it isn't
+        //registry.addRecipes(SigilRecipeCategory.type,sigilRecipes);
 
 
         //conjuring recipes
@@ -90,7 +106,7 @@ public class JEICompat implements IModPlugin {
         registry.addRecipeCatalyst(new ItemStack(ArsNouveauAPI.getInstance().getGlyphItem(EnchantGlyph.INSTANCE)), EnchantRecipeCategory.type);
         registry.addRecipeCatalyst(new ItemStack(ArsNouveauAPI.getInstance().getRitualItemMap().get(new ResourceLocation(ArsOmega.MOD_ID,"ritual_conjuring"))), ConjuringRecipeCategory.type);
         registry.addRecipeCatalyst(new ItemStack(ArsNouveauAPI.getInstance().getRitualItemMap().get(new ResourceLocation(ArsOmega.MOD_ID,"ritual_tribute"))), TributeRecipeCategory.type);
-
+        registry.addRecipeCatalyst(new ItemStack(ArsNouveauAPI.getInstance().getRitualItemMap().get(new ResourceLocation(ArsOmega.MOD_ID,"ritual_shaping"))), SigilRecipeCategory.type);
     }
 
 

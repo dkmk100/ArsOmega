@@ -125,6 +125,6 @@ public class RitualShaping extends AbstractRitual {
 
     @Override
     public ResourceLocation getRegistryName() {
-        return RegistryHandler.getRitualName( "shaping");
+        return RegistryHandler.getRitualName("shaping");
     }
 }

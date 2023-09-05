@@ -1,8 +1,13 @@
 package com.dkmk100.arsomega.potions;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.blocks.StatueBlock;
+import com.dkmk100.arsomega.blocks.StatueTile;
 import com.dkmk100.arsomega.capabilitysyncer.OmegaStatusesCapability;
 import com.dkmk100.arsomega.capabilitysyncer.OmegaStatusesCapabilityAttacher;
+import com.dkmk100.arsomega.util.RegistryHandler;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -18,6 +23,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -73,18 +81,36 @@ public class PetrificationEffect extends MobEffect {
 
     void onPetrificationEnd(LivingEntity entity, int level){
         if (level >= 1) {
+            //don't petrify already dead entities to prevent all sorts of major issues
             if(entity.isDeadOrDying()){
-                return;//don't petrify already dead entities to prevent issues
+                return;
             }
             if(entity instanceof Player player){
                 if(player.getAbilities().instabuild && player.getAbilities().invulnerable){
                     return;//don't petrify players in creative mode
                 }
             }
+            //set petrified on entity to false before it dies
             LazyOptional<OmegaStatusesCapability> optional = OmegaStatusesCapabilityAttacher.getLivingEntityCapability(entity).cast();
             optional.ifPresent((cap) -> {cap.setPetrified(false,level);});
 
             //spawn statue, will be swapped for a real statue later
+            Level world = entity.getLevel();
+            Direction dir = entity.getDirection();
+            BlockPos pos = entity.blockPosition();
+            BlockState state = RegistryHandler.STATUE.get().defaultBlockState().setValue(StatueBlock.FACING,dir);
+            world.setBlockAndUpdate(pos, state);
+
+            BlockEntity be = world.getBlockEntity(pos);
+            if(be instanceof StatueTile tile){
+                tile.setEntity(entity);
+            }
+
+            //kill entity
+            entity.setHealth(1);
+            entity.hurt(PETRIFY, Float.MAX_VALUE);
+
+            /*
             ArmorStand ent = new ArmorStand(entity.getCommandSenderWorld(), entity.getX(), entity.getY(), entity.getZ());
             entity.getCommandSenderWorld().addFreshEntity(ent);
             ent.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE, 1));
@@ -95,9 +121,7 @@ public class PetrificationEffect extends MobEffect {
             ent.setYHeadRot(entity.getYHeadRot());
             ent.setYBodyRot(entity.yBodyRot);
 
-            //kill entity
-            entity.setHealth(1);
-            entity.hurt(PETRIFY, Float.MAX_VALUE);
+             */
         }
     }
 }

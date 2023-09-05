@@ -3,6 +3,7 @@ package com.dkmk100.arsomega.blocks;
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.events.CommonEvents;
 import com.dkmk100.arsomega.util.LevelUtil;
+import com.hollingsworth.arsnouveau.api.entity.IDispellable;
 import com.hollingsworth.arsnouveau.common.block.TickableModBlock;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;

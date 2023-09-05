@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "arsomega:sigil_fire_active"
+    },
+    {
+      "item": "arsomega:sigil_fire_active"
+    },
+    {
+      "item": "arsomega:salt"
+    },
+    {
+      "item": "arsomega:sigil_air_active"
+    }
+  ],
+  "result": {
+    "item": "arsomega:spell_sigil_smite"
+  }
+}

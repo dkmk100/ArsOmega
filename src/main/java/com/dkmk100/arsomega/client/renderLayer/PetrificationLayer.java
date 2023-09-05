@@ -77,7 +77,6 @@ public class PetrificationLayer extends RenderLayer {
             }
             catch (Exception e){
                 ArsOmega.LOGGER.warn("couldn't apply petrification layer to type: "+type.toString());
-                e.printStackTrace();
             }
         }
 

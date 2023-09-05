@@ -22,8 +22,7 @@ import com.dkmk100.arsomega.glyphs.*;
 import com.dkmk100.arsomega.items.*;
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.dkmk100.arsomega.rituals.*;
-import com.dkmk100.arsomega.spell_sigils.PetrifySigil;
-import com.dkmk100.arsomega.spell_sigils.ScaldSigil;
+import com.dkmk100.arsomega.spell_sigils.*;
 import com.dkmk100.arsomega.tools.BasicItemTier;
 import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
@@ -204,7 +203,6 @@ public class RegistryHandler{
     }
 
     public static void registerGlyphs(){
-
         register(TrueUnderfoot.INSTANCE);
         register(DiamondGlyph.INSTANCE);
         register(AdvancedAmplify.INSTANCE);
@@ -415,9 +413,10 @@ public class RegistryHandler{
     //Block Properties
     static final BlockPropertiesCreator blockPropertiesCreator = new BlockPropertiesCreator();
     static final Block.Properties STONE_PROPERTIES = blockPropertiesCreator.create(Material.STONE,3.5f,2f, SoundType.STONE, true);
+    static final Block.Properties STATUE_PROPERTIES = blockPropertiesCreator.create(Material.DECORATION,3.5f,2f, SoundType.STONE, true).noOcclusion();
 
-    static final Block.Properties MAGIC_CHALK_PROPERTIES = blockPropertiesCreator.create(Material.CLAY,1.0f,9f, SoundType.CALCITE, false).noCollission().noOcclusion();;
-    static final Block.Properties CHALK_PROPERTIES = blockPropertiesCreator.create(Material.DECORATION,0.2f,2f, SoundType.WOOD, false).noCollission().noOcclusion();;
+    static final Block.Properties MAGIC_CHALK_PROPERTIES = blockPropertiesCreator.create(Material.CLAY,1.0f,9f, SoundType.CALCITE, false).noCollission().noOcclusion();
+    static final Block.Properties CHALK_PROPERTIES = blockPropertiesCreator.create(Material.DECORATION,0.2f,2f, SoundType.WOOD, false).noCollission().noOcclusion();
 
     static final Block.Properties FLOWER_PROPERTIES = blockPropertiesCreator.create(Material.PLANT,0.01f,0f, SoundType.CROP, false).noCollission().noOcclusion();
     static final BlockBehaviour.Properties BRAMBLE_PROPERTIES = blockPropertiesCreator.create(Material.PLANT, 2f, 0.5f,  SoundType.HARD_CROP, false).noOcclusion();
@@ -529,9 +528,12 @@ public class RegistryHandler{
 
     public static final RegistryObject<DemonicLightBlock> DEMONIC_LIGHT = BLOCKS.register("demonic_light",() -> new DemonicLightBlock());
 
+    public static final RegistryObject<StatueBlock> STATUE = BLOCKS.register("statue",() -> new StatueBlock(STATUE_PROPERTIES));
+
 
     public static RegistryObject<BlockEntityType<DemonicLightTile>> DemonicLightType = TILE_ENTITIES.register("demonic_light_tile",() -> BlockEntityType.Builder.of(DemonicLightTile::new,DEMONIC_LIGHT.get()).build(null));
 
+    public static RegistryObject<BlockEntityType<StatueTile>> StatueType = TILE_ENTITIES.register("statue_tile",() -> BlockEntityType.Builder.of(StatueTile::new,STATUE.get()).build(null));
 
 
     public static RegistryObject<BlockEntityType<PotionExtenderTile>> PotionExtenderType = TILE_ENTITIES.register("potion_extender_tile",() -> BlockEntityType.Builder.of(PotionExtenderTile::new,POTION_EXTENDER.get()).build(null));
@@ -666,6 +668,8 @@ public class RegistryHandler{
     public static final RegistryObject<Item> POTION_EXTENDER_ITEM = ITEMS.register("potion_extender", () -> new BasicBlockItem(POTION_EXTENDER.get(),ITEM_PROPERTIES));
     public static final RegistryObject<Item> POTION_AMPLIFIER_ITEM = ITEMS.register("potion_amplifier", () -> new BasicBlockItem(POTION_AMPLIFIER.get(),ITEM_PROPERTIES));
     public static final RegistryObject<Item> POTION_RELAY_ITEM = ITEMS.register("potion_relay", () -> new BasicBlockItem(POTION_RELAY.get(),ITEM_PROPERTIES));
+    public static final RegistryObject<Item> STATUE_ITEM = ITEMS.register("statue", () -> new StatueItem(STATUE.get(),ITEM_PROPERTIES));
+
 
     //public static final RegistryObject<Item> CHALK_LINE_ITEM = new BlockItem(CHALK_LINE_1.get(),ITEM_PROPERTIES).setRegistryName("chalk_line");
 
@@ -696,6 +700,7 @@ public class RegistryHandler{
     public static final RegistryObject<Item> SIGIL_EARTH_ACTIVE = ITEMS.register("sigil_earth_active", () -> new SigilItem(ITEM_PROPERTIES,false,true));
     public static final RegistryObject<Item> SIGIL_AIR_ACTIVE = ITEMS.register("sigil_air_active", () -> new SigilItem(ITEM_PROPERTIES,false,true));
     public static final RegistryObject<Item> SIGIL_BINDING_ACTIVE = ITEMS.register("sigil_binding_active", () ->  new SigilItem(ITEM_PROPERTIES,false,true));
+
     public static final RegistryObject<Item> SIGIL_ALCHEMY = ITEMS.register("sigil_alchemy", () ->  new SigilItem(ITEM_PROPERTIES));
     public static final RegistryObject<Item> SIGIL_LIFE = ITEMS.register("sigil_life", () ->  new SigilItem(ITEM_PROPERTIES));
     public static final RegistryObject<Item> SIGIL_NATURE = ITEMS.register("sigil_nature", () ->  new SigilItem(ITEM_PROPERTIES));
@@ -703,9 +708,20 @@ public class RegistryHandler{
     public static final RegistryObject<Item> SIGIL_LIFE_ACTIVE = ITEMS.register("sigil_life_active", () ->  new SigilItem(ITEM_PROPERTIES,false,true));
     public static final RegistryObject<Item> SIGIL_NATURE_ACTIVE = ITEMS.register("sigil_nature_active", () ->  new SigilItem(ITEM_PROPERTIES,false,true));
 
+    public static final RegistryObject<Item> SIGIL_CONSTRUCTION = ITEMS.register("sigil_construction", () ->  new SigilItem(ITEM_PROPERTIES,false,false));
+    public static final RegistryObject<Item> SIGIL_KNOWLEDGE = ITEMS.register("sigil_knowledge", () ->  new SigilItem(ITEM_PROPERTIES,false,false));
+    public static final RegistryObject<Item> SIGIL_POWER = ITEMS.register("sigil_power", () ->  new SigilItem(ITEM_PROPERTIES,false,false));
+    public static final RegistryObject<Item> SIGIL_CONSTRUCTION_ACTIVE = ITEMS.register("sigil_construction_active", () ->  new SigilItem(ITEM_PROPERTIES,false,false));
+    public static final RegistryObject<Item> SIGIL_KNOWLEDGE_ACTIVE = ITEMS.register("sigil_knowledge_active", () ->  new SigilItem(ITEM_PROPERTIES,false,false));
+    public static final RegistryObject<Item> SIGIL_POWER_ACTIVE = ITEMS.register("sigil_power_active", () ->  new SigilItem(ITEM_PROPERTIES,false,false));
+
+
     public static final RegistryObject<Item> SPELL_SIGIL_SCALD = ITEMS.register("spell_sigil_scald", () ->new ScaldSigil());
     public static final RegistryObject<Item> SPELL_SIGIL_PETRIFY = ITEMS.register("spell_sigil_petrify", () ->new PetrifySigil());
-    //public static final RegistryObject<Item>  = (new DescribedItem("spell_sigil_smite", ITEM_PROPERTIES,"This spell sigil currently has no functionality, it will be implemented in another beta for the update."));
+
+    public static final RegistryObject<Item> SPELL_SIGIL_SMITE = ITEMS.register("spell_sigil_smite", () -> new SmiteSigil());
+    public static final RegistryObject<Item> SPELL_SIGIL_DISPEL = ITEMS.register("spell_sigil_dispel", () -> new DispelSigil());
+    public static final RegistryObject<Item> SPELL_SIGIL_HEAL = ITEMS.register("spell_sigil_heal", () -> new HealSigil());
 
 
     public static final RegistryObject<Item> IRON_NEEDLE = ITEMS.register("iron_needle", () ->new ItemPlayerStorage(UNSTACKABLE_FIRE));
@@ -728,7 +744,7 @@ public class RegistryHandler{
     public static final RegistryObject<Item> VENGEFUL_SOUL_SAND_ITEM = ITEMS.register("vengeful_soul_sand", () -> new BasicBlockItem(VENGEFUL_SOUL_SAND.get(),ITEM_PROPERTIES));
 
 
-    public static final RegistryObject<Item> SALT = ITEMS.register("salt", () ->new DescribedItem(ITEM_PROPERTIES,"An item used in crafting."));
+    public static final RegistryObject<Item> SALT = ITEMS.register("salt", () ->new DescribedItem(ITEM_PROPERTIES,"An item used in crafting. Obtained by using advanced evaporate on water."));
 
     //public static final RegistryObject<Item> CELESTIAL_STAFF = ITEMS.register("celestial_staff", () -> new CelestialStaff(ITEM_PROPERTIES_FIRE));
 

@@ -2,6 +2,7 @@ package com.dkmk100.arsomega.blocks;
 
 
 import com.dkmk100.arsomega.potions.ModPotions;
+import com.dkmk100.arsomega.util.ConfigHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.potion.PotionData;
 import com.hollingsworth.arsnouveau.api.util.SourceUtil;
@@ -142,7 +143,6 @@ public class PotionAmplifierTile extends BlockEntity implements ITickable {
         }
     }
 
-
     public List<MobEffectInstance> getCombinedResult(PotionJarTile jar1) {
         return getBuffedEffects(jar1.getData().fullEffects());
     }
@@ -151,7 +151,7 @@ public class PotionAmplifierTile extends BlockEntity implements ITickable {
         boolean hasBuffedEffect = false;
         for (MobEffectInstance instance:originals) {
             if(!hasBuffedEffect){
-                newEffects.add(new MobEffectInstance(instance.getEffect(), instance.getDuration(), Math.min(instance.getAmplifier()+1,20)));
+                newEffects.add(new MobEffectInstance(instance.getEffect(), instance.getDuration(), Math.min(instance.getAmplifier()+1, ConfigHandler.getMaxPotionAmplification())));
                 hasBuffedEffect = true;
             }
             else{

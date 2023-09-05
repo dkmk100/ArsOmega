@@ -44,11 +44,6 @@ public class LeadSkin extends AbstractEffect implements ILimitedPotion {
     }
 
     @Override
-    protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
-        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 1);
-    }
-
-    @Override
     public int getDefaultManaCost() {
         return 800;
     }

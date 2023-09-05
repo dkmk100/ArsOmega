@@ -40,4 +40,19 @@ public class SigilPattern {
             }
         }
     }
+    public String getPatternRow(int y){
+        StringBuilder builder = new StringBuilder(sizeX);
+        for(int i = 0; i< sizeX; i++){
+            if(tileX == i && tileY == y){
+                builder.append('B');
+            }
+            else if(recipe[y][i]){
+                builder.append('x');
+            }
+            else{
+                builder.append(' ');
+            }
+        }
+        return builder.toString();
+    }
 }

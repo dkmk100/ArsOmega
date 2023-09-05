@@ -1,0 +1,21 @@
+{
+  "type": "arsomega:sigil",
+  "pattern": [
+    "   xxxxx   ",
+    "   x   x   ",
+    "  xxx xxx  ",
+    "xxx xxx xxx",
+    "x xxx xxx x",
+    "x  x B x  x",
+    "x xxx xxx x",
+    "xxx xxx xxx",
+    "  xxx xxx  ",
+    "   x   x   ",
+    "   xxxxx   "
+  ],
+  "output": {
+    "item": "arsomega:sigil_power",
+    "count": 3
+  },
+  "sourceCost": 100
+}

@@ -8,19 +8,14 @@ import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodProjectile;
-import com.hollingsworth.arsnouveau.common.spell.validation.ActionAugmentationPolicyValidator;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -38,51 +33,31 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Staff extends SwordItem implements IAnimatable, ICasterTool {
+import static com.dkmk100.arsomega.items.Staff.*;
+
+public class ModularStaff extends SwordItem implements IAnimatable, ICasterTool {
     public AnimationFactory factory = new AnimationFactory(this);
-    static Method getStats = null;
-    static Method enoughMana;
 
-    static Class AugmentError;
-
-    public Staff(Tier iItemTier, int baseDamage, float baseAttackSpeed) {
+    public ModularStaff(Tier iItemTier, int baseDamage, float baseAttackSpeed) {
         super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsOmega.itemGroup));
         this.augmentAmount = 2;
         this.augmentAdded = AugmentAmplify.INSTANCE;
         this.amountEach = 2;
-        InitReflection();
-    }
-    static void InitReflection(){
-        if(getStats != null){
-            return;
-        }
-        try{
-            getStats = SpellResolver.class.getDeclaredMethod("getCastStats");
-            enoughMana = SpellResolver.class.getDeclaredMethod("enoughMana", LivingEntity.class);
-            AugmentError = Class.forName("com.hollingsworth.arsnouveau.common.spell.validation.ActionAugmentationPolicyValidator$ActionAugmentationPolicyValidationError");
-            getStats.setAccessible(true);
-            enoughMana.setAccessible(true);
-        }
-        catch (Exception e){
-            throw new RuntimeException(e);
-        }
     }
     int augmentAmount;
     AbstractAugment augmentAdded;
     int amountEach;
-    public Staff(Tier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach) {
+    public ModularStaff(Tier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach) {
         super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsOmega.itemGroup));
         this.augmentAmount = augmentAmount;
         this.augmentAdded = augmentAdded;
         this.amountEach = amountEach;
-        InitReflection();
     }
-    public Staff(Tier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach, boolean fireResistant) {
+    public ModularStaff(Tier iItemTier, int baseDamage, float baseAttackSpeed, int augmentAmount, AbstractAugment augmentAdded, int amountEach, boolean fireResistant) {
         super(iItemTier, baseDamage, baseAttackSpeed, (new Properties()).stacksTo(1).tab(ArsOmega.itemGroup).fireResistant());
         this.augmentAmount = augmentAmount;
         this.augmentAdded = augmentAdded;
         this.amountEach = amountEach;
-        InitReflection();
     }
 
     private <P extends Item & IAnimatable> PlayState predicate(AnimationEvent<P> event) {
@@ -208,3 +183,4 @@ public class Staff extends SwordItem implements IAnimatable, ICasterTool {
         super.appendHoverText(stack, worldIn, tooltip2, flagIn);
     }
 }
+

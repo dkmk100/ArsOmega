@@ -62,7 +62,6 @@ public class TransmuteRecipeCategory implements IRecipeCategory<TransmuteRecipe>
         input.add(recipe.input);
         inputs.add(input);
 
-
         List<ItemStack> validFoci = new ArrayList<>();
         if(recipe.minAmp>TransmuteGlyph.normalMax){
             if(recipe.minAmp<=TransmuteGlyph.focusMax){

@@ -5,6 +5,7 @@ import com.dkmk100.arsomega.blocks.PortalBlock;
 import com.dkmk100.arsomega.blocks.PortalBlockEntity;
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.dkmk100.arsomega.util.RegistryHandler;
+import com.hollingsworth.arsnouveau.api.ANFakePlayer;
 import com.hollingsworth.arsnouveau.api.entity.IDispellable;
 import com.hollingsworth.arsnouveau.api.event.DispelEvent;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
@@ -15,6 +16,7 @@ import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
 import com.hollingsworth.arsnouveau.client.particle.ParticleUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -56,8 +58,10 @@ public class RitualDispel extends AbstractRitual {
                 this.setNeedsSource(true);
             }
             this.incrementProgress();
-            if (this.getProgress() > 5) {
 
+
+            if (this.getProgress() > 5) {
+                Player fakePlayer = ANFakePlayer.getPlayer((ServerLevel) world);
                 int sideRange = 5;
                 int upRange = 7;
                 int downRange = 2;
@@ -68,6 +72,12 @@ public class RitualDispel extends AbstractRitual {
                             if (world.isInWorldBounds(pos)) {
                                 if (world.getBlockState(pos).getBlock() instanceof PortalBlock) {
                                     world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+                                }
+                                if (world.getBlockState(pos) instanceof IDispellable dispellable) {
+                                    dispellable.onDispel(fakePlayer);
+                                }
+                                if (world.getBlockEntity(pos) instanceof IDispellable dispellable) {
+                                    dispellable.onDispel(fakePlayer);
                                 }
                             }
                         }
@@ -100,7 +110,7 @@ public class RitualDispel extends AbstractRitual {
                     }
 
                     if (entity instanceof IDispellable && entity.isAlive() && entity.getHealth() > 0.0F && !entity.isRemoved()) {
-                        ((IDispellable)entity).onDispel(null);
+                        ((IDispellable)entity).onDispel(fakePlayer);
                     }
                 }
 
