@@ -18,6 +18,7 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LightningBoltRenderer;
 import net.minecraft.client.renderer.entity.WitherBossRenderer;
+import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
@@ -130,7 +131,9 @@ public class ArsOmega
             ModPotions.RegisterPotionRecipes();
         });
 
-
+        for(var item : RegistryHandler.getDyeableItems().get()) {
+            CauldronInteraction.WATER.put(item, CauldronInteraction.DYED_ITEM);
+        }
 
         PacketUtil.init();
         PacketUtil.register(ResetChunkColorsPacket.class);
@@ -153,6 +156,8 @@ public class ArsOmega
         event.put(RegistryHandler.CLAY_GOLEM_MYSTIC.get(), EntityClayGolem.createAttributes(EntityClayGolem.Tier.MYSTIC).build());
         event.put(RegistryHandler.CLAY_GOLEM_ARCANE.get(), EntityClayGolem.createAttributes(EntityClayGolem.Tier.ARCANE).build());
         event.put(RegistryHandler.WITHER_BOUND.get(), WitherBoss.createAttributes().build());
+
+        event.put(RegistryHandler.GORGON.get(), EntityGorgon.createAttributes().build());
     }
     private void clientSetup(final FMLClientSetupEvent event)
     {
@@ -181,6 +186,8 @@ public class ArsOmega
         RegisterMobRenderer(RegistryHandler.STRONG_DEMON.get(),"demon_strong",event);
         event.registerEntityRenderer(RegistryHandler.RAPTOR_DEMON.get(), (EntityRendererProvider.Context context) -> new RaptorRenderer(context));
         event.registerEntityRenderer(RegistryHandler.RAY_DEMON.get(), (EntityRendererProvider.Context context) -> new RayRenderer(context));
+        event.registerEntityRenderer(RegistryHandler.GORGON.get(), (EntityRendererProvider.Context context) -> new GeckolibEntityRenderer(context,"gorgon"));
+
 
         RegisterMobRenderer(RegistryHandler.BOSS_DEMON_KING.get(),"boss_demon_king",event);
         RegisterMobRenderer(RegistryHandler.CLAY_GOLEM_BETA.get(),"clay_golem",event);

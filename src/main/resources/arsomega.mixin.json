@@ -14,7 +14,8 @@
     "EffectMixin",
     "PotionJarMixin",
     "durabilityCast.SpellResolverMixin",
-    "durabilityCast.ReactiveCasterMixin"
+    "durabilityCast.ReactiveCasterMixin",
+    "AnimationControllerMixin"
   ],
   "client": [
     "ManaGUIMixin",

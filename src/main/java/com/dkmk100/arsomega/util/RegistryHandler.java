@@ -28,6 +28,7 @@ import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.api.spell.AbstractCastMethod;
 import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
+import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.common.items.SpellBook;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
@@ -35,6 +36,7 @@ import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDurationDown;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentExtendTime;
 
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.Registry;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
@@ -69,9 +71,12 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.*;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -561,16 +566,22 @@ public class RegistryHandler{
 
     public static final RegistryObject<Item> TIER_FOUR_BOOK = ITEMS.register("arcane_book", () -> new SpellBook(ITEM_PROPERTIES_FIRE,TierFourEffect.FOUR));
 
-    public static final RegistryObject<Item> GREATER_MANA_AMULET = ITEMS.register("greater_mana_amulet", () -> new MagicCurio(UNSTACKABLE,300,1));
-    public static final RegistryObject<Item> GREATER_REGEN_AMULET = ITEMS.register("greater_regen_amulet", () -> new MagicCurio(UNSTACKABLE,5,8));
-    public static final RegistryObject<Item> FOCUS_OF_MANA = ITEMS.register("focus_of_mana", () -> new MagicCurio(UNSTACKABLE,2000,-10));
+    public static final RegistryObject<Item> GREATER_MANA_AMULET = ITEMS.register("greater_mana_amulet", () -> new MagicCurio(UNSTACKABLE,200,1));
+    public static final RegistryObject<Item> GREATER_REGEN_AMULET = ITEMS.register("greater_regen_amulet", () -> new MagicCurio(UNSTACKABLE,5,5));
+
+
+    public static final RegistryObject<Item> ARCANE_MANA_AMULET = ITEMS.register("arcane_mana_amulet", () -> new MagicCurio(UNSTACKABLE,450,2));
+    public static final RegistryObject<Item> ARCANE_REGEN_AMULET = ITEMS.register("arcane_regen_amulet", () -> new MagicCurio(UNSTACKABLE,12,10));
+
+
+    public static final RegistryObject<Item> FOCUS_OF_MANA = ITEMS.register("focus_of_mana", () -> new MagicCurio(UNSTACKABLE,2000,-14));
     public static final RegistryObject<Item> FOCUS_OF_ALCHEMY = ITEMS.register("focus_of_alchemy", () -> new MagicCurio(UNSTACKABLE,-50,-4));
-    public static final RegistryObject<Item> FOCUS_OF_ADVANCED_ALCHEMY = ITEMS.register("focus_of_advanced_alchemy", () -> new MagicCurio(UNSTACKABLE,-200,-8));
+    public static final RegistryObject<Item> FOCUS_OF_ADVANCED_ALCHEMY = ITEMS.register("focus_of_advanced_alchemy", () -> new MagicCurio(UNSTACKABLE,-100,-8));
 
     public static final RegistryObject<Item> FOCUS_OF_LIFE = ITEMS.register("focus_of_life", () -> new MagicCurio(UNSTACKABLE,-50,-4));
 
 
-    public static final RegistryObject<Item> FOCUS_OF_REGEN = ITEMS.register("focus_of_regen", () -> new MagicCurio(UNSTACKABLE,-300,25));
+    public static final RegistryObject<Item> FOCUS_OF_REGEN = ITEMS.register("focus_of_regen", () -> new MagicCurio(UNSTACKABLE,-400,20));
     public static final RegistryObject<Item> RING_REGEN = ITEMS.register("ring_regen", () -> new MagicCurio(UNSTACKABLE,0,5,5));
     public static final RegistryObject<Item> RING_BOOST = ITEMS.register("ring_boost", () -> new MagicCurio(UNSTACKABLE,100,0,5));
     public static final RegistryObject<Item> RING_ARCANE_DISCOUNT = ITEMS.register("ring_arcane_discount", () -> new MagicCurio(UNSTACKABLE,20,1,35));
@@ -579,6 +590,26 @@ public class RegistryHandler{
     public static final RegistryObject<Item> STAFF_2 = ITEMS.register("archmage_staff", () -> new Staff(BasicItemTier.Staff2,4,-2.4f,3, AugmentAmplify.INSTANCE,2));
     public static final RegistryObject<Item> STAFF_3 = ITEMS.register("arcane_staff", () -> new Staff(BasicItemTier.Staff3,8,-2.4f,4, AugmentAmplify.INSTANCE,3,true));
 
+    public static final RegistryObject<Item> MODULAR_STAFF = ITEMS.register("modular_staff", () ->
+            new ModularStaff(BasicItemTier.Staff,2,-2.4f, new StatsModifier()));
+
+    static StatsModifier basicCrystalMod = new StatsModifier();
+    static StatsModifier demonicCrystalMod = new StatsModifier().withInnerAugment(AugmentAmplify.INSTANCE,2,2,false);
+
+
+    public static final RegistryObject<Item> SOURCE_GEM_STAFF_CRYSTAL = ITEMS.register("source_gem_staff_crystal", () ->
+            new BasicStaffCrystal(UNSTACKABLE, basicCrystalMod, ParticleColor.defaultParticleColor().getColor(), false));
+    public static final RegistryObject<Item> DEMON_GEM_STAFF_CRYSTAL = ITEMS.register("demon_gem_staff_crystal", () ->
+            new BasicStaffCrystal(UNSTACKABLE, demonicCrystalMod, Color.RED.getRGB(), true));
+
+
+    public static Supplier<List<Item>> getStaffCrystals(){
+        return () -> List.of(SOURCE_GEM_STAFF_CRYSTAL.get(),DEMON_GEM_STAFF_CRYSTAL.get());
+    }
+
+    public static Supplier<List<Item>> getDyeableItems(){
+        return () -> List.of(MODULAR_STAFF.get(),SOURCE_GEM_STAFF_CRYSTAL.get(),DEMON_GEM_STAFF_CRYSTAL.get());
+    }
 
     public static final RegistryObject<Item> POISON_FLOWER_ITEM = ITEMS.register("poison_flower", () -> new BasicBlockItem(POISON_FLOWER.get(),ITEM_PROPERTIES));
     public static final RegistryObject<Item> DEMONIC_STONE_ITEM = ITEMS.register("demonic_stone", () -> new BasicBlockItem(DEMONIC_STONE.get(),ITEM_PROPERTIES));
@@ -647,8 +678,9 @@ public class RegistryHandler{
     public static final RegistryObject<Item> ENCHANTED_ROPE = ITEMS.register("enchanted_rope", () -> new BasicItem(ITEM_PROPERTIES_FIRE));
 
 
-    public static final RegistryObject<Item> ESSENCE_ELEMENTAL_BASIC = ITEMS.register("basic_elemental_essence", () -> new EssenceItem(ITEM_PROPERTIES));
-    public static final RegistryObject<Item> ESSENCE_ELEMENTAL_ADVANCED = ITEMS.register("advanced_elemental_essence", () -> new EssenceItem(ITEM_PROPERTIES));
+    //you never got used so bye bye!
+    //public static final RegistryObject<Item> ESSENCE_ELEMENTAL_BASIC = ITEMS.register("basic_elemental_essence", () -> new EssenceItem(ITEM_PROPERTIES));
+    //public static final RegistryObject<Item> ESSENCE_ELEMENTAL_ADVANCED = ITEMS.register("advanced_elemental_essence", () -> new EssenceItem(ITEM_PROPERTIES));
 
     public static final RegistryObject<Item> INFINITY_CRYSTAL_ITEM = ITEMS.register("infinity_crystal", () -> new BasicBlockItem(INFINITY_CRYSTAL.get(), ITEM_PROPERTIES));
     public static final RegistryObject<Item> FLESH_BLOCK_ITEM = ITEMS.register("flesh_block", () -> new BasicBlockItem(FLESH_BLOCK.get(),ITEM_PROPERTIES));
@@ -775,6 +807,7 @@ public class RegistryHandler{
     public static final RegistryObject<EntityType<?  extends Monster>> RAPTOR_DEMON = ENTITIES.register("demon_raptor", () -> EntityType.Builder.of(EntityDemonRaptor::new, MobCategory.MONSTER).sized(0.6F, 1.4F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_raptor").toString()));
     public static final RegistryObject<EntityType<? extends Mob>> RAY_DEMON = ENTITIES.register("demon_ray", () -> EntityType.Builder.of(EntityDemonRay::new, MobCategory.AMBIENT).sized(1.5F, 1.1F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_ray").toString()));
 
+    public static final RegistryObject<EntityType<? extends Mob>> GORGON = ENTITIES.register("gorgon", () -> EntityType.Builder.of(EntityGorgon::new, MobCategory.AMBIENT).sized(1.5F, 1.1F).build(new ResourceLocation(ArsOmega.MOD_ID, "gorgon").toString()));
 
     public static final RegistryObject<EntityType<? extends EntityClayGolem>> CLAY_GOLEM_BETA = ENTITIES.register("clay_golem", () -> EntityType.Builder.<EntityClayGolem>of((e,l) -> new EntityClayGolem(e,l, EntityClayGolem.Tier.MAGIC), MobCategory.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem").toString()));
     public static final RegistryObject<EntityType<? extends EntityClayGolem>> CLAY_GOLEM_MARVELOUS = ENTITIES.register("clay_golem_marvelous", () -> EntityType.Builder.<EntityClayGolem>of((e,l) -> new EntityClayGolem(e,l, EntityClayGolem.Tier.MARVELOUS), MobCategory.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem_marvelous").toString()));
