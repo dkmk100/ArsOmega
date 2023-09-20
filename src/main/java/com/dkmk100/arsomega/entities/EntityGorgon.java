@@ -3,6 +3,9 @@ package com.dkmk100.arsomega.entities;
 import com.dkmk100.arsomega.ArsOmega;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
@@ -21,6 +24,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -28,6 +32,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.ars_nouveau.geckolib3.core.IAnimatable;
 import software.bernie.ars_nouveau.geckolib3.core.PlayState;
@@ -44,6 +50,8 @@ public class EntityGorgon extends Monster implements IAnimatable {
 
     }
 
+    private static final EntityDataAccessor<String> ANIM_STATE = SynchedEntityData.defineId(EntityGorgon.class, EntityDataSerializers.STRING);
+
     private AnimationFactory factory = new AnimationFactory(this);
 
     @Override
@@ -56,6 +64,42 @@ public class EntityGorgon extends Monster implements IAnimatable {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new EntityUtil.TargetGoal<>(this, Player.class));
         this.targetSelector.addGoal(3, new EntityUtil.TargetGoal<>(this, IronGolem.class));
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(ANIM_STATE, "idle");
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if(this.level.isClientSide()){
+            return;
+        }
+
+        if(this.isNoAi()){
+            entityData.set(ANIM_STATE, "idle");
+        }
+        else{
+            if(getNavigation() instanceof GorgonPathNavigation nav){
+                if(nav.isInProgress()){
+                    if(nav.getSpeedModifier() > 0.9){
+                        entityData.set(ANIM_STATE, "run");
+                    }
+                    else{
+                        entityData.set(ANIM_STATE, "walk");
+                    }
+                }
+                else{
+                    entityData.set(ANIM_STATE, "idle");
+                }
+            }
+            else{
+                entityData.set(ANIM_STATE, "idle");
+            }
+        }
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -85,7 +129,17 @@ public class EntityGorgon extends Monster implements IAnimatable {
 
     @Override
     protected PathNavigation createNavigation(Level worldIn) {
-        return new GroundPathNavigation(this, worldIn);
+        return new GorgonPathNavigation(this, worldIn);
+    }
+
+    private class GorgonPathNavigation extends GroundPathNavigation{
+        public GorgonPathNavigation(Mob p_26448_, Level p_26449_) {
+            super(p_26448_, p_26449_);
+        }
+
+        public double getSpeedModifier(){
+            return this.speedModifier;
+        }
     }
 
     @Override
@@ -122,7 +176,7 @@ public class EntityGorgon extends Monster implements IAnimatable {
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.gorgon.walk", true));
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.gorgon." + getEntityData().get(ANIM_STATE), true));
         return PlayState.CONTINUE;
     }
 

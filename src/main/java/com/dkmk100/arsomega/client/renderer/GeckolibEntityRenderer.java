@@ -13,12 +13,15 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.ars_nouveau.geckolib3.geo.render.built.GeoBone;
 import software.bernie.ars_nouveau.geckolib3.model.AnimatedGeoModel;
 import software.bernie.ars_nouveau.geckolib3.renderers.geo.GeoEntityRenderer;
 import software.bernie.ars_nouveau.geckolib3.util.RenderUtils;
+
+import java.util.Locale;
 
 public class GeckolibEntityRenderer extends GeoEntityRenderer {
 
@@ -31,11 +34,23 @@ public class GeckolibEntityRenderer extends GeoEntityRenderer {
 
     @Override
     public void renderRecursively(GeoBone bone, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        if(bone.getName().equals("rightItem")){
+        String boneNameLower = bone.getName().toLowerCase(Locale.ROOT);
+        ItemStack itemstack = null;
+        if(boneNameLower.equals("rightitem")) {
+            itemstack = animatable.getItemBySlot(EquipmentSlot.MAINHAND);
+        }
+        if(boneNameLower.equals("leftitem")) {
+            itemstack = animatable.getItemBySlot(EquipmentSlot.OFFHAND);
+        }
+        if(boneNameLower.equals("helmet")) {
+            itemstack = animatable.getItemBySlot(EquipmentSlot.HEAD);
+        }
 
+        if(itemstack != null){
             poseStack.pushPose();
             RenderUtils.translateToPivotPoint(poseStack, bone);
-            ItemStack itemstack = animatable.getItemInHand(InteractionHand.MAIN_HAND);
+            RenderUtils.rotateMatrixAroundBone(poseStack, bone);
+
             Minecraft.getInstance().getItemRenderer().renderStatic(itemstack, ItemTransforms.TransformType.THIRD_PERSON_RIGHT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, this.rtb, (int)animatable.blockPosition().asLong());
 
             poseStack.popPose();
