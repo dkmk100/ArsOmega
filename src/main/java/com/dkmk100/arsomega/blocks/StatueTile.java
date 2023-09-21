@@ -183,8 +183,8 @@ public class StatueTile extends ModdedTile {
             return cached;
         }
 
-        if(player!=null && level instanceof ClientLevel clientLevel){
-            Entity p = StatueUtils.CreateClientPlayer(player.profile, clientLevel);
+        if(player!=null && level.isClientSide){
+            Entity p = StatueUtils.CreateClientPlayer(player.profile, level);
             p.load(tag);
             return p;
         }
