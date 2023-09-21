@@ -101,11 +101,13 @@ public class ArsOmega
 
                 }
         );
+        /*
         event.register(ForgeRegistries.Keys.ENTITY_TYPES,
                 helper -> {
                     ModSpawnEggItem.initSpawnEggs();
                 }
         );
+         */
 
     }
     private void enqueue(final InterModEnqueueEvent evt) {

@@ -1,5 +1,5 @@
 package com.dkmk100.arsomega.blocks;
-
+/*
 import com.hollingsworth.arsnouveau.common.block.TickableModBlock;
 import com.hollingsworth.arsnouveau.common.block.tile.RelayTile;
 import net.minecraft.core.BlockPos;
@@ -43,3 +43,4 @@ public class PotionRelay extends TickableModBlock {
         return shape;
     }
 }
+*/

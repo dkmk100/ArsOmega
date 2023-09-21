@@ -526,7 +526,9 @@ public class RegistryHandler{
     public static final RegistryObject<BasicChalk> CHALK_BLOCK = BLOCKS.register("chalk",() ->
             new BasicChalk(CHALK_PROPERTIES,new ChalkColor(1.0f,1.0f,1.0f,0f,0f,0f)));
 
-    public static final RegistryObject<Block> POTION_RELAY = BLOCKS.register("potion_relay",() -> new PotionRelay());
+
+    //I'm moving this to Industria, so bye bye for now
+    //public static final RegistryObject<Block> POTION_RELAY = BLOCKS.register("potion_relay",() -> new PotionRelay());
 
     public static final RegistryObject<PortalBlock> PORTAL_BLOCK = BLOCKS.register("portal_block",() -> new PortalBlock(PORTAL_PROPERTIES));
     public static final RegistryObject<MirrorPortalBlock> MIRROR_PORTAL_BLOCK = BLOCKS.register("mirror_portal_block",() -> new MirrorPortalBlock(PORTAL_PROPERTIES));
@@ -548,7 +550,8 @@ public class RegistryHandler{
 
     public static RegistryObject<BlockEntityType<InfinityCrystalTile>> InfinityCrystalType = TILE_ENTITIES.register("infinity_crystal_tile",() -> BlockEntityType.Builder.of(InfinityCrystalTile::new, INFINITY_CRYSTAL.get()).build(null));
 
-    public static RegistryObject<BlockEntityType<PotionRelayTile>> PotionRelayType = TILE_ENTITIES.register("potion_relay_tile",() -> BlockEntityType.Builder.of(PotionRelayTile::new, POTION_RELAY.get()).build(null));
+    //I'm moving this to Industria, so bye bye for now
+    //public static RegistryObject<BlockEntityType<PotionRelayTile>> PotionRelayType = TILE_ENTITIES.register("potion_relay_tile",() -> BlockEntityType.Builder.of(PotionRelayTile::new, POTION_RELAY.get()).build(null));
 
     public static RegistryObject<BlockEntityType<ChalkTile>> ChalkTileType = TILE_ENTITIES.register("chalk_tile",() -> BlockEntityType.Builder.of(ChalkTile::new, CHALK_LINE_1.get(),CHALK_LINE_2.get(),CHALK_LINE_3.get(),CHALK_LINE_4.get()).build(null));
     public static RegistryObject<BlockEntityType<PortalBlockEntity>> PortalType = TILE_ENTITIES.register("portal_tile",() -> BlockEntityType.Builder.of(PortalBlockEntity::new, PORTAL_BLOCK.get()).build(null));
@@ -692,14 +695,9 @@ public class RegistryHandler{
     public static final RegistryObject<Item> DEMONIC_GLOWSTONE_ITEM = ITEMS.register("demonic_glowstone", () -> new BasicBlockItem(DEMONIC_GLOWSTONE.get(),ITEM_PROPERTIES));
     public static final RegistryObject<Item> DEMONIC_GLOWSTONE_DUST = ITEMS.register("demonic_glowstone_dust", () -> new BasicItem(ITEM_PROPERTIES));
 
-
-        //event.register(new ResourceLocation("minecraft","hexed_book"), new HexedItem(UNSTACKABLE_FIRE,"",false));
-        //event.register(new ResourceLocation("minecraft","hexed_book"), new HexedItem(UNSTACKABLE_FIRE,"hexed_writable_book",false));
-        //event.register(new ResourceLocation("minecraft","hexed_book"), new HexedItem(UNSTACKABLE_FIRE,"hexed_written_book",true));
-
     public static final RegistryObject<Item> POTION_EXTENDER_ITEM = ITEMS.register("potion_extender", () -> new BasicBlockItem(POTION_EXTENDER.get(),ITEM_PROPERTIES));
     public static final RegistryObject<Item> POTION_AMPLIFIER_ITEM = ITEMS.register("potion_amplifier", () -> new BasicBlockItem(POTION_AMPLIFIER.get(),ITEM_PROPERTIES));
-    public static final RegistryObject<Item> POTION_RELAY_ITEM = ITEMS.register("potion_relay", () -> new BasicBlockItem(POTION_RELAY.get(),ITEM_PROPERTIES));
+    //public static final RegistryObject<Item> POTION_RELAY_ITEM = ITEMS.register("potion_relay", () -> new BasicBlockItem(POTION_RELAY.get(),ITEM_PROPERTIES));
     public static final RegistryObject<Item> STATUE_ITEM = ITEMS.register("statue", () -> new StatueItem(STATUE.get(),ITEM_PROPERTIES));
 
 
@@ -826,9 +824,11 @@ public class RegistryHandler{
     public static final RegistryObject<EntityType<EntityWitherBound>> WITHER_BOUND = ENTITIES.register("bound_wither", () -> EntityType.Builder.<EntityWitherBound>of(EntityWitherBound::new, MobCategory.MISC).sized(0.9F, 3.0F).build(new ResourceLocation(ArsOmega.MOD_ID, "bound_wither").toString()));
     public static final RegistryObject<EntityType< ? extends EntityMissileSpell>> ENTITY_MISSILE = ENTITIES.register("missile_spell_proj", () -> EntityType.Builder.<EntityMissileSpell>of(EntityMissileSpell::new, MobCategory.MISC).sized(0.9F, 3.0F).build(new ResourceLocation(ArsOmega.MOD_ID, "missile_spell_proj").toString()));
 
-    public static final RegistryObject<Item> DEMON_SPAWN_EGG = ITEMS.register("basic_demon_spawn_egg", () -> new ModSpawnEggItem(BASIC_DEMON,0x000000,0x000000,EGG_PROPERTIES));
+    public static final RegistryObject<Item> DEMON_SPAWN_EGG = ITEMS.register("basic_demon_spawn_egg", () -> new ModSpawnEggItem(BASIC_DEMON,0xff0000,0x000000,EGG_PROPERTIES));
     public static final RegistryObject<Item> DEMON_STRONG_SPAWN_EGG = ITEMS.register("strong_demon_spawn_egg", () -> new ModSpawnEggItem(STRONG_DEMON,0x000000,0x000000,EGG_PROPERTIES));
     public static final RegistryObject<Item> DEMON_RAPTOR_SPAWN_EGG = ITEMS.register("demon_raptor_spawn_egg", () -> new ModSpawnEggItem(RAPTOR_DEMON,0x000000,0x000000,EGG_PROPERTIES));
+    public static final RegistryObject<Item> DEMON_RAY_SPAWN_EGG = ITEMS.register("demon_ray_spawn_egg", () -> new ModSpawnEggItem(RAY_DEMON,0x000000,0x000000,EGG_PROPERTIES));
+    public static final RegistryObject<Item> GORGON_SPAWN_EGG = ITEMS.register("gorgon_spawn_egg", () -> new ModSpawnEggItem(GORGON,0x00ff00,0x11ff44,EGG_PROPERTIES));
 
 
     public static void RegisterMobSpawns(){

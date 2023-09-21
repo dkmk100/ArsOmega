@@ -24,6 +24,16 @@
                   "op": "replace",
                   "source": "entity_backup_id",
                   "target": "BlockEntityTag.entity_backup_id"
+                },
+                {
+                  "op": "replace",
+                  "source": "player_id",
+                  "target": "BlockEntityTag.player_id"
+                },
+                {
+                  "op": "replace",
+                  "source": "player_info",
+                  "target": "BlockEntityTag.player_info"
                 }
               ],
               "source": "block_entity"

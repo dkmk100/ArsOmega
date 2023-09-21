@@ -3,15 +3,20 @@ package com.dkmk100.arsomega.entities;
 import com.dkmk100.arsomega.ArsOmega;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundAnimatePacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerChunkCache;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -24,7 +29,6 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.IronGolem;
-import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -72,6 +76,52 @@ public class EntityGorgon extends Monster implements IAnimatable {
         this.entityData.define(ANIM_STATE, "idle");
     }
 
+    private int getSwingDuration() {
+        int x = 200;
+        if (MobEffectUtil.hasDigSpeed(this)) {
+            return x + 6 - (1 + MobEffectUtil.getDigSpeedAmplification(this));
+        } else {
+            return x + (this.hasEffect(MobEffects.DIG_SLOWDOWN) ? 6 + (1 + this.getEffect(MobEffects.DIG_SLOWDOWN).getAmplifier()) * 2 : 6);
+        }
+    }
+
+    @Override
+    protected void updateSwingTime() {
+        int i = this.getSwingDuration();
+        if (this.swinging) {
+            ++this.swingTime;
+            if (this.swingTime >= i) {
+                this.swingTime = 0;
+                this.swinging = false;
+            }
+        } else {
+            this.swingTime = 0;
+        }
+
+        this.attackAnim = (float)this.swingTime / (float)i;
+    }
+
+
+    @Override
+    public void swing(InteractionHand p_21012_, boolean p_21013_) {
+        ItemStack stack = this.getItemInHand(p_21012_);
+        if (!stack.isEmpty() && stack.onEntitySwing(this)) return;
+        if (!this.swinging || this.swingTime >= this.getSwingDuration() / 2 || this.swingTime < 0) {
+            this.swingTime = -1;
+            this.swinging = true;
+            this.swingingArm = p_21012_;
+            if (this.level instanceof ServerLevel) {
+                ClientboundAnimatePacket clientboundanimatepacket = new ClientboundAnimatePacket(this, p_21012_ == InteractionHand.MAIN_HAND ? 0 : 3);
+                ServerChunkCache serverchunkcache = ((ServerLevel)this.level).getChunkSource();
+                if (p_21013_) {
+                    serverchunkcache.broadcastAndSend(this, clientboundanimatepacket);
+                } else {
+                    serverchunkcache.broadcast(this, clientboundanimatepacket);
+                }
+            }
+        }
+    }
+
     @Override
     public void tick() {
         super.tick();
@@ -83,7 +133,10 @@ public class EntityGorgon extends Monster implements IAnimatable {
             entityData.set(ANIM_STATE, "idle");
         }
         else{
-            if(getNavigation() instanceof GorgonPathNavigation nav){
+            if(swinging){
+                entityData.set(ANIM_STATE, "attack.sword");
+            }
+            else if(getNavigation() instanceof GorgonPathNavigation nav){
                 if(nav.isInProgress()){
                     if(nav.getSpeedModifier() > 0.9){
                         entityData.set(ANIM_STATE, "run");

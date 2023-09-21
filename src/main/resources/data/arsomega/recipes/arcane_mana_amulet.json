@@ -2,13 +2,23 @@
   "type": "ars_nouveau:enchanting_apparatus",
   "reagent": [
     {
-      "item": "ars_nouveau:amulet_of_mana_boost"
+      "item": "arsomega:greater_mana_amulet"
     }
   ],
   "pedestalItems": [
     {
       "item": {
-        "item": "ars_nouveau:source_gem_block"
+        "item": "ars_nouveau:manipulation_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:abjuration_essence"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:conjuration_essence"
       }
     },
     {
@@ -18,37 +28,27 @@
     },
     {
       "item": {
-        "item": "ars_nouveau:source_gem_block"
+        "item": "minecraft:gold_block"
       }
     },
     {
       "item": {
-        "item": "ars_nouveau:source_gem_block"
+        "item": "minecraft:diamond_block"
       }
     },
     {
       "item": {
-        "tag": "forge:storage_blocks/gold"
+        "item": "minecraft:diamond_block"
       }
     },
     {
       "item": {
-        "tag": "forge:storage_blocks/diamond"
-      }
-    },
-    {
-      "item": {
-        "tag": "forge:storage_blocks/diamond"
-      }
-    },
-    {
-      "item": {
-        "tag": "forge:storage_blocks/diamond"
+        "item": "minecraft:diamond_block"
       }
     }
   ],
   "output": {
-    "item": "arsomega:greater_mana_amulet"
+    "item": "arsomega:arcane_mana_amulet"
   },
-  "sourceCost": 1000
+  "sourceCost": 10000
 }

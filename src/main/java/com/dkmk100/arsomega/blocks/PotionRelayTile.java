@@ -1,5 +1,5 @@
 package com.dkmk100.arsomega.blocks;
-
+/*
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.client.ITooltipProvider;
 import com.hollingsworth.arsnouveau.api.item.IWandable;
@@ -243,4 +243,4 @@ public class PotionRelayTile extends ModdedTile implements ITooltipProvider, IWa
 
     }
 }
-
+*/

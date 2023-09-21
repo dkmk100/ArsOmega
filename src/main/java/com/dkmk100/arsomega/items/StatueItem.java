@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class StatueItem extends BasicBlockItem{
     public StatueItem(Block block, Properties properties) {
@@ -26,6 +27,7 @@ public class StatueItem extends BasicBlockItem{
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component>components, TooltipFlag flag) {
         super.appendHoverText(stack,level,components,flag);
         Entity entity = getEntity(stack,level);
+
         if(entity!=null){
             List<Component> otherComponents = new ArrayList<>();
 
@@ -57,9 +59,16 @@ public class StatueItem extends BasicBlockItem{
             CompoundTag blockTag = stack.getTag().getCompound("BlockEntityTag");
             CompoundTag entityTag = blockTag.getCompound("entity");
             String backupId = blockTag.getString("entity_backup_id");
-            ArsOmega.LOGGER.info("entity tag: "+entityTag);
-            ArsOmega.LOGGER.info("backup id: "+backupId);
-            return StatueTile.getEntity(null,entityTag,backupId,level);
+            UUID playerId = null;
+            CompoundTag playerProfile = null;
+            /*
+            if(blockTag.contains("player_id")&&blockTag.contains("player_info")) {
+                playerId = blockTag.getUUID("player_id");
+                playerProfile = blockTag.getCompound("player_info");
+            }
+             */
+
+            return StatueTile.getEntity(null,entityTag,backupId,level,StatueTile.StatuePlayerInfo.of(playerId,playerProfile));
         }
         return null;
     }
