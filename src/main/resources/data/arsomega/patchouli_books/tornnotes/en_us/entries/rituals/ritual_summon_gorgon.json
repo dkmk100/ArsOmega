@@ -1,6 +1,6 @@
 {
-  "name": "item.arsomega.ritual_shaping",
-  "icon": "arsomega:ritual_shaping",
+  "name": "item.arsomega.ritual_summon_gorgon",
+  "icon": "arsomega:ritual_summon_gorgon",
   "category": "ars_nouveau:rituals",
   "advancement": "arsomega:restricted_knowledge",
   "pages": [
