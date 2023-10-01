@@ -2,11 +2,11 @@
   "name": "Infinity Crystal",
   "icon": "arsomega:infinity_crystal",
   "category": "ars_nouveau:resources",
-  "advancement": "arsomega:forbidden_knowledge",
+  "advancement": "arsomega:restricted_knowledge",
   "pages": [
     {
       "type": "text",
-      "text": "Some locations in the world have strong concentrations of ambient source. These slowly start to condence into a crystal. These crystals function similarly to a source jar, but cannot be moved, and continually extract more source from the environment."
+      "text": "[From the archives of the Arcane Library]Some locations in the world have strong concentrations of ambient source. These slowly start to condence into a crystal. These crystals function similarly to a source jar, but cannot be moved, and continually extract more source from the environment."
     },
     {
       "type": "spotlight",

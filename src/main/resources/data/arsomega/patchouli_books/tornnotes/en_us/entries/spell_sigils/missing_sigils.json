@@ -1,5 +1,5 @@
 {
-  "name": "Missing sigils",
+  "name": "Missing Spell Sigils",
   "icon": "arsomega:infused_diamond",
   "category": "arsomega:spell_sigils",
   "advancement": "arsomega:restricted_knowledge",
@@ -7,7 +7,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "The Library is aware of some sigils who's patterns have been... lost to time. Perhaps somewhere out there, a record of their methodology exists, but The Library has no knowledge of such locations. "
+      "text": "[From the archives of the Arcane Library]The Library is aware of some sigils who's patterns have been... lost to time. Perhaps somewhere out there, a record of their methodology exists, but The Library has no knowledge of such locations. "
     }
   ]
 }

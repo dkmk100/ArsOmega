@@ -166,8 +166,6 @@ public class RegistryHandler{
 
     public static final RegistryObject<Enchantment> PROACTIVE_ENCHANT = ENCHANTMENTS.register("proactive",ProactiveEnchant::new);
     public static final RegistryObject<Enchantment> DURABILITY_CAST_ENCHANT = ENCHANTMENTS.register("durability_cast", DurabilityCastEnchant::new);
-
-
     static IEventBus bus;
     public static void init (){
         bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -296,6 +294,7 @@ public class RegistryHandler{
         register(new RitualOpenPortal());
         register(new RitualDispel());
         register(new RitualShaping());
+        register(new RitualSummonGorgon());
     }
 
     public static void registerEmpathyIngredients(){
@@ -560,7 +559,7 @@ public class RegistryHandler{
     public static RegistryObject<BlockEntityType<CurseAltarTile>> CurseAltarType = TILE_ENTITIES.register("curse_altar_tile",() -> BlockEntityType.Builder.of(CurseAltarTile::new, CURSE_ALTAR.get()).build(null));
 
 
-        /*
+    /*
     Items are here lol
     ITEMS
     =====================================================================================================================================
@@ -570,21 +569,21 @@ public class RegistryHandler{
     public static final RegistryObject<Item> TIER_FOUR_BOOK = ITEMS.register("arcane_book", () -> new SpellBook(ITEM_PROPERTIES_FIRE,TierFourEffect.FOUR));
 
     public static final RegistryObject<Item> GREATER_MANA_AMULET = ITEMS.register("greater_mana_amulet", () -> new MagicCurio(UNSTACKABLE,200,1));
-    public static final RegistryObject<Item> GREATER_REGEN_AMULET = ITEMS.register("greater_regen_amulet", () -> new MagicCurio(UNSTACKABLE,5,5));
+    public static final RegistryObject<Item> GREATER_REGEN_AMULET = ITEMS.register("greater_regen_amulet", () -> new MagicCurio(UNSTACKABLE,10,9));
 
 
     public static final RegistryObject<Item> ARCANE_MANA_AMULET = ITEMS.register("arcane_mana_amulet", () -> new MagicCurio(UNSTACKABLE,450,2));
-    public static final RegistryObject<Item> ARCANE_REGEN_AMULET = ITEMS.register("arcane_regen_amulet", () -> new MagicCurio(UNSTACKABLE,12,10));
+    public static final RegistryObject<Item> ARCANE_REGEN_AMULET = ITEMS.register("arcane_regen_amulet", () -> new MagicCurio(UNSTACKABLE,25,20));
 
 
-    public static final RegistryObject<Item> FOCUS_OF_MANA = ITEMS.register("focus_of_mana", () -> new MagicCurio(UNSTACKABLE,2000,-14));
+    public static final RegistryObject<Item> FOCUS_OF_MANA = ITEMS.register("focus_of_mana", () -> new MagicCurio(UNSTACKABLE,2000,-20));
     public static final RegistryObject<Item> FOCUS_OF_ALCHEMY = ITEMS.register("focus_of_alchemy", () -> new MagicCurio(UNSTACKABLE,-50,-4));
     public static final RegistryObject<Item> FOCUS_OF_ADVANCED_ALCHEMY = ITEMS.register("focus_of_advanced_alchemy", () -> new MagicCurio(UNSTACKABLE,-100,-8));
 
     public static final RegistryObject<Item> FOCUS_OF_LIFE = ITEMS.register("focus_of_life", () -> new MagicCurio(UNSTACKABLE,-50,-4));
 
 
-    public static final RegistryObject<Item> FOCUS_OF_REGEN = ITEMS.register("focus_of_regen", () -> new MagicCurio(UNSTACKABLE,-400,20));
+    public static final RegistryObject<Item> FOCUS_OF_REGEN = ITEMS.register("focus_of_regen", () -> new MagicCurio(UNSTACKABLE,-400,30));
     public static final RegistryObject<Item> RING_REGEN = ITEMS.register("ring_regen", () -> new MagicCurio(UNSTACKABLE,0,5,5));
     public static final RegistryObject<Item> RING_BOOST = ITEMS.register("ring_boost", () -> new MagicCurio(UNSTACKABLE,100,0,5));
     public static final RegistryObject<Item> RING_ARCANE_DISCOUNT = ITEMS.register("ring_arcane_discount", () -> new MagicCurio(UNSTACKABLE,20,1,35));
@@ -776,9 +775,7 @@ public class RegistryHandler{
 
     public static final RegistryObject<Item> SALT = ITEMS.register("salt", () ->new DescribedItem(ITEM_PROPERTIES,"An item used in crafting. Obtained by using advanced evaporate on water."));
 
-    //public static final RegistryObject<Item> CELESTIAL_STAFF = ITEMS.register("celestial_staff", () -> new CelestialStaff(ITEM_PROPERTIES_FIRE));
-
-
+    public static final RegistryObject<Item> CELESTIAL_STAFF = ITEMS.register("celestial_staff", () -> new CelestialStaff(ITEM_PROPERTIES_FIRE));
 
     public static final RegistryObject<Item> POTION_BOTTLER_ITEM = ITEMS.register("potion_bottler", () -> new BasicBlockItem(POTION_BOTTLER.get(),ITEM_PROPERTIES));
 
@@ -824,10 +821,10 @@ public class RegistryHandler{
     public static final RegistryObject<EntityType<EntityWitherBound>> WITHER_BOUND = ENTITIES.register("bound_wither", () -> EntityType.Builder.<EntityWitherBound>of(EntityWitherBound::new, MobCategory.MISC).sized(0.9F, 3.0F).build(new ResourceLocation(ArsOmega.MOD_ID, "bound_wither").toString()));
     public static final RegistryObject<EntityType< ? extends EntityMissileSpell>> ENTITY_MISSILE = ENTITIES.register("missile_spell_proj", () -> EntityType.Builder.<EntityMissileSpell>of(EntityMissileSpell::new, MobCategory.MISC).sized(0.9F, 3.0F).build(new ResourceLocation(ArsOmega.MOD_ID, "missile_spell_proj").toString()));
 
-    public static final RegistryObject<Item> DEMON_SPAWN_EGG = ITEMS.register("basic_demon_spawn_egg", () -> new ModSpawnEggItem(BASIC_DEMON,0xff0000,0x000000,EGG_PROPERTIES));
-    public static final RegistryObject<Item> DEMON_STRONG_SPAWN_EGG = ITEMS.register("strong_demon_spawn_egg", () -> new ModSpawnEggItem(STRONG_DEMON,0x000000,0x000000,EGG_PROPERTIES));
-    public static final RegistryObject<Item> DEMON_RAPTOR_SPAWN_EGG = ITEMS.register("demon_raptor_spawn_egg", () -> new ModSpawnEggItem(RAPTOR_DEMON,0x000000,0x000000,EGG_PROPERTIES));
-    public static final RegistryObject<Item> DEMON_RAY_SPAWN_EGG = ITEMS.register("demon_ray_spawn_egg", () -> new ModSpawnEggItem(RAY_DEMON,0x000000,0x000000,EGG_PROPERTIES));
+    public static final RegistryObject<Item> DEMON_SPAWN_EGG = ITEMS.register("basic_demon_spawn_egg", () -> new ModSpawnEggItem(BASIC_DEMON,0xff0000,0x990000,EGG_PROPERTIES));
+    public static final RegistryObject<Item> DEMON_STRONG_SPAWN_EGG = ITEMS.register("strong_demon_spawn_egg", () -> new ModSpawnEggItem(STRONG_DEMON,0xff0000,0x550000,EGG_PROPERTIES));
+    public static final RegistryObject<Item> DEMON_RAPTOR_SPAWN_EGG = ITEMS.register("demon_raptor_spawn_egg", () -> new ModSpawnEggItem(RAPTOR_DEMON,0xff0000,0x000000,EGG_PROPERTIES));
+    public static final RegistryObject<Item> DEMON_RAY_SPAWN_EGG = ITEMS.register("demon_ray_spawn_egg", () -> new ModSpawnEggItem(RAY_DEMON,0xffffcc,0xeeeeee,EGG_PROPERTIES));
     public static final RegistryObject<Item> GORGON_SPAWN_EGG = ITEMS.register("gorgon_spawn_egg", () -> new ModSpawnEggItem(GORGON,0x00ff00,0x11ff44,EGG_PROPERTIES));
 
 
@@ -836,6 +833,5 @@ public class RegistryHandler{
         SpawnPlacements.register(STRONG_DEMON.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
         SpawnPlacements.register(BOSS_DEMON_KING.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
         SpawnPlacements.register(RAPTOR_DEMON.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
-
     }
 }

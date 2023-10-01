@@ -1,0 +1,16 @@
+{
+  "name": "item.arsomega.ritual_shaping",
+  "icon": "arsomega:ritual_shaping",
+  "category": "ars_nouveau:rituals",
+  "advancement": "arsomega:restricted_knowledge",
+  "pages": [
+    {
+      "type": "text",
+      "text": "[From the archives of the Arcane Library]The Ritual of Summon Gorgon will summon 3 gorgons into the world, and can be used to obtain more gorgon gems."
+    },
+    {
+      "type": "crafting",
+      "recipe": "arsomega:ritual_summon_gorgon"
+    }
+  ]
+}

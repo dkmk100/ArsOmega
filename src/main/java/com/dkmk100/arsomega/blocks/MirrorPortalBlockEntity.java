@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.blocks;
 
+import com.dkmk100.arsomega.items.CelestialStaff;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.client.ITooltipProvider;
 import com.hollingsworth.arsnouveau.common.block.tile.ModdedTile;
@@ -42,10 +43,10 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
     boolean hasInteracted = false;
 
     static ItemRequest[] requestOptions = {
-            new ItemRequest(RegistryHandler.INFUSED_DIAMOND.get(), 128),
+            new ItemRequest(RegistryHandler.INFUSED_DIAMOND.get(), 64),
             new ItemRequest(RegistryHandler.GORGON_GEM.get(), 8),
             new ItemRequest(RegistryHandler.DEMON_GEM.get(), 64),
-            new ItemRequest(RegistryHandler.ARCANE_CLAY.get(), 4),
+            new ItemRequest(RegistryHandler.ARCANE_CLAY.get(), 6),
             new ItemRequest(RegistryHandler.ESSENCE_ARCANE.get(), 32),
     };
     static final int requestsNeeded = 4;
@@ -94,53 +95,41 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
         int powerWanted = 20000;
         if(active){
             RegistryHandler.RESTORATION.Trigger(player);
-            if(hasInteracted){
+            if(hasInteracted) {
                 RegistryHandler.CONTACT.Trigger(player);
-                if(requestsFilled >= powersRequests) {
+                if (requestsFilled >= powersRequests) {
                     RegistryHandler.POWERS.Trigger(player);
                 }
             }
-            else if(requestsFilled >= requestsNeeded){
-                TellNearby("<?> I don't need anymore help at the moment.");
-            }
-            /*
-            else if(stack.getItem() == RegistryHandler.CELESTIAL_STAFF){
-                if(powerAbsorbed > 200000){
-            if(powerAbsorbed > powerWanted){
-                TellNearby("<?> I don't need anymore help at the moment, we can speak again later [[new content will come in a future update]]");
-            }
-            else if(stack.getItem() == RegistryHandler.CELESTIAL_STAFF.get()){
-                if(powerAbsorbed > powerWanted && false) //no message yet pls thx
+
+            if(stack.getItem() == RegistryHandler.CELESTIAL_STAFF.get()){
+                powerAbsorbed += CelestialStaff.getPower(stack);
+                if(powerAbsorbed > powerWanted) //no message yet pls thx
                 {
+                    TellNearby("<?> I don't need anymore help at the moment, we can speak again later [[new content will come in a future update]]");
+                    /*
                     TellNearby("<?> Thank you! I've absorbed all the power I want. " +
                             "Feel free to use the Celestial Staff to absorb more demonic energy, but I have no need of it. " +
-                            "Do not fear, the staff can contain a fair bit of energy safely. Just don't hand it to anyone you don't trust.");
+                            "Do not fear, the staff can contain a fair bit of energy safely. Just don't hand it to anyone you don't trust...");
+                     */
                     return InteractionResult.SUCCESS;
                 }
                 else if(CelestialStaff.getPower(stack) == 0){
                     TellNearby("<?> The demon realm is full of dangerous energy, you can remove some of it by using this staff. (right click in the air)");
                     return InteractionResult.SUCCESS;
                 }
-                powerAbsorbed += CelestialStaff.getPower(stack);
-                CelestialStaff.setPower(stack,0);
-                if(powerAbsorbed > powerWanted){
-                    TellNearby("<?> I don't need anymore help at the moment, we can speak again later [[new content will come in a future update]]");
-                    //TellNearby("<?> Thank you! I've absorbed all the power I want. " +
-                    //        "Feel free to use the Celestial Staff to absorb more demonic energy, but I have no need of it. " +
-                    //        "Do not fear, the staff can contain a fair bit of energy safely. Just don't hand it to anyone you don't trust.");
-                }
                 else{
                     TellNearby("<?> Thank you! Keep collecting more demonic energy, and return it to me for safekeeping. It can be dangerous in the wrong hands.");
                 }
+
+                CelestialStaff.setPower(stack,0);
+
                 return InteractionResult.SUCCESS;
             }
-
-             */
-            /*
             else if(requestsFilled >= requestsNeeded){
-                if(stack.getItem() == RegistryHandler.ARCANE_STAFF){
+                if(stack.getItem() == RegistryHandler.STAFF_3.get()){
                     RegistryHandler.DESTINY.Trigger(player);
-                    player.setItemInHand(hand,new ItemStack(RegistryHandler.CELESTIAL_STAFF));
+                    player.setItemInHand(hand,new ItemStack(RegistryHandler.CELESTIAL_STAFF.get()));
                     TellNearby("<?> Here is the Celestial Staff. Good luck on your quest, and may the stars guide you. ");
                     TellNearby("<?> If you succeed, please return with the energy you have absorbed so I can lock it away. It could be dangerous in the wrong hands. ");
                 }
@@ -154,7 +143,7 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
                 }
                 return InteractionResult.SUCCESS;
             }
-            */
+
             else if(hasInteracted){
                 if(hasRequest){
                     Item item =  requestOptions[currentRequest].requestedItem;
@@ -174,7 +163,7 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
                 return InteractionResult.SUCCESS;
             }
             else{
-
+                TellNearby("The portal isn't strong enough to move you, but perhaps it could teleport an item to the other side? ...");
             }
             return InteractionResult.PASS;
         }
@@ -205,6 +194,7 @@ public class MirrorPortalBlockEntity extends ModdedTile implements ITooltipProvi
             () -> new ItemStack(Items.NETHER_STAR,1),
             () -> new ItemStack(RegistryHandler.SIGIL_BINDING_ACTIVE.get(),8)
     );
+
     void SpawnGift(BlockPos pos){
         spawnAtLocation(gifts.get(level.random.nextInt((int)gifts.stream().count())).get(),pos);
     }

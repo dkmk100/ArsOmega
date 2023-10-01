@@ -26,6 +26,14 @@
     {
       "type": "apparatus_recipe",
       "recipe": "arsomega:focus_of_alchemy"
+    },
+    {
+      "type": "text",
+      "text": "The focus of life will buff certain spells from the school of life, such as regen and absorption. Has a small mana boost and regen penalty. "
+    },
+    {
+      "type": "apparatus_recipe",
+      "recipe": "arsomega:focus_of_life"
     }
   ]
 }

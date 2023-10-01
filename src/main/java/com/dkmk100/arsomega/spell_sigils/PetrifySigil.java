@@ -23,7 +23,7 @@ import java.util.List;
 
 public class PetrifySigil extends AbstractSpellSigil {
     public PetrifySigil() {
-        super();
+        super(true);
     }
 
     protected int range = 11;

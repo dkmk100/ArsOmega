@@ -7,7 +7,7 @@
     {
       "type": "patchouli:spotlight",
       "item": "arsomega:spell_sigil_scald",
-      "text": "The Spell Sigil of Scald will scald all nearby targets, excluding the caster. They will take severe fire damage, and gain the burned status effect."
+      "text": "[From the archives of the Arcane Library]The Spell Sigil of Scald will scald all nearby targets, excluding the caster. They will take severe fire damage, and gain the burned status effect."
     },
     {
       "type": "text",

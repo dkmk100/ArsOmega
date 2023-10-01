@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ars_nouveau:purple_archwood_log"
+    },
+    {
+      "item": "arsomega:gorgon_gem"
+    },
+    {
+      "item": "arsomega:gorgon_gem"
+    },
+    {
+      "item": "arsomega:gorgon_gem"
+    },
+    {
+      "item": "minecraft:lapis_block"
+    }
+  ],
+  "result": {
+    "item": "arsomega:ritual_summon_gorgon"
+  }
+}

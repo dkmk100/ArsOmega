@@ -1,15 +1,16 @@
 package com.dkmk100.arsomega.items;
 
+import com.dkmk100.arsomega.rituals.RitualChangeBiome;
 import com.dkmk100.arsomega.util.RegistryHandler;
-import com.dkmk100.arsomega.ArsOmega;
-import com.dkmk100.arsomega.util.RegistryHandler;
-import com.hollingsworth.arsnouveau.api.util.BlockUtil;
+import com.hollingsworth.arsnouveau.api.ritual.RitualUtil;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -23,11 +24,13 @@ import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 
-/*
+
 public class CelestialStaff extends BasicItem{
     public CelestialStaff(Properties properties) {
         super(properties,true);
@@ -36,7 +39,7 @@ public class CelestialStaff extends BasicItem{
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip2, TooltipFlag flagIn) {
-        tooltip2.add(new TextComponent("power absorbed: "+getPower(stack)));
+        tooltip2.add(Component.literal("power absorbed: "+getPower(stack)));
         super.appendHoverText(stack, worldIn, tooltip2, flagIn);
     }
 
@@ -55,16 +58,26 @@ public class CelestialStaff extends BasicItem{
         ItemStack stack = player.getItemInHand(hand);
         if(level instanceof ServerLevel){
             ServerLevel world = (ServerLevel) level;
-            String biome = "minecraft:ocean";
             BlockPos pos = player.blockPosition();
 
-            Biome biome2 = world.getBiome(pos).value();
-
-            if (biome2 != null) {
-                biome = biome2.getRegistryName().toString();
+            Holder<Biome> biomeHolder = world.getBiome(pos);
+            Optional<? extends Registry<Biome>> registryOptional = world.registryAccess().registry(Registry.BIOME_REGISTRY);
+            if (registryOptional.isEmpty()) {
+                return InteractionResultHolder.pass(stack);
             }
+            Registry<Biome> registry = registryOptional.get();
+            ResourceLocation resourceLocation = registry.getKey(biomeHolder.value());
+            if (resourceLocation == null) {
+                return InteractionResultHolder.pass(stack);
+            }
+            String biome = resourceLocation.toString();
+
+
             if(biome.equals("arsomega:demon_biome")) {
                 int power = getPower(stack);
+
+                ResourceKey<Biome> key = Biomes.PLAINS;
+
                 RegistryAccess reg = world.registryAccess();
                 Registry<Biome> a = reg.registry(Registry.BIOME_REGISTRY).get();
                 Holder<Biome> holder = a.getHolderOrThrow(Biomes.PLAINS);
@@ -78,8 +91,9 @@ public class CelestialStaff extends BasicItem{
                             BlockPos newPos = new BlockPos(pos.getX() + sideSpacing * x, pos.getY() + upSpacing * i, pos.getZ() + sideSpacing * z);
 
                             //lack of griefing protection in this thing is intentional game design
+                            //it's the demon realm
 
-                            RitualChangeBiome.setBiome(world, newPos, holder);
+                            RitualUtil.changeBiome(world,newPos, key);
                         }
                         for(int i = pos.getY() + 10; i > pos.getY() - 10; i--){
                             BlockPos newPos = new BlockPos(pos.getX() + x, i, pos.getZ() + z);
@@ -94,9 +108,6 @@ public class CelestialStaff extends BasicItem{
 
                 PortUtil.sendMessageNoSpam(player,Component.literal("Consumed Demonic Energy"));
 
-                ChunkPos chunkPos = world.getChunkAt(pos).getPos();
-                RitualChangeBiome.updateChunkAfterBiomeChange(world, chunkPos);
-
                 power += 50;
                 setPower(stack, power);
                 return InteractionResultHolder.success(stack);
@@ -106,4 +117,3 @@ public class CelestialStaff extends BasicItem{
         return super.use(level,player,hand);
     }
 }
- */

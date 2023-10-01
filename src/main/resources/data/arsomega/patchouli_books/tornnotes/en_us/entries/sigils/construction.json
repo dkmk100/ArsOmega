@@ -1,0 +1,26 @@
+{
+  "name": "item.arsomega.sigil_construction",
+  "icon": "arsomega:sigil_construction_active",
+  "category": "arsomega:sigils",
+  "advancement": "arsomega:restricted_knowledge",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "arsomega:sigil_construction",
+      "text": "[From the archives of the Arcane Library]The Sigil of Construction is an advanced sigil in the school of manipulation. ",
+      "link_recipe": "true"
+    },
+    {
+      "type": "text",
+      "text": "Recipe: $(br) - - x x x x x x x x x - - $(br) - - x - - - x - - - x - - $(br) x x x x x x x x x x x x x $(br) x - - - x - B - x - - - x $(br) x x x x x x x x x x x x x $(br) - - x - - - x - - - x - - $(br) - - x x x x x x x x x - - $(br) $(br)Source cost: 1000"
+    },
+    {
+      "type": "text",
+      "text": "The Sigil of Construction requires manipulation essence to activate."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "arsomega:sigil_construction_active"
+    }
+  ]
+}

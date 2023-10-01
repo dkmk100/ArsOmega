@@ -1,17 +1,36 @@
 package com.dkmk100.arsomega.util;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.phys.AABB;
 
+import java.util.List;
 import java.util.function.Function;
 
 public class LevelUtil {
+
+    public static void sendToNearby(Level world, BlockPos pos, Component message, int rangeSide, int rangeUp, boolean noSpam){
+        AABB box = new AABB(pos).inflate(rangeSide, rangeUp, rangeSide);
+        List<Player> players = world.getNearbyPlayers(TargetingConditions.forNonCombat(), null, box);
+        for(Player player : players){
+            if(noSpam){
+                PortUtil.sendMessageNoSpam(player,message);
+            }
+            else{
+                PortUtil.sendMessage(player,message);
+            }
+        }
+    }
 
     public static BlockPos getPosInWorld(ServerLevel newWorld, BlockPos oldPos, ServerLevel oldWorld){
         DimensionType oldType = oldWorld.dimensionType();

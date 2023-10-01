@@ -7,11 +7,11 @@
     {
       "type": "patchouli:spotlight",
       "item": "arsomega:spell_sigil_heal",
-      "text": "The Spell Sigil of Heal will scald all nearby targets, including the caster. It has no effect on status effects, however."
+      "text": "[From the archives of the Arcane Library]The Spell Sigil of Heal will heal all nearby targets, including the caster. It has no effect on status effects, however."
     },
     {
       "type": "text",
-      "text": "Casting Shape: $(br) - - - x x x - - - $(br) - - - x - x - - - $(br) - - x x x x x - - $(br) x x x x - x x x x $(br) x - x - S - x - x $(br) x x x x - x x x x $(br) - - x x x x x - - $(br) - - - x - x - - - $(br) - - - x x x - - - $(br) $(br)Mana cost: 0"
+      "text": "Casting Shape: $(br) - - - x x x - - - $(br) - - - x - x - - - $(br) - - x x x x x - - $(br) x x x x - x x x x $(br) x - x - S - x - x $(br) x x x x - x x x x $(br) - - x x x x x - - $(br) - - - x - x - - - $(br) - - - x x x - - - $(br) $(br)Mana cost: 300"
     },
     {
       "type": "patchouli:crafting",

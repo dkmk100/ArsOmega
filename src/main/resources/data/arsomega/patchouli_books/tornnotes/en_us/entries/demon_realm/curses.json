@@ -5,13 +5,9 @@
   "advancement": "arsomega:better_forgotten",
   "pages": [
     {
-      "type": "text",
-      "text": "Note: some of the mod features described in this section might change later, the curse system is still WIP."
-    },
-    {
       "type": "spotlight",
       "item": "arsomega:curse_altar",
-      "text": "The curse altar is found in a large temple structure in the demon realm. It is required for creating curses.",
+      "text": "[From the notes of Kaz Carter]The curse altar is found in a large temple structure in the demon realm. It is required for creating curses.",
       "link_recipe": "true"
     },
     {

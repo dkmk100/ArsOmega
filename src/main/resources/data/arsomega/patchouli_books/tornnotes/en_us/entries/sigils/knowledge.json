@@ -1,0 +1,26 @@
+{
+  "name": "item.arsomega.sigil_knowledge",
+  "icon": "arsomega:sigil_knowledge_active",
+  "category": "arsomega:sigils",
+  "advancement": "arsomega:restricted_knowledge",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "arsomega:sigil_knowledge",
+      "text": "[From the archives of the Arcane Library]The Sigil of Knowledge is an advanced sigil in the school of Abjuration. ",
+      "link_recipe": "true"
+    },
+    {
+      "type": "text",
+      "text": "Recipe: $(br) x x x x - - - x x x x $(br) x - - x - - - x - - x $(br) x - x x x - x x x - x $(br) x x x - x x x - x x x $(br) - - x x x - x x x - - $(br) - - - x - B - x - - - $(br) - - x x x - x x x - - $(br) x x x - x x x - x x x $(br) x - x x x - x x x - x $(br) x - - x - - - x - - x $(br) x x x x - - - x x x x $(br) $(br)Source cost: 1000"
+    },
+    {
+      "type": "text",
+      "text": "The Sigil of Knowledge requires abjuration essence to activate."
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "arsomega:sigil_knowledge_active"
+    }
+  ]
+}

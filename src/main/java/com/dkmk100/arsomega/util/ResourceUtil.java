@@ -12,6 +12,10 @@ public class ResourceUtil {
         return new ResourceLocation(ArsOmega.MOD_ID,"textures/items/" + modelName + ".png");
     }
 
+    public static ResourceLocation getBlockTextureResource(String modelName){
+        return new ResourceLocation(ArsOmega.MOD_ID,"textures/blocks/" + modelName + ".png");
+    }
+
     public static ResourceLocation getEntityTextureResource(String modelName){
         return new ResourceLocation(ArsOmega.MOD_ID,"textures/entity/" + modelName + ".png");
     }

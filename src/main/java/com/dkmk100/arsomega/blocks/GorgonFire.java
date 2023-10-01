@@ -1,7 +1,10 @@
 package com.dkmk100.arsomega.blocks;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.entities.EntityGorgon;
 import com.dkmk100.arsomega.util.RegistryHandler;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -27,6 +30,15 @@ public class GorgonFire extends BaseFireBlock {
     @Override
     public boolean canSurvive(BlockState p_196260_1_, LevelReader p_196260_2_, BlockPos p_196260_3_) {
         return canSurviveOnBlock(p_196260_2_.getBlockState(p_196260_3_.below()).getBlock());
+    }
+
+    @Override
+    public void entityInside(BlockState p_49260_, Level p_49261_, BlockPos p_49262_, Entity entity) {
+        //gorgon fire won't affect gorgons
+        if(entity instanceof EntityGorgon){
+            return;
+        }
+        super.entityInside(p_49260_, p_49261_, p_49262_, entity);
     }
 
     public static boolean canSurviveOnBlock(Block block) {

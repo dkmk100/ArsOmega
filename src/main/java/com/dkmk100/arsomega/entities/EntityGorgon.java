@@ -42,6 +42,7 @@ import org.jetbrains.annotations.Nullable;
 import software.bernie.ars_nouveau.geckolib3.core.IAnimatable;
 import software.bernie.ars_nouveau.geckolib3.core.PlayState;
 import software.bernie.ars_nouveau.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.ars_nouveau.geckolib3.core.builder.ILoopType;
 import software.bernie.ars_nouveau.geckolib3.core.controller.AnimationController;
 import software.bernie.ars_nouveau.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.ars_nouveau.geckolib3.core.manager.AnimationData;
@@ -50,8 +51,7 @@ import software.bernie.ars_nouveau.geckolib3.core.manager.AnimationFactory;
 public class EntityGorgon extends Monster implements IAnimatable {
     public EntityGorgon(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
-        this.xpReward = 8;
-
+        this.xpReward = 14;
     }
 
     private static final EntityDataAccessor<String> ANIM_STATE = SynchedEntityData.defineId(EntityGorgon.class, EntityDataSerializers.STRING);
@@ -62,7 +62,7 @@ public class EntityGorgon extends Monster implements IAnimatable {
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(4, new EntityUtil.AttackGoal(this));
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.8D));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.7D));
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 16.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
@@ -77,7 +77,7 @@ public class EntityGorgon extends Monster implements IAnimatable {
     }
 
     private int getSwingDuration() {
-        int x = 200;
+        int x = 2;
         if (MobEffectUtil.hasDigSpeed(this)) {
             return x + 6 - (1 + MobEffectUtil.getDigSpeedAmplification(this));
         } else {
@@ -157,16 +157,17 @@ public class EntityGorgon extends Monster implements IAnimatable {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 25.0D)
+                .add(Attributes.MAX_HEALTH, 60.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.3D)
-                .add(Attributes.ATTACK_DAMAGE, 10)
-                .add(Attributes.FOLLOW_RANGE, 24);
+                .add(Attributes.ATTACK_DAMAGE, 12)
+                .add(Attributes.FOLLOW_RANGE, 32);
     }
 
     @Override
     protected void populateDefaultEquipmentSlots(RandomSource p_217055_, DifficultyInstance p_217056_) {
         super.populateDefaultEquipmentSlots(p_217055_, p_217056_);
         this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
+        this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.IRON_SWORD));
     }
 
     @Nullable
@@ -229,8 +230,18 @@ public class EntityGorgon extends Monster implements IAnimatable {
     }
 
     private <E extends IAnimatable> PlayState predicate(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.gorgon." + getEntityData().get(ANIM_STATE), true));
+        String animState = getEntityData().get(ANIM_STATE);
+        ILoopType loopType = ILoopType.EDefaultLoopTypes.LOOP;
+        if(animState.contains(".")){
+            loopType = ILoopType.EDefaultLoopTypes.PLAY_ONCE;
+        }
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.gorgon." + animState, loopType));
         return PlayState.CONTINUE;
+    }
+
+    @Override
+    protected float getEquipmentDropChance(EquipmentSlot slot) {
+        return 0f;
     }
 
     @Override

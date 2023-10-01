@@ -49,12 +49,21 @@ public class BiomeCrystal extends BasicItem {
             BlockPos pos = player.blockPosition();
 
             Holder<Biome> biomeHolder = world.getBiome(pos);
+
             Optional<? extends Registry<Biome>> registryOptional = world.registryAccess().registry(Registry.BIOME_REGISTRY);
+
             if (registryOptional.isEmpty()) {
                 return InteractionResultHolder.pass(stack);
             }
             Registry<Biome> registry = registryOptional.get();
             ResourceLocation resourceLocation = registry.getKey(biomeHolder.value());
+
+
+
+            //doesn't work and IDK why
+            //ResourceLocation resourceLocation = ForgeRegistries.BIOMES.getKey(biomeHolder.value());
+
+
             if (resourceLocation == null) {
                 return InteractionResultHolder.pass(stack);
             }

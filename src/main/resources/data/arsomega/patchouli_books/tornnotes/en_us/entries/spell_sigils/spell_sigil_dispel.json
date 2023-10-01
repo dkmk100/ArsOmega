@@ -1,0 +1,21 @@
+{
+  "name": "item.arsomega.spell_sigil_dispel",
+  "icon": "arsomega:spell_sigil_dispel",
+  "category": "arsomega:spell_sigils",
+  "advancement": "arsomega:restricted_knowledge",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": "arsomega:spell_sigil_dispel",
+      "text": "[From the archives of the Arcane Library]The Spell Sigil of Dispel will remove effects on nearby mobs, including the caster"
+    },
+    {
+      "type": "text",
+      "text": "Casting Shape: $(br) - - x - x - x - - $(br) - x x x x x x x - $(br) x x x - x - x x x $(br) - x - x x x - x - $(br) x x x x S x x x x $(br) - x - x x x - x - $(br) x x x - x - x x x $(br) - x x x x x x x - $(br) - - x - x - x - - $(br) $(br)Mana cost: 400"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "arsomega:spell_sigil_dispel"
+    }
+  ]
+}

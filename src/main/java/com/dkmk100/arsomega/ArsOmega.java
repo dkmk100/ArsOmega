@@ -2,10 +2,7 @@ package com.dkmk100.arsomega;
 
 import com.dkmk100.arsomega.capabilitysyncer.OmegaStatusesCapability;
 import com.dkmk100.arsomega.capabilitysyncer.OmegaStatusesCapabilityAttacher;
-import com.dkmk100.arsomega.client.block.DemonicLightRenderer;
-import com.dkmk100.arsomega.client.block.MirrorPortalRenderer;
-import com.dkmk100.arsomega.client.block.PortalRenderer;
-import com.dkmk100.arsomega.client.block.StatueRenderer;
+import com.dkmk100.arsomega.client.block.*;
 import com.dkmk100.arsomega.client.renderer.*;
 import com.dkmk100.arsomega.entities.*;
 import com.dkmk100.arsomega.items.ModSpawnEggItem;
@@ -181,7 +178,18 @@ public class ArsOmega
 
     private void RegisterRenderers(EntityRenderersEvent.RegisterRenderers event){
         RegisterMobRenderers(event);
+        RegisterBlockRenderers(event);
     }
+
+    @OnlyIn(Dist.CLIENT)
+    private void RegisterBlockRenderers(EntityRenderersEvent.RegisterRenderers event){
+        event.registerBlockEntityRenderer(RegistryHandler.PortalType.get(), PortalRenderer::new);
+        event.registerBlockEntityRenderer(RegistryHandler.MirrorPortalType.get(), MirrorPortalRenderer::new);
+        event.registerBlockEntityRenderer(RegistryHandler.DemonicLightType.get(), DemonicLightRenderer::new);
+        event.registerBlockEntityRenderer(RegistryHandler.StatueType.get(), StatueRenderer::new);
+        event.registerBlockEntityRenderer(RegistryHandler.InfinityCrystalType.get(), InfinityCrystalRenderer::new);
+    }
+
     @OnlyIn(Dist.CLIENT)
     private void RegisterMobRenderers(EntityRenderersEvent.RegisterRenderers event){
         RegisterMobRenderer(RegistryHandler.BASIC_DEMON.get(),"demon_basic",event);
@@ -204,10 +212,8 @@ public class ArsOmega
         event.registerEntityRenderer(RegistryHandler.DIVINE_SMITE.get(), (EntityRendererProvider.Context context) -> new LightningBoltRenderer(context));
         event.registerEntityRenderer(RegistryHandler.WHIRLPOOL.get(), (EntityRendererProvider.Context context) -> new PlainRenderer(context));
 
-        event.registerBlockEntityRenderer(RegistryHandler.PortalType.get(), PortalRenderer::new);
-        event.registerBlockEntityRenderer(RegistryHandler.MirrorPortalType.get(), MirrorPortalRenderer::new);
-        event.registerBlockEntityRenderer(RegistryHandler.DemonicLightType.get(), DemonicLightRenderer::new);
-        event.registerBlockEntityRenderer(RegistryHandler.StatueType.get(), StatueRenderer::new);
+
+
 
 
     }

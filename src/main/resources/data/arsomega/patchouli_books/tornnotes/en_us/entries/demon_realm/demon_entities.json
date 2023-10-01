@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "The Demon Realm contains various demons, each with different effects."
+      "text": "[From the demon realm section of the Arcane Library]The Demon Realm contains various demons, each with different effects."
     },
     {
       "type": "patchouli:entity",

@@ -1,0 +1,16 @@
+{
+  "name": "Missing Sigils",
+  "icon": "arsomega:infused_diamond",
+  "category": "arsomega:sigils",
+  "priority":true,
+  "pages": [
+    {
+      "type": "text",
+      "text": "There seem to be some sigils not described here. Perhaps the arcane compendium has more info..."
+    },
+    {
+      "type": "relations",
+      "entries":["arsomega:items/arcane_compendium"]
+    }
+  ]
+}

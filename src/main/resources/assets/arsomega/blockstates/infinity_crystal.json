@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model": "arsomega:block/infinity_crystal" }
+    "": {
+      "model": "minecraft:block/end_portal"
+    }
   }
 }

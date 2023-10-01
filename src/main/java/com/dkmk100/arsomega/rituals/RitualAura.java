@@ -97,14 +97,14 @@ public class RitualAura extends BasicConfigRitual {
                     List<ItemStack> items = this.getConsumedItems();
                     //if lag becomes an issue I can always make a static ritual manager to save this data like flight does, but that seems difficult
                     for (ItemStack stack : items) {
-                        if (stack.getItem() == ArsNouveauAPI.getInstance().getGlyphItem(AugmentAOE.INSTANCE)) {
+                        if (stack.is(ItemsRegistry.MANIPULATION_ESSENCE.get())) {
                             if (stack.getCount() <= 0) {
                                 aoe += 1;
                             } else {
                                 aoe += stack.getCount();
                             }
                         }
-                        else if (stack.getItem() == ArsNouveauAPI.getInstance().getGlyphItem(AugmentAccelerate.INSTANCE)) {
+                        else if (stack.is(ItemsRegistry.CONJURATION_ESSENCE.get())) {
                             if (stack.getCount() <= 0) {
                                 accelerate += 1;
                             } else {
@@ -200,6 +200,6 @@ public class RitualAura extends BasicConfigRitual {
     }
     @Override
     public boolean canConsumeItem(ItemStack stack) {
-        return stack.getItem() == ArsNouveauAPI.getInstance().getGlyphItem(AugmentAOE.INSTANCE) || stack.getItem() == ArsNouveauAPI.getInstance().getGlyphItem(AugmentSensitive.INSTANCE) || stack.getItem() == ArsNouveauAPI.getInstance().getGlyphItem(AugmentExtract.INSTANCE) || stack.getItem() == ArsNouveauAPI.getInstance().getGlyphItem(AugmentExtract.INSTANCE);
+        return stack.is(ItemsRegistry.MANIPULATION_ESSENCE.get()) || stack.is(ItemsRegistry.CONJURATION_ESSENCE.get()) || stack.getItem() == ArsNouveauAPI.getInstance().getGlyphItem(AugmentSensitive.INSTANCE) || stack.getItem() == ArsNouveauAPI.getInstance().getGlyphItem(AugmentExtract.INSTANCE);
     }
 }
