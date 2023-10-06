@@ -85,6 +85,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.NotImplementedException;
 
 public class RegistryHandler{
+    public static final boolean INCLUDE_DEV_ITEMS = true;
     public static final ResourceLocation DIMTYPE = new ResourceLocation(ArsOmega.MOD_ID, "demon_realm");
 
     public static List<AbstractSpellPart> registeredSpells = new ArrayList<>();
@@ -168,6 +169,9 @@ public class RegistryHandler{
     public static final RegistryObject<Enchantment> DURABILITY_CAST_ENCHANT = ENCHANTMENTS.register("durability_cast", DurabilityCastEnchant::new);
     static IEventBus bus;
     public static void init (){
+        if(INCLUDE_DEV_ITEMS){
+            ArsOmega.LOGGER.error("DEV ITEMS ENABLED!!!");
+        }
         bus = FMLJavaModLoadingContext.get().getModEventBus();
         BLOCKS.register(bus);
         ITEMS.register(bus);
@@ -295,6 +299,9 @@ public class RegistryHandler{
         register(new RitualDispel());
         register(new RitualShaping());
         register(new RitualSummonGorgon());
+        if(INCLUDE_DEV_ITEMS){
+            register(new RitualPlaceTrees());
+        }
     }
 
     public static void registerEmpathyIngredients(){
