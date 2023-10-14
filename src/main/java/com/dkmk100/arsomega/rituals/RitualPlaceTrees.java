@@ -42,7 +42,6 @@ public class RitualPlaceTrees extends AbstractRitual {
         }
         if(!found){
             y = pos.getY();
-            ArsOmega.LOGGER.warn("couldn't find ground for pos: "+pos);
         }
         //above the pos in the ground
         return new BlockPos(x, y+1, z);
@@ -311,6 +310,8 @@ public class RitualPlaceTrees extends AbstractRitual {
 
         if(cachedValsValid){
             tag.putInt("range",cachedRange);
+            tag.putFloat("featureDensity",partitionFeatureDensity);
+            tag.putFloat("priorityDensity",partitionPriorityDensity);
         }
 
     }
@@ -331,8 +332,15 @@ public class RitualPlaceTrees extends AbstractRitual {
         if(tag.contains("range")){
             cachedRange = tag.getInt("range");
             cachedValsValid = true;
+            if(tag.contains("featureDensity")){
+                partitionFeatureDensity = tag.getFloat("featureDensity");
+                partitionPriorityDensity = tag.getFloat("priorityDensity");
+            }
         }
     }
+
+    float partitionFeatureDensity = 1.5f;
+    float partitionPriorityDensity = 0.5f;
 
     @Override
     protected void tick() {
@@ -358,10 +366,10 @@ public class RitualPlaceTrees extends AbstractRitual {
             int r1 = 4;
             int r2 = 6;
 
-            float partitionFeatureDensity = 1.5f;
-            float partitionPriorityDensity = 0.5f;
+            float basePartitionFeatureDensity = 1.5f;
+            float basePartitionPriorityDensity = 0.5f;
 
-            int ry = 6;
+            int ry = 10;
 
             //yea no I have no idea why either
             r2 = r2 > r1 ? r2 : r1 + 2;
@@ -379,11 +387,21 @@ public class RitualPlaceTrees extends AbstractRitual {
             if(!cachedValsValid) {
                 int range = 2*r2 + 1;
 
+
+                partitionFeatureDensity = basePartitionFeatureDensity;
+                partitionPriorityDensity = basePartitionPriorityDensity;
+
                 for(ItemStack stack : this.getConsumedItems()){
                     if(stack.is(ItemsRegistry.MANIPULATION_ESSENCE.get())){
                         range += 2;
                     }
+                    else if(stack.is(ItemsRegistry.CONJURATION_ESSENCE.get())){
+                        partitionFeatureDensity+=1;
+                        partitionPriorityDensity+=0.1;
+                    }
                 }
+
+
 
                 cachedRange = range;
                 cachedValsValid = true;
@@ -504,7 +522,7 @@ public class RitualPlaceTrees extends AbstractRitual {
 
     @Override
     public boolean canConsumeItem(ItemStack stack) {
-        return stack.is(ItemsRegistry.MANIPULATION_ESSENCE.get());
+        return stack.is(ItemsRegistry.MANIPULATION_ESSENCE.get()) || stack.is(ItemsRegistry.CONJURATION_ESSENCE.get());
     }
 
     static Stream<BlockPos> getPositionsFromModifierCustom(PlacementModifier modifier, PlacementContext context, RandomSource rand, BlockPos pos) {
@@ -581,7 +599,7 @@ public class RitualPlaceTrees extends AbstractRitual {
 
     @Override
     public ResourceLocation getRegistryName() {
-        return RegistryHandler.getRitualName("place_trees");
+        return RegistryHandler.getRitualName("conjure_foliage");
     }
 
     static Dictionary<ResourceLocation, List<PlacedFeature>> cachedTreeFeatures = new Hashtable<>();

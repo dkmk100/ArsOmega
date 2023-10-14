@@ -5,7 +5,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "The Ritual of Change biome will change the biome at a location to the biome in a sacrificed biome crystal. To change between biomes of different dimensions, a demonic gem must be sacrificed."
+      "text": "arsomega.ritual_desc.ritual_change_biome"
     },
     {
       "type": "crafting",

@@ -1,0 +1,15 @@
+{
+  "name": "item.arsomega.ritual_conjure_foliage",
+  "icon": "arsomega:ritual_conjure_foliage",
+  "category": "ars_nouveau:rituals",
+  "pages": [
+    {
+      "type": "text",
+      "text": "arsomega.ritual_desc.ritual_conjure_foliage"
+    },
+    {
+      "type": "crafting",
+      "recipe": "arsomega:ritual_conjure_foliage"
+    }
+  ]
+}

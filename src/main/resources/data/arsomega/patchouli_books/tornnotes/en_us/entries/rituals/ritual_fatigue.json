@@ -5,7 +5,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "The Ritual of Fatigue will apply mining fatigue on nearby entities. Can be amplified with AOE."
+      "text": "arsomega.ritual_desc.ritual_fatigue"
     },
     {
       "type": "crafting",

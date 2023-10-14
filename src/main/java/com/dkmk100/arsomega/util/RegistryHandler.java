@@ -299,8 +299,12 @@ public class RegistryHandler{
         register(new RitualDispel());
         register(new RitualShaping());
         register(new RitualSummonGorgon());
+
+        register(new RitualPlaceTrees());
+
+
         if(INCLUDE_DEV_ITEMS){
-            register(new RitualPlaceTrees());
+
         }
     }
 

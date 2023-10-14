@@ -5,7 +5,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "The Ritual of Flowing Time will speed up nearby tile entities, such as furnaces and source relays."
+      "text": "arsomega.ritual_desc.ritual_flowing_time"
     },
     {
       "type": "crafting",

@@ -5,7 +5,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "The Ritual of Tribute allows you to sacrifice items to obtain a Wilden tribute without combat. The ritual requires a sacrifice equivalent to 20 gold ingots."
+      "text": "arsomega.ritual_desc.ritual_tribute"
     },
     {
       "type": "crafting",

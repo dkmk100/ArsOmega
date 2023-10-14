@@ -5,7 +5,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "The Ritual of Dispel will destroy all nearby dimensional portals. It also removes status effects from nearby entities."
+      "text": "arsomega.ritual_desc.ritual_dispel"
     },
     {
       "type": "crafting",

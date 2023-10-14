@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ars_nouveau:green_archwood_log"
+    },
+    {
+      "tag": "minecraft:saplings"
+    },
+    {
+      "item": "ars_nouveau:mendosteen_pod"
+    },
+    {
+      "item": "ars_nouveau:earth_essence"
+    },
+    {
+      "item": "arsomega:nature_essence"
+    }
+  ],
+  "result": {
+    "item": "arsomega:ritual_conjure_foliage"
+  }
+}

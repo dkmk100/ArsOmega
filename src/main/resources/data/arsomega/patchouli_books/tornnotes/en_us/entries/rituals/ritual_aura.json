@@ -5,7 +5,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "The Ritual of Aura is an incredibly powerful ritual which can cast spells on nearby entities. It will take spells from adjacent runes, and will cast them on all entities in an area. The range can be increased with manipulation essence, and casting speed with conjuration essence. A sensitive glyph will make it target only players, or an extract glyph can be used to make it ignore players. "
+      "text": "arsomega.ritual_desc.ritual_aura"
     },
     {
       "type": "text",

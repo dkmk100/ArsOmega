@@ -5,7 +5,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "The Ritual of Shaping is used to craft sigils. For more info, check the section on sigils"
+      "text": "arsomega.ritual_desc.ritual_shaping"
     },
     {
       "type": "crafting",
