@@ -86,7 +86,7 @@ public class AcidGlyph extends AbstractEffect {
 
     @Override
     protected void addDefaultAugmentLimits(Map<ResourceLocation, Integer> defaults) {
-        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 4);
+        defaults.put(AugmentAmplify.INSTANCE.getRegistryName(), 5);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class AcidGlyph extends AbstractEffect {
     @Nonnull
     @Override
     public Set<AbstractAugment> getCompatibleAugments() {
-        return augmentSetOf(AugmentAmplify.INSTANCE);
+        return augmentSetOf(AugmentAmplify.INSTANCE, AugmentDampen.INSTANCE);
     }
 
     @Nonnull

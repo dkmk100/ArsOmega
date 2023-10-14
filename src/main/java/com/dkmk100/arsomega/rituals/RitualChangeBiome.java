@@ -163,7 +163,7 @@ public class RitualChangeBiome extends AbstractRitual {
             if (canConvert) {
                 //widen the area a bit lol
                 //manipulation essence adds more horizontal range
-                final int sidewaysRange = 7 + 2*manipEssence;
+                final int sidewaysRange = 13 + 2*manipEssence;
                 final int upRange = 6;
                 final int sideSpacing = 1;
                 final int upSpacing = 1;
