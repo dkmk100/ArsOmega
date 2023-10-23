@@ -26,3 +26,5 @@ run-server
 forge*changelog.txt
 *.log
 hs_err_pid21360.log
+
+src/main/java/com/dkmk100/arsomega/client/temp/*

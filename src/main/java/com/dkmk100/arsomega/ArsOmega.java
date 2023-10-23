@@ -196,7 +196,7 @@ public class ArsOmega
         RegisterMobRenderer(RegistryHandler.STRONG_DEMON.get(),"demon_strong",event);
         event.registerEntityRenderer(RegistryHandler.RAPTOR_DEMON.get(), (EntityRendererProvider.Context context) -> new RaptorRenderer(context));
         event.registerEntityRenderer(RegistryHandler.RAY_DEMON.get(), (EntityRendererProvider.Context context) -> new RayRenderer(context));
-        event.registerEntityRenderer(RegistryHandler.GORGON.get(), (EntityRendererProvider.Context context) -> new GeckolibEntityRenderer(context,"gorgon"));
+        event.registerEntityRenderer(RegistryHandler.GORGON.get(), (EntityRendererProvider.Context context) -> new GorgonRenderer(context,"gorgon"));
 
 
         RegisterMobRenderer(RegistryHandler.BOSS_DEMON_KING.get(),"boss_demon_king",event);

@@ -2,10 +2,7 @@ package com.dkmk100.arsomega.glyphs;
 
 import com.dkmk100.arsomega.entities.EntityDivineSmite;
 import com.dkmk100.arsomega.util.RegistryHandler;
-import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
-import com.hollingsworth.arsnouveau.api.spell.SpellContext;
-import com.hollingsworth.arsnouveau.api.spell.SpellResolver;
-import com.hollingsworth.arsnouveau.api.spell.SpellStats;
+import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentSensitive;
@@ -16,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeConfigSpec;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -63,6 +61,11 @@ public class DivineSmite  extends TierFourEffect {
     @Override
     public Set<AbstractAugment> getCompatibleAugments() {
         return this.augmentSetOf(new AbstractAugment[]{AugmentSensitive.INSTANCE,AugmentAOE.INSTANCE, AugmentAmplify.INSTANCE});
+    }
+
+    @Override
+    protected @NotNull Set<SpellSchool> getSchools() {
+        return this.setOf(new SpellSchool[]{Schools.CELESTIAL, SpellSchools.ELEMENTAL_AIR});
     }
 }
 

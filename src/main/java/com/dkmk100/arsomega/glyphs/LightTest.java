@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.util.LevelUtil;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
@@ -38,7 +39,7 @@ public class LightTest extends AbstractEffect {
                 pos = new BlockPos(rayTraceResult.getLocation());
             }
 
-            int light = LightUtil.getLightValue(pos,world);
+            int light = LevelUtil.getAdjustedLightValue(pos,world);
 
             PortUtil.sendMessage(shooter, Component.literal("light level: "+light));
 

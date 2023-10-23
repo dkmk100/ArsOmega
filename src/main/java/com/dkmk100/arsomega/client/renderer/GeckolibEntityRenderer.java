@@ -14,8 +14,10 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.ars_nouveau.geckolib3.core.IAnimatable;
 import software.bernie.ars_nouveau.geckolib3.geo.render.built.GeoBone;
 import software.bernie.ars_nouveau.geckolib3.model.AnimatedGeoModel;
 import software.bernie.ars_nouveau.geckolib3.renderers.geo.GeoEntityRenderer;
@@ -23,7 +25,7 @@ import software.bernie.ars_nouveau.geckolib3.util.RenderUtils;
 
 import java.util.Locale;
 
-public class GeckolibEntityRenderer extends GeoEntityRenderer {
+public class GeckolibEntityRenderer<T extends LivingEntity & IAnimatable> extends GeoEntityRenderer<T> {
 
     public GeckolibEntityRenderer(EntityRendererProvider.Context renderManager, String name) {
         this(renderManager, new GeckolibEntityModel(name));
@@ -60,7 +62,7 @@ public class GeckolibEntityRenderer extends GeoEntityRenderer {
     }
 
     @Override
-    public RenderType getRenderType(Object animatable, float partialTick, PoseStack poseStack, @Nullable MultiBufferSource bufferSource, @Nullable VertexConsumer buffer, int packedLight, ResourceLocation texture) {
+    public RenderType getRenderType(T animatable, float partialTick, PoseStack poseStack, @Nullable MultiBufferSource bufferSource, @Nullable VertexConsumer buffer, int packedLight, ResourceLocation texture) {
         return RenderType.entityCutout(texture);
     }
 }

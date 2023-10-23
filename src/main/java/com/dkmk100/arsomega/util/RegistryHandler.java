@@ -273,7 +273,12 @@ public class RegistryHandler{
         register(RandomChance.HIGH_CHANCE);
         register(RandomColorEffect.INSTANCE);
 
-        register(LightTest.INSTANCE);
+        if(INCLUDE_DEV_ITEMS){
+            register(LightTest.INSTANCE);
+            register(LightShift.INSTANCE);
+            register(DarkShift.INSTANCE);
+        }
+
     }
 
     public static void registerRituals()
@@ -813,7 +818,7 @@ public class RegistryHandler{
     public static final RegistryObject<EntityType<?  extends Monster>> RAPTOR_DEMON = ENTITIES.register("demon_raptor", () -> EntityType.Builder.of(EntityDemonRaptor::new, MobCategory.MONSTER).sized(0.6F, 1.4F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_raptor").toString()));
     public static final RegistryObject<EntityType<? extends Mob>> RAY_DEMON = ENTITIES.register("demon_ray", () -> EntityType.Builder.of(EntityDemonRay::new, MobCategory.AMBIENT).sized(1.5F, 1.1F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_ray").toString()));
 
-    public static final RegistryObject<EntityType<? extends Mob>> GORGON = ENTITIES.register("gorgon", () -> EntityType.Builder.of(EntityGorgon::new, MobCategory.AMBIENT).sized(1.5F, 1.1F).build(new ResourceLocation(ArsOmega.MOD_ID, "gorgon").toString()));
+    public static final RegistryObject<EntityType<? extends Mob>> GORGON = ENTITIES.register("gorgon", () -> EntityType.Builder.of(EntityGorgon::new, MobCategory.AMBIENT).sized(0.8F, 2.1F).build(new ResourceLocation(ArsOmega.MOD_ID, "gorgon").toString()));
 
     public static final RegistryObject<EntityType<? extends EntityClayGolem>> CLAY_GOLEM_BETA = ENTITIES.register("clay_golem", () -> EntityType.Builder.<EntityClayGolem>of((e,l) -> new EntityClayGolem(e,l, EntityClayGolem.Tier.MAGIC), MobCategory.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem").toString()));
     public static final RegistryObject<EntityType<? extends EntityClayGolem>> CLAY_GOLEM_MARVELOUS = ENTITIES.register("clay_golem_marvelous", () -> EntityType.Builder.<EntityClayGolem>of((e,l) -> new EntityClayGolem(e,l, EntityClayGolem.Tier.MARVELOUS), MobCategory.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem_marvelous").toString()));
