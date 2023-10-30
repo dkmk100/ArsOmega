@@ -50,7 +50,7 @@ public class InvisibleAspectGlyph extends AbstractEffect {
     }
 
     @Override
-    public Tier getTier() {
+    public Tier defaultTier() {
         return Tier.THREE;
     }
 

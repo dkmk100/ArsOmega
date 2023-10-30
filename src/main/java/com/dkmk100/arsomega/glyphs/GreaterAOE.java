@@ -17,7 +17,7 @@ public class GreaterAOE extends AbstractAugment {
         return 105;
     }
 
-    public SpellTier getTier() {
+    public SpellTier defaultTier() {
         return SpellTier.THREE;
     }
 

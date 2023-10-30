@@ -13,7 +13,7 @@ public abstract class TierFourEffect extends AbstractEffect {
     public static SpellTier FOUR = SpellTier.createTier(new ResourceLocation("arsomega","four"),4);
 
     @Override
-    public SpellTier getTier() {
+    public SpellTier defaultTier() {
         return FOUR;
     }
 

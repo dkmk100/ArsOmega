@@ -76,7 +76,7 @@ public class PropagateSelf extends AbstractEffect implements IPropagator {
     }
 
     @Override
-    public SpellTier getTier() {
+    public SpellTier defaultTier() {
         return SpellTier.ONE;
     }
 

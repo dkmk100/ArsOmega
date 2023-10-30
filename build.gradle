@@ -209,6 +209,14 @@ dependencies {
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
     testAnnotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
+    //placebo, since apoth depends on it
+    compileOnly fg.deobf("curse.maven:placebo-283644:4759853")
+    //runtimeOnly fg.deobf("curse.maven:placebo-283644:4759853")
+
+    //apotheosis, only for compat with enchant glyph
+    compileOnly fg.deobf("curse.maven:apotheosis-313970:4730358")
+    //runtimeOnly fg.deobf("curse.maven:apotheosis-313970:4730358")
+
 }
 mixin {
     add sourceSets.main, "arsomega.refmap.json"

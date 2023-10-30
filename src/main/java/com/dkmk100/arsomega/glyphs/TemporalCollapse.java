@@ -23,7 +23,7 @@ public class TemporalCollapse  extends AbstractAugment {
     }
 
     @Override
-    public SpellTier getTier() {
+    public SpellTier defaultTier() {
         return TierFourEffect.FOUR;
     }
 }

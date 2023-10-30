@@ -1,5 +1,6 @@
 package com.dkmk100.arsomega.util;
 
+import com.dkmk100.arsomega.compat.CompatHandler;
 import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
 import com.hollingsworth.arsnouveau.api.spell.*;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentDampen;

@@ -15,16 +15,34 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Function;
 
 public class LevelUtil {
+
+    @Nullable
+    public static ItemEntity spawnAtLocation(ItemStack stack, float yOffset, BlockPos pos, Level world) {
+        if (stack.isEmpty()) {
+            return null;
+        } else if (world.isClientSide) {
+            return null;
+        } else {
+            ItemEntity itementity = new ItemEntity(world, pos.getX(),pos.getY()+yOffset,pos.getZ(), stack);
+            itementity.setDefaultPickUpDelay();
+            world.addFreshEntity(itementity);
+            return itementity;
+        }
+    }
+
     public static int getRawLightValue(BlockPos pos, Level world){
         return world.getLightEngine().getRawBrightness(pos,0);
     }

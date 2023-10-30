@@ -17,7 +17,7 @@ public class LesserAOE extends AbstractAugment {
         return 25;
     }
 
-    public SpellTier getTier() {
+    public SpellTier defaultTier() {
         return SpellTier.ONE;
     }
 

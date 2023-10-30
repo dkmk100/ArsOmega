@@ -23,7 +23,7 @@ public class CursedBind  extends AbstractAugment {
         return 1500;
     }
 
-    public SpellTier getTier() {
+    public SpellTier defaultTier() {
         return TierFourEffect.FOUR;
     }
 

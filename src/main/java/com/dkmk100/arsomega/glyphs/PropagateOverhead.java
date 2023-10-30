@@ -81,7 +81,7 @@ public class PropagateOverhead extends AbstractEffect implements IIgnoreBuffs, I
         return "Delays the resolution of effects placed to the right of this spell for a few moments. The delay may be increased with the Extend Time augment, or decreased with Duration Down.";
     }
 
-    public SpellTier getTier() {
+    public SpellTier defaultTier() {
         return SpellTier.ONE;
     }
 

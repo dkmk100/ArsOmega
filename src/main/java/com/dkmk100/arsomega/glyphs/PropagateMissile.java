@@ -109,7 +109,7 @@ public class PropagateMissile extends AbstractEffect implements IPropagator {
         return FormMissile.INSTANCE.getCompatibleAugments();
     }
 
-    public SpellTier getTier() {
+    public SpellTier defaultTier() {
         return SpellTier.TWO;
     }
 

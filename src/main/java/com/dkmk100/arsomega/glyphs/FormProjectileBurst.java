@@ -40,7 +40,7 @@ public class FormProjectileBurst extends AbstractCastMethod {
     }
 
     @Override
-    public SpellTier getTier() {
+    public SpellTier defaultTier() {
         return SpellTier.THREE;
     }
 

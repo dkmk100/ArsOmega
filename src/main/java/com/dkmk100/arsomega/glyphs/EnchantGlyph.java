@@ -1,10 +1,17 @@
 package com.dkmk100.arsomega.glyphs;
 
+import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.compat.CompatHandler;
 import com.dkmk100.arsomega.crafting.EnchantRecipe;
-import com.dkmk100.arsomega.crafting.TransmuteRecipe;
+import com.dkmk100.arsomega.util.ExperienceUtil;
+import com.dkmk100.arsomega.util.LevelUtil;
 import com.dkmk100.arsomega.util.RegistryHandler;
+import com.hollingsworth.arsnouveau.api.ArsNouveauAPI;
+import com.hollingsworth.arsnouveau.api.item.inv.FilterableItemHandler;
+import com.hollingsworth.arsnouveau.api.item.inv.InteractType;
+import com.hollingsworth.arsnouveau.api.item.inv.InventoryManager;
+import com.hollingsworth.arsnouveau.api.item.inv.SlotReference;
 import com.hollingsworth.arsnouveau.api.spell.*;
-import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAOE;
 import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.util.RandomSource;
@@ -25,12 +32,15 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraftforge.common.ForgeConfigSpec;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 public class EnchantGlyph extends AbstractEffect {
@@ -48,117 +58,324 @@ public class EnchantGlyph extends AbstractEffect {
             double aoeBuff = spellStats.getAoeMultiplier();
             int ampBuff = (int) Math.round(spellStats.getAmpMultiplier());
 
-            List<ItemEntity> itemEntities = world.getEntitiesOfClass(ItemEntity.class, (new AABB(rayTraceResult.getBlockPos())).inflate((double) aoeBuff + 1.0D));
-            Iterator var5 = itemEntities.iterator();
+            WrappedEnchanter enchanter = new WrappedEnchanter(shooter, spellContext, world);
+            if (enchanter.canEnchant()) {
 
-            while (var5.hasNext()) {
-                ItemEntity itemEntity = (ItemEntity) var5.next();
-                ItemStack current = itemEntity.getItem();
-                //random = world.random;
-                int seed = random.nextInt();
-                if(shooter instanceof Player){
-                    seed+=((Player)shooter).getEnchantmentSeed();
-                }
-                ItemStack result = enchantItem(shooter,seed,current,level(ampBuff));
-                if(result!=null) {
-                    world.addFreshEntity(new ItemEntity(world, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), result.copy()));
-                    current.shrink(current.getCount());
-                }
-            }
-        }
-    }
+                List<ItemEntity> itemEntities = world.getEntitiesOfClass(ItemEntity.class, (new AABB(rayTraceResult.getBlockPos())).inflate((double) aoeBuff + 1.0D));
+                Iterator var5 = itemEntities.iterator();
 
-    int level(int amp){return 2*amp + 4;}
-    public int getAmp(int level){
-        return (level-4)/2;
-    }
-    int power(int level){
-        return Math.min(Math.max(level,0),30);
-    }
+                while (var5.hasNext()) {
+                    ItemEntity itemEntity = (ItemEntity) var5.next();
+                    ItemStack current = itemEntity.getItem();
 
-    @Override
-    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
-        if(rayTraceResult.getEntity() instanceof Player) {
-            int ampBuff = (int) Math.round(spellStats.getAmpMultiplier());
-            Player entity = (Player)rayTraceResult.getEntity();
-            ItemStack result = enchantItem(entity, entity.getEnchantmentSeed(), entity.getItemInHand(InteractionHand.MAIN_HAND),level(ampBuff));
-            if(result!=null) {
-                entity.setItemInHand(InteractionHand.MAIN_HAND, result);
-            }
-            else{
-                result = enchantItem(entity, entity.getEnchantmentSeed(), entity.getItemInHand(InteractionHand.OFF_HAND),level(ampBuff));
-                if(result!=null) {
-                    entity.setItemInHand(InteractionHand.OFF_HAND, result);
+                    EnchantResult result = enchantItem(enchanter, current, level(ampBuff), 1);
 
-                }
-            }
-        }
-    }
-
-    @Nullable
-    public ItemStack enchantItem(LivingEntity player, int seed, ItemStack itemstack, int level) {
-        int power = power(level);
-        int i = seed + 1;
-        if (itemstack.isEmpty() || itemstack.isEnchanted()) {
-            return null;
-        } else {
-            ItemStack itemstack2 = itemstack.copy();
-            List<EnchantmentInstance> list = this.getEnchantmentList(itemstack2, seed, power);
-            if (!list.isEmpty()) {
-                boolean flag = itemstack.getItem() == Items.BOOK;
-                if (flag) {
-                    itemstack2 = new ItemStack(Items.ENCHANTED_BOOK,itemstack.getCount());
-                    CompoundTag compoundnbt = itemstack.getTag();
-                    if (compoundnbt != null) {
-                        itemstack2.setTag(compoundnbt.copy());
-                    }
-                }
-
-                for(int j = 0; j < list.size(); ++j) {
-                    EnchantmentInstance enchantmentdata = list.get(j);
-                    if (flag) {
-                        EnchantedBookItem.addEnchantment(itemstack2, enchantmentdata);
-                    } else {
-                        itemstack2.enchant(enchantmentdata.enchantment, enchantmentdata.level);
-                    }
-                }
-
-                if(player instanceof Player) {
-                    ((Player) player).awardStat(Stats.ENCHANT_ITEM);
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ENCHANTED_ITEM.trigger((ServerPlayer) player, itemstack2, i);
-                    }
-                }
-            }
-            else{
-                List<EnchantRecipe> recipes = player.getLevel().getRecipeManager().getAllRecipesFor(RegistryHandler.ENCHANT_TYPE);
-
-                for(EnchantRecipe recipe : recipes){
-                    if(itemstack.getItem()==recipe.input.getItem() && level >= recipe.minLevel){
-                        itemstack2 = new ItemStack(recipe.output.getItem(),itemstack.getCount());
-                        CompoundTag compoundnbt = itemstack.getTag();
-                        if (compoundnbt != null) {
-                            itemstack2.setTag(compoundnbt.copy());
+                    if (result.succeeded() && enchanter.spendExperience(result.experienceToSpend())) {
+                        itemEntity.setItem(result.modifiedStack());
+                        for (ItemStack stack : result.otherStacks()) {
+                            LevelUtil.spawnAtLocation(stack, 0.5f, rayTraceResult.getBlockPos(), world);
                         }
                     }
                 }
             }
+        }
 
-            if(itemstack2.equals(itemstack)) {
-                return null;
+    }
+
+    public ForgeConfigSpec.IntValue LEVELS_PER_AMP;
+    public ForgeConfigSpec.IntValue BASE_LEVEL;
+    @Override
+    public void buildConfig(ForgeConfigSpec.Builder builder) {
+        super.buildConfig(builder);
+        LEVELS_PER_AMP = builder.defineInRange("levelsPerAmp", 2, 0, 100);
+        BASE_LEVEL = builder.defineInRange("baseLevel", 4, 0, 100);
+    }
+
+    int level(int amp){
+        return LEVELS_PER_AMP.get()*amp + BASE_LEVEL.get();
+    }
+    public int getAmp(int level){
+        return (level-LEVELS_PER_AMP.get())/BASE_LEVEL.get();
+    }
+    int power(int level){
+        return Math.min(Math.max(level,0), CompatHandler.getMaxEnchantLevel());
+    }
+
+    @Override
+    public void onResolveEntity(EntityHitResult rayTraceResult, Level world, @Nullable LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
+        if(rayTraceResult.getEntity() instanceof LivingEntity target){
+            int ampBuff = (int) Math.round(spellStats.getAmpMultiplier());
+
+            WrappedEnchanter enchanter = new WrappedEnchanter(shooter, spellContext, world);
+            if(enchanter.canEnchant()) {
+                for(InteractionHand hand : InteractionHand.values()) {
+                    if(ItemStack.matches(target.getItemInHand(hand),spellContext.getCasterTool())){
+                        continue;//don't enchant casting item used to cast enchant spell
+                    }
+                    EnchantResult result = enchantItem(enchanter, target.getItemInHand(hand), level(ampBuff), 1);
+                    //make sure spending the experience works before doing the enchants
+                    if (result.succeeded && enchanter.spendExperience(result.experienceToSpend)) {
+                        target.setItemInHand(hand, result.modifiedStack);
+                        for (ItemStack stack : result.otherStacks) {
+                            if (target instanceof ServerPlayer player) {
+                                if (player.addItem(stack)) {
+
+                                } else {
+                                    LevelUtil.spawnAtLocation(stack, 0.5f, target.blockPosition(), world);
+                                }
+                            }
+                        }
+                    }
+                }
             }
-
-                return itemstack2;
-
         }
     }
+
+    //todo: turrets use gems from drygmies
+    private static class WrappedEnchanter {
+        private LivingEntity shooter;
+        private ServerPlayer player = null;
+        private  SpellContext context;
+        private Level world;
+
+        private int seed;
+
+        public WrappedEnchanter(LivingEntity shooter, SpellContext context, Level world) {
+            this.shooter = shooter;
+            this.context = context;
+            this.world = world;
+            //we need to set seed no matter what
+            //and player if it's not a fake player
+            if (shooter instanceof ServerPlayer serverPlayer && INSTANCE.isNotFakePlayer(shooter)) {
+                player = serverPlayer;
+                seed = player.getEnchantmentSeed();
+            }
+            else{
+                seed = world.random.nextInt();
+            }
+        }
+
+        public Level getLevel(){
+            return world;
+        }
+
+        public int getSeed(){
+            return seed;
+        }
+
+        public boolean canEnchant() {
+            return true;//for now
+        }
+
+        public int getExperience() {
+            if (player == null) {
+
+                int xp = 0;
+                List<SlotReference> slotReferences = new ArrayList<>();
+                InventoryManager inv = context.getCaster().getInvManager();
+                for(FilterableItemHandler handler : inv.getInventory()) {
+                    slotReferences.addAll(inv.findItems(handler, (stack) -> ExperienceUtil.getExperienceValue(stack) > 0, InteractType.EXTRACT, 100));
+                }
+
+                for(SlotReference ref : slotReferences){
+                    ItemStack stack = ref.getHandler().getStackInSlot(ref.getSlot());
+
+                    int pointsPerItem = ExperienceUtil.getExperienceValue(stack);
+
+                    xp += pointsPerItem * stack.getCount();
+                }
+
+                LoggerContext.getContext().getLogger(EnchantGlyph.class).info("experience in caster tile: "+xp);
+
+                return xp;
+            }
+            LoggerContext.getContext().getLogger(EnchantGlyph.class).info("experience in player "+ExperienceUtil.getExperiencePoints(player));
+            return ExperienceUtil.getExperiencePoints(player);
+        }
+
+        public void OnEnchant(ItemStack stack){
+            if(player == null){
+                seed = world.random.nextInt();
+            }
+            else{
+                player.onEnchantmentPerformed(stack, 0);
+                seed = player.getEnchantmentSeed();
+            }
+        }
+
+        public boolean spendExperience(int points) {
+            if (player == null) {
+                int pointsLeft = points;
+                List<SlotReference> slotReferences = new ArrayList<>();
+                InventoryManager inv = context.getCaster().getInvManager();
+                for(FilterableItemHandler handler : inv.getInventory()) {
+                    slotReferences.addAll(inv.findItems(handler, (stack) -> ExperienceUtil.getExperienceValue(stack) > 0, InteractType.EXTRACT, 100));
+                }
+
+                for(SlotReference ref : slotReferences){
+                    ItemStack stack = ref.getHandler().getStackInSlot(ref.getSlot());
+
+                    int pointsPerItem = ExperienceUtil.getExperienceValue(stack);
+
+                    int toUse = Math.min((pointsLeft / pointsPerItem) + 1,stack.getCount());
+
+                    ref.getHandler().extractItem(ref.getSlot(),toUse,false);
+
+                    pointsLeft -= toUse * pointsPerItem;
+
+                    if(pointsLeft == 0){
+                        break;
+                    }
+                }
+
+                //todo: way to refund and return false if necessary?
+                return true;
+            }
+            LoggerContext.getContext().getLogger(EnchantGlyph.class).info("spending experience: "+points);
+            ExperienceUtil.spendExperience(player, points);
+            return true;
+        }
+
+        public void AwardAchievement(ItemStack stack, int level) {
+            if (player == null) {
+                return;
+            }
+            player.awardStat(Stats.ENCHANT_ITEM);
+            CriteriaTriggers.ENCHANTED_ITEM.trigger(player, stack, level);
+        }
+    }
+
+
+    private static record EnchantResult(boolean succeeded, int experienceToSpend, ItemStack modifiedStack, List<ItemStack> otherStacks) {
+
+    }
+
+    public EnchantResult enchantItem(WrappedEnchanter wrappedEnchanter, ItemStack stackIn, int powerLevel, int maxItemsProcessed) {
+
+        return enchantItem(wrappedEnchanter.getLevel(), wrappedEnchanter, wrappedEnchanter.getSeed(), stackIn, powerLevel, wrappedEnchanter.getExperience(), maxItemsProcessed);
+    }
+
+    @NotNull
+    public EnchantResult enchantItem(Level world, WrappedEnchanter wrappedEnchanter, int seed, ItemStack stackIn, int level, int xpPointsAvailable, int maxItemsProcessed) {
+        int power = power(level);
+
+        if (stackIn.isEmpty()) {
+            return new EnchantResult(false, 0, stackIn, new ArrayList<>());
+        }
+
+        int xpCost = ExperienceUtil.getExperienceForLevel(power);
+
+        List<EnchantRecipe> recipes = world.getRecipeManager().getAllRecipesFor(RegistryHandler.ENCHANT_TYPE);
+        EnchantRecipe selectedRecipe = null;
+        for (EnchantRecipe recipe : recipes) {
+            if (stackIn.is(recipe.input.getItem()) && level >= recipe.minLevel) {
+                selectedRecipe = recipe;
+                xpCost = ExperienceUtil.getExperienceForLevel(recipe.minLevel);
+                break;
+            }
+        }
+
+        if (selectedRecipe != null) {
+
+            ItemStack stackOut = selectedRecipe.output.copy();
+
+            int amountProcessed = stackIn.getCount() / selectedRecipe.input.getCount();
+
+            //limit by experience available
+            amountProcessed = Math.min(amountProcessed, xpPointsAvailable / xpCost);
+
+            //limit by max items processed
+            amountProcessed = Math.min(amountProcessed, maxItemsProcessed / selectedRecipe.output.getCount());
+
+            stackOut.setCount(amountProcessed * selectedRecipe.output.getCount());
+
+            stackIn.shrink(amountProcessed * selectedRecipe.input.getCount());
+
+            if (stackIn.isEmpty()) {
+                return new EnchantResult(true, xpCost * amountProcessed, stackOut, List.of());
+            }
+            else{
+                return new EnchantResult(true, xpCost * amountProcessed, stackIn, List.of(stackOut));
+            }
+        } else if (stackIn.isEnchanted()) {
+            return new EnchantResult(false, 0, stackIn, new ArrayList<>());
+        }
+
+        ItemStack stackOut = null;
+        List<ItemStack> extraStacks = new ArrayList<>(maxItemsProcessed);
+        boolean succeeded = false;
+        int experienceLeft = xpPointsAvailable;
+
+        for (int i = 0; i < maxItemsProcessed && experienceLeft >= xpCost; i++) {
+
+            ItemStack result = stackIn.copy();
+            result.setCount(1);
+
+            List<EnchantmentInstance> list = this.getEnchantmentList(result, seed, power);
+            if (list.isEmpty()) {
+                break;
+            }
+
+            //calculate result stack
+            boolean isBook = result.getItem() == Items.BOOK;
+            if (isBook) {
+                result = new ItemStack(Items.ENCHANTED_BOOK, 1);
+                CompoundTag compoundnbt = stackIn.getTag();
+                if (compoundnbt != null) {
+                    result.setTag(compoundnbt.copy());
+                }
+            }
+            for (int j = 0; j < list.size(); ++j) {
+                EnchantmentInstance enchantmentdata = list.get(j);
+                if (isBook) {
+                    EnchantedBookItem.addEnchantment(result, enchantmentdata);
+                } else {
+                    result.enchant(enchantmentdata.enchantment, enchantmentdata.level);
+                }
+            }
+
+            wrappedEnchanter.AwardAchievement(result, level);
+
+
+            //once result is calculated, use it and set the input
+            //at this point, an enchantment has succeeded or the loop has broken
+            succeeded = true;
+            stackIn.shrink(1);
+
+            experienceLeft -= xpCost;
+            wrappedEnchanter.OnEnchant(result);
+
+            if (stackIn.isEmpty()) {
+                stackOut = result;
+            } else {
+                for (ItemStack stack : extraStacks) {
+                    if (ItemStack.isSameItemSameTags(result, stack)) {
+                        int maxAdded = stack.getMaxStackSize() - stack.getCount();
+                        stack.grow(Math.min(maxAdded, result.getCount()));
+                        result.shrink(maxAdded);
+                        break;
+                    }
+                }
+                if (!result.isEmpty()) {
+                    extraStacks.add(result);
+                }
+            }
+
+        }
+
+        if(stackOut == null){
+            stackOut = stackIn;
+        }
+
+        int xpSpent = xpPointsAvailable - experienceLeft;
+        return new EnchantResult(succeeded, xpSpent, stackOut, extraStacks);
+    }
+
 
     private List<EnchantmentInstance> getEnchantmentList(ItemStack p_178148_1_, long p_178148_2_, int p_178148_3_) {
         random.setSeed(p_178148_2_);
         List<EnchantmentInstance> list = EnchantmentHelper.selectEnchantment(this.random, p_178148_1_, p_178148_3_, false);
-        //if (p_178148_1_.getItem() == Items.BOOK && list.size() > 1) {
-            //list.remove(this.random.nextInt(list.size()));
-        //}
+
 
         return list;
     }
@@ -175,7 +392,7 @@ public class EnchantGlyph extends AbstractEffect {
     }
 
     @Override
-    public SpellTier getTier() {
+    public SpellTier defaultTier() {
         return SpellTier.TWO;
     }
 

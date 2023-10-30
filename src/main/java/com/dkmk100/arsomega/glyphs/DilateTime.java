@@ -17,7 +17,7 @@ public class DilateTime extends AbstractAugment {
         return 100;
     }
 
-    public SpellTier getTier() {
+    public SpellTier defaultTier() {
         return SpellTier.THREE;
     }
 

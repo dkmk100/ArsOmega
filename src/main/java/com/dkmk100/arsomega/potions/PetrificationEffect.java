@@ -37,7 +37,7 @@ public class PetrificationEffect extends MobEffect {
 
     public PetrificationEffect() {
         super(MobEffectCategory.HARMFUL, 9211020);
-        this.addAttributeModifier(Attributes.MOVEMENT_SPEED, "0dee8a21-f182-42c8-8361-1ad6186cac30", -1.0D, AttributeModifier.Operation.MULTIPLY_TOTAL);
+        this.addAttributeModifier(Attributes.MOVEMENT_SPEED, "0def8a21-e182-42c8-8461-1bd6127cca30", -1.0D, AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 
     @Override

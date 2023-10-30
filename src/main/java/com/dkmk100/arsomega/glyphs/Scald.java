@@ -62,7 +62,7 @@ public class Scald extends AbstractEffect implements IDamageEffect {
     }
 
     @Override
-    public SpellTier getTier() {
+    public SpellTier defaultTier() {
         return SpellTier.TWO;
     }
 

@@ -60,7 +60,7 @@ public class Regen extends AbstractEffect implements ILimitedPotion {
     }
 
     @Override
-    public SpellTier getTier() {
+    public SpellTier defaultTier() {
         return SpellTier.THREE;
     }
 

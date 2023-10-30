@@ -88,7 +88,7 @@ public class PropagateUnderfoot extends AbstractEffect implements IIgnoreBuffs, 
     }
 
     @Override
-    public SpellTier getTier() {
+    public SpellTier defaultTier() {
         return SpellTier.ONE;
     }
 

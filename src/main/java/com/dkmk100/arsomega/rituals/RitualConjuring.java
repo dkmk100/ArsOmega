@@ -1,6 +1,7 @@
 package com.dkmk100.arsomega.rituals;
 
 import com.dkmk100.arsomega.ArsOmega;
+import com.dkmk100.arsomega.util.LevelUtil;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.api.ritual.AbstractRitual;
 import com.hollingsworth.arsnouveau.client.particle.ParticleLineData;
@@ -23,23 +24,14 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class RitualConjuring extends AbstractRitual {
+    /*
     @Nullable
     public ItemEntity spawnAtLocation(ItemStack p_199701_1_, BlockPos pos) {
         return this.spawnAtLocation(p_199701_1_, 0.0F, pos);
     }
-    @Nullable
-    public ItemEntity spawnAtLocation(ItemStack p_70099_1_, float p_70099_2_, BlockPos pos) {
-        if (p_70099_1_.isEmpty()) {
-            return null;
-        } else if (getWorld().isClientSide) {
-            return null;
-        } else {
-            ItemEntity itementity = new ItemEntity(this.getWorld(), pos.getX(),pos.getY()+p_70099_2_,pos.getZ(), p_70099_1_);
-            itementity.setDefaultPickUpDelay();
-            this.getWorld().addFreshEntity(itementity);
-            return itementity;
-        }
-    }
+
+     */
+
     protected void tick() {
         Level world = this.getWorld();
         if (world.isClientSide) {
@@ -64,7 +56,7 @@ public class RitualConjuring extends AbstractRitual {
                 BlockPos pos = this.getPos();
                 List<ItemStack> items = this.getConsumedItems();
                 if(items.size() > 0) {
-                    ItemEntity itementity = this.spawnAtLocation(new ItemStack(items.get(0).getItem(), 3), 1, pos);
+                    ItemEntity itementity = LevelUtil.spawnAtLocation(new ItemStack(items.get(0).getItem(), 3), 1, pos, getWorld());
                     if (itementity != null) {
                         itementity.setExtendedLifetime();
                         world.addFreshEntity(itementity);

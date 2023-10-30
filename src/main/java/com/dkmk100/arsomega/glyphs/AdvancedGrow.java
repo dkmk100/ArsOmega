@@ -253,7 +253,7 @@ public class AdvancedGrow extends AbstractEffect {
         return 170;
     }
 
-    public SpellTier getTier() {
+    public SpellTier defaultTier() {
         return SpellTier.TWO;
     }
 

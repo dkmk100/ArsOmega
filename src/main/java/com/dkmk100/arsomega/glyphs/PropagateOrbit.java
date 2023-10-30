@@ -68,7 +68,7 @@ public class PropagateOrbit  extends AbstractEffect implements  IPropagator {
     }
 
     @Override
-    public SpellTier getTier() {
+    public SpellTier defaultTier() {
         return SpellTier.THREE;
     }
 

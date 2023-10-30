@@ -26,7 +26,7 @@ public class AdvancedAmplify extends AbstractAugment {
     }
 
     @Override
-    public SpellTier getTier() {
+    public SpellTier defaultTier() {
         return SpellTier.THREE;
     }
 
