@@ -15,9 +15,12 @@ import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
 import com.hollingsworth.arsnouveau.api.spell.Spell;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
 import com.hollingsworth.arsnouveau.common.enchantment.EnchantmentRegistry;
+import com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell;
 import com.hollingsworth.arsnouveau.common.spell.casters.ReactiveCaster;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
 import net.minecraft.client.gui.screens.social.PlayerEntry;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
  
   
@@ -33,6 +36,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -47,9 +52,12 @@ import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
+import org.apache.logging.log4j.LogManager;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -80,7 +88,83 @@ public class CommonEvents {
                 }
             }
         }
+        else if(result instanceof BlockHitResult hit) {
+            if(!(event.getProjectile() instanceof EntityProjectileSpell)){
+                return;
+            }
+            BlockState state = event.getEntity().getLevel().getBlockState(hit.getBlockPos());
+            if(state.is(RegistryHandler.ENCHANTERS_GLASS.get())){
+                Direction dir = hit.getDirection().getOpposite();
+
+                Vec3i normal = dir.getNormal();
+                Vec3 blockDir = new Vec3(normal.getX(), normal.getY(), normal.getZ());
+
+                Vec3 projectileMovement = event.getProjectile().getDeltaMovement();
+
+                double val = projectileMovement.dot(blockDir.normalize());
+
+                Vec3 toMirror = blockDir.multiply(val, val, val);
+
+                Vec3 orthogonalMovement = projectileMovement.subtract(toMirror);
+
+                projectileMovement = orthogonalMovement.subtract(toMirror);
+
+                event.getProjectile().setDeltaMovement(projectileMovement);
+
+                //so projectile can hit anyone
+                StripOwner(event.getProjectile());
+
+                //todo: rotate projectile itself as well
+                event.setCanceled(true);
+
+
+            }
+            else if(state.is(RegistryHandler.ENCHANTERS_GLASS_CURVED.get()) || state.is(RegistryHandler.ENCHANTERS_LENS.get())){
+                Direction dir = hit.getDirection();
+
+                if(state.is(RegistryHandler.ENCHANTERS_LENS.get())){
+                    dir = dir.getOpposite();
+                }
+
+                Vec3i normal = dir.getNormal();
+                Vec3 blockDir = new Vec3(normal.getX(), normal.getY(), normal.getZ());
+
+                Vec3 projectileMovement = event.getProjectile().getDeltaMovement();
+
+                double val = projectileMovement.length();
+
+                projectileMovement = blockDir.multiply(val, val, val);
+
+                event.getProjectile().setDeltaMovement(projectileMovement);
+
+                //so projectile can hit anyone
+                StripOwner(event.getProjectile());
+
+                //todo: rotate projectile itself as well
+                event.setCanceled(true);
+            }
+        }
     }
+
+    static Field ownerIdField = null;
+    static Field cachedOwnerField = null;
+
+    public static void StripOwner(Projectile projectile){
+        if(ownerIdField == null){
+            ownerIdField = ObfuscationReflectionHelper.findField(Projectile.class, "f_37244_");
+            cachedOwnerField = ObfuscationReflectionHelper.findField(Projectile.class, "f_150163_");
+            ownerIdField.setAccessible(true);
+            cachedOwnerField.setAccessible(true);
+        }
+        try {
+            ownerIdField.set(projectile, null);
+            cachedOwnerField.set(projectile, null);
+        }
+        catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
     @SubscribeEvent
     public static void OnEffectResolvePre(EffectResolveEvent.Pre event){
         Optional<SlotResult> curio = CuriosApi.getCuriosHelper().findFirstCurio(event.shooter, (stack) -> stack.getItem() instanceof CursedPendant);
@@ -141,9 +225,14 @@ public class CommonEvents {
         if(angleDif < angleTolerance){
             //reflect
             Vec3 targetDelta = projectile.getDeltaMovement().scale(-1);
-            projectile.setYRot(projectile.getXRot() * -1);
+            projectile.setYRot(projectile.getYRot() * -1);
+
             //projectile.setPos(projectile.position().add(targetDelta));
             projectile.setDeltaMovement(targetDelta);
+
+            //so projectile can hit anyone
+            StripOwner(event.getProjectile());
+
             //stop hit
             event.setCanceled(true);
         }

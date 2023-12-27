@@ -49,8 +49,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.level.block.GlassBlock;
-import net.minecraft.world.level.block.RedStoneOreBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.effect.MobEffects;
@@ -78,14 +77,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.NotImplementedException;
 
 public class RegistryHandler{
-    public static final boolean INCLUDE_DEV_ITEMS = true;
+    public static final boolean INCLUDE_DEV_ITEMS = false;
     public static final ResourceLocation DIMTYPE = new ResourceLocation(ArsOmega.MOD_ID, "demon_realm");
 
     public static List<AbstractSpellPart> registeredSpells = new ArrayList<>();
@@ -155,6 +152,7 @@ public class RegistryHandler{
     public static BasicTrigger CONTACT;
     public static BasicTrigger POWERS;
     public static BasicTrigger DESTINY;
+    public static BasicTrigger GORGON_REFLECT;
 
     public static void RegisterAdvancementTriggers(){
         USE_DEMON_STAFF = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"use_demon_staff")));
@@ -163,6 +161,8 @@ public class RegistryHandler{
         CONTACT = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"contact")));
         POWERS = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"powers")));
         DESTINY = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"destiny")));
+
+        GORGON_REFLECT = CriteriaTriggers.register(new BasicTrigger(new ResourceLocation(ArsOmega.MOD_ID,"gorgon_reflect")));
     }
 
     public static final RegistryObject<Enchantment> PROACTIVE_ENCHANT = ENCHANTMENTS.register("proactive",ProactiveEnchant::new);
@@ -273,10 +273,11 @@ public class RegistryHandler{
         register(RandomChance.HIGH_CHANCE);
         register(RandomColorEffect.INSTANCE);
 
+        register(LightShift.INSTANCE);
+        register(DarkShift.INSTANCE);
+
         if(INCLUDE_DEV_ITEMS){
             register(LightTest.INSTANCE);
-            register(LightShift.INSTANCE);
-            register(DarkShift.INSTANCE);
         }
 
     }
@@ -444,7 +445,9 @@ public class RegistryHandler{
     static final BlockBehaviour.Properties BRAMBLE_PROPERTIES_3 = blockPropertiesCreator.create(Material.PLANT, 6f, 2f,  SoundType.HARD_CROP, true).noOcclusion();
     static final BlockBehaviour.Properties BRAMBLE_PROPERTIES_4 = blockPropertiesCreator.create(Material.PLANT, 10f, 4f,  SoundType.HARD_CROP, true).noOcclusion();
     static final BlockBehaviour.Properties CLAY_PROPERTIES = blockPropertiesCreator.create(Material.CLAY, 3f, 1f,  SoundType.GRAVEL, false);
-    static final BlockBehaviour.Properties GLASS_PROPERTIES = blockPropertiesCreator.create(Material.GLASS, 0.8f, 4f,  SoundType.GLASS, false).noOcclusion();
+    static final BlockBehaviour.Properties INFUSED_GLASS_PROPERTIES = blockPropertiesCreator.create(Material.GLASS, 0.8f, 4f,  SoundType.GLASS, false).isRedstoneConductor(RegistryHandler::never).noOcclusion().isSuffocating(RegistryHandler::never).isViewBlocking(RegistryHandler::never);
+
+    static final BlockBehaviour.Properties ENCHANTERS_GLASS_PROPERTIES = blockPropertiesCreator.create(Material.GLASS, 3.4f, 16f,  SoundType.GLASS, false).isRedstoneConductor(RegistryHandler::never).noOcclusion().isSuffocating(RegistryHandler::never).isViewBlocking(RegistryHandler::never);
 
     static final BlockBehaviour.Properties WOOL_PROPERTIES = blockPropertiesCreator.create(Material.WOOL, 8f, 800f,  SoundType.WOOL, false);
     static final BlockBehaviour.Properties FIRE_PROPERTIES = blockPropertiesCreator.create(Material.FIRE, 0, 0, SoundType.SAND, false).noOcclusion().lightLevel((BlockState state) -> 15);
@@ -472,7 +475,12 @@ public class RegistryHandler{
     public static final RegistryObject<Block> DEMONIC_GLOWSTONE = BLOCKS.register("demonic_glowstone",() -> new Block(GLOW_PROPERTIES));
     public static final RegistryObject<Block> FLESH_BLOCK = BLOCKS.register("flesh_block",() -> new Block(STONE_PROPERTIES));
 
-    public static final RegistryObject<Block> INFUSED_GLASS = BLOCKS.register("infused_glass",() -> new GlassBlock(GLASS_PROPERTIES));
+    public static final RegistryObject<Block> ENCHANTERS_GLASS_CURVED = BLOCKS.register("enchanters_glass_curved",() -> new CustomGlass(ENCHANTERS_GLASS_PROPERTIES, ()->null, ()->null));
+    public static final RegistryObject<Block> ENCHANTERS_GLASS = BLOCKS.register("enchanters_glass",() -> new CustomGlass(ENCHANTERS_GLASS_PROPERTIES, () -> ENCHANTERS_GLASS_CURVED.get().defaultBlockState(), () -> null));
+
+    public static final RegistryObject<Block> ENCHANTERS_LENS = BLOCKS.register("enchanters_lens",() -> new CustomGlass(INFUSED_GLASS_PROPERTIES, () -> null, () -> ENCHANTERS_GLASS_CURVED.get().defaultBlockState()));
+
+    public static final RegistryObject<Block> INFUSED_GLASS = BLOCKS.register("infused_glass",() -> new CustomGlass(INFUSED_GLASS_PROPERTIES, () -> ENCHANTERS_LENS.get().defaultBlockState(), () -> ENCHANTERS_GLASS.get().defaultBlockState()));
 
     public static final RegistryObject<Block> POTION_EXTENDER = BLOCKS.register("potion_extender",() -> new PotionExtender(STONE_PROPERTIES));
     public static final RegistryObject<Block> POTION_AMPLIFIER = BLOCKS.register("potion_amplifier",() -> new PotionAmplifier(STONE_PROPERTIES));
@@ -650,6 +658,9 @@ public class RegistryHandler{
 
 
     public static final RegistryObject<Item> INFUSED_GLASS_ITEM = ITEMS.register("infused_glass", () -> new BasicBlockItem(INFUSED_GLASS.get(),ITEM_PROPERTIES));
+    public static final RegistryObject<Item> ENCHANTERS_LENS_ITEM = ITEMS.register("enchanters_lens", () -> new BasicBlockItem(ENCHANTERS_LENS.get(),ITEM_PROPERTIES));
+    public static final RegistryObject<Item> ENCHANTERS_GLASS_ITEM = ITEMS.register("enchanters_glass", () -> new BasicBlockItem(ENCHANTERS_GLASS.get(),ITEM_PROPERTIES));
+    public static final RegistryObject<Item> ENCHANTERS_GLASS_CURVED_ITEM = ITEMS.register("enchanters_glass_curved", () -> new BasicBlockItem(ENCHANTERS_GLASS_CURVED.get(),ITEM_PROPERTIES));
 
     public static final RegistryObject<Item> CURSE_ALTAR_ITEM = ITEMS.register("curse_altar", () -> new BasicBlockItem(CURSE_ALTAR.get(),ITEM_PROPERTIES));
 
@@ -818,7 +829,7 @@ public class RegistryHandler{
     public static final RegistryObject<EntityType<?  extends Monster>> RAPTOR_DEMON = ENTITIES.register("demon_raptor", () -> EntityType.Builder.of(EntityDemonRaptor::new, MobCategory.MONSTER).sized(0.6F, 1.4F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_raptor").toString()));
     public static final RegistryObject<EntityType<? extends Mob>> RAY_DEMON = ENTITIES.register("demon_ray", () -> EntityType.Builder.of(EntityDemonRay::new, MobCategory.AMBIENT).sized(1.5F, 1.1F).build(new ResourceLocation(ArsOmega.MOD_ID, "demon_ray").toString()));
 
-    public static final RegistryObject<EntityType<? extends Mob>> GORGON = ENTITIES.register("gorgon", () -> EntityType.Builder.of(EntityGorgon::new, MobCategory.AMBIENT).sized(0.8F, 2.1F).build(new ResourceLocation(ArsOmega.MOD_ID, "gorgon").toString()));
+    public static final RegistryObject<EntityType<? extends Monster>> GORGON = ENTITIES.register("gorgon", () -> EntityType.Builder.of(EntityGorgon::new, MobCategory.AMBIENT).sized(0.8F, 2.1F).build(new ResourceLocation(ArsOmega.MOD_ID, "gorgon").toString()));
 
     public static final RegistryObject<EntityType<? extends EntityClayGolem>> CLAY_GOLEM_BETA = ENTITIES.register("clay_golem", () -> EntityType.Builder.<EntityClayGolem>of((e,l) -> new EntityClayGolem(e,l, EntityClayGolem.Tier.MAGIC), MobCategory.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem").toString()));
     public static final RegistryObject<EntityType<? extends EntityClayGolem>> CLAY_GOLEM_MARVELOUS = ENTITIES.register("clay_golem_marvelous", () -> EntityType.Builder.<EntityClayGolem>of((e,l) -> new EntityClayGolem(e,l, EntityClayGolem.Tier.MARVELOUS), MobCategory.MISC).sized(0.5F, 1.7F).build(new ResourceLocation(ArsOmega.MOD_ID, "clay_golem_marvelous").toString()));
@@ -849,5 +860,6 @@ public class RegistryHandler{
         SpawnPlacements.register(STRONG_DEMON.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
         SpawnPlacements.register(BOSS_DEMON_KING.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
         SpawnPlacements.register(RAPTOR_DEMON.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityDemonBasic::canSpawn);
+        SpawnPlacements.register(GORGON.get(),SpawnPlacements.Type.ON_GROUND, Heightmap.Types.WORLD_SURFACE, EntityGorgon::canSpawn);
     }
 }

@@ -1,0 +1,33 @@
+{
+  "parent": "arsomega:root",
+  "criteria": {
+    "arsomega:kill_gorgon": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "arsomega:gorgon"
+        }
+      }
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "arsomega.advancement.desc.perseus"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "arsomega:gorgon_gem"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "arsomega.advancement.title.perseus"
+    }
+  },
+  "requirements": [
+    [
+      "arsomega:kill_gorgon"
+    ]
+  ]
+}

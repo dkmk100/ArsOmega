@@ -3,6 +3,7 @@ package com.dkmk100.arsomega.client.renderer;
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.client.models.ColoredItemModel;
 import com.dkmk100.arsomega.client.models.GeckolibEntityModel;
+import com.dkmk100.arsomega.client.renderLayer.CustomRenderType;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
@@ -19,6 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.ars_nouveau.geckolib3.core.IAnimatable;
 import software.bernie.ars_nouveau.geckolib3.geo.render.built.GeoBone;
+import software.bernie.ars_nouveau.geckolib3.geo.render.built.GeoModel;
 import software.bernie.ars_nouveau.geckolib3.model.AnimatedGeoModel;
 import software.bernie.ars_nouveau.geckolib3.renderers.geo.GeoEntityRenderer;
 import software.bernie.ars_nouveau.geckolib3.util.RenderUtils;
@@ -32,6 +34,15 @@ public class GeckolibEntityRenderer<T extends LivingEntity & IAnimatable> extend
     }
     public GeckolibEntityRenderer(EntityRendererProvider.Context renderManager, AnimatedGeoModel modelProvider) {
         super(renderManager, modelProvider);
+    }
+
+    RenderType cachedType = null;
+
+    @Override
+    public void render(GeoModel model, T animatable, float partialTick, RenderType type, PoseStack poseStack, @Nullable MultiBufferSource bufferSource, @Nullable VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        cachedType = type;
+        super.render(model, animatable, partialTick, type, poseStack, bufferSource, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        cachedType = null;
     }
 
     @Override
@@ -48,6 +59,7 @@ public class GeckolibEntityRenderer<T extends LivingEntity & IAnimatable> extend
             itemstack = animatable.getItemBySlot(EquipmentSlot.HEAD);
         }
 
+
         if(itemstack != null){
             poseStack.pushPose();
             RenderUtils.translateToPivotPoint(poseStack, bone);
@@ -56,13 +68,18 @@ public class GeckolibEntityRenderer<T extends LivingEntity & IAnimatable> extend
             Minecraft.getInstance().getItemRenderer().renderStatic(itemstack, ItemTransforms.TransformType.THIRD_PERSON_RIGHT_HAND, packedLight, OverlayTexture.NO_OVERLAY, poseStack, this.rtb, (int)animatable.blockPosition().asLong());
 
             poseStack.popPose();
-            buffer = getCurrentRTB().getBuffer(RenderType.entityCutout(whTexture));
+
+            //todo: is this safe?
+            //I suspect it is not the correct solution but IDK
+            buffer = getCurrentRTB().getBuffer(cachedType);
         }
+
+
         super.renderRecursively(bone, poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 
     @Override
     public RenderType getRenderType(T animatable, float partialTick, PoseStack poseStack, @Nullable MultiBufferSource bufferSource, @Nullable VertexConsumer buffer, int packedLight, ResourceLocation texture) {
-        return RenderType.entityCutout(texture);
+        return cachedType == null ? RenderType.entityCutout(texture) : cachedType;
     }
 }

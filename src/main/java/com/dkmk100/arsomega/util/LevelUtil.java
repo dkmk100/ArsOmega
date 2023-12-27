@@ -4,6 +4,7 @@ import com.dkmk100.arsomega.ArsOmega;
 import com.hollingsworth.arsnouveau.common.network.Networking;
 import com.hollingsworth.arsnouveau.common.network.PacketWarpPosition;
 import com.hollingsworth.arsnouveau.common.util.PortUtil;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -60,6 +61,7 @@ public class LevelUtil {
         Level world = entity.level;
         if (entity instanceof LivingEntity living){
             //on purpose not the ender entity event so that it isn't cancelled by demonic anchoring
+            //or similar teleport cancelling features from mods
             EntityTeleportEvent event = new EntityTeleportEvent(living, warpPos.getX(), warpPos.getY(), warpPos.getZ());
             if (event.isCanceled()) return;
         }

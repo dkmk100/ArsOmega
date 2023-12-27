@@ -1,0 +1,28 @@
+{
+  "parent": "arsomega:perseus",
+  "criteria": {
+    "arsomega:return_petrify_gorgon": {
+      "trigger": "arsomega:gorgon_reflect"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "arsomega.advancement.desc.bitter_medicine_returned"
+    },
+    "frame": "challenge",
+    "hidden": true,
+    "icon": {
+      "item": "arsomega:enchanters_glass"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "arsomega.advancement.title.bitter_medicine_returned"
+    }
+  },
+  "requirements": [
+    [
+      "arsomega:return_petrify_gorgon"
+    ]
+  ]
+}

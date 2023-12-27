@@ -43,8 +43,6 @@ public abstract class AbstractShift extends TierFourEffect {
 
             boolean longRange = allowLongRange() ? spellStats.hasBuff(AugmentSensitive.INSTANCE) : false;
 
-            ArsOmega.LOGGER.info("is long range: "+longRange);
-
             BlockPos pos;
 
             if (rayTraceResult instanceof BlockHitResult blockHit) {

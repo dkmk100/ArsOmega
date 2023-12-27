@@ -109,7 +109,7 @@ public class EntityTornado extends ColoredProjectile {
         boolean active = state.isAir() || (state.getMaterial().isReplaceable() && !state.getMaterial().isLiquid() && !state.isFaceSturdy(level,new BlockPos(position()).above(), Direction.UP));
         int aoe = this.entityData.get(AOE);
         if (level.isClientSide) {
-            ParticleUtil.spawnParticleSphere(this.level, new BlockPos(this.position().add(0, 4 + 2 * aoe, 0)), this.getParticleColor());
+            ParticleUtil.spawnOrb(this.level, this.getParticleColor(), new BlockPos(this.position().add(0, 4 + 2 * aoe, 0)),5);
             ParticleUtil.spawnLight(this.level, this.getParticleColor(), this.position().add(0, 0.5, 0), 20);
             if (active) {
                 ParticleUtil.spawnRitualAreaEffect(new BlockPos(this.position().add(0, 3 + 2 * aoe, 0)), this.level, this.random, this.getParticleColor(), 3 + (aoe * 2));

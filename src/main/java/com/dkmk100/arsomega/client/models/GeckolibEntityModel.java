@@ -25,8 +25,6 @@ public class GeckolibEntityModel <T extends LivingEntity & IAnimatable> extends 
 
     @Override
     public ResourceLocation getAnimationResource(T t) {
-        ArsOmega.LOGGER.info(ResourceUtil.getAnimationResource(name));
         return ResourceUtil.getAnimationResource(name);
-        //return ResourceUtil.getAnimationResource("dino");
     }
 }

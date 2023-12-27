@@ -43,7 +43,7 @@ public class BasicChalk  extends BasicBlock {
 
     private int[] COLORS;
 
-    public int GetColor(BlockState state, BlockPos pos, BlockGetter getter){
+    public int GetColor(BlockState state, BlockPos pos, BlockGetter getter) {
         //can do more fun stuff later
         return GetColor(state);
     }

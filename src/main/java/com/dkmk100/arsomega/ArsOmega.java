@@ -11,6 +11,8 @@ import com.dkmk100.arsomega.packets.ResetChunkColorsPacket;
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.dkmk100.arsomega.util.ReflectionHandler;
 import com.dkmk100.arsomega.util.RegistryHandler;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LightningBoltRenderer;
@@ -31,6 +33,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterNamedRenderTypesEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.fml.InterModComms;
@@ -57,6 +60,7 @@ public class ArsOmega
 {
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
+
     public static final String MOD_ID = "arsomega";
     public static ArrayList<Biome> biomes= new ArrayList<>();
 
@@ -173,7 +177,14 @@ public class ArsOmega
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CHALK_LINE_3.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CHALK_LINE_4.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CHALK_BLOCK.get(), RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.INFUSED_GLASS.get(), RenderType.translucent());
+
+        //todo: is there any way to get transucency here?
+        //even if only on fantastic graphics...
+
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.INFUSED_GLASS.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.ENCHANTERS_LENS.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.ENCHANTERS_GLASS.get(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.ENCHANTERS_GLASS_CURVED.get(), RenderType.cutout());
     }
 
     private void RegisterRenderers(EntityRenderersEvent.RegisterRenderers event){
@@ -211,11 +222,6 @@ public class ArsOmega
         event.registerEntityRenderer(RegistryHandler.EARTHQUAKE.get(), (EntityRendererProvider.Context context) -> new PlainRenderer(context));
         event.registerEntityRenderer(RegistryHandler.DIVINE_SMITE.get(), (EntityRendererProvider.Context context) -> new LightningBoltRenderer(context));
         event.registerEntityRenderer(RegistryHandler.WHIRLPOOL.get(), (EntityRendererProvider.Context context) -> new PlainRenderer(context));
-
-
-
-
-
     }
     @OnlyIn(Dist.CLIENT)
     private void RegisterMobRenderer(EntityType<? extends Mob> entity, String registryName, EntityRenderersEvent.RegisterRenderers event){

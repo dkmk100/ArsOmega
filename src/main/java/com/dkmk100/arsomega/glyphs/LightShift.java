@@ -31,7 +31,7 @@ import java.util.Set;
 
 public class LightShift extends AbstractShift{
 
-    public static LightShift INSTANCE = new LightShift("light_shift","Light Shift");
+    public static LightShift INSTANCE = new LightShift("lightshift","Light Shift");
 
     public LightShift(String tag, String description) {
         super(tag, description);

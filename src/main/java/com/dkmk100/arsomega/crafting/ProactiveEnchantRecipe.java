@@ -95,7 +95,7 @@ public class ProactiveEnchantRecipe extends EnchantmentRecipe {
             JsonArray pedestalItems = GsonHelper.getAsJsonArray(json, "pedestalItems");
             List<Ingredient> stacks = new ArrayList();
 
-            ArsOmega.LOGGER.info("parsing recipe: "+recipeId.toString());
+            //ArsOmega.LOGGER.info("parsing recipe: "+recipeId.toString());
 
             Ingredient input;
             for(Iterator var9 = pedestalItems.iterator(); var9.hasNext(); stacks.add(input)) {
@@ -108,7 +108,7 @@ public class ProactiveEnchantRecipe extends EnchantmentRecipe {
                     input = Ingredient.fromJson(GsonHelper.getAsJsonObject(obj, "item"));
                 }
             }
-            ArsOmega.LOGGER.info("pedestal items: "+pedestalItems);
+            //ArsOmega.LOGGER.info("pedestal items: "+pedestalItems);
 
 
             return new ProactiveEnchantRecipe(recipeId, stacks, cost);

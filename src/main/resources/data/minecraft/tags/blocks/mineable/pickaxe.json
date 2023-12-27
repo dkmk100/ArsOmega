@@ -14,6 +14,9 @@
     "arsomega:potion_amplifier",
     "arsomega:potion_extender",
     "arsomega:potion_bottler",
-    "arsomega:statue"
+    "arsomega:statue",
+    "arsomega:enchanters_lens",
+    "arsomega:enchanters_glass",
+    "arsomega:enchanters_glass_curved"
   ]
 }

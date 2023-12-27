@@ -27,7 +27,7 @@ public class Heartstop extends AbstractEffect implements IDamageEffect {
         if(source == null){
             return STATIC_HEARTSTOP_DAMAGE;
         }
-        return new EntityDamageSource("heartstop",source).bypassArmor().bypassMagic();
+        return new EntityDamageSource("heartstop",source).bypassArmor().bypassMagic().bypassEnchantments();
     }
 
     public static Heartstop INSTANCE = new Heartstop("heartstop", "Heartstop");

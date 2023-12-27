@@ -26,43 +26,10 @@ import java.util.Set;
 
 public class DarkShift extends AbstractShift{
 
-    public static DarkShift INSTANCE = new DarkShift("dark_shift","Dark Shift");
+    public static DarkShift INSTANCE = new DarkShift("darkshift","Dark Shift");
 
     public DarkShift(String tag, String description) {
         super(tag, description);
-    }
-
-    @Override
-    public void onResolveBlock(BlockHitResult rayTraceResult, Level world, @NotNull LivingEntity shooter, SpellStats spellStats, SpellContext spellContext, SpellResolver resolver) {
-        if(shooter instanceof Player player && isNotFakePlayer(player)){
-            Vec3 vec = rayTraceResult.getLocation();
-
-            int amp = (int) spellStats.getAmpMultiplier();
-            double aoe = spellStats.getAoeMultiplier();
-
-            BlockPos pos = rayTraceResult.isInside() ? rayTraceResult.getBlockPos() : rayTraceResult.getBlockPos().relative(rayTraceResult.getDirection());
-
-            int light = LevelUtil.getAdjustedLightValue(pos, world);
-            int maxLight = Math.min(8,3 + amp);
-
-            double maxDistance = 10 + 2*aoe;
-
-            double dist = vec.distanceTo(shooter.position());
-
-            if (isRealPlayer(shooter) && EffectBlink.isValidTeleport(world, (rayTraceResult).getBlockPos().relative((rayTraceResult).getDirection()))) {
-                if(dist > maxDistance){
-                    ((ServerLevel) world).sendParticles(ParticleTypes.SMOKE, shooter.position().x, shooter.getEyeY(), shooter.position().z,
-                            4, (world.random.nextDouble() - 0.5D) * 2.0D, -world.random.nextDouble(), (world.random.nextDouble() - 0.5D) * 2.0D, 0.1f);
-                }
-                else if (light > maxLight) {
-                    ((ServerLevel) world).sendParticles(ParticleTypes.SMOKE, vec.x, vec.y, vec.z,
-                            4, (world.random.nextDouble() - 0.5D) * 2.0D, -world.random.nextDouble(), (world.random.nextDouble() - 0.5D) * 2.0D, 0.1f);
-                }
-                else {
-                    LevelUtil.anchoringImmuneWarp(shooter, new BlockPos(vec));
-                }
-            }
-        }
     }
 
     @Override
@@ -86,7 +53,7 @@ public class DarkShift extends AbstractShift{
 
     @Override
     protected @NotNull Set<SpellSchool> getSchools() {
-        return this.setOf(new SpellSchool[]{Schools.CELESTIAL,SpellSchools.MANIPULATION});
+        return this.setOf(new SpellSchool[]{Schools.DEMONIC,SpellSchools.MANIPULATION});
     }
 }
 

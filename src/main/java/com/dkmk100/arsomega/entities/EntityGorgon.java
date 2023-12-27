@@ -3,8 +3,14 @@ package com.dkmk100.arsomega.entities;
 import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.client.renderer.GorgonLaserRenderer;
 import com.dkmk100.arsomega.potions.ModPotions;
+import com.dkmk100.arsomega.util.LevelUtil;
+import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.client.particle.ParticleColor;
+import com.hollingsworth.arsnouveau.common.util.Log;
+import com.mojang.math.Vector3f;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAnimatePacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -12,6 +18,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
@@ -29,17 +36,25 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Guardian;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.*;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import org.apache.logging.log4j.Logger;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.Tags;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.ars_nouveau.geckolib3.core.IAnimatable;
 import software.bernie.ars_nouveau.geckolib3.core.PlayState;
@@ -49,6 +64,10 @@ import software.bernie.ars_nouveau.geckolib3.core.controller.AnimationController
 import software.bernie.ars_nouveau.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.ars_nouveau.geckolib3.core.manager.AnimationData;
 import software.bernie.ars_nouveau.geckolib3.core.manager.AnimationFactory;
+
+import java.util.List;
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 
 public class EntityGorgon extends Monster implements IAnimatable {
     public EntityGorgon(EntityType<? extends Monster> type, Level worldIn) {
@@ -75,6 +94,33 @@ public class EntityGorgon extends Monster implements IAnimatable {
     }
 
     LivingEntity clientCachedTarget = null;
+
+    public static boolean canSpawn(EntityType<? extends Monster> entity, LevelAccessor levelAccess, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        if(levelAccess instanceof ServerLevelAccessor) {
+            boolean success = Monster.checkMonsterSpawnRules(entity, (ServerLevelAccessor) levelAccess, spawnType, pos, random);
+            if (!success) {
+                LogManager.getLogger().info("spawn check failed");
+                return false;
+            }
+            final int offsetX = 30;
+            final int offsetY = 10;
+            AABB box = new AABB(pos.getX() - offsetX, pos.getY() - offsetY, pos.getZ() - offsetX,
+                    pos.getX() + offsetX, pos.getY() + offsetY, pos.getZ() + offsetX);
+            List<EntityGorgon> gorgons = levelAccess.getEntitiesOfClass(EntityGorgon.class, box);
+
+            final int maxGorgons = 3;
+            if(gorgons.size() >= maxGorgons){
+                LogManager.getLogger().info("too many gorgons nearby");
+                return false;
+            }
+
+            LogManager.getLogger().info("can spawn gorgon");
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     @Nullable
     public LivingEntity getLaserTarget() {
@@ -322,6 +368,8 @@ public class EntityGorgon extends Monster implements IAnimatable {
         return this.factory;
     }
 
+
+
     static class GorgonLaserStats{
         int duration;
         float threshold;
@@ -351,6 +399,13 @@ public class EntityGorgon extends Monster implements IAnimatable {
 
             if(target.getHealth() < target.getMaxHealth() * this.threshold){
                 target.addEffect(new MobEffectInstance(ModPotions.STONE_PETRIFICATION.get(), 150,1,false,false));
+                if(target == gorgon){
+
+                    //todo: use gorgon target instead
+                    if(gorgon.getTarget() instanceof ServerPlayer serverPlayer){
+                        RegistryHandler.GORGON_REFLECT.Trigger(serverPlayer);
+                    }
+                }
             }
             else {
                 target.hurt(DamageSource.indirectMagic(gorgon, gorgon), damage);
@@ -361,6 +416,19 @@ public class EntityGorgon extends Monster implements IAnimatable {
             }
 
             //target.hurt(DamageSource.mobAttack(gorgon), (float)gorgon.getAttributeValue(Attributes.ATTACK_DAMAGE));
+        }
+
+        private boolean isReflective(BlockState state, @Nullable Direction dir, @Nullable BlockPos pos, @Nullable Level world){
+            //todo: compat with Elemental's enchanter's mirror block
+            return state.is(RegistryHandler.ENCHANTERS_GLASS.get()) || state.is(RegistryHandler.ENCHANTERS_GLASS_CURVED.get());
+        }
+
+        public void onHitTarget(BlockState target, BlockPos targetPos, Direction targetDir, EntityGorgon gorgon){
+            if(isReflective(target, targetDir, targetPos, gorgon.level)){
+                this.onHitTarget(gorgon,gorgon);
+                return;
+            }
+            LogManager.getLogger().error("Gorgon hitting non-reflective block is not supported");
         }
     }
 
@@ -403,16 +471,85 @@ public class EntityGorgon extends Monster implements IAnimatable {
             }
 
             gorgon.hasImpulse = true;
-            ArsOmega.LOGGER.info("gorgon laser start");
         }
 
         public void stop() {
             gorgon.setLaserTarget(null);
-            ArsOmega.LOGGER.info("gorgon laser stop");
+        }
+
+        public void stopCleanly(){
+            gorgon.setTarget(null);
+            gorgon.setLaserTarget(null);
+            for(var goal : gorgon.targetSelector.getRunningGoals().toList()){
+                goal.stop();
+            }
         }
 
         public boolean requiresUpdateEveryTick() {
             return true;
+        }
+
+
+        private record GorgonHitResult(boolean hasResult, boolean preventsLaser, @Nullable BlockHitResult hit, @Nullable BlockState hitState){
+            public static GorgonHitResult empty(){
+                return new GorgonHitResult(false, false, null, null);
+            }
+            public GorgonHitResult(@NotNull BlockHitResult hit, BlockState hitState){
+                this(true, hit.getType() == HitResult.Type.BLOCK, hit, hitState);
+            }
+            public GorgonHitResult(@NotNull BlockHitResult hit, BlockState hitState, boolean shouldHitBlock){
+                this(true, !shouldHitBlock, hit, hitState);
+            }
+        }
+
+
+        private @NotNull GorgonHitResult GetBlockInLineOfSight(LivingEntity target, double maxRange){
+            ClipContext.Block blockClip = ClipContext.Block.VISUAL;
+            if (target.level != this.gorgon.level) {
+                return GorgonHitResult.empty();
+            } else {
+                Vec3 gorgonPos = new Vec3(this.gorgon.getX(), this.gorgon.getEyeY(), this.gorgon.getZ());
+                Vec3 targetPos = new Vec3(target.getX(), target.getEyeY(), target.getZ());
+                Level level = gorgon.level;
+                if (targetPos.distanceTo(gorgonPos) > maxRange) {
+                    return GorgonHitResult.empty();
+                } else {
+                    ClipContext context = new ClipContext(gorgonPos, targetPos, blockClip, ClipContext.Fluid.NONE, null);
+                    return BlockGetter.traverseBlocks(context.getFrom(), context.getTo(), context, (c, pos) -> {
+                                //return BlockHitResult.miss();
+
+                                BlockState blockState = level.getBlockState(pos);
+
+                                VoxelShape blockShape = c.getBlockShape(blockState, level, pos);
+                                BlockHitResult hit = level.clipWithInteractionOverride(c.getFrom(), c.getTo(), pos, blockShape, blockState);
+
+                                if(hit == null){
+                                    Vec3 dir = context.getTo().subtract(context.getFrom());
+                                    Direction direction = Direction.getNearest(dir.x, dir.y, dir.z).getOpposite();
+                                    if(stats.isReflective(blockState, direction, pos, level)){
+                                        hit = new BlockHitResult(new Vec3(pos.getX(),pos.getY(),pos.getZ()),direction, pos, false);
+                                        return new GorgonHitResult(hit, blockState, true);
+                                    }
+                                }
+                                else{
+                                    if(stats.isReflective(blockState, hit.getDirection(), pos, level)){
+                                        return new GorgonHitResult(hit, blockState, true);
+                                    }
+                                    else if(hit.getType() == HitResult.Type.BLOCK){
+                                        return new GorgonHitResult(hit, blockState, false);
+                                    }
+                                }
+
+                                return null;
+
+                                //TODO: fluids
+                            },
+                            (c) -> {
+                                return GorgonHitResult.empty();
+                            });
+
+                }
+            }
         }
 
         public void tick() {
@@ -423,20 +560,26 @@ public class EntityGorgon extends Monster implements IAnimatable {
 
                 gorgon.getLookControl().setLookAt(livingentity, 90.0F, 90.0F);
 
-                if (!gorgon.hasLineOfSight(livingentity)) {
+                //TODO: I think this range is wrong
+                double lookRange = 128.0D;
+
+                GorgonHitResult hit = GetBlockInLineOfSight(livingentity, lookRange);
+                if (hit.preventsLaser) {
+                    LogManager.getLogger().info("laser blocked");
+
                     //unlike the guardian, blocking a gorgon makes it lose focus on you slowly
                     gorgon.setLaserTarget(null);
 
                     this.attackTime -= 4;//lose focus quickly so the fight is more fair
 
                     if(this.attackTime < startAttackTime){
-                        gorgon.setTarget(null);
+                        stopCleanly();
                     }
 
                 } else {
                     ++this.attackTime;
-
                     if(this.attackTime > 0) {
+
                         //make sure laser is visible
                         gorgon.setLaserTarget(livingentity);
 
@@ -446,10 +589,23 @@ public class EntityGorgon extends Monster implements IAnimatable {
                             }
                         }
                         else if (this.attackTime >= stats.getAttackDuration()) {
-                            stats.onHitTarget(livingentity, gorgon);
+                            //this block should be hit instead of
+                            if(hit.hasResult){
+                                LogManager.getLogger().info("laser hit block");
+                                BlockState hitState = hit.hitState;
+                                Direction hitSide = hit.hit.getDirection();
+                                BlockPos pos =  hit.hit().getBlockPos();
 
-                            gorgon.setTarget(null);
-                            gorgon.setLaserTarget(null);
+                                stats.onHitTarget(hitState, pos, hitSide, gorgon);
+
+                                stopCleanly();
+                            }
+                            else {
+                                LogManager.getLogger().info("laser hit target");
+                                stats.onHitTarget(livingentity, gorgon);
+
+                                stopCleanly();
+                            }
                         }
                     }
 
