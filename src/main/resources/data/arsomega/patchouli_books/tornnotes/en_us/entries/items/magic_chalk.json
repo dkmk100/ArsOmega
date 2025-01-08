@@ -5,7 +5,7 @@
   "pages": [
     {
       "type": "text",
-      "text": "Magic chalk can be used in-world to draw lines of magic chalk. These can be infused with a touch spell, using either spell parchment or a spellbook, which the spell line will cast on any entity that touches it. Chalk lines can be infused with the spell more than once, building up multiple charges that they'll use one at a time. Magic chalk does not hit the owner, making it ideal for protective circles."
+      "text": "Magic chalk can be used in-world to draw lines of magic chalk. These can be infused with a touch spell, using either spell parchment or a spell book, which the spell line will cast on any entity that touches it. Chalk lines can be infused with the spell more than once, building up multiple charges that they'll use one at a time. Magic chalk does not hit the owner, making it ideal for protective circles."
     },
     {
       "type": "patchouli:crafting",

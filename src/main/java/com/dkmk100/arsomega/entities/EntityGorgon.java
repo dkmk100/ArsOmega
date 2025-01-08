@@ -110,11 +110,11 @@ public class EntityGorgon extends Monster implements IAnimatable {
 
             final int maxGorgons = 3;
             if(gorgons.size() >= maxGorgons){
-                LogManager.getLogger().info("too many gorgons nearby");
+                //LogManager.getLogger().info("too many gorgons nearby");
                 return false;
             }
 
-            LogManager.getLogger().info("can spawn gorgon");
+            //LogManager.getLogger().info("can spawn gorgon");
             return true;
         }
         else{

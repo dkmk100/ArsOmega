@@ -1,12 +1,12 @@
 {
-  "name": "Arcane Spellbook and Staff",
+  "name": "Arcane Spell Book and Staff",
   "icon": "arsomega:arcane_book",
   "category": "arsomega:arcane_equipment",
-  "advancement": "arsomega:banishment",
+  "advancement": "arsomega:banished",
   "pages": [
     {
       "type": "text",
-      "text": "[From the demon realm section of the Arcane Library]The Arcane spellbook allows a mage to reach the theoretical limit of powerful spells. However, it requires many elusive items, and few have ever achieved one."
+      "text": "[From the demon realm section of the Arcane Library]The Arcane spell book allows a mage to reach the theoretical limit of powerful spells. However, it requires many elusive items, and few have ever achieved one."
     },
     {
       "type": "crafting",

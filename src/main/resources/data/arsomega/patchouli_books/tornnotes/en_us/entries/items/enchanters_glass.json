@@ -1,0 +1,24 @@
+{
+  "name": "block.arsomega.enchanters_glass",
+  "icon": "arsomega:enchanters_glass",
+  "category": "arsomega:arcane_equipment",
+  "pages": [
+    {
+      "type": "text",
+      "text": "Enchanter's glass is a special type of glass that can reflect spell projectiles."
+    },
+    {
+      "type":  "patchouli:crafting",
+      "recipe": "arsomega:enchanters_glass"
+    },
+    {
+      "type": "imbuement_recipe",
+      "recipe": "arsomega:infused_glass"
+    },
+    {
+      "type": "apparatus_recipe",
+      "recipe": "arsomega:reflective_coating"
+    }
+
+  ]
+}
