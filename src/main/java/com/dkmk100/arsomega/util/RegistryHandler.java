@@ -736,8 +736,8 @@ public class RegistryHandler{
     public static final RegistryObject<Item> REFLECTIVE_COATING = ITEMS.register("reflective_coating",() -> new BasicItem(ITEM_PROPERTIES));
     public static final RegistryObject<Item> ENCHANTED_MIRROR_SHARD = ITEMS.register("enchanted_mirror_shard", () -> new BasicItem(ITEM_PROPERTIES, true));
 
-    public static final RegistryObject<Item> ENCHANTERS_CLOAK  = ITEMS.register("enchanters_cloak", () -> new BasicItem(ITEM_PROPERTIES, true));
-    public static final RegistryObject<Item> STABILITY_CLOAK = ITEMS.register("stability_cloak", () ->new BasicItem(ITEM_PROPERTIES, true));
+    public static final RegistryObject<Item> ENCHANTERS_CLOAK  = ITEMS.register("enchanters_cloak", () -> new Cloak(ITEM_PROPERTIES, true));
+    public static final RegistryObject<Item> STABILITY_CLOAK = ITEMS.register("stability_cloak", () ->new Cloak(ITEM_PROPERTIES, true));
 
     public static final RegistryObject<Item> ARCANE_BLOOM_ITEM = ITEMS.register("arcane_bloom", () -> new BasicItem(ITEM_PROPERTIES));
     public static final RegistryObject<Item> ARCANE_FIBER = ITEMS.register("arcane_fiber", () -> new BasicItem(ITEM_PROPERTIES));

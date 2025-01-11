@@ -8,6 +8,10 @@ public class ResourceUtil {
         return new ResourceLocation(ArsOmega.MOD_ID,"geo/" + modelName + ".geo.json");
     }
 
+    public static ResourceLocation getTextureResource(String modelName){
+        return new ResourceLocation(ArsOmega.MOD_ID,"textures/" + modelName + ".png");
+    }
+
     public static ResourceLocation getItemTextureResource(String modelName){
         return new ResourceLocation(ArsOmega.MOD_ID,"textures/items/" + modelName + ".png");
     }

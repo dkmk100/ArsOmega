@@ -51,6 +51,7 @@ import org.apache.logging.log4j.Logger;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotTypeMessage;
 import top.theillusivec4.curios.api.SlotTypePreset;
+import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 import java.util.ArrayList;
 
@@ -164,6 +165,9 @@ public class ArsOmega
     }
     private void clientSetup(final FMLClientSetupEvent event)
     {
+        CuriosRendererRegistry.register(RegistryHandler.STABILITY_CLOAK.get(), () -> new CloakRenderer("cloak_balance", "cloak_balance"));
+        CuriosRendererRegistry.register(RegistryHandler.ENCHANTERS_CLOAK.get(), () -> new CloakRenderer("cloak_enchanters", "cloak_enchanters"));
+
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.POISON_FLOWER.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.ARCANE_BLOOM.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.BRAMBLE_1.get(), RenderType.cutout());
