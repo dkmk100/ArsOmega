@@ -25,12 +25,8 @@ public class CloakRenderer extends GeoItemRenderer<Cloak> implements ICurioRende
 
     @Override
     public <T extends LivingEntity, M extends EntityModel<T>> void render(ItemStack itemStack, SlotContext slotContext, PoseStack poseStack, RenderLayerParent<T, M> renderLayerParent, MultiBufferSource multiBufferSource, int light, float v, float v1, float v2, float v3, float pitch, float yaw) {
-        //GeoModel model = this.modelProvider.getModel(this.modelProvider.getModelResource(animatable));
         Cloak c = (Cloak) itemStack.getItem();
-
         poseStack.pushPose();
-
-        //ArsOmega.LOGGER.info("pitch: {}", pitch);
 
         //TODO: IDK WTF I'm doing here but it's wrong
         //also why is this even a geckolib model wtf use a normal java model
@@ -41,9 +37,16 @@ public class CloakRenderer extends GeoItemRenderer<Cloak> implements ICurioRende
         float pitchRad = pitch*(float)Math.PI/180;
         float yawRad = yaw*(float)Math.PI/180;
 
-        poseStack.mulPose(Quaternion.fromXYZ((float)Math.PI+yawRad, -pitchRad, 0));
-        poseStack.translate(-1, -0.5, -0.9);
+        float pitchRot = -pitchRad;
+        float yawRot = (float)Math.PI+yawRad;
+        float rollRot = 0;
 
+        //adjustments
+        pitchRot = pitchRot/3;
+        yawRot = Math.max((float)Math.PI, yawRot);
+
+        poseStack.mulPose(Quaternion.fromXYZ(yawRot, pitchRot, rollRot));
+        poseStack.translate(-1, -0.5, -0.9);
 
         this.render(c, poseStack, multiBufferSource, light, itemStack);
 

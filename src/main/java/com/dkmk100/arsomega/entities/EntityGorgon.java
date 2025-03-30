@@ -99,7 +99,6 @@ public class EntityGorgon extends Monster implements IAnimatable {
         if(levelAccess instanceof ServerLevelAccessor) {
             boolean success = Monster.checkMonsterSpawnRules(entity, (ServerLevelAccessor) levelAccess, spawnType, pos, random);
             if (!success) {
-                LogManager.getLogger().info("spawn check failed");
                 return false;
             }
             final int offsetX = 30;

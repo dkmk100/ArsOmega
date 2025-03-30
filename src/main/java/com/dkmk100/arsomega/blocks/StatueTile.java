@@ -1,11 +1,15 @@
 package com.dkmk100.arsomega.blocks;
 
+import com.dkmk100.arsomega.ArsOmega;
 import com.dkmk100.arsomega.client.StatueClientUtils;
 import com.dkmk100.arsomega.util.StatueUtils;
 import com.dkmk100.arsomega.util.RegistryHandler;
 import com.hollingsworth.arsnouveau.common.block.tile.ModdedTile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.TagType;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.entity.Entity;
@@ -18,6 +22,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
@@ -31,11 +36,14 @@ public class StatueTile extends ModdedTile {
 
     private StatueUtils.StatuePlayerInfo playerInfo = null;
 
+    static Logger logger = LoggerContext.getContext().getLogger(StatueTile.class);
+
 
 
     public StatueTile(BlockPos pos, BlockState state) {
         super(RegistryHandler.StatueType.get(), pos, state);
     }
+
 
 
     @Override
@@ -54,10 +62,12 @@ public class StatueTile extends ModdedTile {
         }
         else if(entityTag != null){
             tag.put("entity",entityTag);
+
             if(entityBackupId != null){
                 tag.putString("entity_backup_id",entityBackupId);
             }
         }
+
         if(playerInfo != null){
             tag.put("player",playerInfo.save());
         }
@@ -104,7 +114,6 @@ public class StatueTile extends ModdedTile {
         super.onDataPacket(net, pkt);
     }
 
-    Logger logger = LoggerContext.getContext().getLogger(StatueTile.class);
     public void setEntity(@Nullable Entity entity){
         if(entity == null){
             cachedEntity = null;
