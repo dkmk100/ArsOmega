@@ -7,44 +7,28 @@
   ],
   "pedestalItems": [
     {
-      "item": {
-        "item": "minecraft:amethyst_shard"
-      }
+      "item": "minecraft:amethyst_shard"
     },
     {
-      "item": {
-        "item": "minecraft:amethyst_shard"
-      }
+      "item": "minecraft:amethyst_shard"
     },
     {
-      "item": {
-        "item": "minecraft:amethyst_shard"
-      }
+      "item": "minecraft:amethyst_shard"
     },
     {
-      "item": {
-        "item": "minecraft:amethyst_shard"
-      }
+      "item": "minecraft:amethyst_shard"
     },
     {
-      "item": {
-        "item": "minecraft:copper_block"
-      }
+      "item": "minecraft:copper_block"
     },
     {
-      "item": {
-        "item": "arsomega:alchemy_essence"
-      }
+      "item": "arsomega:alchemy_essence"
     },
     {
-      "item": {
-        "item": "arsomega:alchemy_essence"
-      }
+      "item": "arsomega:alchemy_essence"
     },
     {
-      "item": {
-        "item": "arsomega:alchemy_essence"
-      }
+      "item": "arsomega:alchemy_essence"
     }
   ],
   "output": {

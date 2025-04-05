@@ -7,44 +7,28 @@
   ],
   "pedestalItems": [
     {
-      "item": {
-        "item": "minecraft:diamond"
-      }
+      "item": "minecraft:diamond"
     },
     {
-      "item": {
-        "item": "minecraft:diamond"
-      }
+      "item": "minecraft:diamond"
     },
     {
-      "item": {
-        "item": "minecraft:diamond"
-      }
+      "item": "minecraft:diamond"
     },
     {
-      "item": {
-        "item": "minecraft:diamond"
-      }
+      "item": "minecraft:diamond"
     },
     {
-      "item": {
-        "item": "ars_nouveau:wilden_spike"
-      }
+      "item": "ars_nouveau:wilden_spike"
     },
     {
-      "item": {
-        "item": "ars_nouveau:wilden_spike"
-      }
+      "item": "ars_nouveau:wilden_spike"
     },
     {
-      "item": {
-        "item": "ars_nouveau:wilden_spike"
-      }
+      "item": "ars_nouveau:wilden_spike"
     },
     {
-      "item": {
-        "item": "ars_nouveau:wilden_spike"
-      }
+      "item": "ars_nouveau:wilden_spike"
     }
   ],
   "output": {

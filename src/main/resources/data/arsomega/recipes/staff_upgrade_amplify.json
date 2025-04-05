@@ -7,44 +7,28 @@
   ],
   "pedestalItems": [
     {
-      "item": {
-        "item": "minecraft:diamond"
-      }
+      "item": "minecraft:diamond"
     },
     {
-      "item": {
-        "item": "minecraft:diamond"
-      }
+      "item": "minecraft:diamond"
     },
     {
-      "item": {
-        "item": "minecraft:diamond"
-      }
+      "item": "minecraft:diamond"
     },
     {
-      "item": {
-        "item": "minecraft:diamond"
-      }
+      "item": "minecraft:diamond"
     },
     {
-      "item": {
-        "item": "minecraft:amethyst_shard"
-      }
+      "item": "minecraft:amethyst_shard"
     },
     {
-      "item": {
-        "item": "minecraft:amethyst_shard"
-      }
+      "item": "minecraft:amethyst_shard"
     },
     {
-      "item": {
-        "item": "minecraft:amethyst_shard"
-      }
+      "item": "minecraft:amethyst_shard"
     },
     {
-      "item": {
-        "item": "minecraft:amethyst_shard"
-      }
+      "item": "minecraft:amethyst_shard"
     }
   ],
   "output": {

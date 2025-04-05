@@ -7,44 +7,28 @@
   ],
   "pedestalItems": [
     {
-      "item": {
-        "item": "arsomega:arcane_diamond"
-      }
+      "item": "arsomega:arcane_diamond"
     },
     {
-      "item": {
-        "item": "minecraft:ender_eye"
-      }
+      "item": "minecraft:ender_eye"
     },
     {
-      "item": {
-        "item": "minecraft:ender_eye"
-      }
+      "item": "minecraft:ender_eye"
     },
     {
-      "item": {
-        "item": "arsomega:enchanted_diamond_block"
-      }
+      "item": "arsomega:enchanted_diamond_block"
     },
     {
-      "item": {
-        "item": "minecraft:honeycomb_block"
-      }
+      "item": "minecraft:honeycomb_block"
     },
     {
-      "item": {
-        "item": "minecraft:honeycomb_block"
-      }
+      "item": "minecraft:honeycomb_block"
     },
     {
-      "item": {
-        "item": "ars_nouveau:source_gem_block"
-      }
+      "item": "ars_nouveau:source_gem_block"
     },
     {
-      "item": {
-        "item": "ars_nouveau:source_gem_block"
-      }
+      "item": "ars_nouveau:source_gem_block"
     }
   ],
   "output": {

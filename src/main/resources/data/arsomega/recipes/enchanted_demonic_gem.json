@@ -7,44 +7,28 @@
   ],
   "pedestalItems": [
     {
-      "item": {
-        "item": "arsomega:enchanted_diamond"
-      }
+      "item": "arsomega:enchanted_diamond"
     },
     {
-      "item": {
-        "item": "arsomega:demonic_tooth"
-      }
+      "item": "arsomega:demonic_tooth"
     },
     {
-      "item": {
-        "item": "arsomega:demonic_tooth"
-      }
+      "item": "arsomega:demonic_tooth"
     },
     {
-      "item": {
-        "item": "arsomega:demonic_tooth"
-      }
+      "item": "arsomega:demonic_tooth"
     },
     {
-      "item": {
-        "item": "arsomega:searing_flesh"
-      }
+      "item": "arsomega:searing_flesh"
     },
     {
-      "item": {
-        "item": "arsomega:searing_flesh"
-      }
+      "item": "arsomega:searing_flesh"
     },
     {
-      "item": {
-        "item": "arsomega:searing_flesh"
-      }
+      "item": "arsomega:searing_flesh"
     },
     {
-      "item": {
-        "item": "arsomega:searing_flesh"
-      }
+      "item": "arsomega:searing_flesh"
     }
   ],
   "output": {

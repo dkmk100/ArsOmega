@@ -7,24 +7,16 @@
   ],
   "pedestalItems": [
     {
-      "item": {
-        "item": "arsomega:arcane_essence"
-      }
+      "item": "arsomega:arcane_essence"
     },
     {
-      "item": {
-        "item": "minecraft:amethyst_block"
-      }
+      "item": "minecraft:amethyst_block"
     },
     {
-      "item": {
-        "item": "minecraft:prismarine_crystals"
-      }
+      "item": "minecraft:prismarine_crystals"
     },
     {
-      "item": {
-        "item": "minecraft:honeycomb"
-      }
+      "item": "minecraft:honeycomb"
     }
   ],
   "output": {

@@ -7,44 +7,28 @@
   ],
   "pedestalItems": [
     {
-      "item": {
-        "item": "minecraft:phantom_membrane"
-      }
+      "item": "minecraft:phantom_membrane"
     },
     {
-      "item": {
-        "item": "minecraft:phantom_membrane"
-      }
+      "item": "minecraft:phantom_membrane"
     },
     {
-      "item": {
-        "item": "minecraft:respawn_anchor"
-      }
+      "item": "minecraft:respawn_anchor"
     },
     {
-      "item": {
-        "item": "minecraft:respawn_anchor"
-      }
+      "item": "minecraft:respawn_anchor"
     },
     {
-      "item": {
-        "item": "arsomega:arcane_cloth"
-      }
+      "item": "arsomega:arcane_cloth"
     },
     {
-      "item": {
-        "item": "arsomega:arcane_cloth"
-      }
+      "item": "arsomega:arcane_cloth"
     },
     {
-      "item": {
-        "item": "arsomega:arcane_cloth"
-      }
+      "item": "arsomega:arcane_cloth"
     },
     {
-      "item": {
-        "item": "arsomega:arcane_cloth"
-      }
+      "item": "arsomega:arcane_cloth"
     }
   ],
   "output": {

@@ -7,44 +7,28 @@
   ],
   "pedestalItems": [
     {
-      "item": {
-        "item": "arsomega:enchanted_diamond_block"
-      }
+      "item": "arsomega:enchanted_diamond_block"
     },
     {
-      "item": {
-        "item": "arsomega:enchanted_diamond_block"
-      }
+      "item": "arsomega:enchanted_diamond_block"
     },
     {
-      "item": {
-        "tag": "forge:storage_blocks/iron"
-      }
+      "tag": "forge:storage_blocks/iron"
     },
     {
-      "item": {
-        "tag": "forge:storage_blocks/iron"
-      }
+      "tag": "forge:storage_blocks/iron"
     },
     {
-      "item": {
-        "tag": "forge:storage_blocks/iron"
-      }
+      "tag": "forge:storage_blocks/iron"
     },
     {
-      "item": {
-        "tag": "forge:storage_blocks/iron"
-      }
+      "tag": "forge:storage_blocks/iron"
     },
     {
-      "item": {
-        "item": "arsomega:glyph_lead_skin"
-      }
+      "item": "arsomega:glyph_lead_skin"
     },
     {
-      "item": {
-        "item": "arsomega:glyph_lead_skin"
-      }
+      "item": "arsomega:glyph_lead_skin"
     }
   ],
   "output": {

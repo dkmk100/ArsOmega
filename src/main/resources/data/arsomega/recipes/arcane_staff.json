@@ -7,44 +7,28 @@
   ],
   "pedestalItems": [
     {
-      "item": {
-        "item": "ars_nouveau:source_gem_block"
-      }
+      "item": "ars_nouveau:source_gem_block"
     },
     {
-      "item": {
-        "item":  "minecraft:nether_star"
-      }
+      "item":  "minecraft:nether_star"
     },
     {
-      "item": {
-        "tag": "arsomega:tier_4_essence"
-      }
+      "tag": "arsomega:tier_4_essence"
     },
     {
-      "item": {
-        "tag": "arsomega:tier_4_ingredient"
-      }
+      "tag": "arsomega:tier_4_ingredient"
     },
     {
-      "item": {
-        "item": "minecraft:netherite_ingot"
-      }
+      "item": "minecraft:netherite_ingot"
     },
     {
-      "item": {
-        "item": "minecraft:netherite_ingot"
-      }
+      "item": "minecraft:netherite_ingot"
     },
     {
-      "item": {
-        "item": "arsomega:glyph_advanced_amplify"
-      }
+      "item": "arsomega:glyph_advanced_amplify"
     },
     {
-      "item": {
-        "item": "arsomega:glyph_advanced_amplify"
-      }
+      "item": "arsomega:glyph_advanced_amplify"
     }
   ],
   "output": {

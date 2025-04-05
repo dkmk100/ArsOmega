@@ -7,24 +7,16 @@
   ],
   "pedestalItems": [
     {
-      "item": {
-        "tag": "forge:storage_blocks/redstone"
-      }
+      "tag": "forge:storage_blocks/redstone"
     },
     {
-      "item": {
-        "tag": "forge:storage_blocks/redstone"
-      }
+      "tag": "forge:storage_blocks/redstone"
     },
     {
-      "item": {
-        "item": "arsomega:life_essence"
-      }
+      "item": "arsomega:life_essence"
     },
     {
-      "item": {
-        "item": "arsomega:life_essence"
-      }
+      "item": "arsomega:life_essence"
     }
   ],
   "output": {

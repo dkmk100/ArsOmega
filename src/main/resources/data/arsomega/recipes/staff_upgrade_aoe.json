@@ -7,44 +7,28 @@
   ],
   "pedestalItems": [
     {
-      "item": {
-        "item": "minecraft:diamond"
-      }
+      "item": "minecraft:diamond"
     },
     {
-      "item": {
-        "item": "minecraft:diamond"
-      }
+      "item": "minecraft:diamond"
     },
     {
-      "item": {
-        "item": "minecraft:diamond"
-      }
+      "item": "minecraft:diamond"
     },
     {
-      "item": {
-        "item": "minecraft:diamond"
-      }
+      "item": "minecraft:diamond"
     },
     {
-      "item": {
-        "item": "minecraft:gunpowder"
-      }
+      "item": "minecraft:gunpowder"
     },
     {
-      "item": {
-        "item": "minecraft:gunpowder"
-      }
+      "item": "minecraft:gunpowder"
     },
     {
-      "item": {
-        "item": "minecraft:prismarine_crystals"
-      }
+      "item": "minecraft:prismarine_crystals"
     },
     {
-      "item": {
-        "item": "minecraft:prismarine_crystals"
-      }
+      "item": "minecraft:prismarine_crystals"
     }
   ],
   "output": {
