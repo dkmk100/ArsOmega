@@ -3,10 +3,12 @@ package com.dkmk100.arsomega.items;
 import com.dkmk100.arsomega.potions.ModPotions;
 import com.hollingsworth.arsnouveau.ArsNouveau;
 import com.hollingsworth.arsnouveau.api.event.EffectResolveEvent;
+import com.hollingsworth.arsnouveau.api.spell.AbstractEffect;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectBlink;
 import com.hollingsworth.arsnouveau.common.spell.effect.EffectExplosion;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -32,8 +34,8 @@ public class CursedPendant extends BasicItem implements Vanishable {
         intensity = intensityMult;
     }
 
-    public int getSeed(ItemStack stack){
-        return defSeed;
+    public long getSeed(ItemStack stack, AbstractEffect effect, ServerLevel world){
+        return defSeed + world.getSeed() + effect.name.hashCode();
     }
 
     @Override
@@ -59,9 +61,9 @@ public class CursedPendant extends BasicItem implements Vanishable {
     }
 
     public static void ApplyCursePre(ItemStack stack, EffectResolveEvent.Pre event){
-        if(stack.getItem() instanceof CursedPendant){
+        if(stack.getItem() instanceof CursedPendant && event.world instanceof ServerLevel world){
             CursedPendant pendant = (CursedPendant) stack.getItem();
-            long seed = pendant.getSeed(stack) + event.resolveEffect.name.hashCode();
+            long seed = pendant.getSeed(stack, event.resolveEffect, world);
             Random random = new Random(seed);
             for(int i=0;i<pendant.effectCount;i++){
                 EffectCurse curse = EffectCurse.allCurses.get(random.nextInt(EffectCurse.allCurses.size()));
@@ -70,9 +72,9 @@ public class CursedPendant extends BasicItem implements Vanishable {
         }
     }
     public static void ApplyCursePost(ItemStack stack, EffectResolveEvent.Post event){
-        if(stack.getItem() instanceof CursedPendant){
+        if(stack.getItem() instanceof CursedPendant && event.world instanceof ServerLevel world){
             CursedPendant pendant = (CursedPendant) stack.getItem();
-            long seed = pendant.getSeed(stack) + event.resolveEffect.name.hashCode();
+            long seed = pendant.getSeed(stack, event.resolveEffect, world);
             Random random = new Random(seed);
             for(int i=0;i<pendant.effectCount;i++){
                 EffectCurse curse = EffectCurse.allCurses.get(random.nextInt(EffectCurse.allCurses.size()));
@@ -84,7 +86,7 @@ public class CursedPendant extends BasicItem implements Vanishable {
     public abstract static class EffectCurse{
         public static List<EffectCurse> allCurses = List.of(Explode.instance,
                 Effect.poison,Effect.wither,Effect.blindness, Effect.slow, Effect.weak, Effect.no_break, Effect.fatigue,
-                Effect.dispellant, Effect.gravity, Effect.hex,
+                Effect.dispellant, Effect.gravity, Effect.hex, Effect.nausea,
                 Harm.instance, Dampen.instance, Blink.instance);
 
         void OnApplyPre(EffectResolveEvent.Pre event, float intensity){
@@ -121,8 +123,9 @@ public class CursedPendant extends BasicItem implements Vanishable {
             public static Blink instance = new Blink();
             @Override
             void OnApplyPre(EffectResolveEvent.Pre event, float intensity) {
-                if(event.world.random.nextFloat() < 0.2f + 0.3f * intensity) {
-                    EffectBlink.warpEntity(event.shooter, new BlockPos(event.rayTraceResult.getLocation()));
+                var random = event.world.random;
+                if(random.nextFloat() < 0.3f + 0.15f * intensity) {
+                    EffectBlink.warpEntity(event.shooter, new BlockPos(event.rayTraceResult.getLocation().add(random.nextFloat() * intensity, random.nextFloat() * intensity,random.nextFloat() * intensity)));
                 }
             }
         }
@@ -131,15 +134,15 @@ public class CursedPendant extends BasicItem implements Vanishable {
             public static Effect wither = new Effect(MobEffects.WITHER,40,0);
             public static Effect blindness = new Effect(MobEffects.BLINDNESS,80,0);
             public static Effect slow = new Effect(MobEffects.MOVEMENT_SLOWDOWN, 80,2);
-            public static Effect weak = new Effect(MobEffects.BLINDNESS,80,1);
+            public static Effect weak = new Effect(MobEffects.WEAKNESS,80,1);
             public static Effect no_break = new Effect(ModPotions.NO_BREAK.get(),80,0);
             public static Effect fatigue = new Effect(MobEffects.DIG_SLOWDOWN,160,1);
 
             public static Effect dispellant = new Effect(ModPotions.DISPELLANT.get(),30,0);
-
             public static Effect hex = new Effect(com.hollingsworth.arsnouveau.common.potions.ModPotions.HEX_EFFECT.get(),30,0);
-
             public static Effect gravity = new Effect(com.hollingsworth.arsnouveau.common.potions.ModPotions.GRAVITY_EFFECT.get(),30,0);
+
+            public static Effect nausea = new Effect(MobEffects.CONFUSION,80,1);
 
             MobEffect effect;
             int dur;

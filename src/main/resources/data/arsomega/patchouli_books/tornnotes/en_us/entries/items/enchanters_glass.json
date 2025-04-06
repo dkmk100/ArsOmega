@@ -12,13 +12,20 @@
       "recipe": "arsomega:enchanters_glass"
     },
     {
-      "type": "imbuement_recipe",
-      "recipe": "arsomega:infused_glass"
+      "type": "text",
+      "text": "Curved enchanter's glass focuses reflected spell projectiles to a cardinal direction."
     },
     {
-      "type": "apparatus_recipe",
-      "recipe": "arsomega:reflective_coating"
+      "type":  "patchouli:crafting",
+      "recipe": "arsomega:enchanters_glass_curved"
+    },
+    {
+      "type": "text",
+      "text": "An enchanter's lens focuses spell projectiles to a cardinal direction."
+    },
+    {
+      "type":  "patchouli:crafting",
+      "recipe": "arsomega:enchanters_lens"
     }
-
   ]
 }

@@ -859,7 +859,7 @@ public class RegistryHandler{
     public static final RegistryObject<Item> CURSED_PENDANT_STRONG = ITEMS.register("cursed_pendant_strong", () -> new CursedPendant(1,243543,2));
     public static final RegistryObject<Item> CURSED_PENDANT_DOUBLE = ITEMS.register("cursed_pendant_double", () -> new CursedPendant(2,243543,1));
     public static final RegistryObject<Item> CURSED_PENDANT_DOUBLE_STRONG = ITEMS.register("cursed_pendant_double_strong", () -> new CursedPendant(2,243543,2));
-    public static final RegistryObject<Item> CURSED_PENDANT_ULTIMATE = ITEMS.register("cursed_pendant_ultimate", () -> new CursedPendant(5,243543,3));
+    public static final RegistryObject<Item> CURSED_PENDANT_ULTIMATE = ITEMS.register("cursed_pendant_ultimate", () -> new CursedPendant(3,243543,5));
 
     public static final RegistryObject<Item> ARCANE_COMPENDIUM = ITEMS.register("arcane_compendium", () ->new DescribedItem(ITEM_PROPERTIES,"The Arcane Library's collection of Arcane Magics. Unlocks entries in the worn notebook."));
     public static final RegistryObject<Item> MARIA_ROSA = ITEMS.register("maria_rosa", () ->new DescribedItem(ITEM_PROPERTIES,"A damaged hand-written notebook... Unlocks entries in the worn notebook."));

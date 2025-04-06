@@ -1,0 +1,19 @@
+{
+  "name": "arsomega.glyph_name.glyph_lightshift",
+  "icon": "arsomega:glyph_lightshift",
+  "category": "arsomega:spells_4",
+  "advancement": "arsomega:restricted_knowledge",
+  "sortnum": 3,
+  "pages": [
+    {
+      "type": "text",
+      "text": "arsomega.glyph_desc.glyph_lightshift"
+    },
+    {
+      "type": "glyph_recipe",
+      "recipe": "arsomega:glyph_lightshift",
+      "mana_cost": "Medium",
+      "reagent": "arsomega:glyph_lightshift"
+    }
+  ]
+}

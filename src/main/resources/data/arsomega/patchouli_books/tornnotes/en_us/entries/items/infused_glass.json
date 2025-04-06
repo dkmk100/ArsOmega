@@ -1,0 +1,23 @@
+{
+  "name": "block.arsomega.infused_glass",
+  "icon": "arsomega:infused_glass",
+  "category": "arsomega:arcane_equipment",
+  "pages": [
+    {
+      "type": "text",
+      "text": "Infused glass is stronger and more magically attuned than regular glass."
+    },
+    {
+      "type": "imbuement_recipe",
+      "recipe": "arsomega:infused_glass"
+    },
+    {
+      "type": "text",
+      "text": "Reflective coating is an ingredient used to craft various magical items that repel spells."
+    },
+    {
+      "type": "apparatus_recipe",
+      "recipe": "arsomega:reflective_coating"
+    }
+  ]
+}

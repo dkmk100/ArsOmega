@@ -1,0 +1,10 @@
+{
+  "replace": "false",
+  "values": [
+    "arsomega:cursed_pendant",
+    "arsomega:cursed_pendant_double",
+    "arsomega:cursed_pendant_strong",
+    "arsomega:cursed_pendant_double_strong",
+    "arsomega:cursed_pendant_ultimate"
+  ]
+}
