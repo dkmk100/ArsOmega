@@ -39,7 +39,8 @@ public abstract class DelayMixin extends AbstractEffect {
             Spell newSpell = new Spell(new ArrayList(spellContext.getSpell().recipe.subList(spellContext.getCurrentIndex(), spellContext.getSpell().recipe.size())));
             SpellContext newContext = spellContext.clone().withSpell(newSpell);
             //add dilate time compat
-            int duration = (Integer)this.GENERIC_INT.get() + (Integer)this.EXTEND_TIME.get() * (spellStats.getBuffCount(AugmentExtendTime.INSTANCE) + spellStats.getBuffCount(DilateTime.INSTANCE) * 2) * 20 - (Integer)this.EXTEND_TIME.get() / 2 * spellStats.getBuffCount(AugmentDurationDown.INSTANCE) * 20;
+            int duration = (Integer)this.GENERIC_INT.get() + (Integer)this.EXTEND_TIME.get() * (spellStats.getBuffCount(AugmentExtendTime.INSTANCE) + spellStats.getBuffCount(DilateTime.INSTANCE) * 2) * 20 - (Integer)(this.EXTEND_TIME.get() / 2 * spellStats.getBuffCount(AugmentDurationDown.INSTANCE) * 20);
+            duration -= (Integer)(this.EXTEND_TIME.get()/2 * 20); // optional - restore 1.18.2 default behavior
             EventQueue.getServerInstance().addEvent(new DelayedSpellEvent(duration, newSpell, rayTraceResult, world, shooter, newContext));
             Networking.sendToNearby(world, new BlockPos(this.safelyGetHitPos(rayTraceResult)), new PacketClientDelayEffect(duration, shooter, newSpell, newContext, blockResult, hitEntity));
         }
